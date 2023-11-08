@@ -12,7 +12,13 @@ src/app.scss
 src/index.html
 src/theme.scss
 src/duxapp/config/userConfig.js
-patches
+/patches/
+/android
+/ios
+/app.json
+/metro.config.js
+/.node-version
+/index.js
 
 #build
 android/app/src/main/assets/index.android.bundle
