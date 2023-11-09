@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import { useEffect, useMemo, useState } from 'react'
 import { QuickEvent } from './QuickEvent'
 
 export class Cache {
@@ -144,5 +145,20 @@ export class ObjectManage {
     this.execCallback()
     this.quickEvent.trigger(this.data, 'clear')
     this.cache?.set(this.data)
+  }
+
+  // 使用数据
+  useData = () => {
+    const [data, setData] = useState(this.data)
+
+    const { remove } = useMemo(() => {
+      return this.onSet(setData)
+    }, [])
+
+    useEffect(() => {
+      return () => remove()
+    }, [remove])
+
+    return data
   }
 }
