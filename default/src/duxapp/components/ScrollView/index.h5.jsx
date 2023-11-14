@@ -2,7 +2,7 @@ import { Component } from 'react'
 import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import { ScrollView as TaroScrollView, View } from '@tarojs/components'
-import { Loading } from '@/duxapp'
+import { Loading } from '../Loading'
 import { Horizontal } from './Horizontal'
 import './index.scss'
 

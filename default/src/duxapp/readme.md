@@ -73,7 +73,7 @@ index.js是每个模块的入口文件，这个文件将会被默认执行，此
 
 ```js
 // 可以在此处执行一些要初始化的东西
-import { app } from '@/base/utils'
+import { app } from '@/duxapp/utils'
 app.register('duxshop')
 
 export default {
@@ -124,7 +124,7 @@ nav('switch:0|duxshop')
 - 监听路由跳转
 
 ```js
-import { route }  from '@/base/utils'
+import { route }  from '@/duxapp/utils'
 
 // 比如在user模块监听路由跳转 判断是否需要登录 未登录的让其执行登录
 // 如果在这个地方跑出错误，则跳转不会成功
@@ -141,7 +141,7 @@ route.onNavBefore(async pageRouter => {
 - HOOK
 
 ```js
-import { useRoute }  from '@/base/utils'
+import { useRoute }  from '@/duxapp/utils'
 // 是用hook接收参数将有别于 Taro自带的接口参数方式
 // useRoute接收到的参数可以是任何类型的，比如函数
 const { path, params } = useRoute()
@@ -149,7 +149,7 @@ const { path, params } = useRoute()
 - 路由函数
 
 ```js
-import { route }  from '@/base/utils'
+import { route }  from '@/duxapp/utils'
 
 route.push('shop/goods/list') // 等同于nav('shop/goods/list')
 route.redirect('shop/goods/list') // 等同于nav('redirect:shop/goods/list')
@@ -163,7 +163,7 @@ route.back(1) // 等同于nav('back:1')
 请在每个app里面都调用一下注册app的函数，第二个参数是可选的
 
 ```js
-import { app }  from '@/base/utils'
+import { app }  from '@/duxapp/utils'
 
 // 注册用户模块示例
 app.register('user', {
@@ -181,7 +181,7 @@ app.register('user', {
 - 使用没有依赖的模块的方法
 
 ```js
-import { app }  from '@/base/utils'
+import { app }  from '@/duxapp/utils'
 
 if(app.isApp('user')) {
   // 第一个参数模块名称 第二个参数方法名称 后面的参数将会传入到这个方法

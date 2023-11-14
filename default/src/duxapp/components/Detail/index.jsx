@@ -1,6 +1,6 @@
 import { useMemo, useRef, useEffect, isValidElement, cloneElement, Fragment } from 'react'
 import { useDidShow } from '@tarojs/taro'
-import { ScrollView } from '@/duxapp'
+import { ScrollView } from '../ScrollView'
 
 /**
  * 用于详情页面的渲染

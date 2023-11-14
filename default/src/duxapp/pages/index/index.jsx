@@ -1,9 +1,10 @@
 import { View } from '@tarojs/components'
-import { Header, ScrollView, TopView } from '@/duxapp/components'
+import { Header, ScrollView, TopView } from '@/duxapp'
 
 import './index.scss'
 
 export default function Duxapp() {
+
   return <TopView>
     <Header title='duxapp' titleCenter />
     <ScrollView>
