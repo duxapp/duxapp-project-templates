@@ -29,6 +29,7 @@ const Empty = ({
 export const createList = usePageData => {
   return ({
     renderItem: Item,
+    renderLine,
     listCallback,
     listField = 'list',
     keyField = 'id',
@@ -93,6 +94,7 @@ export const createList = usePageData => {
                 <Item item={item} index={index} list={list} action={action} />
               </ListSelect.Item>
             }}
+            ItemSeparatorComponent={renderLine}
             ListHeaderComponent={renderHeader}
             ListEmptyComponent={!action.loading && (renderEmpty || <Empty onEmptyClick={onEmptyClick} emptyTitle={emptyTitle} />)}
             ListFooterComponent={<>
@@ -114,9 +116,12 @@ export const createList = usePageData => {
               {
                 emptyStatus ?
                   (!action.loading && (renderEmpty || <Empty onEmptyClick={onEmptyClick} emptyTitle={emptyTitle} />)) :
-                  list.map((item, index) => <ListSelect.Item key={item[keyField] || index} item={item} index={index}>
-                    <Item item={item} index={index} list={list} action={action} />
-                  </ListSelect.Item>)
+                  list.map((item, index) => <>
+                    {!!index && renderLine}
+                    <ListSelect.Item key={item[keyField] || index} item={item} index={index}>
+                      <Item item={item} index={index} list={list} action={action} />
+                    </ListSelect.Item>
+                  </>)
               }
             </View>
             {renderFooter}

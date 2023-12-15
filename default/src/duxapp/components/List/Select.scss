@@ -5,7 +5,7 @@
   &__check {
     width: 40px;
     height: 40px;
-    border: 1px solid #999;
+    border: 1px solid $duxappPrimaryColor;
     margin-right: 10px;
     margin-left: 10px;
     flex-shrink: 0;
@@ -17,9 +17,9 @@
     }
 
     &__child {
-      width: 24px;
-      height: 24px;
-      background-color: #333;
+      width: 20px;
+      height: 20px;
+      background-color: $duxappPrimaryColor;
 
       &--radio {
         border-radius: 12px;

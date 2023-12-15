@@ -43,9 +43,10 @@ const { pages, registerPages, pagesTransfer, routes } = (() => {
       const transfer = Object.values(route)
         .map(v => v.transfer
           ? Object.entries(v.transfer).map(([_path, _config]) => {
-            if (v.path) {
-              const paths = _path.split('/')
-              paths.splice(1, 0, v.path)
+            const paths = _path.split('/')
+            const appPath = route[paths[0]]?.path
+            if (appPath) {
+              paths.splice(1, 0, appPath)
               _path = paths.join('/')
             }
             return [_path, _config]

@@ -43,6 +43,7 @@ taro-input-core {
   text-decoration: none;
   border-radius: 0;
   -webkit-tap-highlight-color: transparent;
+  color: transparent;
 
   &::after {
     border: none;
@@ -383,4 +384,15 @@ taro-input-core {
 
 .r-2 {
   border-radius: 16px;
+}
+
+// 间距
+.gap-1 {
+  gap: 8px;
+}
+.gap-2 {
+  gap: 16px;
+}
+.gap-3 {
+  gap: 24px;
 }

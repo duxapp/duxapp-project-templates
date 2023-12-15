@@ -110,7 +110,7 @@ class Route {
   time = ''
 
   nav = async (url, data = {}) => {
-    if (Route.historyUrl == url && new Date().getTime() - Route.time < 1000) {
+    if (Route.historyUrl == url && url !== 'back:system' && new Date().getTime() - Route.time < 1000) {
       return
     }
     Route.time = new Date().getTime()
@@ -160,12 +160,12 @@ class Route {
       }
       // 执行返回回调
       if (delPage.length) {
-        const last = delPage[delPage.length - 1]
+        const first = delPage[0]
         if (option.type === 'navigateBack') {
-          const _resolve = last.pageBackData?.resolve
+          const _resolve = first.pageBackData?.resolve
           // 等关闭动画结束再执行回调，防止页面不渲染
           setTimeout(() => _resolve?.(option.params), 300)
-          delete last.pageBackData
+          delete first.pageBackData
         }
         delPage.forEach(item => item.pageBackData?.reject('页面关闭'))
       }

@@ -4,7 +4,7 @@ import ClickableSimplified from '@tarojs/components-rn/dist/components/Clickable
 
 const ClickView = ClickableSimplified(NativeView)
 
-export const View = forwardRef(({
+const View = forwardRef(({
   onClick,
   ...props
 }, ref) => {
@@ -14,7 +14,7 @@ export const View = forwardRef(({
   return <NativeView ref={ref} {...props} />
 })
 
-const Layout = ({ children, onLayout, onClick, reloadKey, ...props }) => {
+export const Layout = ({ children, onLayout, onClick, reloadKey, ...props }) => {
 
   const viewRef = useRef(null)
 
@@ -58,8 +58,4 @@ const Layout = ({ children, onLayout, onClick, reloadKey, ...props }) => {
   >
     {children}
   </View>
-}
-
-export {
-  Layout
 }

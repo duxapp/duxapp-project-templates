@@ -17,8 +17,12 @@ const useCheck = (max = 99) => {
         old.splice(index, 1)
       } else {
         if (old.length >= max) {
-          toast('最多选择' + max + '项')
-          return old
+          if (max == 1) {
+            return [value]
+          } else {
+            toast('最多选择' + max + '项')
+            return old
+          }
         }
         old.push(value)
       }
