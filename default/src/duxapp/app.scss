@@ -377,6 +377,49 @@ taro-input-core {
   padding-right: 24px;
 }
 
+// 外边距
+.m-1 {
+  margin: 8px;
+}
+
+.m-2 {
+  margin: 16px;
+}
+
+.m-3 {
+  margin: 24px;
+}
+
+.mv-1 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.mv-2 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.mv-3 {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.mh-1 {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.mh-2 {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.mh-3 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
 // 圆角
 .r-1 {
   border-radius: 8px;
@@ -384,6 +427,38 @@ taro-input-core {
 
 .r-2 {
   border-radius: 16px;
+}
+
+.r-3 {
+  border-radius: 24px;
+}
+
+.r-max {
+  border-radius: 750px;
+}
+
+.rt-1 {
+  border-radius: 8px 8px 0 0;
+}
+
+.rt-2 {
+  border-radius: 16px 16px 0 0;
+}
+
+.rt-3 {
+  border-radius: 24px 24px 0 0;
+}
+
+.rb-1 {
+  border-radius: 0 0 8px 8px;
+}
+
+.rb-2 {
+  border-radius: 0 0 16px 16px;
+}
+
+.rb-3 {
+  border-radius: 0 0 24px 24px;
 }
 
 // 间距
@@ -395,4 +470,12 @@ taro-input-core {
 }
 .gap-3 {
   gap: 24px;
+}
+.gap-4 {
+  gap: 32px;
+}
+
+// 背景
+.bg-white {
+  background-color: white;
 }

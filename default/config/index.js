@@ -17,6 +17,7 @@ const config = {
   outputRoot: `dist/${process.env.TARO_ENV}`,
   plugins: [
     // ...duxapp.taroPlugin()
+    // ...getPlugins()
   ],
   defineConstants: {
   },

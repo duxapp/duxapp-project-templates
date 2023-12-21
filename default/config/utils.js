@@ -1,6 +1,7 @@
 /* eslint-disable import/no-commonjs */
 const path = require('path')
 const fs = require('fs')
+const util = require('duxapp-cli/lib/util')
 
 const appRoot = path.join(__dirname, '..')
 
@@ -27,7 +28,7 @@ const getAlias = () => Object.fromEntries(
 )
 
 const getAppConfig = type => {
-  const customAppsArgv = process.argv.find(item => item.startsWith('--apps='))
+  const customAppsArgv = util.getArgv().find(item => item.startsWith('--app='))
 
   let appName
   if (customAppsArgv) {
@@ -35,7 +36,7 @@ const getAppConfig = type => {
   }
   let fileDir = ''
   if (appName) {
-    let fileName = `taro.config${type ? '.' + type : ''}.js`
+    const fileName = `taro.config${type ? '.' + type : ''}.js`
     fileDir = path.join(appRoot, 'src', appName)
     if (fs.existsSync(path.join(fileDir, fileName))) {
       fileDir = path.join(fileDir, fileName)
