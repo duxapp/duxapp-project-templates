@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro, { pxTransform } from '@tarojs/taro'
 
 export const toast = msg => {
   if (!msg) {
@@ -65,3 +65,13 @@ export const getPlatform = () => {
 export const stopPropagation = e => {
   e?.stopPropagation?.()
 }
+
+export const px = (() => {
+  const cache = {}
+  return val => {
+    if (!cache[val]) {
+      cache[val] = pxTransform(val)
+    }
+    return cache[val]
+  }
+})();

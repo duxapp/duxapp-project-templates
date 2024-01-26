@@ -7,6 +7,7 @@ export const Horizontal = ({ children, style, ...props }) => {
     showsHorizontalScrollIndicator={false}
     {...props}
     style={style}
+    className='scroll-view-horizontal-scroll'
     scrollX
     scrollY={false}
   >

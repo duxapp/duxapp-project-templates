@@ -106,6 +106,7 @@ const request = (() => {
           requestParams = await execMiddle(middle.before, requestParams, origin)
         } catch (error) {
           reject(error)
+          return
         }
       }
       taroRequestTask = (['h5', 'rn'].includes(process.env.TARO_ENV) ? requestReact : Taro.request)({
@@ -121,6 +122,7 @@ const request = (() => {
       })
       if (!requestParams.url) {
         reject({ message: '请求URL错误', code: resultConfig.errorCode })
+        return
       }
       if (typeof loading === 'function') {
         loadingClose = loading()

@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import qs from 'qs'
+import { ActionSheet } from '@/duxapp/components/ActionSheet'
 import { recursionGetValue } from '../object'
 
 let ExpoImagePicker, ExpoCamera, RNFS, Platform
@@ -98,10 +99,10 @@ const getMedia = async (type, {
   if (process.env.TARO_ENV === 'rn') {
     let _type = sourceType.includes('album') ? 'photo' : 'camera'
     if (sourceType.length === 2) {
-      const { tapIndex } = await Taro.showActionSheet({
-        itemList: ['相机', '相册']
+      const { index } = await ActionSheet.show({
+        list: ['相机', '相册']
       })
-      _type = tapIndex ? 'photo' : 'camera'
+      _type = index ? 'photo' : 'camera'
     }
     const option = {
       mediaTypes: ExpoImagePicker.MediaTypeOptions[type === 'image' ? 'Images' : 'Videos'],
@@ -121,7 +122,7 @@ const getMedia = async (type, {
       }
       promise = ExpoImagePicker.launchImageLibraryAsync(option)
     } else {
-      const { granted } = await ExpoCamera.requestCameraPermissionsAsync()
+      const { granted } = await ExpoImagePicker.requestCameraPermissionsAsync()
       if (!granted) {
         throw {
           message: '申请摄像头权限被拒绝'

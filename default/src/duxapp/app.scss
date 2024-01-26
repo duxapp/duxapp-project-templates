@@ -405,6 +405,18 @@ taro-input-core {
   margin-bottom: 24px;
 }
 
+.mt-1 {
+  margin-top: 8px;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.mt-3 {
+  margin-top: 24px;
+}
+
 .mh-1 {
   margin-left: 8px;
   margin-right: 8px;
@@ -478,4 +490,9 @@ taro-input-core {
 // 背景
 .bg-white {
   background-color: white;
+}
+
+// 其他
+.square {
+  aspect-ratio: 1;
 }

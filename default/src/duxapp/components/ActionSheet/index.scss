@@ -1,0 +1,38 @@
+.ActionSheet {
+  background-color: #fff;
+  border-radius: 20px 20px 0 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+
+  &__mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 90;
+  }
+
+  &__title {
+    padding: 30px 30px;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  &__item {
+    padding: 30px 30px;
+    justify-content: center;
+    align-items: center;
+
+    &__text {
+      font-size: 28px;
+      color: #333;
+    }
+  }
+}

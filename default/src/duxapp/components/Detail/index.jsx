@@ -20,6 +20,7 @@ export const createDetail = useRequest => {
     refresh = true,
     renderHeader,
     renderFooter,
+    onAction,
     container: Container = Fragment
   }) => {
 
@@ -34,6 +35,15 @@ export const createDetail = useRequest => {
     }, [option, url])
 
     const [data, action] = useRequest(_option, { detailCallback, field, defaultData })
+
+    useEffect(() => {
+      if (typeof onAction === 'function') {
+        onAction?.(action)
+      } else if (onAction) {
+        onAction.current = action
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [action])
 
     useEffect(() => {
       if (!init.current && !action.status) {

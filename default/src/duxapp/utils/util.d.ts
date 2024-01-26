@@ -1,3 +1,5 @@
+import { pxTransform } from '@tarojs/taro'
+
 interface TimeOutTask extends Promise<TimeOutTask> {
   /** 清除定时器 */
   clear(): void
@@ -30,3 +32,5 @@ export function noop(): void
  * @param event 原生事件参数
  */
 export function stopPropagation(event: EventTarget | any): void
+
+export const px = pxTransform
