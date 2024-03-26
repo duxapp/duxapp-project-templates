@@ -37,7 +37,14 @@ export class TopView extends Component<TopViewProps> {
    * @param page 标识 默认当前页面
    * @return 返回一个key，用于更新或者删除
    */
-  static add(element: ReactElement, page?: string): number
+  static add(element: ReactElement, page?: string): {
+    /** 更新元素 */
+    update: (element: ReactElement) => void
+    /** 移除元素 */
+    remove: () => void
+    /** key */
+    key: number
+  }
 
   /**
    * 更新一个已经创建的组件

@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { QuickEvent } from '../QuickEvent'
+import { deepEqua } from '../object'
 
 export const creatGlobalState = defaultData => {
 
@@ -35,9 +36,16 @@ export const creatContextState = () => {
     useState: () => {
       return useContext(context)
     },
-    Provider: ({ defaultValue, children }) => {
+    Provider: ({ value: _value, defaultValue, children }) => {
 
-      const value = useState(defaultValue)
+      const value = useState(_value ?? defaultValue)
+
+      useMemo(() => {
+        if (typeof _value !== 'undefined' && value[0] !== _value) {
+          value[1](_value)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [_value])
 
       return <context.Provider value={value}>
         {children}
@@ -47,3 +55,16 @@ export const creatContextState = () => {
 }
 
 export const contextState = creatContextState()
+
+export const useDeepObject = data => {
+  const _data = useRef(data)
+
+  const result = useMemo(() => {
+    if (!deepEqua(_data.current, data)) {
+      _data.current = data
+    }
+    return _data.current
+  }, [data])
+
+  return result
+}

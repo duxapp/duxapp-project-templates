@@ -54,6 +54,7 @@ export const Header = ({
   showStatus,// 使用了absolute的情况下时候显示status状态栏
   titleCenter, // 强制让title显示在中间 tabbar页面生效
   onBackClick, // 如果存在点击事件 则点击按钮时不会触发返回操作
+  ...props
 }) => {
 
   const { path } = useRoute()
@@ -150,7 +151,10 @@ export const Header = ({
             backgroundColor: option.bgColor
           }}
         />}
-        {(show || absolute) && <View className={`Header${absolute ? ' Header--absolute' : ''}`}>
+        {(show || absolute) && <View
+          className={`Header${absolute ? ' Header--absolute' : ''}`}
+          {...props}
+        >
           {(!absolute || option.rn) && <View
             style={{
               height: option.rn

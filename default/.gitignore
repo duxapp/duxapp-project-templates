@@ -20,6 +20,10 @@ src/duxapp/config/userConfig.js
 /.node-version
 /index.js
 
+/package.json
+/yarn.lock
+
+
 #build
 android/app/src/main/assets/index.android.bundle
 android/app/src/main/res/drawable-hdpi/
@@ -94,3 +98,6 @@ yarn-error.log
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+
+# unocss
+/unocss.config.js

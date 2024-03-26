@@ -16,3 +16,5 @@ export function recursionGetValue(
 export function verifyValueInArray(value: string | any, array: any[], defaultValue: any): any
 
 export function deepCopy(data: object | any): object | any
+
+export function deepEqua(data: object | any): object | any

@@ -1,5 +1,4 @@
-import { useMemo, useRef, useEffect, isValidElement, cloneElement, Fragment } from 'react'
-import { useDidShow } from '@tarojs/taro'
+import { useMemo, useEffect, isValidElement, cloneElement, Fragment } from 'react'
 import { ScrollView } from '../ScrollView'
 
 /**
@@ -11,7 +10,9 @@ import { ScrollView } from '../ScrollView'
 export const createDetail = useRequest => {
   return ({
     url,
-    option,
+    data: requestData,
+    method,
+    cache,
     reloadForShow,
     detailCallback,
     defaultData,
@@ -24,17 +25,12 @@ export const createDetail = useRequest => {
     container: Container = Fragment
   }) => {
 
-    const init = useRef(false)
-
-    const _option = useMemo(() => {
-      return ({
-        url,
-        toast: true,
-        ...option
-      })
-    }, [option, url])
-
-    const [data, action] = useRequest(_option, { detailCallback, field, defaultData })
+    const [data, action] = useRequest({
+      url,
+      toast: true,
+      data: requestData,
+      method
+    }, { detailCallback, field, defaultData, reloadForShow, cache })
 
     useEffect(() => {
       if (typeof onAction === 'function') {
@@ -45,23 +41,14 @@ export const createDetail = useRequest => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [action])
 
-    useEffect(() => {
-      if (!init.current && !action.status) {
-        init.current = true
-      }
-    }, [action.status])
-
-    useDidShow(() => {
-      // 在上面页面关掉的时候刷新数据
-      init.current && reloadForShow && action.reload()
-    })
-
     const child = useMemo(() => {
-      return typeof children === 'function'
-        ? children?.({ data, action })
-        : isValidElement(children)
-          ? cloneElement(children, { data, action })
-          : children
+      if (typeof children === 'function') {
+        const Child = children
+        return <Child data={data} action={action} />
+      }
+      return isValidElement(children)
+        ? cloneElement(children, { data, action })
+        : children
     }, [action, children, data])
 
     return <Container data={data} action={action}>

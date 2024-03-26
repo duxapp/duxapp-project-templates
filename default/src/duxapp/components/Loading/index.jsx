@@ -48,7 +48,7 @@ export class Loading extends Component {
   }
 
   render() {
-    const { style = {}, color = 'dark', className } = this.props
+    const { style = {}, color = 'dark', className, ...props } = this.props
     const { lines, width, r } = this.state
     const colors = {
       dark: '#7a7a7a',
@@ -62,6 +62,7 @@ export class Loading extends Component {
           height: Taro.pxTransform(width),
           ...style
         }}
+        {...props}
       >
         {
           lines.map((item, index) => {

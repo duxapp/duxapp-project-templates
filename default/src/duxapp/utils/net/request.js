@@ -68,10 +68,12 @@ const request = (() => {
         ...!isBody ? deepCopy(params.data) : {}
       },
       body: isBody
-        ? {
-          ...configData,
-          ...deepCopy(params.data)
-        }
+        ? (params.data instanceof Array
+          ? deepCopy(params.data)
+          : {
+            ...configData,
+            ...deepCopy(params.data)
+          })
         : null,
       header: {
         ...execGetObject(requestConfig.header, params),

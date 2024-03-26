@@ -492,6 +492,18 @@ taro-input-core {
   background-color: white;
 }
 
+.bg-primary {
+  background-color: $duxappPrimaryColor;
+}
+
+.bg-secondary {
+  background-color: $duxappSecondaryColor;
+}
+
+.bg-page {
+  background-color: $duxappPageColor;
+}
+
 // 其他
 .square {
   aspect-ratio: 1;

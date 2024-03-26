@@ -102,7 +102,7 @@ export class ObjectManage {
     // 将数据缓存到全局变量
     global,
     defaultData
-  }) {
+  } = {}) {
     if (defaultData) {
       this.data = defaultData
     }

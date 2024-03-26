@@ -109,16 +109,6 @@ export class ScrollView extends Component {
   scrollEle = null
   scrollInfoEle = null
 
-  scroll(e) {
-    this.props.onScroll && this.props.onScroll(e)
-  }
-
-  scrollToLower(e) {
-    if (this.props.onScrollToLower && !this.props.loadMore) {
-      this.props.onScrollToLower(e)
-    }
-  }
-
   refresh() {
     const { refreshLocal } = this.state
     const { refresh } = this.props
@@ -139,22 +129,20 @@ export class ScrollView extends Component {
 
   render() {
     const {
-      emptyIcon = 'tishi',
-      emptyTitle = '什么都没有',
-      emptyDesc,
-      emptyBttton,
-      emptyColor,
-      emptyShow = false,
       flip = false,
       className,
       style,
+      _designKey,
       ...props
     } = this.props
 
-    const colorStyle = emptyColor ? { color: emptyColor } : {}
-
     return (
-      <View className={classNames('scroll-root', className)} style={style} ref={ref => this.root = ref}>
+      <View
+        className={classNames('scroll-root', className)}
+        style={style}
+        ref={ref => this.root = ref}
+        _designKey={_designKey}
+      >
         <TaroScrollView
           scrollY
           className={classNames(
@@ -162,11 +150,9 @@ export class ScrollView extends Component {
             flip && 'scroll-flip'
           )}
           onTouchMove={() => { }}
-          onScroll={this.scroll.bind(this)}
-          onScrollToLower={this.scrollToLower.bind(this)}
           {...props}
         >
-          {!emptyShow && this.props.children}
+          {this.props.children}
         </TaroScrollView>
         <View className='scroll-refresh' >
           <Loading />

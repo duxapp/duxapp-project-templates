@@ -50,12 +50,14 @@ export const createList = usePageData => {
     onEmptyClick,
     // 数据操作的回调
     onAction,
+    // 是否启用缓存
+    cache,
     listStyle,
     listClassName,
     ...props
   }) => {
 
-    const [list, action] = usePageData(url, data, { field: listField, listCallback, ...option })
+    const [list, action] = usePageData({ url, data }, { field: listField, listCallback, cache, ...option })
     useDidShow(() => {
       // 在上面页面关掉的时候刷新数据
       reloadForShow === true && action.reload()
@@ -82,9 +84,9 @@ export const createList = usePageData => {
         process.env.TARO_ENV === 'rn' ?
           <FlatList
             nestedScrollEnabled
-            {...props}
             numColumns={columns}
             refresh={action.loading && action.refresh}
+            {...props}
             onScrollToLower={page && action.next || noop}
             onRefresh={action.reload}
             keyExtractor={(item, index) => item[keyField] || index}
@@ -106,8 +108,8 @@ export const createList = usePageData => {
             </>}
           /> :
           <ScrollView
-            {...props}
             refresh={action.loading && action.refresh}
+            {...props}
             onScrollToLower={page && action.next || noop}
             onRefresh={action.reload}
           >

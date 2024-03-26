@@ -11,9 +11,16 @@ export function creatGlobalState<S>(initialState: S): {
 
 interface ContextStateProviderProps {
   /**
-   * 默认值
+   * 可以通过外部改变的值
    */
-  defaultValue: any
+  value?: any
+  /**
+   * 默认值不可改变的值
+   */
+  defaultValue?: any
+  /**
+   * 子元素
+   */
   children: ReactNode
 }
 
@@ -33,3 +40,9 @@ export const contextState: {
   Provider: ComponentType<ContextStateProviderProps>
 }
 
+/**
+ * 传入一个对象，当这个对象的内容实际发生改变时，才返回改变的值
+ * @param data
+ * @returns
+ */
+export const useDeepObject = (data: any) => any

@@ -43,6 +43,9 @@ const recursionSetValue = (keys, data, value, childKey, splice = false) => {
  * @param {boolean} splice 是否将此值删除 仅支持数组
  */
 const recursionGetValue = (keys, data = {}, childKey, splice = false) => {
+  if (typeof keys === 'undefined') {
+    return data
+  }
   keys = typeof keys === 'string' ? keys.split('.') : [...keys]
   if (keys.length === 0) {
     return false
@@ -85,9 +88,32 @@ const deepCopy = source => {
   return target
 }
 
+const deepEqua = (data1, data2) => {
+  if (data1 === data2) {
+    return true
+  } else if (data1 !== null && data2 !== null && (typeof data1 !== 'object' || typeof data2 !== 'object')) {
+    return false
+  }
+  const keys = [Object.keys(data1), Object.keys(data2)]
+  if (keys[0].length !== keys[1].length) {
+    return false
+  }
+  return keys[0].every(key => {
+    const vals = [data1[key], data2[key]]
+    if (vals[0] === vals[1]) {
+      return true
+    } else if (vals[0] && typeof vals[0] === 'object' && vals[1] && typeof vals[1] === 'object') {
+      return deepEqua(...vals)
+    } else {
+      return false
+    }
+  })
+}
+
 export {
   recursionSetValue,
   recursionGetValue,
   verifyValueInArray,
-  deepCopy
+  deepCopy,
+  deepEqua
 }

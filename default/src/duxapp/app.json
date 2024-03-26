@@ -1,7 +1,7 @@
 {
   "name": "duxapp",
   "description": "duxapp模块，所有模块的公共基础模块",
-  "version": "1.0.31",
+  "version": "1.0.38",
   "dependencies": [],
   "npm": {
     "scripts": {
@@ -23,7 +23,7 @@
       "dev:jd": "npm run build:jd -- --watch",
       "dev:quickapp": "npm run build:quickapp -- --watch",
       "dev:rn": "duxapp runtime enterFile && taro build --type rn --watch",
-      "native-components:h5": "taro build native-components --type h5",
+      "native-components:h5": "duxapp runtime enterFile && taro build native-components --type h5",
       "postinstall": "patch-package",
       "test": "jest",
       "lint": "eslint ."
@@ -63,7 +63,7 @@
       "@types/react": "^18.0.24",
       "@types/webpack-env": "^1.18.1",
       "babel-preset-taro": "3.6.7",
-      "duxapp-cli": "^1.1.31",
+      "duxapp-cli": "^1.1.34",
       "eslint": "^8.26.0",
       "eslint-config-taro": "3.6.7",
       "eslint-plugin-import": "^2.26.0",

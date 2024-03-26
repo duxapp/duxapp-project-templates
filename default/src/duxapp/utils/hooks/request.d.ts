@@ -26,12 +26,20 @@ export function createRequestHooks(request: () => Promist<any>): {
        * @returns
        */
       onError?: (err: any) => void
+      /**
+       * 在页面显示的时候刷新数据
+       */
+      reloadForShow?: boolean
+      /**
+       * 启用缓存
+       */
+      cache: boolean
     }
   ) => [any, {
     /**
      * 是否正在请求数据
      */
-    status: boolean
+    loading: boolean
     /**
      * 重新加载数据
      * @returns
@@ -46,17 +54,8 @@ export function createRequestHooks(request: () => Promist<any>): {
   }]
 
   usePageData: (
-    url: string,
-    data: object,
+    url: Request.RequestOption,
     option?: {
-      /**
-       * 请求方式
-       */
-      method?: Request.RequestOption['method'],
-      /**
-       * 是否在错误是弹出toast
-       */
-      toast?: boolean
       /**
        * list用的字段
        */
@@ -68,6 +67,11 @@ export function createRequestHooks(request: () => Promist<any>): {
        * @returns
        */
       listCallback?: (list: any[], result: any) => any[]
+      /**
+       * 启用缓存
+       * 会缓存第一页的内容
+       */
+      cache?: boolean
     }
   ) => [any[], {
     /**

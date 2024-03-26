@@ -65,6 +65,9 @@ const { pages, registerPages, pagesTransfer, routes } = (() => {
       _pagesTransfer.default = transfer.default
       _pagesTransfer.start = transfer.start
 
+      const disablePages = Object.values(route).map(item => item.disablePages).flat().filter(v => v)
+      const openPages = Object.values(route).map(item => item.openPages).flat().filter(v => v)
+
       Object.values(route)
         .map(v => {
           return Object.entries(v.pages).map(([_path, _config]) => {
@@ -79,12 +82,28 @@ const { pages, registerPages, pagesTransfer, routes } = (() => {
         .flat()
         .map(([key, _config]) => {
           const { pages: subPages, subPackage, ...arg } = _config
+          const pageConfig = {
+            openPages: [
+              ...openPages,
+              ...(userConfig.openPages || [])
+            ],
+            disablePages: [
+              ...disablePages,
+              ...(userConfig.disablePages || [])
+            ]
+          }
           if (subPages) {
             // 分组
-            return Object.keys(subPages).filter(item => pageFilter({ ...arg, ...subPages[item], page: `${key}/${item}` }, userConfig)).map(item => [`${key}/${item}`, { ...arg, ...subPages[item] }])
+            return Object.keys(subPages).filter(item => pageFilter(
+              { ...arg, ...subPages[item], page: `${key}/${item}` },
+              pageConfig
+            )).map(item => [`${key}/${item}`, { ...arg, ...subPages[item] }])
           } else {
             // 普通页面
-            return [key].filter(() => pageFilter({ ...arg, page: key }, userConfig)).map(item => [item, arg])
+            return [key].filter(() => pageFilter(
+              { ...arg, page: key },
+              pageConfig
+            )).map(item => [item, arg])
           }
         })
         .flat()

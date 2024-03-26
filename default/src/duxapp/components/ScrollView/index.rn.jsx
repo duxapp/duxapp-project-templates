@@ -9,7 +9,6 @@ export const ScrollView = ({
   scrollWithAnimation = true,
   flip = false,
   flatListParams,
-  onReload,
   onRefresh,
   children,
   ...props

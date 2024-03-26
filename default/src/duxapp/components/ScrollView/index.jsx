@@ -8,24 +8,9 @@ export class ScrollView extends Component {
 
   static Horizontal = Horizontal
 
-  scroll(e) {
-    this.props.onScroll && this.props.onScroll(e)
-  }
-
-  scrollToLower(e) {
-    this.props.onScrollToLower && this.props.onScrollToLower(e)
-  }
-
   refresh() {
     const { refresh } = this.props
     !refresh && this.props.onRefresh?.()
-  }
-
-  refreshReset() {
-  }
-
-  reload() {
-    this.props.onReload && this.props.onReload()
   }
 
   render() {
@@ -33,9 +18,9 @@ export class ScrollView extends Component {
       style = {},
       refresh,
       scrollWithAnimation = true,
-      scrollTop,
       className,
-      flip = false
+      flip = false,
+      ...props
     } = this.props
 
     return <View className={classNames('scroll-root', className)} style={style}>
@@ -46,16 +31,15 @@ export class ScrollView extends Component {
           'scroll-auto-height-weapp scroll',
           flip && 'scroll-flip'
         )}
-        onScroll={this.scroll.bind(this)}
-        onScrollToLower={this.scrollToLower.bind(this)}
         scrollWithAnimation={scrollWithAnimation}
-        scrollTop={scrollTop}
         refresherEnabled={refresh !== undefined}
         refresherThreshold={50}
         onRefresherrefresh={this.refresh.bind(this)}
-        onRefresherrestore={this.refreshReset.bind(this)}
         refresherTriggered={!!refresh}
         refresherBackground='transparent'
+        enhanced
+        showScrollbar={false}
+        {...props}
       >
         {this.props.children}
       </TaroScrollView>

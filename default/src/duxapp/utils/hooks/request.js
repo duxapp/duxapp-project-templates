@@ -1,21 +1,23 @@
-import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import base64 from 'crypto-js/enc-base64'
+import { useDidShow } from '@tarojs/taro'
+import { useDeepObject } from './common'
+import { ObjectManage } from '../data'
 
 export const createRequestHooks = request => {
   return {
     useRequest: (option, config) => {
 
-      const _config = useRef(config || {})
+      const init = useRef(false)
 
-      const defaultData = useMemo(() => (_config.current?.defaultData || {}), [])
+      const _config = useRef()
+      _config.current = { ..._config.current, ...config }
 
-      const [data, setData] = useState(defaultData)
+      const [data, setData] = useState(_config.current?.defaultData ?? (config?.cache && requestCache.getCache(option)) ?? {})
 
       const [status, setStatus] = useState(true)
 
-      // 更新配置
-      useEffect(() => {
-        _config.current = { ..._config.current, ...config }
-      }, [config])
+      const _option = useDeepObject(option)
 
       const resultAction = useCallback(async res => {
         if (_config.current?.detailCallback) {
@@ -26,21 +28,24 @@ export const createRequestHooks = request => {
         }
         if (_config.current?.field) {
           setData(res[_config.current.field])
+          requestCache.setCache(_option, res[_config.current.field])
         } else {
           setData(res)
+          requestCache.setCache(_option, res)
         }
-      }, [])
+      }, [_option])
 
       const reload = useCallback(() => {
-        if (!option || _config.current.status) {
+        if (!_option || _config.current.status) {
           return Promise.reject()
         }
         setStatus(true)
         _config.current.status = true
-        return request(option)
+        return request(_option)
           .then(res => {
             resultAction(res)
             _config.current.status = false
+            init.current = true
             setStatus(false)
           })
           .catch(err => {
@@ -48,28 +53,39 @@ export const createRequestHooks = request => {
               return _config.current?.onError(err)
             }
             _config.current.status = false
+            init.current = true
             setStatus(false)
             throw err
           })
-      }, [option, resultAction])
+      }, [_option, resultAction])
 
       useEffect(() => {
         reload()
       }, [reload])
 
+      useDidShow(() => {
+        // 在上面页面关掉的时候刷新数据
+        init.current && config?.reloadForShow && reload()
+      })
+
       return [
         data,
         {
           status,
+          loading: status,
           reload,
           setData
         }
       ]
     },
-    usePageData: (url, data, option) => {
+    usePageData: (option, config) => {
 
-      const currentData = useRef({ url, option, data, page: 1, loadEnd: false, loading: false })
-      const [list, setList] = useState(currentData.current.option?.listData || [])
+      const requestOption = useDeepObject(option && typeof option === 'object' ? option : { url: option })
+
+      const currentState = useRef({ requestOption, config, page: 1, loadEnd: false, loading: false })
+      currentState.current.config = config
+
+      const [list, setList] = useState(config?.listData ?? (config?.cache && requestCache.getCache(option)) ?? [])
 
       const [loading, setLoading] = useState(false)
 
@@ -77,31 +93,26 @@ export const createRequestHooks = request => {
 
       const [loadEnd, setLoadEnd] = useState(false)
 
-      useEffect(() => {
-        if (!option?.listData) {
-          return
-        }
-        setList(option?.listData)
-      }, [option?.listData])
-
       const getList = useCallback(() => {
-        const _data = currentData.current
+        const state = currentState.current
         // 使用传入的数据 不通过接口加载
-        if (_data.option?.listData) {
+        if (state.config?.listData) {
           return Promise.reject('使用本地数据 无需请求')
         }
-        _data.loading = true
+        state.loading = true
         setLoading(true)
-        if (_data.page === 1) {
+        if (state.page === 1) {
           setRefresh(true)
         }
         return request({
-          url: _data.url,
-          data: { ..._data.data, page: _data.page },
-          method: _data.option?.method || 'GET',
-          toast: _data.option?.toast || true
+          ...state.requestOption,
+          data: {
+            ...state.requestOption?.data,
+            page: state.page
+          },
+          toast: state.requestOption?.toast ?? true
         }).then(async res => {
-          const field = _data.option?.field || 'list'
+          const field = state.config?.field || 'list'
           let _list = res[field]
           if (typeof _list === 'undefined') {
             if (Array.isArray(res)) {
@@ -110,65 +121,65 @@ export const createRequestHooks = request => {
               return console.error('获取列表数据错误：' + field + '字段不存在')
             }
           }
-          if (_data.option?.listCallback) {
-            _list = _data.option?.listCallback(_list, res)
+          if (state.config?.listCallback) {
+            _list = state.config?.listCallback(_list, res)
             if (_list instanceof Promise) {
               _list = await _list
             }
           }
           if (!_list?.length) {
-            currentData.current.loadEnd = true
+            state.loadEnd = true
             setLoadEnd(true)
           }
           setList(old => {
-            if (_data.page > 1) {
+            if (state.page > 1) {
               return [...old, ..._list]
             } else {
               return _list
             }
           })
-          _data.loading = false
+          state.page === 1 && requestCache.setCache(state.requestOption, _list)
+          state.loading = false
           setLoading(false)
           setRefresh(false)
         }).catch(() => {
-          _data.loading = false
+          state.loading = false
           setLoading(false)
           setRefresh(false)
         })
       }, [])
 
       const next = useCallback(() => {
-        if (currentData.current.loadEnd) {
+        if (currentState.current.loadEnd) {
           return Promise.reject('数据已经加载完成')
         }
-        if (currentData.current.loading) {
+        if (currentState.current.loading) {
           return Promise.reject('请稍后 正在加载中')
         }
-        currentData.current.page++
+        currentState.current.page++
         return getList()
       }, [getList])
 
       const reload = useCallback(() => {
-        if (currentData.current.loading) {
+        if (currentState.current.loading) {
           return Promise.reject('请稍后 正在加载中')
         }
-        if (currentData.current.loadEnd) {
-          currentData.current.loadEnd = false
+        if (currentState.current.loadEnd) {
+          currentState.current.loadEnd = false
           setLoadEnd(false)
         }
-        currentData.current.page = 1
+        currentState.current.page = 1
         return getList()
       }, [getList])
 
       useEffect(() => {
-        currentData.current.url = url
-        currentData.current.data = { ...data }
+        currentState.current.requestOption = requestOption
         reload().catch(() => { })
-      }, [url, data, reload])
+      }, [requestOption, reload])
 
       return [list, {
         loading,
-        currentData: currentData.current,
+        currentData: currentState.current,
         refresh,
         loadEnd,
         next,
@@ -178,3 +189,33 @@ export const createRequestHooks = request => {
     }
   }
 }
+
+
+class RequestHookCache extends ObjectManage {
+  constructor() {
+    super({
+      cache: true,
+      cacheKey: 'request-hook-cache'
+    })
+  }
+
+  _getKey = option => {
+    if (typeof option === 'string') {
+      option = { url: option }
+    }
+    return base64.parse(`${option.url}-${option.method || 'GET'}-${JSON.stringify(option.data)}-`)
+  }
+
+  getCache = option => {
+    return this.data[this._getKey(option)]
+  }
+
+  setCache = (option, data) => {
+    this.set({
+      ...this.data,
+      [this._getKey(option)]: data
+    })
+  }
+}
+
+const requestCache = new RequestHookCache()
