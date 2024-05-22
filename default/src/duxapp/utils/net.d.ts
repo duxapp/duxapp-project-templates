@@ -242,6 +242,8 @@ declare namespace Upload {
     config?: RequestConfig
     /** 中间件 */
     middle?: middle
+    /** 请求超时 */
+    timeout?: number
   }
 
   /**

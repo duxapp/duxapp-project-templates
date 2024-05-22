@@ -25,7 +25,11 @@ const EleItem = memo(({
     onRemove?.(item)
   }, [item, onRemove])
 
-  if (item.element instanceof Array && !React.isValidElement(item.element[0])) {
+  if (
+    item.element instanceof Array
+    && !React.isValidElement(item.element[0])
+    && (typeof item.element[0] === 'function' || typeof item.element[0] === 'object')
+  ) {
     const [Item, props] = item.element
     return <Item {...props} onTopViewRemove={remove} />
   } else {

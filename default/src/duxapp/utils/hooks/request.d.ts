@@ -33,7 +33,11 @@ export function createRequestHooks(request: () => Promist<any>): {
       /**
        * 启用缓存
        */
-      cache: boolean
+      cache?: boolean
+      /**
+       * 是否准备好，如果此参数为false，将不会发起请求
+       */
+      ready?: boolean
     }
   ) => [any, {
     /**
@@ -72,6 +76,10 @@ export function createRequestHooks(request: () => Promist<any>): {
        * 会缓存第一页的内容
        */
       cache?: boolean
+      /**
+       * 是否准备好，如果此参数为false，将不会发起请求
+       */
+      ready?: boolean
     }
   ) => [any[], {
     /**

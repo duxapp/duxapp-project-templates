@@ -34,13 +34,13 @@ export class PullView extends Component {
 
   render() {
     const { show } = this.state
-    const { side = 'bottom', style = {}, overlayOpacity = 0.5, children } = this.props
+    const { side = 'bottom', style = {}, overlayOpacity = 0.5, children, masking = true } = this.props
     return <Absolute>
-      <View
+      {masking && <View
         className='PullView'
         style={{ backgroundColor: show ? `rgba(0, 0, 0, ${overlayOpacity})` : 'rgba(0, 0, 0, 0)' }}
         onClick={this.overlayCilck}
-      />
+      />}
       <View
         className={`PullView__main PullView__main--${side}${show ? ' PullView__main--show' : ''}`}
         style={style}

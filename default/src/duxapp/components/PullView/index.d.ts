@@ -17,21 +17,26 @@ interface PullViewProps {
    * 弹出位置
    * @default buttom
   */
-  side: keyof side,
+  side?: keyof side,
   /**
    * 空白区域的不透明度
    * @default 0.5
   */
-  overlayOpacity: number
+  overlayOpacity?: number
   /**
    * 是否锁定模态框 设置为true点击空白区域无法关闭模态框
    * @default false
   */
-  mask: boolean
+  mask?: boolean
+  /**
+   * 是否显示遮罩层，默认显示，设置为false隐藏遮罩层
+   * 当关闭遮罩层时，无法点击遮罩层进行关闭，需要手动关闭弹框
+   */
+  masking?: boolean
   /** 弹出层内层样式 */
-  style: CSSProperties
+  style?: CSSProperties
   /** 点击非内容区域的关闭事件 */
-  onClose: () => any
+  onClose?: () => any
   /** 引用 */
   ref?: LegacyRef<any>
 }

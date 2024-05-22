@@ -60,8 +60,11 @@ export const createRequestHooks = request => {
       }, [_option, resultAction])
 
       useEffect(() => {
+        if (config?.ready === false) {
+          return
+        }
         reload()
-      }, [reload])
+      }, [reload, config?.ready])
 
       useDidShow(() => {
         // 在上面页面关掉的时候刷新数据
@@ -173,9 +176,12 @@ export const createRequestHooks = request => {
       }, [getList])
 
       useEffect(() => {
+        if (config?.ready === false) {
+          return
+        }
         currentState.current.requestOption = requestOption
         reload().catch(() => { })
-      }, [requestOption, reload])
+      }, [requestOption, config?.ready, reload])
 
       return [list, {
         loading,

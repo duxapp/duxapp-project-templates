@@ -4,11 +4,10 @@ import { getUrl, execGetChild, execGetObject, getMedia, execMiddle } from './uti
 const uploadFile = process.env.TARO_ENV === 'rn'
   ? (() => {
     const { Platform } = require('react-native')
-    const isAndroid = Platform.OS === 'android'
     const createFormData = (filePath, body = {}, name) => {
       const data = new FormData()
-      const uri = isAndroid ? filePath : filePath.replace('file://', '');
-      const fileObj = { uri: uri, type: 'application/octet-stream', name: uri.substr(uri.lastIndexOf('/') + 1) || 'file' }
+      const uri = Platform.OS === 'android' ? filePath : filePath.replace('file://', '');
+      const fileObj = { uri, type: 'application/octet-stream', name: uri.substr(uri.lastIndexOf('/') + 1) || 'file' }
       Object.keys(body).forEach(key => {
         data.append(key, body[key])
       })
@@ -16,7 +15,7 @@ const uploadFile = process.env.TARO_ENV === 'rn'
       return data
     }
 
-    return (opts) => {
+    return opts => {
       const { url, timeout = 60000, filePath, name, header, formData } = opts
       const xhr = new XMLHttpRequest()
       const execFetch = new Promise((resolve, reject) => {
@@ -42,6 +41,7 @@ const uploadFile = process.env.TARO_ENV === 'rn'
         }
         // 请求成功
         xhr.onload = () => {
+          clearTimeout(timer)
           if (xhr.status === 200) {
             resolve({
               data: xhr.response,
@@ -54,11 +54,12 @@ const uploadFile = process.env.TARO_ENV === 'rn'
         }
         // 请求失败
         xhr.onerror = e => {
+          clearTimeout(timer)
           reject({ errMsg: 'uploadFile fail: ' + e.type })
         }
         xhr.send(createFormData(filePath, formData, name))
 
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           xhr.abort()
           reject({ errMsg: 'uploadFile fail: 请求超时' })
         }, timeout)
@@ -269,13 +270,13 @@ export const createUpload = (() => {
 
     const sortMiddle = list => {
       return list.map(item => {
-        if(typeof item === 'function') {
+        if (typeof item === 'function') {
           return [item, 0]
         }
         return item
       })
-      .sort(([,a], [,b]) => a - b)
-      .map(v => v[0])
+        .sort(([, a], [, b]) => a - b)
+        .map(v => v[0])
     }
 
     const getOption = option => {

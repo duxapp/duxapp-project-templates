@@ -23,6 +23,7 @@ src/duxapp/config/userConfig.js
 /package.json
 /yarn.lock
 
+/babel.user.config.js
 
 #build
 android/app/src/main/assets/index.android.bundle

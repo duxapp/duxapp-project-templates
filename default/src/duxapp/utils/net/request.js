@@ -26,8 +26,8 @@ const requestReact = async ({ url, data, header, timeout, ...option } = {}) => {
   }
   // 清除定时器
   race[1].clear()
-  const contentType = res.headers.get('Content-Type').toLowerCase()
-  const isJson = contentType.indexOf('application/json') === 0
+  // const contentType = res.headers.get('Content-Type').toLowerCase()
+  // const isJson = contentType.indexOf('application/json') === 0
   const headersValues = [...res.headers.values()]
   const result = {
     statusCode: res.status,
@@ -35,11 +35,22 @@ const requestReact = async ({ url, data, header, timeout, ...option } = {}) => {
     data: null,
     header: Object.fromEntries([...res.headers.keys()].map((key, index) => [key, headersValues[index]]))
   }
-  if (isJson) {
-    result.data = await res.json()
-  } else {
-    result.data = await res.text()
+  let text = await res.text()
+  try {
+    text = JSON.parse(text)
+  } catch (error) {
+    console.log('错误的JSON数据', text)
   }
+  result.data = text
+  // if (isJson) {
+  //   try {
+  //     result.data = await res.json()
+  //   } catch (error) {
+  //     console.log(error, await res.text())
+  //   }
+  // } else {
+  //   result.data = await res.text()
+  // }
   return result
 }
 
@@ -78,6 +89,7 @@ const request = (() => {
       header: {
         ...execGetObject(requestConfig.header, params),
         'Content-Type': contentType,
+        Accept: 'application/json',
         ...params.header
       }
     }
@@ -182,7 +194,7 @@ const request = (() => {
           toast(err.message || JSON.stringify(err))
         }
       }
-      err.url = requestParams.url
+      err.url = requestParams?.url
       throw err
     })
     let taroRequestTask

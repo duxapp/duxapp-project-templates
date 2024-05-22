@@ -8,6 +8,7 @@ export const PullView = forwardRef(({
   side = 'bottom',
   modal,
   mask = modal,
+  masking = true,
   duration = 200,
   onClose,
   style,
@@ -95,7 +96,7 @@ export const PullView = forwardRef(({
   const translate = siteTranslates[side]
 
   return <Absolute>
-    <Animated.View
+    {masking && <Animated.View
       className='PullView'
       style={{
         backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})`,
@@ -106,7 +107,7 @@ export const PullView = forwardRef(({
       }}
     >
       <View className='PullView__other' onClick={overlayCilck}></View>
-    </Animated.View>
+    </Animated.View>}
     <Animated.View
       className='PullView__main'
       style={[
