@@ -1,0 +1,4 @@
+{
+  "name": "默认模板(仅包含输出模块)",
+  "result": "小程序 yarn dev:weapp --app=duxapp\nH5 yarn dev:h5 --app=duxapp\n安装模块 yarn duxapp app add duxui"
+}

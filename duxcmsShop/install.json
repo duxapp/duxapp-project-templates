@@ -1,0 +1,4 @@
+{
+  "name": "cms商城(单用户商城模板)",
+  "result": "小程序 yarn dev:weapp --app=duxcmsShop\nH5 yarn dev:h5 --app=duxcmsShop\n商城模块需要配置请求域名等参数，请在 configs/duxcmsShop/index.js 配置"
+}
