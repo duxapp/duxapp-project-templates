@@ -1,0 +1,63 @@
+.attr-layer {
+  background-color: #fff;
+
+  &>div {
+    flex: 1;
+  }
+}
+
+.design-page {
+  display: flex;
+
+  &>.center {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-self: center;
+    align-items: center;
+
+    &>.editor {
+      display: flex;
+      flex-direction: column;
+      padding: 0.8em 0.5em;
+      border-radius: 1.5em;
+      background-color: #000;
+
+      &>.phone {
+        border-radius: 1.5em;
+        overflow: hidden;
+        height: 42em;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  taro-view-core {
+    display: flex;
+  }
+}
+
+taro-view-core {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-style: solid;
+  border-width: 0;
+}
+
+input,
+textarea,
+taro-view-core {
+  box-sizing: border-box;
+}
+
+taro-view-core,
+taro-text-core {
+  line-height: 1;
+}
+
+taro-image-core {
+  width: auto;
+  height: auto;
+}
