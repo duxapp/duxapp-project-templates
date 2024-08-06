@@ -1,0 +1,136 @@
+.cms-login {
+  flex: 1;
+  padding: 0 60px;
+  background-color: #fff;
+  border-radius: 10px;
+  flex-direction: column;
+
+  &__title {
+    padding-top: 80px;
+  }
+
+  &__content {
+    flex-direction: column;
+    margin: 64px 0 0;
+
+    &__phone {
+      margin-top: 32px;
+      flex-direction: row;
+      align-items: center;
+      padding: 26px 40px;
+      height: 96px;
+      background: #f7f7f7;
+      border-radius: 48px;
+
+      &__input {
+        flex: 1;
+        padding: 0;
+        font-size: 32px;
+        color: $duxappTextColor1;
+        background-color: transparent;
+      }
+
+      &__code {
+        font-size: 32px;
+        color: #f23e39;
+        margin-left: 24px;
+      }
+    }
+  }
+
+  &__flexBox {
+    justify-content: flex-end;
+    margin-top: 50px;
+    align-items: center;
+
+    &__flex {
+      flex-direction: row;
+      align-items: center;
+
+      &__line {
+        width: 138px;
+        height: 1px;
+        background: #e5e5e5;
+      }
+
+      &__text {
+        font-size: 28px;
+        color: #999999;
+        margin: 0 40px;
+      }
+    }
+  }
+
+  &__icon {
+    margin-top: 48px;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    background: #40b233;
+    border-radius: 88px;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  &__deal {
+    margin-top: 136px;
+    margin-bottom: 104px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+
+    &__check {
+      padding: 0 20px;
+    }
+
+    &__text {
+      font-size: 22px;
+      color: #999;
+    }
+  }
+}
+
+.cms-login-weapp {
+  padding: 36px;
+  border-radius: 16px;
+  background-color: #fff;
+  width: 600px;
+
+  &--mask {
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &__head {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 72px;
+
+    &__name {
+      font-size: 32px;
+      color: $duxappTextColor1;
+    }
+  }
+
+  // &__button {
+  //   background-color: $duxappPrimaryColor;
+  //   border-radius: 40px;
+  //   height: 80px;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: center;
+  //   margin-top: 100px;
+  //   color: #fff;
+  // }
+
+  &__tel {
+    margin-top: 50px;
+  }
+}

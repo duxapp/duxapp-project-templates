@@ -1,0 +1,11 @@
+{
+  "name": "duxcmsPay",
+  "description": "CMS支付",
+  "version": "1.0.9",
+  "dependencies": [
+    "duxcms",
+    "wechat",
+    "alipay",
+    "unionpay"
+  ]
+}

@@ -1,0 +1,40 @@
+import { Column, ScrollView, Button, TopView, Header, route, Form, PickerSelect, useRoute, Input, loading } from '@/duxui'
+import { request, usePageData } from '@/duxcmsOrder'
+import { useCallback } from 'react'
+
+export default function RefundExpress() {
+
+  const { params } = useRoute()
+
+  const [list] = usePageData('order/refund/express')
+
+  const submit = useCallback(async _data => {
+    await request({
+      url: `order/refund/${params.id}/delivery`,
+      loading,
+      toast: true,
+      data: _data,
+      method: 'POST'
+    })
+    route.back()
+  }, [params.id])
+
+  return <TopView>
+    <Header title='售后提交' />
+    <Form direction='horizontal' labelProps={{ bold: true }} onSubmit={submit}>
+      <ScrollView>
+        <Column className='mh-3 mt-3 bg-white r-2 ph-3'>
+          <Form.Item label='快递' field='express_id'>
+            <PickerSelect grow valueKey='id' range={list} title='快递' placeholder='请选择' />
+          </Form.Item>
+          <Form.Item label='单号' field='no'>
+            <Input grow align='right' placeholder='请输入单号' />
+          </Form.Item>
+        </Column>
+        <Form.Submit>
+          <Button type='primary' size='l' className='m-3'>提交发货</Button>
+        </Form.Submit>
+      </ScrollView>
+    </Form>
+  </TopView>
+}

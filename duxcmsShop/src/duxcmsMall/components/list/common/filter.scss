@@ -1,0 +1,101 @@
+.search__container {
+  width: 610px;
+  padding-top: 120px;
+  flex: 1;
+  // height: 100%;
+  background-color: #fff;
+  &__box {
+    // border: 0 solid #b3b3b3;
+    // border-top-width: 1px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  &__title {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 95px;
+    &__titleText {
+      color: $duxappTextColor1;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    &__icon {
+      color: #999;
+      font-size: 26px;
+    }
+  }
+  &__content {
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    &__enter {
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      margin-bottom: 30px;
+      text-align: center;
+      &__inputBox {
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+        flex-direction: row;
+      }
+      &__input {
+        width: 250px;
+        height: 57px;
+        text-align: center;
+        background: #EFEFEF;
+        border-radius: 57px;
+        font-size: 28px;
+        padding: 0 10px;
+      }
+    }
+    &__item {
+      width: 163px;
+      height: 57px;
+      margin-bottom: 30px;
+      text-align: center;
+      line-height: 57px;
+      background: #EFEFEF;
+      border-radius: 30px;
+      color: #666;
+      font-size: 28px;
+      &--hover {
+        background-color: #FFF4F3;
+        border: 2px solid $duxappPrimaryColor;
+        color: $duxappPrimaryColor;
+      }
+    }
+  }
+}
+
+.search__button {
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  border: 0 solid #EAEAEA;
+  border-top-width: 1px;
+  padding: 16px 0px;
+  &__icon {
+    width: 120px;
+    align-items: center;
+    justify-content: center;
+  }
+  &__item {
+    // flex: 1;
+    text-align: center;
+    width: 260px;
+    height: 78px;
+    line-height: 78px;
+    border-radius: 78px;
+    font-size: 28px;
+    background-color: #EFEFEF;
+    color: #666;
+    &--hover {
+      background-color: $duxappPrimaryColor;
+      color: #fff;
+    }
+  }
+}

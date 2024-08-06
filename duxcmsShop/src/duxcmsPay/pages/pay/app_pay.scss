@@ -1,0 +1,14 @@
+.app-pay {
+  padding: 24px;
+  padding-top: 80px;
+  &__btn {
+    border: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+    // &::after {
+    //   border: none;
+    // }
+  }
+}

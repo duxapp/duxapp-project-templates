@@ -1,0 +1,9 @@
+{
+  "name": "duxcmsShop",
+  "description": "CMS商城入口",
+  "version": "1.0.9",
+  "dependencies": [
+    "duxcmsMall",
+    "duxcmsContent"
+  ]
+}

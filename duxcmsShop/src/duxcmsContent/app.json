@@ -1,0 +1,8 @@
+{
+  "name": "duxcmsContent",
+  "description": "CMS文章内容",
+  "version": "1.0.7",
+  "dependencies": [
+    "duxcmsUser"
+  ]
+}

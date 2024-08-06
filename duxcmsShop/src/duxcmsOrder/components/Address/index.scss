@@ -1,0 +1,48 @@
+.Address {
+  height: 1000px;
+  background-color: #fff;
+  border-radius: 16px 16px 0 0;
+  &__head {
+    align-items: center;
+    flex-direction: row;
+    padding: 25px 0;
+    &__left {
+      width: 100px;
+    }
+    &__title {
+      flex: 1;
+      text-align: center;
+      font-size: 26px;
+    }
+    &__close {
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+    }
+  }
+  &__nav {
+    align-items: center;
+    flex-direction: row;
+    padding: 0 10px;
+    &__child {
+      padding: 20px 25px;
+      border-bottom-width: 1px;
+      /*postcss-pxtransform rn eject enable*/
+      border-bottom-style: solid;
+      /*postcss-pxtransform rn eject disable*/
+      border-bottom-color: #fff;
+      background-color: #fff;
+      color: #333;
+      font-weight: bold;
+      font-size: 30px;
+    }
+  }
+  &__item {
+    align-items: center;
+    flex-direction: row;
+    padding: 15px 25px;
+    &__txt {
+      font-size: 30px;
+    }
+  }
+}
