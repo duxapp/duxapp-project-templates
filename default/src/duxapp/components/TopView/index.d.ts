@@ -34,10 +34,14 @@ export class TopView extends Component<TopViewProps> {
   /**
    * 添加一个组件到全局
    * @param element 组件
-   * @param page 标识 默认当前页面
    * @return 返回一个key，用于更新或者删除
    */
-  static add(element: ReactElement, page?: string): {
+  static add(element: ReactElement, option?: {
+    /** 标识 默认当前页面 */
+    page?: string
+    /** 分组 同一个分组内的弹窗 将会以队列的形式显示 */
+    group?: string
+  }): {
     /** 更新元素 */
     update: (element: ReactElement) => void
     /** 移除元素 */
@@ -45,21 +49,6 @@ export class TopView extends Component<TopViewProps> {
     /** key */
     key: number
   }
-
-  /**
-   * 更新一个已经创建的组件
-   * @param key 标识
-   * @param element 元素
-   * @param page 页面
-   */
-  static update(key: number, element: ReactElement, page?: string): void
-
-  /**
-   * 移除一个已经创建的组件
-   * @param key 标识
-   * @param page 页面
-   */
-  static remove(key: number, page?: string): void
 
   /**
    * 添加一个容器，容器可以控制页面是否显示，以及重写子元素

@@ -1,7 +1,7 @@
 {
   "name": "duxapp",
   "description": "duxapp模块，所有模块的公共基础模块",
-  "version": "1.0.45",
+  "version": "1.0.52",
   "dependencies": [],
   "npm": {
     "scripts": {
@@ -45,7 +45,7 @@
       "classnames": "^2.3.2",
       "crypto-js": "^4.1.1",
       "dayjs": "^1.11.7",
-      "preact": "^10.13.2",
+      "preact": "~10.19.7",
       "qs": "6.9.7",
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
@@ -63,7 +63,7 @@
       "@types/react": "^18.0.24",
       "@types/webpack-env": "^1.18.1",
       "babel-preset-taro": "3.6.7",
-      "duxapp-cli": "^1.1.39",
+      "duxapp-cli": "^1.1.44",
       "eslint": "^8.26.0",
       "eslint-config-taro": "3.6.7",
       "eslint-plugin-import": "^2.26.0",

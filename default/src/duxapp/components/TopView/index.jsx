@@ -43,13 +43,13 @@ class CreateEle extends Component {
     super(props)
     const { page } = props
 
-    this.eventOff = TopView.event.on((name, e) => {
+    this.eventOff = TopView.event.on((name, e, ...args) => {
       if (name === page + '-add') {
-        this.add(e)
+        this.add(e, ...args)
       } else if (name === page + '-remove') {
-        this.remove(e)
+        this.remove(e, ...args)
       } else if (name === page + '-removeAll') {
-        this.removeAll(e)
+        this.removeAll(e, ...args)
       }
     }).remove
   }
@@ -73,12 +73,15 @@ class CreateEle extends Component {
     this.setState({ elements })
   }
 
-  remove = e => {
+  remove = (e, add) => {
     const { elements } = this.state
     const index = elements.findIndex(v => v.key === e.key)
     if (~index) {
       elements.splice(index, 1)
       this.setState({ elements })
+    }
+    if (add) {
+      this.add(add)
     }
   }
 
@@ -143,27 +146,80 @@ export class TopView extends Component {
 
   static event = new QuickEvent()
 
-  static add = (element, page = this.getCurrentPageKey()) => {
+  static group = (() => {
+    const data = {}
+    return {
+      getList: (page, group) => {
+        if (!group) {
+          return
+        }
+        const key = `${page}-${group}`
+        if (!data[key]) {
+          data[key] = []
+        }
+        return data[key]
+      },
+      removePage: page => {
+        Object.keys(data).forEach(key => {
+          if (key.startsWith(page + '-')) {
+            delete data[key]
+          }
+        })
+      }
+    }
+  })()
 
+  static add = (element, option = {}) => {
+
+    const page = option.page ?? this.getCurrentPageKey()
     const key = ++this.keyValue
-    this.event.trigger(page + '-add', { key, element })
+    const group = this.group.getList(page, option.group)
+    if (option.group) {
+      group.push({ key, element })
+      if (group.length === 1) {
+        this.event.trigger(page + '-add', group[0])
+      }
+    } else {
+      this.event.trigger(page + '-add', { key, element })
+    }
 
     return {
-      update: el => this.update(key, el, page),
-      remove: () => this.remove(key, page),
-      key
+      key,
+      update: el => {
+        if (option.group) {
+          const index = group.findIndex(v => v.key === key)
+          if (!~index) {
+            return
+          }
+          if (!index) {
+            this.event.trigger(page + '-add', { key, element: el })
+          } else {
+            group[index].element = el
+          }
+        } else {
+          this.event.trigger(page + '-add', { key, element: el })
+        }
+      },
+      remove: () => {
+        if (option.group) {
+          const index = group.findIndex(v => v.key === key)
+          if (!~index) {
+            return
+          }
+          group.splice(index, 1)
+          if (!index) {
+            // 关闭后将新的元素插入
+            this.event.trigger(page + '-remove', { key }, group[0])
+          }
+        } else {
+          this.event.trigger(page + '-remove', { key })
+        }
+      }
     }
   }
 
-  static update = (key, element, page = this.getCurrentPageKey()) => {
-    key && this.event.trigger(page + '-add', { key, element })
-  }
-
-  static remove = (key, page = this.getCurrentPageKey()) => {
-    key && this.event.trigger(page + '-remove', { key })
-  }
-
   static removeAll = (page = this.getCurrentPageKey()) => {
+    this.group.removePage(page)
     this.event.trigger(page + '-removeAll', {})
   }
 

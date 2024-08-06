@@ -159,18 +159,25 @@ const getMedia = async (type, {
     }))
   } else {
     if (type === 'video') {
-      return Taro.chooseVideo({
+      return Taro.chooseMedia({
+        count: 1,
+        mediaType: 'video',
         sourceType,
         compressed,
         maxDuration,
         camera
-      }).then(res => ([{
-        path: res.tempFilePath,
-        size: res.size,
-        width: res.width,
-        height: res.height,
-        thumb: res.thumbTempFilePath
-      }]))
+      }).then(({ tempFiles }) => {
+        return tempFiles.map(item => {
+          return {
+            path: item.tempFilePath,
+            size: item.size,
+            width: item.width,
+            height: item.height,
+            thumb: item.thumbTempFilePath,
+            duration: item.duration * 1000
+          }
+        })
+      })
     } else {
       return Taro.chooseImage({
         count,

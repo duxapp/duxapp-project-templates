@@ -1,354 +1,1031 @@
-# DUXAPP
-duxapp是基于Taro开发的模块化的前端框架，同时支持小程序、H5、ReactNative。
+# duxapp
+
+duxapp框架的基础模块，里面放了框架必备组件、函数、主题系统、全局样式等
+
 ## 安装
 
 ```bash
-npx duxapp-cli create 项目名称
+yarn duxapp app add duxapp
 ```
 
-项目初始化后将会自动安装依赖，安装完成就可以打开项目进行开发了
+此模块需要在 [duxapp 框架](https://app.docs.dux.plus) 中运行
 
-## 使用
-### 基本命令
+## 组件库
 
-```bash
+### TopView
+框架最基础的组件，用于页面嵌套，需要在每个页面的最外层嵌套上此组件，且每个页面只能放一次  
+弹窗、路由等功能与此组件息息相关，如果不放此组件将无法实现这些功能  
 
-# duxapp自定义命令参数：在上面的命令的基础上新增参数
-# 调试小程序端 打包商城模块
-yarn dev weapp --app=duxapp
-# 调试小程序端 打包基础模块
-yarn dev weapp --app=duxui
+推荐使用示例
+```jsx
+import { View } from '@tarojs/components'
+import { Header, ScrollView, TopView } from '@/duxapp'
+
+import './index.scss'
+
+export default TopView.HOC(function Duxapp() {
+
+  return <>
+    <Header title='duxapp' titleCenter />
+    <ScrollView>
+      <View className='duxapp-demo__title'>欢迎使用duxapp</View>
+      <View className='duxapp-demo__p'>添加模块: yarn duxapp app add app名称</View>
+      <View className='duxapp-demo__p'>创建模块: yarn duxapp app create app名称</View>
+    </ScrollView>
+  </>
+})
+
 ```
-需要注意的是当同时调试多个端时，需要输入一致的`--app`参数
 
-## 模块简介
-duxapp是模块化的，模块之间还有相互依赖关系，src目录下的每个文件夹即是一个模块
-### 模块目录结构
-|  路径   | 说明 |
-|  ----  | ----  |
-| configs | 里面放项目配置文件 |
-| src | 模块根目录 |
-| --duxapp  | 模块目录 |
-| ---- components  | 模块组件目录 |
-| ------ ......  | 导出模块的组件 |
-| ---- config  | 配置 |
-| ------ route.js  | 路由配置文件-模块必须的文件 |
-| ------ ......  | 其他配置文件 |
-| ---- utils  | 工具目录 |
-| ------ ......  | 导出工具函数 |
-| ---- update  | 项目兼容配置 |
-| ---- app.js  | 模块入口文件 |
-| ---- app.json  | 模块配置文件 定义模块名称、版本、依赖关系 |
-| ---- app.scss  | 模块全局样式 会被打包进全局样式 无需引入 |
-| ---- index.js  | 模块出口文件，可以导出组件和方法提供给其他模块使用 |
-| ---- changelog.md  | 更新日志 |
-| ---- readme.md  | 模块自述文件 |
-| ---- ......  | 其他文件夹表示页面 |
-| -- app.js  | 全局入口文件 自动生成 |
-| -- app.scss  | 全局样式 自动生成 |
-| -- app.config.js  | taro配置 自动生成 |
-| -- index.html  | h5端首页文件 自动生成 |
+### Header
+头部导航组件，如上面的示例中的Header，组件需要放在组件的第一个，集成了返回，返回主页等功能
 
-### 模块命令
+### ScrollView
+滚动条组件，组件有 `flex: 1`属性，自动占据最大空间，如上面的示例所示，滚动将占据头部以外的所有空间，请特别注意  
 
-```bash
-# 创建一个项目
-yarn duxapp app init 项目名称
-# 添加一个模块
-yarn duxapp app add 模块名称
-# 创建一个模块
-yarn duxapp app create 模块名称
-# 发布模块
-yarn duxapp app publish 模块名称 是否发布依赖的模块
+- 组件集成了多个平台的下拉刷新功能
+- 横向滚动请使用 `ScrollView.Horizontal` 组件
+
+### PullView
+弹出组件，可以定义从上下左右四个方向弹出的组件
+```jsx
+<PullView onClose={() => console.log('关闭')}>
+  <Text>弹出内容</Text>
+</PullView>
 ```
-### 模块介绍
-- 模块的依赖关系非常有用，可以在打包的时候自动寻找需要的模块，也可以在安装模块的时候自动寻找需要的模块
-- 模块依赖请勿循环依赖 例如 A->B->A，或者A->B->C->A
-- 如果A模块依赖于B模块，则可以在A模块中放心的导入B模块的组件和函数，反之没有依赖的模块不要导入他的任何东西，否则打包将会报错
-- 一般来说新的模块至少需要依赖于base模块，因为base模块里面包含了很多基础工具和函数
 
-### 入口文件
+此组件是基于TopView组件实现的
 
-index.js是每个模块的入口文件，这个文件将会被默认执行，此文件需要导出一个默认对象，如下
+### Absolute
+次组件可以将子元素转发到最外层渲染，用来实现全局弹窗的效果
+```jsx
+<Absolute>
+  <View className='absolute inset-0'>
+    <Text>弹出内容</Text>
+  </View>
+</PullView>
+```
 
-```js
-// 可以在此处执行一些要初始化的东西
-import { app } from '@/duxapp/utils'
-app.register('duxshop')
+### RenderHook
+渲染钩子，这是一个工具库，用于在页面或者组件定义钩子，然后在合适的位置指定钩子，将内容插入到钩子的位置进行渲染,使用方法，请查看组件的d.ts文件  
 
-export default {
-  // 启动配置 位于duxapp.js文件中的option配置
-  option: option => {
-    setAppConfig(option.app || {})
-  },
-  // useLaunch
-  launch: () => {
-    route.init()
-  },
-  // useShow
-  show: () => { },
-  // useHide
-  hide: () => { },
-  // useEffect
-  effect: async () => {
-    startHide()
-  }
+这在多模块系统中开发一些公共模块来说，是很有效的工具
+
+### Loading
+菊花加在中效果
+
+### List
+分页列表组件。  
+
+如果后端提供的接口是使用get参数的page进行分页的，可以使用此组件极大的简化列表开发的难度，这个组件集成了下拉刷新，上拉分页、加载完成等
+
+```jsx
+import { Empty, Column, Header, Text, TopView, Status } from '@/duxui'
+import { List } from '@/duxslim'
+
+export default function GroundLog() {
+
+  return <TopView>
+    <Header title='申请记录' />
+    <List
+      url='mode/landing'
+      renderItem={Item}
+      renderEmpty={<Empty title='暂无记录' />}
+    />
+  </TopView>
+}
+
+const Item = ({ item }) => {
+  return <Column className='gap-2 mt-3 mh-3 bg-white r-2 p-3 overflow-hidden'>
+    <Status horizontal='right' status={<Status.Common size='l' radius>{item.status}</Status.Common>} />
+    <Text size={4} bold>{item.type}</Text>
+    <Text className='mt-2'>申请时间：{item.created_at}</Text>
+    <Text>申请地区：{item.city}{item.region}</Text>
+    <Text className='mt-1'>备      注：{item.note}</Text>
+  </Column>
 }
 ```
+需要注意的是List组件需要先创建后使用，传入的`usePageData`，在后面的函数库中会有介绍
 
-## 新增功能介绍
+```js
+import { createDetail, createList } from '@/duxapp/components'
 
+const Detail = createDetail(useRequest)
+const List = createList(usePageData)
+
+export {
+  Detail,
+  List
+}
+
+```
+
+### Detail
+详情页面组件，与列表组件类似，详情页面也是集成了下拉刷新等功能的快速开发页面的组件，使用方法可以参考duxui示例代码库
+
+### Layout
+用于获取布局信息的组件，请参考duxui示例代码库
+
+### ActionSheet
+弹出列表组件
+
+## 函数库
 ### 路由
+在duxapp中跳转页面，请使用次模块提供的路由方法，路由方法经过封装，支持一下功能
 
-- 跳转路由直接返回数据到上一个页面
-
-```js
-// A页面
-const { backData } await nav('shop/goods/list')
-
-const data = await backData()
-
-console.log(data) // { test: 1 }
-
-// shop/goods/list页面
-nav('back:', { test: 1 })
-```
-
-- switch优化新增参数
+- 路由拦截器
+- 网址跳转
+- 地图跳转
+- 支持传递复杂对象到下一个页面
+- 跳转页面获取返回参数
+- 支持按协议进行跳转，方便后端进行返回跳转路由
 
 ```js
-// | 后面的是Tabbar组件指定的tabbarKey参数 商城端的tabbarKey是duxshop
-nav('switch:0|duxshop')
-```
+import { route, nav, useRoute } from '@/duxapp'
 
-- 监听路由跳转
+nav('duxapp/index/index') // 等同于
+route.push('duxapp/index/index')
 
-```js
-import { route }  from '@/duxapp/utils'
+nav('redirect:duxapp/index/index') // 等同于
+route.redirect('duxapp/index/index')
 
-// 比如在user模块监听路由跳转 判断是否需要登录 未登录的让其执行登录
-// 如果在这个地方跑出错误，则跳转不会成功
-// 注意这个函数的返回值是一个Promise
-route.onNavBefore(async pageRouter => {
-  if (pageRouter?.login && !this.isLogin()) {
-    // 执行登陆 登陆成功后继续跳转
-    await this.login()
-    // 让路由在停顿一会之后再继续执行
-    await asyncTimeOut(100)
-  }
-})
-```
-- HOOK
+nav('back:') // 等同于
+route.back()
 
-```js
-import { useRoute }  from '@/duxapp/utils'
-// 是用hook接收参数将有别于 Taro自带的接口参数方式
-// useRoute接收到的参数可以是任何类型的，比如函数
-const { path, params } = useRoute()
-```
-- 路由函数
+// 获取跳转参数
+const { backData } = await nav('duxapp/index/index')
+const pageData = await backData() // pageData 就是跳转过去的页面返回的参数
 
-```js
-import { route }  from '@/duxapp/utils'
+// 在跳转过去的页面执行
+nav('back:', { data: '这是返回上一个页面的参数' })
 
-route.push('shop/goods/list') // 等同于nav('shop/goods/list')
-route.redirect('shop/goods/list') // 等同于nav('redirect:shop/goods/list')
-route.back(1) // 等同于nav('back:1')
-```
-
-### 模块
-有些特殊情况下，你需要使用没有依赖的模块里面的内容，但是这种情况极少，也要避免这种情况出现，日过数显了可以使用app库
-
-- 注册模块
-请在每个app里面都调用一下注册app的函数，第二个参数是可选的
-
-```js
-import { app }  from '@/duxapp/utils'
-
-// 注册用户模块示例
-app.register('user', {
-  getUserId: user.getUserID,
-  isLoing: user.isLogin,
-  login: user.login,
-  getUserInfo: user.getUserInfo,
-  loginOut: user.loginOut,
-  onLoginStatus: user.onLoginStatus,
-  setInfo: user.setInfo,
-  setKey: user.setKey,
-  setLoginStatus: user.setLoginStatus
-})
-```
-- 使用没有依赖的模块的方法
-
-```js
-import { app }  from '@/duxapp/utils'
-
-if(app.isApp('user')) {
-  // 第一个参数模块名称 第二个参数方法名称 后面的参数将会传入到这个方法
-  app.method('user', 'getUserId')
-}
-```
-
-### 请求上传
-
-request已经移除了request、upload等函数，无法直接导入这些函数，而是提供了创建这些函数的函数。由于配合模块化，每个模块可能对接的是不同的后台，需要不同的请求参数
-
-- createRequest
-
-```js
-const { request, throttleRequest, middle } = createRequest({
-  // congig和之前的请求配置一致
-  config: {
-    request: {},
-    result: {},
-    upload: {}
-  },
-  // 默认使用的中间件（请求拦截）
-  middle: {
-
+// 路由拦截
+route.onNavBefore(async (params, option) => {
+  if(xxx) {
+    throw '抛出错误 会终止页面跳转'
   }
 })
 
-// middle是添加中间件的工具，使用示例如下，
-// 第二个参数是是否全局中间件，全局的话不管什么时候创建的request都会生效
-// middle有三处拦截器 before请求之前 result请求结果 error请求错误 如果在异步中抛出错误 request请求也会直接报错对应的错误
-
-// 如监听请求，在请求头里面设置用户鉴权信息
-middle.before(async params => {
-  let { token: userToken = '' } = shopUser.getUserInfo()
-  const token = Base64.stringify(hmacSHA1(config.appid + config.secret, config.secret))
-  // 开启调试
-  config.devOpen && (userToken = config.devToken)
-  params.header.Authorization = `Dux ${config.appid}:${token}:${userToken}`
-  return params
-})
-
-export {
-  request,
-  throttleRequest,
-  middle
-}
+// 路由钩子
+const { params } = useRoute()
+// params 页面参数
 ```
 
-- createUpload
-上传于request类似，区别在于上传的result中间件的参数是一个数组，需要处理每一个结果
+### 请求、上传
+请使用模块提供的请求方法，请求方法集成了请求拦截器、请求loading，请求错误提示，过快请求拦截等功能、具体用法参阅 duxcms模块
 
-```js
-const { upload, uploadTempFile, middle } = createRequest({
-  // congig和之前的请求配置一致
-  config: {
-    request: {},
-    result: {},
-    upload: {}
-  },
-  // 默认使用的中间件（请求拦截）
-  middle: {
-
-  }
-})
-
-export {
-  upload,
-  uploadTempFile,
-  middle
-}
-```
-
-### user模块
-用户模块用来管理用户信息，执行登录、退出登录等操作，需要用到用户信息的模块都需要依赖于user模块，user模块默认依赖于base模块。
-
-- 原理介绍  
-用户模块不提供具体的登录、注册找回密码登逻辑，只管理用户信息和登录状态  
-当一个模块需要管理用户信息时，需要在user模块注册对应的方法才能使用  
-user模块有两种模式，进来就要登录和在需要登录的地方才登录，默认是第二种
-
-- 注册一个用户管理  
-下面示例是注册商城系统的用户模块方法
+针对请求方法，扩展了请求钩子、分页请求钩子，传入的request参数是通过创建请求函数创建的
 
 ```jsx
 
-// 登录组件
-const UserLogin = ({
-  // start强制登录页面 login一般登录页面
-  type,
-  // 登录成功回调
-  onLogin
-}) => {
 
-  return <View onClick={() => onLogin({
-    // 登录类型 account账号登录 weapp小程序登录 wechat微信h登录 wechatApp app端微信登录
-    type,
-    // 用户信息
-    data
-  })}>登录</View>
+const { request, throttleRequest, middle: requestMiddle } = createRequest(duxcmsRequestConfig)
+
+const { upload, uploadTempFile, middle: uploadMiddle } = createUpload(duxcmsRequestConfig)
+
+const { useRequest, usePageData } = createRequestHooks(request)
+
+// 请求使用示例
+const res = await request('content/article')
+const res = await request({
+  url: 'content/article',
+  method: 'POST',
+  loading: true,
+  toast: true
+})
+// 上传使用示例
+const urls = upload('image', { count: 1 })
+const urls = upload('video')
+// 请求钩子
+const [data] = useRequest('content/article')
+const [data] = useRequest({
+  url: 'content/article',
+  method: 'POST',
+  loading: true,
+  toast: true
+})
+```
+
+### 全局用户配置
+用户读取用户的配置文件内容，仅duxapp模块中才会提供次配置的导出
+
+```js
+import { userConfig } from '@/duxapp'
+
+console.log(userConfig.option.duxapp)
+```
+
+### 全局状态
+
+```jsx
+import { creatGlobalState, contextState } from '@/duxapp'
+
+/** APP全局状态 */
+const globalState = creatGlobalState({ text: '默认值' })
+
+// 任何地方设置值
+globalState.setState({ text: '设置的值' })
+
+// 在组件或者hook中取值
+const data = globalState.useState()
+
+/** 局部状态 */
+// 在contextState.Provider范围内的组件将共享状态值和设置状态值的函数
+const Top = () => {
+  return <contextState.Provider>
+    <Child1 />
+    <Child2 />
+  </contextState.Provider>
 }
 
-user.register('duxshop', {
-  // 登录页面组件
-  UserLogin,
-  // 当前是否开启了调试模式
-  devOpen: config.devOpen,
-  // 用于判断是否登录的方法
-  isLogin: data => !!data?.token,
-  // 用户用户id的回调
-  getUserID: data => data?.user_id,
-  // 获取h5端的登录地址
-  getH5WechatLoginUrl: async () => {
-    const onlineConfig = await getConfig()
-    const { loginUrl } = onlineConfig.wechat
-    return loginUrl
+const Child1 = () => {
+  const [data, setData] = contextState.useState()
+}
+
+const Child2 = () => {
+  const [data, setData] = contextState.useState()
+}
+```
+
+### 字体
+集成了一个支持多端的图标字体功能，下面是一个集成字体图标的方法示例
+
+```js
+import { Text } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+import { useMemo } from 'react'
+import { font } from '@/duxapp'
+import icons from './icons.json'
+import './index.scss'
+
+font.load('BaseIcon', 'https://pictcdn.client.jujiang.me/fonts/BaseIcon.1700126329540.ttf')
+
+export const BaseIcon = ({ name, color, size, style, className, ...props }) => {
+
+  const _style = useMemo(() => {
+    const sty = { ...style }
+    if (color) {
+      sty.color = color
+    }
+    if (size) {
+      sty.fontSize = Taro.pxTransform(size)
+    }
+    return sty
+  }, [color, size, style])
+
+  if (!icons[name]) {
+    return console.log(`BaseIcon的${name}图标不存在`)
   }
-})
+
+  const status = font.useFont('BaseIcon')
+
+  if (!status) {
+    return null
+  }
+
+  return <Text
+    className={`BaseIcon${className ? ' ' + className : ''}`}
+    style={_style}
+    {...props}
+  >
+    {String.fromCharCode(icons[name])}
+  </Text>
+}
+
 ```
 
-- 配置  
-当有多个模块都注册了登录功能，可以通过配置指定默认使用哪个，具体是配置duxapp.js文件中的 `option.user.use`  
-如果要开启强制登录模式，请配置 `openPages` 在数组中添加一项 `user/auth/start`
+### 经纬度相关
+- 集成个 wgs85 gcj02 bd09各个坐标系之间的转换功能
+- 坐标距离计算
+- 获取当前GPS坐标函数
 
+### 颜色相关
+- 颜色加深
+- 颜色减淡
+- 颜色转换为rbg参数
 
-- HOOK
+### 数据存储(ObjectManage)
+提供了数据本地缓存、数据调用钩子，这是一个类，需要new，或者扩展此类进行使用  
 
+例如存储用户信息到本地，并且通过hook能获取到存储的数据，而且能设置是用户信息，并且这个钩子将是全局的，任何地方都能调用到存储的用户信息
+
+### 日期相关
+请参考 dayjs 文档
+
+### 其他工具
+- toast 显示一个轻提示
+- isIphoneX 判断是不是有刘海的机型
+- asyncTimeOut 倒计时定时器的异步封装
+- getPlatform 获取当前平台标识
+- stopPropagation 防止事件穿透的函数
+- px Taro.pxTransform 的缩写版，且支持缓存
+
+## 主题
+这些是duxapp模块的主题配置内容，你可以将它配置在用户配置用，让不同的应用呈现不同的效果
 ```js
-// info就是登录的时候的用户信息
-// user同user工具库
-const [info, loginStatus, user] = user.useUserInfo('duxshop')
+const config = {
+  // General
+  primaryColor: '#337ab7', // 主色
+  secondaryColor: '#5bc0de', // 辅色
+  successColor: '#34a853',
+  dangerColor: '#ea4335',
+  warningColor: '#fbbc05',
+  pageColor: '#fafbf8',
+
+  //用户自定义颜色1
+  customColor1: '#337ab7',
+  customColor2: '#337ab7',
+  customColor3: '#337ab7',
+
+  // 文本颜色 从暗色到亮色
+  textColor1: '#373D52',
+  textColor2: '#73778E',
+  textColor3: '#A1A6B6',
+  textColor4: '#FFF',
+
+  // 文本尺寸 从小到大
+  textSize1: 24,
+  textSize2: 26,
+  textSize3: 28,
+  textSize4: 30,
+  textSize5: 32,
+  textSize6: 34,
+  textSize7: 36,
+
+  header: {
+    color: '#fff', // 仅支持rgb hex值，请勿使用纯单词 设置为数组将显示一个渐变按钮
+    textColor: '#000', // 文本颜色
+    showWechat: false, // 微信公众号是否显示header
+    showWap: true, // h5是否显示header
+  }
+}
 ```
 
-- user工具库
+如何使用主题配置
 
-```js
-import { user } from '@/user/utils'
+- 在scss文件中
 
-// 获取的用户信息
-user.getUserInfo()
+```scss
+color: $duxappPrimaryColor;
+color: $duxappSecondaryColor;
+color: $duxappSuccessColor;
+color: $duxappDangerColor;
 
-// 指定获取注册的用户信息
-user.getUserInfo('duxshop')
+fontSize: $duxappTextSize1;
+```
+- 在jsx中
 
-// 设置用户信息 第二个可省略
-user.setInfo({avatar: ''}, 'duxapp')
+```jsx
+import { duxappTheme } from '@/duxapp'
 
-// 设置单个字段的用户信息 第三个参数可省略
-user.setKey('avatar', '', 'duxapp')
+duxappTheme.primaryColor
+duxappTheme.secondaryColor
+duxappTheme.textColor1
 
-// 同步放回用户是否登录 和以前的 isLogin功能一致
-user.isLogin()
+```
+你也可以给你的模块定制自己的主题，请参考duxapp模块的主题功能
 
-// 去登录 和以前的login功能一致
-user.login()
+## 全局样式
+为了快速布局，duxapp提供了常见的样式，这样可以方便你快速完成页面的编写，而无需编写 scss 文件，下面这样样式你可以在任何地方进行引用
 
-// 退出登录 和以前的loginOut功能一致
-user.loginOut()
+```scss
 
-// 获取用户id
-user.getUserID()
+/*  #ifndef rn h5  */
+page {
+  height: 100vh;
+}
 
-// 监听用户状态变化 和之前的onUserStatus类似
-const { remove } = user.onLoginStatus(status => {
-  // status true 登录 false 退出登录
-  // 如果用户是登录的状态下执行监听 默认会调用一次status 为 true
-})
-// 移除监听
-remove()
+/*  #endif  */
+
+/*  #ifdef h5  */
+.taro_page {
+  height: 100vh;
+}
+
+/*  #endif  */
+
+
+/*  #ifdef h5  */
+taro-view-core {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-style: solid;
+  border-width: 0;
+}
+input,
+textarea,
+taro-view-core {
+  box-sizing: border-box;
+}
+taro-view-core,
+taro-text-core {
+  line-height: 1;
+}
+taro-image-core {
+  width: auto;
+  height: auto;
+}
+/*  #endif  */
+/*  #ifndef rn h5  */
+view {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-style: solid;
+  border-width: 0;
+}
+input,
+textarea,
+view {
+  box-sizing: border-box;
+}
+view,
+text {
+  line-height: 1;
+}
+/*  #endif  */
+
+/*  #ifdef h5  */
+taro-input-core {
+  position: relative;
+
+  input {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+}
+
+/*  #endif  */
+
+/*  #ifdef weapp  */
+.button-clean {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-left: initial;
+  margin-right: initial;
+  padding-left: initial;
+  padding-right: initial;
+  line-height: initial;
+  font-size: initial;
+  background-color: initial;
+  border: initial;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+  color: transparent;
+
+  &::after {
+    border: none;
+  }
+}
+
+/*  #endif  */
+
+.bg-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* overflow */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* 定位 */
+.absolute {
+  position: absolute;
+}
+
+.inset-0 {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+/* z-index */
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.z-2 {
+  z-index: 2;
+}
+
+/* flex */
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.flex-shrink {
+  flex-shrink: 0;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.content-center {
+  align-content: center;
+}
+
+.content-start {
+  align-content: flex-start;
+}
+
+.content-end {
+  align-content: flex-end;
+}
+
+.content-between {
+  align-content: space-between;
+}
+
+.content-around {
+  align-content: space-around;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-baseline {
+  align-items: baseline;
+}
+
+.self-start {
+  align-self: flex-start;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.self-stretch {
+  align-self: stretch;
+}
+
+.self-baseline {
+  align-self: baseline;
+}
+
+/* size */
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-0 {
+  width: 0;
+}
+
+.h-0 {
+  height: 0;
+}
+
+/* 斜体 */
+.italic {
+  font-style: italic;
+}
+
+/* 加粗 */
+.bold {
+  font-weight: bold;
+}
+
+/* 文本对齐 */
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+/* 文本颜色 */
+.text-transparent {
+  color: transparent;
+}
+
+.text-black {
+  color: #000;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-c1 {
+  color: $duxappTextColor1;
+}
+
+.text-c2 {
+  color: $duxappTextColor2;
+}
+
+.text-c3 {
+  color: $duxappTextColor3;
+}
+
+.text-c4 {
+  color: $duxappTextColor4;
+}
+
+.text-primary {
+  color: $duxappPrimaryColor;
+}
+
+.text-secondary {
+  color: $duxappSecondaryColor;
+}
+
+.text-success {
+  color: $duxappSuccessColor;
+}
+
+.text-danger {
+  color: $duxappDangerColor;
+}
+
+.text-warning {
+  color: $duxappWarningColor;
+}
+
+// 文本尺寸
+.text-s1 {
+  font-size: $duxappTextSize1;
+}
+
+.text-s2 {
+  font-size: $duxappTextSize2;
+}
+
+.text-s3 {
+  font-size: $duxappTextSize3;
+}
+
+.text-s4 {
+  font-size: $duxappTextSize4;
+}
+
+.text-s5 {
+  font-size: $duxappTextSize5;
+}
+
+.text-s6 {
+  font-size: $duxappTextSize6;
+}
+
+.text-s7 {
+  font-size: $duxappTextSize7;
+}
+
+/* 文本装饰 */
+.underline {
+  text-decoration: underline;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+/* 文本转换 */
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+/* 边框颜色 */
+.border-black {
+  border-color: #000;
+}
+
+.border-white {
+  border-color: #fff;
+}
+
+.border-primary {
+  border-color: $duxappPrimaryColor;
+}
+
+.border-secondary {
+  border-color: $duxappSecondaryColor;
+}
+
+.border-success {
+  border-color: $duxappSuccessColor;
+}
+
+.border-danger {
+  border-color: $duxappDangerColor;
+}
+
+.border-warning {
+  border-color: $duxappWarningColor;
+}
+
+// 边框宽度
+.border-w1 {
+  border-width: 2px;
+}
+
+/* 边框样式 */
+.border-dotted {
+  border-style: dotted;
+}
+
+.border-dashed {
+  border-style: dashed;
+}
+
+// 内边距
+.p-1 {
+  padding: 8px;
+}
+
+.p-2 {
+  padding: 16px;
+}
+
+.p-3 {
+  padding: 24px;
+}
+
+.pv-1 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.pv-2 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.pv-3 {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.ph-1 {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.ph-2 {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.ph-3 {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+// 外边距
+.m-1 {
+  margin: 8px;
+}
+
+.m-2 {
+  margin: 16px;
+}
+
+.m-3 {
+  margin: 24px;
+}
+
+.mv-1 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.mv-2 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.mv-3 {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.mt-1 {
+  margin-top: 8px;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.mt-3 {
+  margin-top: 24px;
+}
+
+.mt-3 {
+  margin-top: 32px;
+}
+
+.mh-1 {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.mh-2 {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.mh-3 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+// 圆角
+.r-1 {
+  border-radius: 8px;
+}
+
+.r-2 {
+  border-radius: 16px;
+}
+
+.r-3 {
+  border-radius: 24px;
+}
+
+.r-max {
+  border-radius: 750px;
+}
+
+.rt-1 {
+  border-radius: 8px 8px 0 0;
+}
+
+.rt-2 {
+  border-radius: 16px 16px 0 0;
+}
+
+.rt-3 {
+  border-radius: 24px 24px 0 0;
+}
+
+.rb-1 {
+  border-radius: 0 0 8px 8px;
+}
+
+.rb-2 {
+  border-radius: 0 0 16px 16px;
+}
+
+.rb-3 {
+  border-radius: 0 0 24px 24px;
+}
+
+// 间距
+.gap-1 {
+  gap: 8px;
+}
+
+.gap-2 {
+  gap: 16px;
+}
+
+.gap-3 {
+  gap: 24px;
+}
+
+.gap-4 {
+  gap: 32px;
+}
+
+// 背景
+.bg-white {
+  background-color: white;
+}
+
+.bg-primary {
+  background-color: $duxappPrimaryColor;
+}
+
+.bg-secondary {
+  background-color: $duxappSecondaryColor;
+}
+
+.bg-success {
+  background-color: $duxappSuccessColor;
+}
+
+.bg-danger {
+  background-color: $duxappDangerColor;
+}
+
+.bg-warning {
+  background-color: $duxappWarningColor;
+}
+
+.bg-page {
+  background-color: $duxappPageColor;
+}
+
+// 其他
+.square {
+  aspect-ratio: 1;
+}
+
 
 ```

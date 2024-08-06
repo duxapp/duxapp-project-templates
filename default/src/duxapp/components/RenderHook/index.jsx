@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { Fragment, useMemo } from 'react'
 
 export class RenderHook {
 
@@ -57,12 +57,14 @@ export class RenderHook {
           (item, index) => {
             if (typeof item === 'function') {
               const Item = item
-              return <Item key={index} {...option} />
+              return <Item key={index} {...option}>{children}</Item>
             } else if (item instanceof Array && typeof item[0] === 'function') {
               const [Item, props] = item
-              return <Item key={index} {...props} {...option} />
+              return <Item key={index} {...props} {...option}>{children}</Item>
             } else {
-              return item
+              return <Fragment key={index}>
+                {item}
+              </Fragment>
             }
           }
         ),

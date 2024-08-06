@@ -34,8 +34,8 @@ export class PullView extends Component {
 
   render() {
     const { show } = this.state
-    const { side = 'bottom', style = {}, overlayOpacity = 0.5, children, masking = true } = this.props
-    return <Absolute>
+    const { side = 'bottom', style = {}, overlayOpacity = 0.5, children, masking = true, group } = this.props
+    return <Absolute group={group}>
       {masking && <View
         className='PullView'
         style={{ backgroundColor: show ? `rgba(0, 0, 0, ${overlayOpacity})` : 'rgba(0, 0, 0, 0)' }}

@@ -6,7 +6,7 @@ import { bdEncrypt } from '../map'
 import Map from '../map/map'
 import { QuickEvent } from '../QuickEvent'
 import { deepCopy } from '../object'
-import { asyncTimeOut } from '../util'
+import { asyncTimeOut, getPlatform } from '../util'
 
 export class PageBackData {
 
@@ -316,10 +316,29 @@ class Route {
             name
           })
         } else if (env === 'h5') {
-          const res = bdEncrypt(latitude, longitude)
-          nav('duxapp/webview/index', {
-            url: `http://api.map.baidu.com/geocoder?location=${res.lat},${res.lon}&output=html&src=com.duxapp`
-          })
+          if (getPlatform() === 'wechat' && window.WeixinJSBridge) {
+            window.WeixinJSBridge.invoke(
+              'openLocation', {
+              latitude,
+              longitude,
+              name,
+              address,
+              scale: 28,
+              infoUrl: ''
+            }, openRes => {
+              if (openRes.err_msg !== 'open_location:ok') {
+                const res = bdEncrypt(latitude, longitude)
+                nav('duxapp/webview/index', {
+                  url: `https://api.map.baidu.com/geocoder?location=${res.lat},${res.lon}&output=html&src=com.duxapp`
+                })
+              }
+            })
+          } else {
+            const res = bdEncrypt(latitude, longitude)
+            nav('duxapp/webview/index', {
+              url: `https://api.map.baidu.com/geocoder?location=${res.lat},${res.lon}&output=html&src=com.duxapp`
+            })
+          }
         } else if (env === 'rn') {
           const res = bdEncrypt(latitude, longitude)
           Map.openMap({

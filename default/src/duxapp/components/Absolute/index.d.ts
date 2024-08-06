@@ -1,6 +1,10 @@
 import { LegacyRef, ComponentType } from 'react'
 
 interface AbsoluteProps {
+  /**
+   * 分组 同一个分组的弹框将会以队列的形式显示
+   */
+  group?: string
   /** 子元素 */
   children: ReactNode
 }

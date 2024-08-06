@@ -17,6 +17,10 @@ export function createRequestHooks(request: () => Promist<any>): {
        */
       detailCallback?: (result: object) => object
       /**
+       * 默认数据
+       */
+      defaultData?: any
+      /**
        * 在返回的数据中用这个key取值
        */
       field?: string
@@ -48,13 +52,13 @@ export function createRequestHooks(request: () => Promist<any>): {
      * 重新加载数据
      * @returns
      */
-    reload: () => void
+    reload: () => Promise<{}>
     /**
      * 同useState()返回的的第二个参数
      * @param value
      * @returns
      */
-    set: (value: any | ((old: any) => any)) => void
+    setData: (value: any | ((old: any) => any)) => void
   }]
 
   usePageData: (
@@ -80,6 +84,10 @@ export function createRequestHooks(request: () => Promist<any>): {
        * 是否准备好，如果此参数为false，将不会发起请求
        */
       ready?: boolean
+      /**
+       * 默认列表数据
+       */
+      defaultListData?: any[]
     }
   ) => [any[], {
     /**
@@ -99,6 +107,12 @@ export function createRequestHooks(request: () => Promist<any>): {
      * 跳转到第一个页并重新加载数据
      * @returns
      */
-    reload: () => void
+    reload: () => Promise<{}>
+
+    /**
+     * 设置列表数据 useState 返回的第二个值
+     * @returns
+     */
+    setList: (value: any[] | ((oldState: any[]) => any[])) => void
   }]
 }

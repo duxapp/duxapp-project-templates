@@ -26,13 +26,10 @@ export const createRequestHooks = request => {
             res = await res
           }
         }
-        if (_config.current?.field) {
-          setData(res[_config.current.field])
-          requestCache.setCache(_option, res[_config.current.field])
-        } else {
-          setData(res)
-          requestCache.setCache(_option, res)
-        }
+        const _data = _config.current?.field ? res[_config.current.field] : res
+        setData(_data)
+        requestCache.setCache(_option, _data)
+        return _data
       }, [_option])
 
       const reload = useCallback(() => {
@@ -43,10 +40,11 @@ export const createRequestHooks = request => {
         _config.current.status = true
         return request(_option)
           .then(res => {
-            resultAction(res)
+            res = resultAction(res)
             _config.current.status = false
             init.current = true
             setStatus(false)
+            return res
           })
           .catch(err => {
             if (_config.current?.onError) {
@@ -88,7 +86,7 @@ export const createRequestHooks = request => {
       const currentState = useRef({ requestOption, config, page: 1, loadEnd: false, loading: false })
       currentState.current.config = config
 
-      const [list, setList] = useState(config?.listData ?? (config?.cache && requestCache.getCache(option)) ?? [])
+      const [list, setList] = useState(config?.defaultListData ?? (config?.cache && requestCache.getCache(option)) ?? [])
 
       const [loading, setLoading] = useState(false)
 
@@ -99,9 +97,6 @@ export const createRequestHooks = request => {
       const getList = useCallback(() => {
         const state = currentState.current
         // 使用传入的数据 不通过接口加载
-        if (state.config?.listData) {
-          return Promise.reject('使用本地数据 无需请求')
-        }
         state.loading = true
         setLoading(true)
         if (state.page === 1) {
@@ -145,6 +140,7 @@ export const createRequestHooks = request => {
           state.loading = false
           setLoading(false)
           setRefresh(false)
+          return _list
         }).catch(() => {
           state.loading = false
           setLoading(false)

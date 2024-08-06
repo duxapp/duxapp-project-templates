@@ -36,6 +36,7 @@ export const createList = usePageData => {
     reloadForShow,
     url,
     data,
+    requestOption,
     option,
     renderHeader,
     renderFooter,
@@ -57,14 +58,20 @@ export const createList = usePageData => {
     ...props
   }) => {
 
-    const [list, action] = usePageData({ url, data }, { field: listField, listCallback, cache, ...option })
+    const [list, action] = usePageData({ url, data, ...requestOption }, { field: listField, listCallback, cache, ...option })
     useDidShow(() => {
+      if (option?.ready === false) {
+        return
+      }
       // 在上面页面关掉的时候刷新数据
       reloadForShow === true && action.reload()
     })
 
     // 如果传入TabBar组件，则使用TabBar组件的显示hook加载数据
     reloadForShow?.useShow?.(() => {
+      if (option?.ready === false) {
+        return
+      }
       action.reload()
     })
 

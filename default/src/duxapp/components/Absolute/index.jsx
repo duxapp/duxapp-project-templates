@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { TopView } from '../TopView'
 
-export const Absolute = ({ children }) => {
+export const Absolute = ({ group, children }) => {
   const action = useRef(null)
 
   useEffect(() => {
@@ -23,10 +23,10 @@ export const Absolute = ({ children }) => {
       if (!action.current) {
         action.current = TopView.add(children)
       } else {
-        action.current.update(children)
+        action.current.update(children, { group })
       }
     }, 0)
-  }, [children])
+  }, [children, group])
 
   return null
 }

@@ -12,6 +12,48 @@ page {
 
 /*  #endif  */
 
+
+/*  #ifdef h5  */
+taro-view-core {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-style: solid;
+  border-width: 0;
+}
+input,
+textarea,
+taro-view-core {
+  box-sizing: border-box;
+}
+taro-view-core,
+taro-text-core {
+  line-height: 1;
+}
+taro-image-core {
+  width: auto;
+  height: auto;
+}
+/*  #endif  */
+/*  #ifndef rn h5  */
+view {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-style: solid;
+  border-width: 0;
+}
+input,
+textarea,
+view {
+  box-sizing: border-box;
+}
+view,
+text {
+  line-height: 1;
+}
+/*  #endif  */
+
 /*  #ifdef h5  */
 taro-input-core {
   position: relative;
@@ -101,6 +143,10 @@ taro-input-core {
 
 .z-1 {
   z-index: 1;
+}
+
+.z-2 {
+  z-index: 2;
 }
 
 /* flex */
@@ -225,35 +271,6 @@ taro-input-core {
   height: 0;
 }
 
-/* 文本 */
-.text-24 {
-  font-size: 24px;
-}
-
-.text-26 {
-  font-size: 26px;
-}
-
-.text-28 {
-  font-size: 28px;
-}
-
-.text-30 {
-  font-size: 30px;
-}
-
-.text-32 {
-  font-size: 32px;
-}
-
-.text-36 {
-  font-size: 32px;
-}
-
-.text-48 {
-  font-size: 48px;
-}
-
 /* 斜体 */
 .italic {
   font-style: italic;
@@ -294,6 +311,71 @@ taro-input-core {
   color: #fff;
 }
 
+.text-c1 {
+  color: $duxappTextColor1;
+}
+
+.text-c2 {
+  color: $duxappTextColor2;
+}
+
+.text-c3 {
+  color: $duxappTextColor3;
+}
+
+.text-c4 {
+  color: $duxappTextColor4;
+}
+
+.text-primary {
+  color: $duxappPrimaryColor;
+}
+
+.text-secondary {
+  color: $duxappSecondaryColor;
+}
+
+.text-success {
+  color: $duxappSuccessColor;
+}
+
+.text-danger {
+  color: $duxappDangerColor;
+}
+
+.text-warning {
+  color: $duxappWarningColor;
+}
+
+// 文本尺寸
+.text-s1 {
+  font-size: $duxappTextSize1;
+}
+
+.text-s2 {
+  font-size: $duxappTextSize2;
+}
+
+.text-s3 {
+  font-size: $duxappTextSize3;
+}
+
+.text-s4 {
+  font-size: $duxappTextSize4;
+}
+
+.text-s5 {
+  font-size: $duxappTextSize5;
+}
+
+.text-s6 {
+  font-size: $duxappTextSize6;
+}
+
+.text-s7 {
+  font-size: $duxappTextSize7;
+}
+
 /* 文本装饰 */
 .underline {
   text-decoration: underline;
@@ -323,6 +405,31 @@ taro-input-core {
 
 .border-white {
   border-color: #fff;
+}
+
+.border-primary {
+  border-color: $duxappPrimaryColor;
+}
+
+.border-secondary {
+  border-color: $duxappSecondaryColor;
+}
+
+.border-success {
+  border-color: $duxappSuccessColor;
+}
+
+.border-danger {
+  border-color: $duxappDangerColor;
+}
+
+.border-warning {
+  border-color: $duxappWarningColor;
+}
+
+// 边框宽度
+.border-w1 {
+  border-width: 2px;
 }
 
 /* 边框样式 */
@@ -417,6 +524,10 @@ taro-input-core {
   margin-top: 24px;
 }
 
+.mt-3 {
+  margin-top: 32px;
+}
+
 .mh-1 {
   margin-left: 8px;
   margin-right: 8px;
@@ -477,12 +588,15 @@ taro-input-core {
 .gap-1 {
   gap: 8px;
 }
+
 .gap-2 {
   gap: 16px;
 }
+
 .gap-3 {
   gap: 24px;
 }
+
 .gap-4 {
   gap: 32px;
 }
@@ -498,6 +612,18 @@ taro-input-core {
 
 .bg-secondary {
   background-color: $duxappSecondaryColor;
+}
+
+.bg-success {
+  background-color: $duxappSuccessColor;
+}
+
+.bg-danger {
+  background-color: $duxappDangerColor;
+}
+
+.bg-warning {
+  background-color: $duxappWarningColor;
 }
 
 .bg-page {

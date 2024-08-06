@@ -33,6 +33,10 @@ interface PullViewProps {
    * 当关闭遮罩层时，无法点击遮罩层进行关闭，需要手动关闭弹框
    */
   masking?: boolean
+  /**
+   * 分组 同一个分组的弹框将会以队列的形式显示
+   */
+  group?: string
   /** 弹出层内层样式 */
   style?: CSSProperties
   /** 点击非内容区域的关闭事件 */

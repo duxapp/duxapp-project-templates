@@ -13,6 +13,7 @@ export const PullView = forwardRef(({
   onClose,
   style,
   overlayOpacity = 0.5,
+  group,
   children
 }, ref) => {
 
@@ -95,7 +96,7 @@ export const PullView = forwardRef(({
 
   const translate = siteTranslates[side]
 
-  return <Absolute>
+  return <Absolute group={group}>
     {masking && <Animated.View
       className='PullView'
       style={{
