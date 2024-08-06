@@ -44,12 +44,7 @@ const config = {
       }
     }
   },
-  qiniu: {
-    accessKey: 'tddCAA-Vehph1waxeIZcMIqrFIVzghMBfjz9KGen',
-    secretKey: '7LYQnMUUXahg90EvlB2UdNICUpjyqZu5odWbfokS',
-    bucket: 'pict-cdn',
-    cdn: 'https://pictcdn.client.jujiang.me'
-  },
+  qiniu: {},
   // 模块选项
   option: {
     /**
@@ -63,17 +58,7 @@ const config = {
      * }
      */
     codepush: {
-      common: {
-        token: '09a115a7a099eafe25f32fcf5281ac257aa25aff',
-        account: 'xj908634674-live.com',
-        version: '^1.0.0'
-      },
-      android: {
-        name: 'cmsshop-android'
-      },
-      ios: {
-        name: 'cmsshop-ios'
-      }
+      common: {}
     },
     wechat: {
       appid: ''

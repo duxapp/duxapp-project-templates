@@ -1,0 +1,16 @@
+{
+  "name": "echarts",
+  "description": "echarts百度图表 支持多端",
+  "version": "1.0.4",
+  "dependencies": [
+    "duxapp"
+  ],
+  "npm": {
+    "dependencies": {
+      "@wuba/react-native-echarts": "1.2.5",
+      "echarts": "^5.4.2",
+      "taro-charts": "1.0.6"
+    }
+  },
+  "reactNativeDependencies": []
+}

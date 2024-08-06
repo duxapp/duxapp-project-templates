@@ -1,0 +1,24 @@
+diff --git a/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt b/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
+index 4d5d3e7..9eaa785 100644
+--- a/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
++++ b/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
+@@ -202,7 +202,8 @@ class ImagePickerModule : Module() {
+           if (permissionsResponse[Manifest.permission.CAMERA]?.status == PermissionsStatus.GRANTED) {
+             continuation.resume(Unit)
+           } else {
+-            continuation.resumeWithException(UserRejectedPermissionsException())
++            continuation.resume(Unit)
++            // continuation.resumeWithException(UserRejectedPermissionsException())
+           }
+         } else if (
+           permissionsResponse[Manifest.permission.WRITE_EXTERNAL_STORAGE]?.status == PermissionsStatus.GRANTED &&
+@@ -210,7 +211,8 @@ class ImagePickerModule : Module() {
+         ) {
+           continuation.resume(Unit)
+         } else {
+-          continuation.resumeWithException(UserRejectedPermissionsException())
++          continuation.resume(Unit)
++          // continuation.resumeWithException(UserRejectedPermissionsException())
+         }
+       },
+       Manifest.permission.WRITE_EXTERNAL_STORAGE.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU },
