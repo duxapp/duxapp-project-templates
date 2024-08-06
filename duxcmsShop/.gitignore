@@ -20,8 +20,8 @@ src/duxapp/config/userConfig.js
 /.node-version
 /index.js
 
-# /package.json
-# /yarn.lock
+/package.json
+/yarn.lock
 
 /babel.user.config.js
 
