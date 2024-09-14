@@ -1,7 +1,7 @@
 import { Component } from 'react'
-import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Animated, Easing, StyleSheet } from 'react-native'
+import { px } from '@/duxui/utils'
 
 export class Loading extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export class Loading extends Component {
 
   componentDidMount() {
     const { size = 52 } = this.props
-    this.getList(Taro.pxTransform(size))
+    this.getList(px(size))
     this.animate()
   }
 

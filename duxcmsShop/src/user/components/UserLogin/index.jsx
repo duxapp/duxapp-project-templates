@@ -1,5 +1,5 @@
 import { View } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import { getCurrentPages } from '@tarojs/taro'
 import { useCallback, useMemo, useEffect, useState } from 'react'
 import { user } from '@/user/utils'
 
@@ -53,7 +53,7 @@ export const UserLogin = (() => {
     Login: Page
   }) {
 
-    const pageLength = useMemo(() => Taro.getCurrentPages().length, [])
+    const pageLength = useMemo(() => getCurrentPages().length, [])
 
     const [load, setLoad] = useState(status) // 0加载中 1未登录 2已登录
 

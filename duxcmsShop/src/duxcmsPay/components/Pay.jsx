@@ -2,7 +2,7 @@ import { CmsIcon, duxappTheme, nav, request } from '@/duxcms'
 import { nativePay, payHook } from '@/duxcmsPay/utils'
 import { Column, InputCode, NumberKeyboard, PullView, Row, Text, TopView, confirm, loading, px } from '@/duxui'
 import { useCallback, useEffect } from 'react'
-import Taro from '@tarojs/taro'
+import { login } from '@tarojs/taro'
 
 const Select = ({ list, price, mask, onClose, onSelect }) => {
 
@@ -164,7 +164,7 @@ export const startPay = async ({
     const params = {}
     // 小程序微信支付 获取code给后端获取openid
     if (process.env.TARO_ENV === 'weapp' && type.includes('wechat')) {
-      params.code = (await Taro.login()).code
+      params.code = (await login()).code
     }
     // 微信h5端用接口获取openid传给支付接口
     if (process.env.TARO_ENV === 'h5' && type.includes('wechat')) {

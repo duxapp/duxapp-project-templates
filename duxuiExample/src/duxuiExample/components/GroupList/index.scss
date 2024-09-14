@@ -1,12 +1,13 @@
 .GroupList {
-  padding: 24px;
+  margin: 24px;
+  gap: 24px;
+
   &__title {
-    padding: 24px 0;
     font-size: 28px;
     color: #73778e;
   }
+
   &__desc {
-    padding: 8px 0;
     font-size: 24px;
     color: #73778e;
     line-height: 32px;

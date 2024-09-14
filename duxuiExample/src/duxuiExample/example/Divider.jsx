@@ -1,6 +1,5 @@
-import { Divider, Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
+import { Divider, Header, ScrollView, TopView, GroupList, px } from '@/duxuiExample'
 import { View } from '@tarojs/components'
-import Taro from '@tarojs/taro'
 import './Divider.scss'
 
 export default function DividerExample() {
@@ -14,7 +13,7 @@ export default function DividerExample() {
           </View>
         </GroupList.Item>
         <GroupList.Item title='竖向'>
-          <View className='divider-item' style={{ height: Taro.pxTransform(200), flexDirection: 'row' }}>
+          <View className='divider-item' style={{ height: px(200), flexDirection: 'row' }}>
             <Divider vertical />
           </View>
         </GroupList.Item>

@@ -2,6 +2,7 @@ import { ScrollView, Header, Row, nav, Column, px, Text, duxappTheme, Tab, Image
 import { CartManage, CmsIcon, HeaderSearch, List, NumInput, Price, orderCreate, usePageData, contextState } from '@/duxcmsOrder'
 import { useCallback, useEffect, useState } from 'react'
 import classNames from 'classnames'
+import sort from './images/sort.png'
 
 export const MallQuick = () => {
 
@@ -123,6 +124,8 @@ const Malls = ({ category }) => {
 
   const [select, setSelect] = useState(0)
 
+  const [order, setOrder] = useState('')
+
   return <Column style={{ width: px(550) }} className='gap-3'>
     {
       category.children.length > 0 && <Tab value={select} onChange={setSelect} scroll type='button' buttonRound className='mt-1'>
@@ -132,10 +135,27 @@ const Malls = ({ category }) => {
         }
       </Tab>
     }
+    <Row items='center' className='gap-3 mh-3 mt-3'>
+      <Text size={1} bold grow>全部</Text>
+      <Row items='center' onClick={() => setOrder(order === 'sale' ? '' : 'sale')}>
+        <Text size={1} {...order === 'sale' ? { type: 'primary' } : {}}>销量</Text>
+        <Image src={sort} style={{ width: px(32) }} square />
+      </Row>
+      <Row items='center' onClick={() => setOrder(order === 'price' ? '' : 'price')}>
+        <Text size={1} {...order === 'price' ? { type: 'primary' } : {}}>价格</Text>
+        <Image src={sort} style={{ width: px(32) }} square />
+      </Row>
+    </Row>
     <List
       url={`mall/mall?class=${select || category.id}`}
       renderItem={QuickMallItem}
       renderEmpty={<Empty title='此分类暂无商品' />}
+      data={{
+        ...(order === 'price' ?
+          { price_order: 'asc' } :
+          order === 'sale' ?
+            { order: 'sale' } : {})
+      }}
     />
   </Column>
 }
@@ -194,7 +214,7 @@ export const QuickMallItem = ({ item, index }) => {
               {item.min_price !== item.max_price && <Text size={7} type='danger' bold>-</Text>}
               {item.min_price !== item.max_price && <Price bold size={48} unit='' pointSize={1}>{item.max_price}</Price>}
             </Row>
-            <Text size={1} color={2}>库存: {+item.store}</Text>
+            {/* <Text size={1} color={2}>库存: {+item.store}</Text> */}
           </Column>
         </Row>
         <Column style={{ height: px(800) }}>
@@ -216,7 +236,7 @@ export const QuickMallItem = ({ item, index }) => {
                     <Text bold numberOfLines={2}>{sku.spec.join(' ')}</Text>
                     <Row className='gap-3' items='center'>
                       <Price size={5} unitSize={1}>{sku.price}</Price>
-                      <Text size={1} color={2}>库存：{sku.store}</Text>
+                      {/* <Text size={1} color={2}>库存：{sku.store}</Text> */}
                     </Row>
                   </Column>
                   {!cartSkuItem ?

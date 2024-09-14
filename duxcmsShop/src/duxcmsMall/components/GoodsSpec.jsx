@@ -1,10 +1,12 @@
 import { Column, Image, PullView, Row, Text, px, TopView, toast, Button, contextState, nav, duxappTheme, ScrollView, useRoute } from '@/duxui'
-import { Price, directBuy, orderCreate, cart, NumInput } from '@/duxcmsOrder'
+import { Price, directBuy, orderCreate, cart as cartDefault, NumInput } from '@/duxcmsOrder'
 import { useCallback, useMemo, useState, cloneElement } from 'react'
 import { Spec } from './Spec'
 import { mallHook } from '../utils'
 
 export const GoodsSpec = ({
+  data,
+  cart = cartDefault,
   spec,
   sku,
   value,
@@ -40,7 +42,7 @@ export const GoodsSpec = ({
     }
     onClose()
     cart.add(skuId, qty, params.mallType)
-  }, [onClose, params.mallType, qty, skuId])
+  }, [cart, onClose, params.mallType, qty, skuId])
 
   const buy = useCallback(async () => {
     if (!skuId) {
@@ -62,7 +64,7 @@ export const GoodsSpec = ({
       <Row items='center' className='gap-2'>
         <Image preview src={currentImage} square style={{ width: px(160) }} className='r-2' />
         <Column className='gap-2'>
-          <mallHook.Render mark='GoodsSpec.price' option={{ item, minPrice, maxPrice }}>
+          <mallHook.Render mark='GoodsSpec.price' option={{ data, item, minPrice, maxPrice }}>
             {
               item?.price ?
                 <Price bold size={48} unitSize={1} pointSize={1}>{item.price}</Price> :
@@ -73,7 +75,9 @@ export const GoodsSpec = ({
                 </Row>
             }
           </mallHook.Render>
-          <Text size={1} color={2}>库存: {item?.store ?? store}</Text>
+          <mallHook.Render mark='GoodsSpec.store' option={{ data, item, store }}>
+            <Text size={1} color={2}>库存: {item?.store ?? store}</Text>
+          </mallHook.Render>
         </Column>
       </Row>
       <Column style={{ height: px(800) }}>
@@ -87,10 +91,13 @@ export const GoodsSpec = ({
           </Column>
         </ScrollView>
       </Column>
-      <mallHook.Render mark='GoodsSpec.btns' option={{ showCart, showBuy, buy, add }}>
+      <mallHook.Render mark='GoodsSpec.btns' option={{ data, showCart, showBuy, buy, add, qty }}>
         <Row className='gap-3'>
           {showCart && <Button type='secondary' className='flex-grow' size='l' radiusType='round' onClick={add}>加入购物车</Button>}
-          {showBuy && <Button type='primary' className='flex-grow' size='l' radiusType='round' onClick={buy}>{typeof showBuy === 'string' ? showBuy : '立即购买'}</Button>}
+          {showBuy && <mallHook.Render mark='GoodsSpec.btns.buy' option={{ data, showCart, showBuy, buy, add, qty }}>
+            <Button type='primary' className='flex-grow' size='l' radiusType='round' onClick={buy}>{typeof showBuy === 'string' ? showBuy : '立即购买'}</Button>
+          </mallHook.Render>
+          }
         </Row>
       </mallHook.Render>
     </Column>
@@ -98,24 +105,27 @@ export const GoodsSpec = ({
 }
 
 const GoodsSpecButton = ({
+  cart,
   type,
   children
 }) => {
 
   const data = contextState.useState()
 
-  return cloneElement(children, { onClick: () => show(data, type) })
+  return cloneElement(children, { onClick: () => show(data, type, cart) })
 }
 
 GoodsSpec.Button = GoodsSpecButton
 
-const show = ([data, setData], type) => {
+const show = ([data, setData], type, cart) => {
   if (!data.id) {
     return toast('请传入数据')
   }
   const { remove } = TopView.add([
     GoodsSpec,
     {
+      data,
+      cart,
       spec: data.spec,
       sku: data.sku,
       store: data.store,

@@ -49,8 +49,9 @@ const Footer = () => {
   const statusData = data.id ? order.getStatus({ ...data, goods: data.goods }).statusData : {}
 
   return <Row items='center' justify='end' className='p-3 bg-white gap-3'>
-    {/* <Button onClick={() => nav('customerService/chat/detail')}>联系客服</Button> */}
-    {statusData.btns?.includes('express') && <Button onClick={() => order.express(params.id)}>查看物流</Button>}
+    <orderHook.Render mark='detail.footer.express'>
+      {statusData.btns?.includes('express') && <Button onClick={() => order.express(params.id)}>查看物流</Button>}
+    </orderHook.Render>
     {statusData.btns?.includes('refund') && <Button onClick={() => order.refund(params.id).then(action.reload)}>售后</Button>}
     {statusData.btns?.includes('cancel') && <Button onClick={() => order.cancel(params.id).then(action.reload)}>取消订单</Button>}
     {statusData.btns?.includes('pay') && <Button type='primary' onClick={() => order.pay(params.id).then(action.reload)}>去支付</Button>}

@@ -36,7 +36,7 @@ const config = {
        * 3.6.7版本小程序命令行封装报错，暂时关掉此选项解决
        */
       enable: false,
-      exclude: ['taro-design']
+      exclude: []
     }
   },
   cache: {
@@ -76,7 +76,7 @@ const config = {
     webpackChain(chain) {
       chain.resolve.plugin('MultiPlatformPlugin')
         .tap(args => {
-          args[2]['include'] = ['taro-design']
+          args[2]['include'] = []
           return args
         })
     },
@@ -131,7 +131,7 @@ const config = {
       }
     },
     resolve: {
-      include: ['taro-design']
+      include: []
     }
   }
 }

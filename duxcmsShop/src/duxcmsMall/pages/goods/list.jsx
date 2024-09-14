@@ -62,7 +62,9 @@ const Item = ({ item }) => {
       <Text numberOfLines={2}>{item.title}</Text>
       {!!item.activity && <Text size={1} color={2}>{item.activity}</Text>}
       <Row className='gap-1' items='center'>
-        <Price size={6} bold>{item.sell_price}</Price>
+        <mallHook.Render mark='goods.list.item.sellPrice' option={{ item }}>
+          <Price size={6} bold>{item.sell_price}</Price>
+        </mallHook.Render>
         <Price delete color={3}>{item.market_price}</Price>
       </Row>
     </Column>

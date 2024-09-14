@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import { showToast } from '@tarojs/taro'
 import { request, nav, asyncTimeOut } from '@/duxcmsUser'
 import { Header, TopView, UploadImages, ScrollView, Form, Button, Textarea, loading, Column } from '@/duxui'
 import { useCallback } from 'react'
@@ -13,7 +13,7 @@ export default function Feedback() {
       loading,
       toast: true
     })
-    Taro.showToast({
+    showToast({
       title: '提交成功',
     })
     await asyncTimeOut(800)

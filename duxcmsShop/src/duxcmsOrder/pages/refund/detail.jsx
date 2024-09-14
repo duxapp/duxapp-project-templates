@@ -45,7 +45,7 @@ export const RefundTopInfo = () => {
       <Text size={7} color={4} bold>{info.state_name}</Text>
     </Column>
     <Card className='gap-2' margin disableMarginBottom>
-      <Text>退款总金额：￥{(+info.price + +info.freight) || 0}</Text>
+      <Text>退款总金额：￥{+info.price || 0}</Text>
     </Card>
   </Column>
 }

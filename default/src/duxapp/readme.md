@@ -268,7 +268,7 @@ export const BaseIcon = ({ name, color, size, style, className, ...props }) => {
       sty.color = color
     }
     if (size) {
-      sty.fontSize = Taro.pxTransform(size)
+      sty.fontSize = px(size)
     }
     return sty
   }, [color, size, style])

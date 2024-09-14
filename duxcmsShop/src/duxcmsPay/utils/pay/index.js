@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import { requestPayment } from '@tarojs/taro'
 import { toast } from '@/duxapp'
 
 /**
@@ -10,7 +10,7 @@ export const nativePay = async (type, option) => {
   if (!type.includes?.('wechat')) {
     throw '不支持的支付方式:' + type
   }
-  const weappPayInfo = await Taro.requestPayment({
+  const weappPayInfo = await requestPayment({
     timeStamp: option.timeStamp,         //时间戳，自1970年以来的秒数
     nonceStr: option.nonceStr, //随机串
     package: option.package,

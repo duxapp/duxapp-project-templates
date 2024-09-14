@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { View, ScrollView } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import { px } from '@/duxapp'
 import './index.scss'
 
 const Row = ({
@@ -43,7 +43,7 @@ const Row = ({
   }, [index, item, onClick])
 
   return <View {...rootProps} className={`step-comp__item--row ${className || ''}`} style={style}>
-    {!!startSize && <View className='step-comp__item__start' style={{ height: Taro.pxTransform(startSize) }}>{renderStart?.({item, index})}</View>}
+    {!!startSize && <View className='step-comp__item__start' style={{ height: px(startSize) }}>{renderStart?.({item, index})}</View>}
     <View className='step-comp__item__center--row'>
       <View className='step-comp__item__line--row' style={lineStyle} />
       <View className='step-comp__item__point'>
@@ -74,7 +74,7 @@ const Column = ({
 }) => {
 
   const lineStyle = useMemo(() => {
-    const top = Taro.pxTransform(pointTop + 10)
+    const top = px(pointTop + 10)
     const _style = {}
     if (first && last) {
 
@@ -101,10 +101,10 @@ const Column = ({
   }, [index, item, onClick])
 
   return <View {...rootProps} className={`step-comp__item--column ${className || ''}`} style={style}>
-    {!!startSize && <View className='step-comp__item__start' style={{ width: Taro.pxTransform(startSize) }}>{renderStart?.({item, index})}</View>}
+    {!!startSize && <View className='step-comp__item__start' style={{ width: px(startSize) }}>{renderStart?.({item, index})}</View>}
     <View className='step-comp__item__center--column'>
       <View className='step-comp__item__line--column' style={lineStyle} />
-      <View className='step-comp__item__point' style={{ marginTop: Taro.pxTransform(pointTop) }}>
+      <View className='step-comp__item__point' style={{ marginTop: px(pointTop) }}>
         {
           renderPoint
             ? renderPoint(item, index)

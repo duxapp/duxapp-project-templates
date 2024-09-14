@@ -1,6 +1,7 @@
 import { ComponentType, Component, CSSProperties } from 'react'
 
 interface names {
+  'signboard'
   'add-cart'
   'remind'
   'tongguan'

@@ -51,6 +51,10 @@ class UserManage extends ObjectManage {
             }
             remove()
           })
+        } else if (params.toPage) {
+          setTimeout(() => {
+            route.redirect(params.toPage)
+          }, 500)
         }
       }, 50)
     }

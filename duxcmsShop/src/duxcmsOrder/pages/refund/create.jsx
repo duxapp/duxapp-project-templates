@@ -1,5 +1,5 @@
 import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, Radio, useRoute, Input, UploadImages, Textarea, loading, Checkbox, toast } from '@/duxui'
-import { Price, useRequest, contextState, request, NumInput } from '@/duxcmsOrder'
+import { Price, useRequest, contextState, request, NumInput, orderHook } from '@/duxcmsOrder'
 import { useCallback, useEffect, useRef } from 'react'
 
 export default function RefundCreate() {
@@ -54,7 +54,7 @@ export default function RefundCreate() {
               <PickerSelect grow range={data._meta?.cause} title='售后原因' placeholder='请选择' />
             </Form.Item>
             <Form.Item label='退款运费' field='delivery_price'>
-              <Input grow align='right' placeholder='请输入退款金额' type='number' />
+              <Input grow align='right' placeholder='请输入退款金额' type='digit' />
             </Form.Item>
             <Text size={1} color={2}>可退邮费金额：￥{data._meta?.delivery_price}</Text>
             <Form.Item direction='vertical' label='上传凭证' field='images'>
@@ -100,14 +100,16 @@ const GoodsItem = ({ item }) => {
               return
             }
             return <>
-              <Divider />
-              <Form.Item label='退款金额' field='price'>
-                <Input grow align='right' placeholder='请输入退款金额' type='number' />
-              </Form.Item>
-              <Form.Item label='退款数量' field='num' containerProps={{ justify: 'between' }}>
-                <NumInput max={item.goods_num} />
-                {/* <Input grow align='right' placeholder='请输入退款数量' type='number' /> */}
-              </Form.Item>
+              <Divider className='mt-3' />
+              <orderHook.Render mark='refund.create.item.input' option={{ item }}>
+                <Form.Item label='退款金额' field='price'>
+                  <Input grow align='right' placeholder='请输入退款金额' type='digit' />
+                </Form.Item>
+                <Form.Item label='退款数量' field='num' containerProps={{ justify: 'between' }}>
+                  <NumInput max={item.goods_num} />
+                  {/* <Input grow align='right' placeholder='请输入退款数量' type='number' /> */}
+                </Form.Item>
+              </orderHook.Render>
             </>
           }}
         </Form.Item>

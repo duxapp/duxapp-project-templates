@@ -15,13 +15,14 @@ if (process.env.TARO_ENV === 'rn') {
 }
 
 export const UploadImages = ({
-  value,
+  value = [],
   column = 4,
   addText = '添加图片',
   onChange,
   max = 9,
   disabled,
   _designKey,
+  option,
   ...props
 }) => {
 
@@ -38,15 +39,17 @@ export const UploadImages = ({
       if (requestPermissionMessage) {
         await requestPermissionMessage(requestPermissionMessage.types.image)
       }
-      const urls = await upload('image', { count: max - (value?.length || 0), sizeType: ['compressed'] }).start(() => {
-        setProgress(0)
-      }).progress(setProgress)
+      const urls = await upload('image', { count: max - (value?.length || 0), ...option, sizeType: ['compressed'] })
+        .start(() => {
+          setProgress(0)
+        })
+        .progress(setProgress)
       setProgress(-1)
       onChange?.([...value || [], ...urls])
     } catch (error) {
       setProgress(-1)
     }
-  }, [max, onChange, value])
+  }, [max, onChange, option, value])
 
   const isOne = max === 1
 
@@ -93,10 +96,6 @@ export const UploadImages = ({
   return <Grid column={column} square gap={24} _designKey={_designKey} {...props}>
     {content}
   </Grid>
-}
-
-UploadImages.defaultProps = {
-  value: []
 }
 
 export const UploadImage = ({ onChange, value, ...props }) => {

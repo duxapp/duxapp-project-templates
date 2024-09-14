@@ -1,5 +1,5 @@
 import { View, Text, Image } from '@tarojs/components'
-import Taro, { useDidShow, useDidHide } from '@tarojs/taro'
+import { useDidShow, useDidHide, getCurrentPages } from '@tarojs/taro'
 import React, { useMemo, useState, useCallback, createContext, useContext, useEffect, useRef } from 'react'
 import { QuickEvent, useRoute, currentPage, route } from '@/duxapp'
 import classNames from 'classnames'
@@ -153,7 +153,7 @@ const TabBar = ({
         itemClick({ index: value[0] })
         // 如果不在Tabbar页面，跳转到当前页面
         if (currentPage() !== path) {
-          const pages = Taro.getCurrentPages()
+          const pages = getCurrentPages()
           const index = pages.findIndex(page => {
             const pagePath = page.route.startsWith('/') ? page.route.substring(1) : page.route
             if (pagePath === path) {

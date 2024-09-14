@@ -4,7 +4,7 @@ import { font, px } from '@/duxapp/utils'
 import icons from './icons.json'
 import './index.scss'
 
-font.load('CmsIcon', 'https://pictcdn.client.jujiang.me/fonts/CmsIcon.1720450857698.ttf')
+font.load('CmsIcon', 'https://pictcdn.client.jujiang.me/fonts/CmsIcon.1725175618012.ttf')
 
 export const CmsIcon = ({ name, color, size, style, className, ...props }) => {
 

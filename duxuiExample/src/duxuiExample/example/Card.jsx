@@ -1,5 +1,4 @@
-import { Card, Divider, Image, Header, ScrollView, TopView, GroupList, Space, Button } from '@/duxuiExample'
-import Taro from '@tarojs/taro'
+import { Card, Divider, Image, Header, ScrollView, TopView, GroupList, Space, Button, px } from '@/duxuiExample'
 
 export default function CardExample() {
   return <TopView>
@@ -12,7 +11,7 @@ export default function CardExample() {
               <Card.Title>【长沙-杜鹃万达广场店】</Card.Title>
               <Space row>
                 <Image
-                  style={{ width: Taro.pxTransform(200), height: Taro.pxTransform(240) }}
+                  style={{ width: px(200), height: px(240) }}
                   preview
                   radiusType='round-min'
                   src='https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'

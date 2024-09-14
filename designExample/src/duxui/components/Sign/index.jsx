@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import Taro from '@tarojs/taro'
+import { nextTick, createSelectorQuery, getSystemInfoSync, canvasToTempFilePath } from '@tarojs/taro'
 import { Canvas } from '@tarojs/components'
 import { Layout } from '@/duxapp'
 import { formConfig } from '../Form/config'
@@ -23,15 +23,15 @@ export class Sign extends Component {
       height: res.height,
       show: true,
     }, () => {
-      Taro.nextTick(() => {
-        const query = Taro.createSelectorQuery()
+      nextTick(() => {
+        const query = createSelectorQuery()
         query.select(`#${this.canvasID}`)
           .fields({ node: true, size: true })
           .exec((_res) => {
             const canvas = _res[0].node
             const ctx = canvas.getContext('2d')
 
-            const dpr = Taro.getSystemInfoSync().pixelRatio
+            const dpr = getSystemInfoSync().pixelRatio
             canvas.width = _res[0].width * dpr
             canvas.height = _res[0].height * dpr
             ctx.scale(dpr, dpr)
@@ -118,7 +118,7 @@ export class Sign extends Component {
 
     const uploadTempFile = formConfig.getUploadTempFile('uploadTempFile')
 
-    const res = await Taro.canvasToTempFilePath(
+    const res = await canvasToTempFilePath(
       {
         canvas: this.canvas,
         fileType: 'png'

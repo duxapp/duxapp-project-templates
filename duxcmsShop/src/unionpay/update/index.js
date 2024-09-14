@@ -8,21 +8,22 @@ module.exports = {
 -keep class com.unionPay.** {*;}
 -keep class org.simalliance.openmobileapi.** {*;}`
     },
-    'android/app/src/main/AndroidManifest.xml': {
-      'manifest.queries': `<!-- 云闪付 -->
-    <package android:name="com.unionpay" />
+  },
+  android: {
+    xml: {
+      'app/src/main/AndroidManifest.xml': {
+        tag: {
+          queries: {
+            child: `<package android:name="com.unionpay" />
     <package android:name="com.unionpay.tsmservice" />
     <package android:name="com.unionpay.tsmservice.mi" />
     <package android:name="com.huawei.wallet" />
     <package android:name="com.cmbc.cc.mbank" />`
+          }
+        }
+      }
     }
   },
-  // 锚点替换
-  replace: {
-
-  },
-  // 对复制的文件进行处理
-  copy: {},
   ios: {
     plist: {
       'duxapp/Info.plist': {

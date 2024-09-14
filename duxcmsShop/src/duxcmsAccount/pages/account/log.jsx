@@ -38,6 +38,9 @@ const Item = ({ item }) => {
       <Text size={4} bold>{item.remark}</Text>
       <Text color={3} size={1}>{item.completed_at}</Text>
     </Column>
-    <Text size={6} bold type={item.type ? 'danger' : 'success'}>{item.type ? '+' : '-'}{+item.balance}</Text>
+    <Column items='end'>
+      <Text size={6} bold type={item.type ? 'danger' : 'success'}>{item.type ? '+' : '-'}{+item.balance}</Text>
+      <Text size={1} color={3}>余额：{item.account_amount || '-'}</Text>
+    </Column>
   </Row>
 }

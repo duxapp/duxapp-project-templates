@@ -1,8 +1,7 @@
 /**
  * 默认主题配置
  */
-
-import Taro from "@tarojs/taro"
+import { px } from '../utils'
 
 const getConfig = {
   radiusValue: 16,
@@ -42,7 +41,7 @@ export default {
   common: {
     get radius() {
       if (!getConfig.radiusPxValue) {
-        getConfig.radiusPxValue = Taro.pxTransform(getConfig.radiusValue)
+        getConfig.radiusPxValue = px(getConfig.radiusValue)
       }
       return getConfig.radiusPxValue
     },

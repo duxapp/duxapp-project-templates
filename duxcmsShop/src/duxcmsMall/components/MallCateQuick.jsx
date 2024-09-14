@@ -1,6 +1,7 @@
 import { ScrollView, Header, Row, nav, Column, px, Text, duxappTheme, Tab, Image, Empty } from '@/duxui'
 import { HeaderSearch, List, Price, usePageData } from '@/duxcmsOrder'
 import { useState } from 'react'
+import { mallHook } from '@/duxcmsMall/utils'
 import classNames from 'classnames'
 
 export const MallCateQuick = () => {
@@ -67,13 +68,15 @@ const Malls = ({ category }) => {
 }
 
 const Item = ({ item, index }) => {
-  return <Row className={classNames('gap-2 bg-white r-2 mh-3 p-3', index && 'mt-3')} onClick={() => nav('duxcmsMall/goods/detail?id=' + item.id)}>
+  return <Row className={classNames('gap-2 bg-white r-2 mh-3 p-3 mt-3', index && 'mt-3')} onClick={() => nav('duxcmsMall/goods/detail?id=' + item.id)}>
     <Image src={item.images?.[0]} style={{ width: px(150) }} square className='r-2' />
     <Column grow className='overflow-hidden pv-1' justify='between'>
       <Text size={2} bold numberOfLines={item.activity ? 1 : 2}>{item.title}</Text>
       {!!item.activity && <Text size={1} color={3} numberOfLines={1}>{item.activity}</Text>}
       <Row items='center' className='gap-1'>
-        <Price size={4} unitSize={1}>{item.sell_price}</Price>
+        <mallHook.Render mark='MallCateQuick.item.sellPrice' option={{ item, index }}>
+          <Price size={4} unitSize={1}>{item.sell_price}</Price>
+        </mallHook.Render>
         <Price size={1} color={3} delete>{item.market_price}</Price>
       </Row>
     </Column>

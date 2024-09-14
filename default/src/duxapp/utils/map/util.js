@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import {getLocation} from '@tarojs/taro'
 
 let PermissionsAndroid, Platform, Geolocation
 
@@ -174,7 +174,7 @@ export const getLocationBase = (enableHighAccuracy = false) => {
           return res
         }
       }
-      Taro.getLocation({
+      getLocation({
         type,
         isHighAccuracy: enableHighAccuracy
       }).then(res => {
@@ -183,7 +183,7 @@ export const getLocationBase = (enableHighAccuracy = false) => {
         console.log('定位失败', error)
         reject({ message: '获取定位失败', error })
       })
-      // enableHighAccuracy && Taro.getLocation({
+      // enableHighAccuracy && getLocation({
       //   type,
       //   isHighAccuracy: true
       // }).then(res => changeFunc?.(getRes(res)))

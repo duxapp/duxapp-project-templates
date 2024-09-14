@@ -1,5 +1,4 @@
-import { View } from '@tarojs/components'
-import { Space } from '@/duxui'
+import { Column, Text } from '@/duxui'
 import './index.scss'
 
 const GroupListItem = ({
@@ -8,18 +7,18 @@ const GroupListItem = ({
   children
 }) => {
   return <>
-    <View className='GroupList__title'>{title}</View>
+    <Text className='GroupList__title'>{title}</Text>
     {children}
-    <View className='GroupList__desc'>{desc}</View>
+    <Text className='GroupList__desc'>{desc}</Text>
   </>
 }
 
 export const GroupList = ({
   children
 }) => {
-  return <Space className='GroupList'>
+  return <Column className='GroupList'>
     {children}
-  </Space>
+  </Column>
 }
 
 GroupList.Item = GroupListItem

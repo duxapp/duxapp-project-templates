@@ -2,8 +2,6 @@ import { formConfig } from '@/duxui/components/Form/config'
 import {
   app,
   request,
-  upload,
-  uploadTempFile,
   updateApp,
   userConfig
 } from './utils'
@@ -11,9 +9,7 @@ import {
 app.register('duxcms')
 
 formConfig.setConfig({
-  request,
-  upload,
-  uploadTempFile
+  request
 })
 
 // 检查app更新

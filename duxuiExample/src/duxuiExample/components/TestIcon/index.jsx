@@ -1,7 +1,6 @@
 import { Text } from '@tarojs/components'
-import Taro from '@tarojs/taro'
 import { useMemo } from 'react'
-import { font } from '@/duxui/utils'
+import { font, px } from '@/duxui/utils'
 import icons from './icons.json'
 import './index.scss'
 
@@ -15,7 +14,7 @@ export const TestIcon = ({ name, color, size, style, className, ...props }) => {
       sty.color = color
     }
     if (size) {
-      sty.fontSize = Taro.pxTransform(size)
+      sty.fontSize = px(size)
     }
     return sty
   }, [color, size, style])

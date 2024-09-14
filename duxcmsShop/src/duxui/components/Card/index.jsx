@@ -1,7 +1,6 @@
 import { View } from '@tarojs/components'
-import Taro from '@tarojs/taro'
 import classNames from 'classnames'
-import { duxuiTheme } from '@/duxui/utils'
+import { duxuiTheme, px } from '@/duxui/utils'
 import { Text } from '../Text'
 import { BoxShadow } from '../BoxShadow'
 import './index.scss'
@@ -41,7 +40,7 @@ export const Card = ({
       {children}
     </BoxShadow>
   } else {
-    return <View className={cn} style={{ ...style, borderRadius: Taro.pxTransform(radius) }} {...props}>
+    return <View className={cn} style={{ ...style, borderRadius: px(radius) }} {...props}>
       {children}
     </View>
   }

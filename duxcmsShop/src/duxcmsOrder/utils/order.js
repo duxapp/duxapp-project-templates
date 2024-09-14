@@ -1,5 +1,4 @@
-import Taro from '@tarojs/taro'
-import { useEffect, useState } from 'react'
+import { showToast } from '@tarojs/taro'
 import { nav, ObjectManage, request } from '@/duxcms/utils'
 import { loading, confirm } from '@/duxui'
 import { startPay } from '@/duxcmsPay'
@@ -24,7 +23,6 @@ export class OrderCreate extends ObjectManage {
 
   setCart = (_cart) => {
     this.currentCart = _cart
-
     this.set({
       ...this.data,
       data: [],
@@ -54,10 +52,11 @@ export class OrderCreate extends ObjectManage {
   getData = async () => {
     try {
       const res = await request({
-        url: 'order/cart/checkout?type=' + this.currentCart.config.type,
+        url: `order/cart/checkout?type=${this.currentCart.config.type}`,
         toast: true,
         method: 'POST',
         data: {
+          ...this.userParams,
           add_id: this.addressId,
           params: this.submitParams,
         },
@@ -101,10 +100,12 @@ export class OrderCreate extends ObjectManage {
         method: 'POST',
         toast: true,
         data: {
+          ...this.userParams,
           add_id: this.data.address?.id || this.addressId,
           params: this.data.params || this.submitParams,
         },
       })
+      this.userParams = {}
       if (this.currentCart.config.type == 'direct') {
         // 清空购物车
         this.currentCart.clear()
@@ -112,15 +113,17 @@ export class OrderCreate extends ObjectManage {
         // 初始化购物车
         this.currentCart.init()
       }
-      await startPay({
-        price,
-        token,
-        payList: () => request(`order/pay/type`),
-        passwordUrl: 'duxcmsAccount/account/password',
-        payUrl: 'order/pay/submit',
-        mask: true,
-        onType: this.onType
-      })
+      if (+price > 0) {
+        await startPay({
+          price,
+          token,
+          payList: () => request(`order/pay/type`),
+          passwordUrl: 'duxcmsAccount/account/password',
+          payUrl: 'order/pay/submit',
+          mask: true,
+          onType: this.onType
+        })
+      }
     } catch (error) {
       this.set({
         ...this.data,
@@ -254,7 +257,7 @@ class Order {
       toast: true,
       loading,
     })
-    Taro.showToast({
+    showToast({
       title: '取消成功',
     })
   }

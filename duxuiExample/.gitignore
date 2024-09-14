@@ -6,12 +6,12 @@ deploy_versions/
 /.swc/
 
 #duxapp
-src/app.config.js
-src/app.js
-src/app.scss
-src/index.html
-src/theme.scss
-src/duxapp/config/userConfig.js
+/src/app.config.js
+/src/app.js
+/src/app.scss
+/src/index.html
+/src/theme.scss
+/src/duxapp/config/userConfig.js
 /patches/
 /android
 /ios
@@ -24,6 +24,7 @@ src/duxapp/config/userConfig.js
 /yarn.lock
 
 /babel.user.config.js
+/metro.user.config.js
 
 #build
 android/app/src/main/assets/index.android.bundle

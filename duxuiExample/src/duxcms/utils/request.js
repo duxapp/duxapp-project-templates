@@ -10,7 +10,6 @@ export const requestConfig = duxcmsRequestConfig
 const { request, throttleRequest, middle: requestMiddle } = createRequest(duxcmsRequestConfig)
 const { upload, uploadTempFile, middle: uploadMiddle } = createUpload(duxcmsRequestConfig)
 
-// 监听全局请求，如果返回401，则先登录后请求
 const before = async params => {
 
   const timestamp = Math.round(new Date().getTime() / 1000)

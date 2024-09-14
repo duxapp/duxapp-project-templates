@@ -2,11 +2,11 @@ import { View, Text, Input, Image } from '@tarojs/components'
 import {
   Header, Loading, ScrollView, KeyboardAvoiding, TopView,
   nav, toast, getLocationBase, useRoute,
-  duxappTheme, colorLighten
+  duxappTheme, colorLighten,
+  px
 } from '@/duxapp'
 import { Map, mapApi } from '@/amap'
 import { useState, useCallback, useEffect } from 'react'
-import Taro from '@tarojs/taro'
 import pointBlue from './images/point-blue.png'
 import dingweiIcon from './images/dingwei.png'
 import duihaoIcon from './images/duihao.png'
@@ -158,7 +158,7 @@ export default function Location() {
         <View className='get-location__my-position' onClick={getCurrentPosition}>
           <Image className='get-location__my-position__img' src={dingweiIcon} />
         </View>
-        <ScrollView style={{ width: Taro.pxTransform(750) }}>
+        <ScrollView style={{ width: px(750) }}>
           <View className='get-location__top'>
             {
               load

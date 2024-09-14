@@ -1,4 +1,3 @@
-import Taro from '@tarojs/taro'
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { View, Input } from '@tarojs/components'
 import { CmsIcon } from '@/duxcms/components'
@@ -281,10 +280,7 @@ export const Account = ({
       <View className='cms-login__content__phone'>
         <Input
           className='cms-login__content__phone__input'
-          onBlur={() => {
-            console.log('shiqu=')
-            _checkAccount.current()
-          }}
+          onBlur={_checkAccount.current}
           onInput={e => postAction(old => ({ ...old, 'username': e.detail.value }))}
           value={post.username}
           type={!config.email ? 'number' : 'text'}
@@ -345,7 +341,7 @@ export const Account = ({
     </View>
     {isUserName && <>
       <Button
-        style={{ marginTop: Taro.pxTransform(80) }}
+        style={{ marginTop: px(80) }}
         size='l'
         onClick={submit}
         loading={loading}

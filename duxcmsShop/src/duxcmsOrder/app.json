@@ -4,6 +4,7 @@
   "version": "1.0.9",
   "dependencies": [
     "duxcmsAccount",
-    "duxcmsChat"
+    "duxcmsChat",
+    "amap"
   ]
 }

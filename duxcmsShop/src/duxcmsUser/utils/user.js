@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import { login, getAccountInfoSync } from '@tarojs/taro'
 import { loading } from '@/duxui/utils/interact'
 import {
   user,
@@ -51,9 +51,9 @@ export const cmsUser = {
     const stop = loading('正在登录')
     try {
       const info = await cmsUser.oauth({
-        code: (await Taro.login()).code,
+        code: (await login()).code,
         type: 'wechat-mini',
-        app_id: Taro.getAccountInfoSync().miniProgram.appId
+        app_id: getAccountInfoSync().miniProgram.appId
       })
       stop()
       return info
@@ -72,7 +72,7 @@ export const cmsUser = {
       const info = await cmsUser.oauth({
         code,
         type: 'wechat-tel',
-        app_id: Taro.getAccountInfoSync().miniProgram.appId
+        app_id: getAccountInfoSync().miniProgram.appId
       })
       stop()
       return info

@@ -1,7 +1,7 @@
-import Taro from '@tarojs/taro'
 import {
   Header, ScrollView, TopView, Form, Card, Divider,
-  Cascade, ModalForm, ModalForms, DatePicker, Input, Text, CardSelect, duxappTheme, Space, Row, Column
+  Cascade, ModalForm, ModalForms, DatePicker, Input, Text, CardSelect, duxappTheme, Space, Row, Column,
+  px
 } from '@/duxuiExample'
 
 const cascadeData = [
@@ -82,7 +82,7 @@ export default function ModalFormExample() {
             </Form.Item>
             <Form.Item label='弹出级联选择' field='cascade3' >
               <ModalForm
-                renderForm={<Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel style={{ height: Taro.pxTransform(800) }} />}
+                renderForm={<Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel style={{ height: px(800) }} />}
                 placeholder='请选择等级'
                 grow
                 title='级联选择'

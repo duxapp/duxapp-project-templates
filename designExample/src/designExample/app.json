@@ -5,6 +5,5 @@
   "dependencies": [
     "duxuiDesign",
     "design"
-  ],
-  "reactNativeDependencies": []
+  ]
 }

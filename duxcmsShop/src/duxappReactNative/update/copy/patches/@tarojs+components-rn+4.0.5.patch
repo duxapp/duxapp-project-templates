@@ -1,0 +1,148 @@
+diff --git a/node_modules/@tarojs/components-rn/dist/components/Image/index.js b/node_modules/@tarojs/components-rn/dist/components/Image/index.js
+index bc2ae99..f5aa4a7 100644
+--- a/node_modules/@tarojs/components-rn/dist/components/Image/index.js
++++ b/node_modules/@tarojs/components-rn/dist/components/Image/index.js
+@@ -16,30 +16,20 @@
+ import * as React from 'react';
+ import { useCallback, useEffect, useRef, useState } from 'react';
+ import { Image, StyleSheet } from 'react-native';
++import { Image as ExpoImage } from 'expo-image';
+ import { omit } from '../../utils';
+ import useClickable from '../hooks/useClickable';
+-// fix: https://github.com/facebook/metro/issues/836
+-// 保证 react-native-svg 是最后一个依赖
+ const omitProp = (props) => {
+     return omit(props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style']);
+ };
+ const resizeModeMap = {
+-    scaleToFill: 'stretch',
++    scaleToFill: 'fill',
+     aspectFit: 'contain',
+     aspectFill: 'cover',
+-    center: 'center',
++    center: 'none',
+     // And widthFix
+     // Not supported value...
+ };
+-let SvgCssUri, WithLocalSvg;
+-// react-native-svg is optional
+-try {
+-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+-    const svg = require('react-native-svg');
+-    SvgCssUri = svg.SvgCssUri;
+-    WithLocalSvg = svg.WithLocalSvg;
+-}
+-catch (e) { }
+ const _Image = (props = {
+     src: '',
+     mode: 'scaleToFill'
+@@ -49,8 +39,9 @@ const _Image = (props = {
+     });
+     const [ratio, setRatio] = useState(0);
+     const [layoutWidth, setLayoutWidth] = useState(0);
++    const [layoutHeight, setLayoutHeight] = useState(0);
+     const newProps = useClickable(props);
+-    const { style, src, mode = 'scaleToFill', svg = false, onLoad, onError } = newProps;
++    const { style, src, mode = 'scaleToFill', onLoad, onError } = newProps;
+     const _onError = useCallback(() => {
+         if (!onError)
+             return;
+@@ -81,12 +72,13 @@ const _Image = (props = {
+         }
+     }, [onLoad]);
+     const onLayout = (event) => {
+-        const { width: layoutWidth } = event.nativeEvent.layout;
++        const { width: layoutWidth, height: layoutHeight } = event.nativeEvent.layout;
+         const flattenStyle = StyleSheet.flatten(style) || {};
+         if (mode === 'widthFix' && typeof flattenStyle.width === 'string') {
+             if (ref.current.hasLayout)
+                 return;
+             setLayoutWidth(layoutWidth);
++            setLayoutHeight(layoutHeight);
+         }
+         if (ratio) {
+             ref.current.hasLayout = true;
+@@ -117,19 +109,10 @@ const _Image = (props = {
+     const flattenStyle = StyleSheet.flatten(style) || {};
+     const defaultWidth = flattenStyle.width || 300;
+     const defaultHeight = flattenStyle.height || 225;
+-    // remote svg image support, svg 图片暂不支持 mode
+-    const remoteSvgReg = /(https?:\/\/.*\.(?:svg|svgx))/i;
+-    if (SvgCssUri && typeof src === 'string' && remoteSvgReg.test(src)) {
+-        return (React.createElement(SvgCssUri, { uri: src, width: defaultWidth, height: defaultHeight }));
+-    }
+-    // The parameter passed to require mpxTransformust be a string literal
+     const source = typeof src === 'string' ? { uri: src } : src;
+-    // local svg image support, svg 图片暂不支持 mode
+-    if (WithLocalSvg && svg) {
+-        return (React.createElement(WithLocalSvg, { asset: source, width: defaultWidth, height: defaultHeight }));
+-    }
+     const isWidthFix = mode === 'widthFix';
+-    const rMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch'));
++    const isHeightFix = mode === 'heightFix';
++    const rMode = (resizeModeMap[mode] || (isWidthFix || isHeightFix ? undefined : 'fill'));
+     const imageHeight = (() => {
+         if (isWidthFix) {
+             if (typeof flattenStyle.width === 'string') {
+@@ -146,13 +129,27 @@ const _Image = (props = {
+             return defaultHeight;
+         }
+     })();
++    const imageWidth = (() => {
++        if (isHeightFix) {
++            if (typeof flattenStyle.height === 'string') {
++                return layoutHeight / ratio;
++            }
++            else if (typeof flattenStyle.height === 'number') {
++                return flattenStyle.height / ratio;
++            }
++            else {
++                return 300 / ratio;
++            }
++        }
++        else {
++            return defaultWidth;
++        }
++    })();
+     const restImageProps = omitProp(newProps);
+-    return (React.createElement(Image, Object.assign({ testID: 'image', source: source, resizeMode: rMode, onError: _onError, onLoad: _onLoad, onLayout: onLayout, style: [
+-            {
+-                width: 300
+-            },
++    return (React.createElement(ExpoImage, Object.assign({ testID: 'image', source: source, contentFit: rMode, onError: _onError, onLoad: _onLoad, onLayout: onLayout, style: [
+             style,
+             {
++                width: imageWidth,
+                 height: imageHeight
+             }
+         ] }, restImageProps)));
+diff --git a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
+index e5b2464..9477375 100644
+--- a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
++++ b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
+@@ -138,20 +138,17 @@ class Carousel extends React.Component {
+         let pages;
+         if (count > 1) {
+             const childrenArray = React.Children.toArray(children);
++            const childrenArrayData = [...childrenArray];
+             if (infinite) {
+                 for (let index = 0; index < INFINITE_BUFFER; index++) {
+-                    childrenArray.push(React.cloneElement(children[index], { ref: null }));
+-                    childrenArray.unshift(React.cloneElement(children[count - index - 1], { ref: null }));
++                    childrenArray.push(React.cloneElement(childrenArrayData[index], { ref: null }));
++                    childrenArray.unshift(React.cloneElement(childrenArrayData[count - index - 1], { ref: null }));
+                 }
+             }
+-            pages = childrenArray.map((page, i) => {
+-                return (
+-                // when vertical, use the height of the first child as the height of the Carousel
+-                React.createElement(View, { key: i }, page));
+-            });
++            pages = childrenArray;
+         }
+         else {
+-            pages = React.createElement(View, null, children);
++            pages = children;
+         }
+         const vpProps = {
+             initialPage: selectedIndex,

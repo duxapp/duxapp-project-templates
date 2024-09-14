@@ -4,6 +4,7 @@
 	"description": "duxapp",
 	"appid": "wx48bb7232268bd0d6",
 	"setting": {
+    "bigPackageSizeSupport": true,
 		"urlCheck": false,
 		"es6": false,
 		"enhance": false,
@@ -16,7 +17,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "3.0.1",
+	"libVersion": "3.5.6",
 	"srcMiniprogramRoot": "dist/",
 	"packOptions": {
 		"ignore": [],

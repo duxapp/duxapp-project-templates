@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { Button, Card, Column, Empty, Header, Radio, Row, ScrollView, Text, nav, stopPropagation, toast } from '@/duxui'
-import { cart, orderCreate } from '@/duxcmsOrder/utils'
+import { cart, orderCreate, orderHook } from '@/duxcmsOrder/utils'
 import { AuthLogin, user, Price } from '@/duxcmsAccount'
 import { NumInput } from './NumInput'
 
@@ -18,15 +18,22 @@ export const Cart = ({ page }) => {
 
   const [, loginStatus] = user.useUserInfo()
 
+  const { data } = cart.useCart()
+
+  const showData = data.map(store => store.items.map(item => ({
+    ...item,
+    store: { id: store.store_id || 0, name: store.store_name }
+  }))).flat()
+
   return <>
     <Header
       title='购物车'
       navTitle={page ? '购物车' : ''}
       titleCenter={!page}
-      renderRight={loginStatus && <Text onClick={() => setEdit(!edit)}>{edit ? '完成' : '管理'}</Text>}
+      renderRight={loginStatus && !!showData.length && <Text onClick={() => setEdit(!edit)}>{edit ? '完成' : '管理'}</Text>}
     />
     <AuthLogin title='登录后查看购物车'>
-      <Content edit={edit} setEdit={setEdit} />
+      <CartContent edit={edit} setEdit={setEdit} data={showData} />
     </AuthLogin>
   </>
 }
@@ -36,39 +43,48 @@ Cart.add = (type, comp) => {
   Cart.types[type] = comp
 }
 
-const Content = ({ edit, setEdit }) => {
+export const CartContent = ({ edit, setEdit, data }) => {
 
   const [editSelect, { isCheck, choice, setChecks }] = useCheck(10000)
 
-  const { data, num, amount } = cart.useCart()
-
-  const showData = data.map(store => store.items).flat()
+  const total = useMemo(() => {
+    return data.reduce((prev, current) => {
+      if (current.checked) {
+        prev.num += +current.qty
+        prev.price += +current.amount
+      }
+      return prev
+    }, {
+      num: 0,
+      price: 0
+    })
+  }, [data])
 
   const checkedAll = useMemo(() => {
     return edit ?
-      editSelect.length === data.reduce((prev, store) => prev + store.items.length, 0) :
-      data.every(store => store.items.every(goods => goods.checked))
-  }, [data, edit, editSelect.length])
+      editSelect.length === data.length :
+      data.every(goods => goods.checked)
+  }, [edit, editSelect.length, data])
 
   const checkAll = useCallback(() => {
     if (checkedAll) {
       if (edit) {
         setChecks([])
       } else {
-        const ids = data.map(store => store.items.map(goods => goods.id)).flat()
+        const ids = data.map(goods => goods.id)
         cart.check(false, ...ids)
       }
     } else {
       if (edit) {
-        const ids = data.map(store => store.items.map(goods => goods.id)).flat()
+        const ids = data.map(goods => goods.id)
         setChecks(ids)
       } else {
-        const ids = data.map(store => store.items.filter(goods => !goods.checked).map(goods => goods.id)).flat()
+        const ids = data.filter(goods => !goods.checked).map(goods => goods.id)
         cart.check(true, ...ids)
       }
     }
 
-  }, [checkedAll, data, edit, setChecks])
+  }, [checkedAll, edit, setChecks, data])
 
   const submit = useCallback(() => {
     orderCreate.setCart(cart)
@@ -85,33 +101,39 @@ const Content = ({ edit, setEdit }) => {
 
   return <>
     <ScrollView>
+      <orderHook.Render mark='Cart.list' option={{ data, edit, isCheck, choice, GoodsItem }}>
+        {
+          data.map((item, index) => <GoodsItem
+            item={item}
+            key={item.id}
+            index={index}
+            checked={!edit ? item.checked : isCheck(item.id)}
+            onCheck={status => {
+              edit ? choice(item.id) : cart.check(status, item.id)
+            }}
+          />)
+        }
+      </orderHook.Render>
       {
-        showData.map((item, index) => <GoodsItem
-          item={item}
-          key={item.id}
-          index={index}
-          checked={!edit ? item.checked : isCheck(item.id)}
-          onCheck={status => {
-            edit ? choice(item.id) : cart.check(status, item.id)
-          }}
-        />)
-      }
-      {
-        !showData.length && <Empty title='暂无商品' />
+        !data.length && <Empty title='暂无商品' />
       }
     </ScrollView>
-    {!!showData.length && <Card radius={0} className='flex-row items-center justify-between'>
+    {!!data.length && <Card radius={0} className='flex-row items-center justify-between'>
       <Row className='gap-1' items='center' onClick={checkAll}>
         <Radio checked={checkedAll} />
         <Text color={2} size={2}>全选</Text>
       </Row>
       {!edit && <Text size={6} type='primary'><Text color={1} size={1}>合计：</Text>
-        <Price bold unitSize={1} size={6}>{amount}</Price>
+        <Price bold unitSize={1} size={6}>{+total.price?.toFixed(2)}</Price>
       </Text>}
       {
         edit ?
-          <Button size='l' type='secondary' onClick={del}>删除</Button> :
-          <Button size='l' type='primary' onClick={submit} disabled={!num}>提交({+num || 0})</Button>
+          <orderHook.Render mark='Cart.del' option={{ del, total, data }}>
+            <Button size='l' type='secondary' onClick={del}>删除</Button>
+          </orderHook.Render> :
+          <orderHook.Render mark='Cart.submit' option={{ submit, total, data }}>
+            <Button size='l' type='primary' onClick={submit} disabled={!total.num}>提交({+total.num || 0})</Button>
+          </orderHook.Render>
       }
     </Card>}
   </>
@@ -150,7 +172,7 @@ const useCheck = (max = 99) => {
   ]
 }
 
-const GoodsItem = ({
+export const GoodsItem = ({
   item,
   index,
   checked,

@@ -1,6 +1,6 @@
-import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, InputSearch, toast } from '@/duxui'
+import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, InputSearch, toast, PickerDate } from '@/duxui'
 import { duxappTheme, CmsIcon, NumInput, orderCreate, Price, orderHook } from '@/duxcmsOrder'
-import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 export default function OrderCreate() {
 
@@ -36,10 +36,10 @@ export default function OrderCreate() {
         return toast('请选择收货地址')
       }
       await orderCreate.submit()
-      route.redirect('duxcmsOrder/order/list')
+      route.redirect('duxcmsOrder/order/list', { _source: 'order-create-success' })
     } catch (error) {
       toast(error?.message || error)
-      setTimeout(() => route.redirect('duxcmsOrder/order/list'), 800)
+      setTimeout(() => route.redirect('duxcmsOrder/order/list', { _source: 'order-create-error' }), 800)
     }
   }, [])
 
@@ -70,7 +70,7 @@ export default function OrderCreate() {
           <Form.Item field='action'>
             <Form.Object>
               {
-                data.map((store, storeIndex) => <Fragment key={storeIndex}>
+                data.map((store, storeIndex) => <orderHook.Render key={storeIndex} mark='order.create.data.store' option={{ store, storeIndex }}>
                   <Column className='ph-3 mt-3 mh-3 r-2 bg-white'>
                     <orderHook.Render mark='order.create.data.goods' option={{ store, storeIndex }}>
                       {
@@ -113,9 +113,15 @@ export default function OrderCreate() {
                                         grow
                                       /> : item.type === 'text' ?
                                         <InputSearch align='right' grow placeholder={'请输入' + item.name} /> :
-                                        item.type === 'content' ?
-                                          <Text align='right' grow>{item.value}</Text>
-                                          : null
+                                        item.type === 'date' ?
+                                          <PickerDate mode='date'
+                                            grow
+                                            title={item.name}
+                                            placeholder={'请选择' + item.name}
+                                          /> :
+                                          item.type === 'content' ?
+                                            <Text align='right' grow>{item.value}</Text>
+                                            : null
                                   }
                                 </Form.Item>
                               </orderHook.Render>
@@ -141,16 +147,21 @@ export default function OrderCreate() {
                       </Row>}
                     </orderHook.Render>
                   </Column>
-                </Fragment>)
+                </orderHook.Render>)
               }
             </Form.Object>
           </Form.Item>
         </orderHook.Render>
+        <Column className='pv-2' />
       </ScrollView>
-      <Row className='ph-3 pv-2 bg-white' justify='between' items='center'>
-        <Price type='danger' bold size={54} pointSize={3} unitSize={3}>{total.pay_price}</Price>
-        <Button size='l' type='primary' style={{ width: px(240) }} onClick={submit}>提交订单</Button>
-      </Row>
+      <orderHook.Render mark='order.create.bottom' option={{ submit }}>
+        <Row className='ph-3 pv-2 bg-white' justify='between' items='center'>
+          <Price type='danger' bold size={54} pointSize={3} unitSize={3}>{total.pay_price}</Price>
+          <orderHook.Render mark='order.create.bottom.submit' option={{ address, data, submitStatus, ...total, submit }}>
+            <Button size='l' type='primary' style={{ width: px(240) }} onClick={submit}>提交订单</Button>
+          </orderHook.Render>
+        </Row>
+      </orderHook.Render>
     </Form>
   </TopView>
 }

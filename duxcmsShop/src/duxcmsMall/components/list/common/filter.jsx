@@ -1,7 +1,6 @@
 import { Component } from 'react'
-import Taro from '@tarojs/taro'
 import { View, Input } from '@tarojs/components'
-import { ScrollView, PullView, Text } from '@/duxui'
+import { ScrollView, PullView, Text, px } from '@/duxui'
 import { CmsIcon } from '@/duxcms'
 import './filter.scss'
 
@@ -93,7 +92,7 @@ export default class PullListFilter extends Component {
                           key={item_.text}
                           numberOfLines={1}
                           className={['search__container__content__item', inputVal[key] == item_.max && 'search__container__content__item--hover']}
-                          style={{ width: Taro.pxTransform(item.tpl === 'interval' ? 260 : 163) }}
+                          style={{ width: px(item.tpl === 'interval' ? 260 : 163) }}
                           onClick={this.select.bind(this, item, item_)}
                         >{item_.text}</Text>
                       )
@@ -105,7 +104,7 @@ export default class PullListFilter extends Component {
           </ScrollView>
           <View className='search__button'>
             {/* <View className='search__button__icon' onClick={() => { this.show() }}><ShopIcon name='close' /></View> */}
-            {/* <Text style={{ width: Taro.pxTransform(40), fontSize: Taro.pxTransform(30) }}>|</Text> */}
+            {/* <Text style={{ width: px(40), fontSize: px(30) }}>|</Text> */}
             <Text className='search__button__item' onClick={this.reset.bind(this)}>重置</Text>
             <Text className='search__button__item search__button__item--hover' onClick={this.submit.bind(this)}>确定</Text>
           </View>

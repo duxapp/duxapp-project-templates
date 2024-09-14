@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import { getSystemInfoSync } from "@tarojs/taro"
 import markerIcon from '../images/marker.png'
 
 const sizeKeys = ['width', 'height', 'borderWidth', 'borderRadius', 'padding', 'fontSize', 'anchorX', 'anchorY']
@@ -7,7 +7,7 @@ const toPx = (() => {
   let width
   return size => {
     if (!width) {
-      width = Taro.getSystemInfoSync().screenWidth
+      width = getSystemInfoSync().screenWidth
     }
     return size / (750 / width)
   }

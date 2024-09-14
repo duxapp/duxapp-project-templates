@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
-import Taro from '@tarojs/taro'
+import { getCurrentPages, getStorage, setStorage } from '@tarojs/taro'
 import { ScrollView, Text, TouchableOpacity, View, BackHandler, Platform } from 'react-native'
 import { Image } from '@tarojs/components'
 import { nav, userConfig, toast, TopView } from '@/duxapp'
@@ -53,13 +53,13 @@ export const Agreement = (() => {
     ...props
   }) {
 
-    const pageLength = useMemo(() => Taro.getCurrentPages().length, [])
+    const pageLength = useMemo(() => getCurrentPages().length, [])
 
     const [status, setStatus] = useState(_status)
 
     useEffect(() => {
       if (_status === 0) {
-        Taro.getStorage({ key }).then(res => {
+        getStorage({ key }).then(res => {
           if (res.data) {
             _status = 2
             setStatus(2)
@@ -79,7 +79,7 @@ export const Agreement = (() => {
     }, [])
 
     const submit = useCallback(() => {
-      Taro.setStorage({ key, data: '1' })
+      setStorage({ key, data: '1' })
       _status = 2
       setStatus(2)
       // 同意用户协议回调

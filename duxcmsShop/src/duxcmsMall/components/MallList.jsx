@@ -42,7 +42,7 @@ const Item = ({ item, index, action }) => {
     <Image src={item.images[0]} className='r-2 w-full' square />
     <Column className='p-2 gap-2'>
       <Text numberOfLines={2}>{item.title}</Text>
-      {!!item.activity && <Text size={1} color={2}>{item.activity}</Text>}
+      {!!item.activity && <Text size={1} numberOfLines={3} color={2}>{item.activity}</Text>}
       <Row className='gap-1' items='center'>
         <mallHook.Render mark='MallList.item.sellPrice' option={{ item, index, action }}>
           <Price size={6} bold>{item.sell_price}</Price>

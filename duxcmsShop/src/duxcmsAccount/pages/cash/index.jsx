@@ -24,6 +24,10 @@ export default function Cash() {
       loading,
       toast: true
     })
+    await confirm({
+      title: '提交成功'
+    })
+    await nav('back:')
   }, [money])
 
   return <TopView isSafe>

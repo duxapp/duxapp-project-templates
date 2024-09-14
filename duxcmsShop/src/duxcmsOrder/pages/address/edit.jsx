@@ -1,7 +1,8 @@
 import { Button, Card, Column, Divider, Form, Header, Input, Radio, Row, ScrollView, Text, TopView, asyncTimeOut, loading, nav, useRoute } from '@/duxui'
-import { Address, request, useRequest } from '@/duxcmsOrder'
+import { request, useRequest } from '@/duxcmsOrder'
 import { showToast } from '@tarojs/taro'
 import { useCallback } from 'react'
+import { chooseLocation } from '@/amap'
 
 export default function AddressEdit() {
 
@@ -70,12 +71,8 @@ const FormContent = () => {
           <Form.Item label='联系电话' field='tel'>
             <Input grow placeholder='请输入联系人号码' />
           </Form.Item>
-          <Form.Item label='所在区域' field='area'>
-            {({ value }) => {
-              return <Address className='flex-grow'>
-                <Text color={value ? 1 : 3}>{value || '请选择'}</Text>
-              </Address>
-            }}
+          <Form.Item label='所在区域' fields>
+            <Address />
           </Form.Item>
           <Form.Item label='详细地址' field='address'>
             <Input grow placeholder='请输入详细地址' />
@@ -92,6 +89,20 @@ const FormContent = () => {
       </Form.Submit>
     </Column>
   </>
+}
+
+const Address = ({ value, onChange }) => {
+  return <Text grow color={value.area ? 1 : 3}
+    onClick={async () => {
+      const res = await chooseLocation()
+      onChange({
+        area: res.area,
+        address: res.address,
+        lng: res.longitude,
+        lat: res.latitude
+      })
+    }}
+  >{value.area ? value.area.join('') : '请选择'}</Text>
 }
 
 const DefaultCheck = ({ value = false, onChange }) => {

@@ -1,7 +1,7 @@
 import { useRouter } from '@tarojs/taro'
-import { Swiper, SwiperItem, Video } from '@tarojs/components'
+import { Video } from '@tarojs/components'
 import { useState } from 'react'
-import { TopView, Header, Column, Row, Text, duxappTheme, nav, Badge, Divider, px, useRoute, Image, HtmlView, Button, Empty } from '@/duxui'
+import { TopView, Swiper, Header, Column, Row, Text, duxappTheme, nav, Badge, Divider, px, useRoute, Image, HtmlView, Button, Empty } from '@/duxui'
 import { CommentDetailList, CmsIcon, collect, contextState, Detail, mallHook, Price, GoodsSpec, cart, foot } from '@/duxcmsMall'
 import { WechatShare } from '@/wechat'
 import classNames from 'classnames'
@@ -69,20 +69,20 @@ const Images = () => {
   return <Column>
     <Swiper className='w-full' style={{ height: px(750) }} onChange={e => setSelect(e.detail.current)}>
       {
-        videos.map(item => <SwiperItem key={item}>
+        videos.map(item => <Swiper.Item key={item}>
           <Video src={item.url} poster={images[0]} className='w-full h-full' />
-        </SwiperItem>)
+        </Swiper.Item>)
       }
       {
-        images.map(item => <SwiperItem key={item}>
-          <Image preview images={images} src={item} poster={images[0]} className='w-full h-full' />
-        </SwiperItem>)
+        images.map(item => <Swiper.Item key={item}>
+          <Image preview images={images} src={item} className='w-full h-full' />
+        </Swiper.Item>)
       }
     </Swiper>
     <Row className='absolute left-0 right-0 gap-1 z-1 bottom-0 pv-3' justify='center'>
       {
         list.map((item, index) => <Column
-          key={item.id}
+          key={item}
           className='r-2'
           style={{
             backgroundColor: select === index ? '#fff' : 'rgba(255,255,255,0.5)',
@@ -116,7 +116,9 @@ const Info = () => {
             <Price size={1} delete color={4} className='mt-2'>{data.market_price}</Price>
           </Row>
         </mallHook.Render>
-        <Text size={1} color={4}>销量: {data.sale || 0}</Text>
+        <mallHook.Render mark='detail.info.sale'>
+          <Text size={1} color={4}>销量: {data.sale || 0}</Text>
+        </mallHook.Render>
       </Column>
       <Row className='gap-3'>
         <mallHook.Render mark='detail.info.collect'>
@@ -210,12 +212,16 @@ const Footer = () => {
         <mallHook.Render mark='detail.footer.btn'>{FooterCart}</mallHook.Render>
       </Row>
       <Row className='gap-2' justify='end' grow style={{ marginLeft: px(56) }}>
-        <GoodsSpec.Button type='cart'>
-          <Button type='secondary' size='l' radiusType='round'>加入购物车</Button>
-        </GoodsSpec.Button>
-        <GoodsSpec.Button type='buy'>
-          <Button type='primary' size='l' radiusType='round'>立即购买</Button>
-        </GoodsSpec.Button>
+        <mallHook.Render mark='detail.footer.cart'>
+          <GoodsSpec.Button type='cart'>
+            <Button type='secondary' size='l' radiusType='round'>加入购物车</Button>
+          </GoodsSpec.Button>
+        </mallHook.Render>
+        <mallHook.Render mark='detail.footer.buy'>
+          <GoodsSpec.Button type='buy'>
+            <Button type='primary' size='l' radiusType='round'>立即购买</Button>
+          </GoodsSpec.Button>
+        </mallHook.Render>
       </Row>
     </Row>
   </>

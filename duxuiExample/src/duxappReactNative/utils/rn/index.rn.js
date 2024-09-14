@@ -1,9 +1,9 @@
-import Taro from '@tarojs/taro'
+import { downloadFile, getStorage, setStorage } from '@tarojs/taro'
 import { Image, Text, View } from '@tarojs/components'
 import { Platform, LogBox, Linking, Alert, PermissionsAndroid } from 'react-native'
 import { getVersion } from 'react-native-device-info'
 import { useEffect, useMemo, useState } from 'react'
-import RNFetchBlob from 'rn-fetch-blob'
+import RNFetchBlob from 'react-native-blob-util'
 import { asyncTimeOut, gcjEncrypt, getLocationBase, ObjectManage, px, TopView, userConfig } from '@/duxapp'
 import Geolocation from '@react-native-community/geolocation'
 import closeIcon from './images/close.png'
@@ -159,7 +159,7 @@ export const updateApp = (() => {
         try {
           await AppUpgradeConfirm.show(info.androidUpdateInfo)
           if (info.androidDowloadUrl) {
-            const task = Taro.downloadFile({
+            const task = downloadFile({
               url: info.androidDowloadUrl
             })
             progressView = AppUpgradeProgress.show()
@@ -282,7 +282,7 @@ const getLocationBaseRN = enableHighAccuracy => {
   return new Promise(async (resolve, reject) => {
     const errKey = 'get-location-duxapp-error'
     try {
-      const { data } = await Taro.getStorage({
+      const { data } = await getStorage({
         key: errKey
       })
       const errDate = JSON.parse(data).errDate
@@ -303,7 +303,7 @@ const getLocationBaseRN = enableHighAccuracy => {
       if (!status) {
         // const config = userConfig.option.duxapp.app?.permissions?.location
         // if (config) {
-        //   const { confirm } = await Taro.showModal({
+        //   const { confirm } = await showModal({
         //     title: config.title,
         //     content: config.content,
         //     confirmText: '快速开启定位',
@@ -325,7 +325,7 @@ const getLocationBaseRN = enableHighAccuracy => {
         )
         if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
           // 记录获取失败的时间 等待 48小时之后再次获取时间 某些安卓平台 拒绝之后短时间内再次弹出会不让通过
-          await Taro.setStorage({
+          await setStorage({
             key: errKey,
             data: JSON.stringify({
               errDate: new Date().getTime()

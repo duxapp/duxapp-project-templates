@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components'
 import { useCallback, useEffect, useState } from 'react'
 import { TopView, Header } from '@/duxcms/components'
-import Taro, { useRouter } from '@tarojs/taro'
+import { login, useRouter } from '@tarojs/taro'
 import { request, startPay } from '@/duxcmsPay'
 import { Button } from '@/duxui/components/Button'
 import { loading } from '@/duxui/utils/interact'
@@ -14,7 +14,7 @@ export default function OrderAppPay() {
   const [payStatus, setPayStatus] = useState(0) // 0 未支付 1支付成功 2支付失败
 
   const start = useCallback(() => {
-    Taro.login().then(res => {
+    login().then(res => {
       return request({
         url: params.api || 'order/without/pay',
         loading,

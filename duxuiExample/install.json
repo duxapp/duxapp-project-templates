@@ -1,4 +1,4 @@
 {
-  "name": "duxui 示例代码(包含所有组件的示例代码)",
+  "name": "duxui 示例代码(包含所有组件的示例代码 支持RN端)",
   "result": "小程序: yarn dev:weapp --app=duxuiExample\nH5: yarn dev:h5 --app=duxuiExample\nAPP: yarn dev:rn --app=duxuiExample\n编译安卓调试版: yarn debug:android --app=duxuiExample\n编译安卓发布版: yarn build:android --app=duxuiExample"
 }

@@ -1,11 +1,11 @@
-import Taro from '@tarojs/taro'
+import { request } from '@tarojs/taro'
 import { getLocationBase } from '@/duxapp'
 
 import { mapConfig } from './config'
 
 export const mapApi = {
   request: async (url, data) => {
-    const res = await Taro.request({
+    const res = await request({
       url: 'https://restapi.amap.com/v3/' + url,
       data: {
         key: mapConfig.apiKey,

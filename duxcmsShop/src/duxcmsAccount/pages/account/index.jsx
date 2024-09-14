@@ -1,16 +1,10 @@
 import { Card, Column, Divider, Header, Text, TopView, nav, Row } from '@/duxui'
 import { useRequest, CmsIcon, duxappTheme } from '@/duxcms'
-import { useDidShow } from '@tarojs/taro'
 import { Price, accountHook } from '@/duxcmsAccount'
-
 
 export default function Account() {
 
-  const [info, action] = useRequest('member/account')
-
-  useDidShow(() => {
-    action.reload()
-  }, [])
+  const [info] = useRequest('member/account', { reloadForShow: true })
 
   return <TopView isSafe>
     <Header title='钱包' />
