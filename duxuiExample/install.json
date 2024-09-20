@@ -1,4 +1,20 @@
 {
   "name": "duxui 示例代码(包含所有组件的示例代码 支持RN端)",
-  "result": "小程序: yarn dev:weapp --app=duxuiExample\nH5: yarn dev:h5 --app=duxuiExample\nAPP: yarn start --app=duxuiExample\n编译安卓调试版: yarn android --app=duxuiExample\n编译安卓发布版: yarn build:android --app=duxuiExample"
+  "apps": [
+    "amap",
+    "duxapp",
+    "duxappReactNative",
+    "duxcms",
+    "duxui",
+    "duxuiExample",
+    "echarts",
+    "wechat"
+  ],
+  "result": [
+    "小程序: yarn dev:weapp --app=duxuiExample",
+    "H5: yarn dev:h5 --app=duxuiExample",
+    "APP: yarn start --app=duxuiExample",
+    "编译安卓调试版: yarn android --app=duxuiExample",
+    "编译安卓发布版: yarn build:android --app=duxuiExample"
+  ]
 }

@@ -1,0 +1,16 @@
+{
+  "name": "bootsplash",
+  "description": "采用logo生成的启动屏幕",
+  "version": "1.0.7",
+  "dependencies": [
+    "duxappReactNative"
+  ],
+  "npm": {
+    "scripts": {
+      "logo": "react-native generate-bootsplash logo.png --background=FFFFFF --logo-width=100 --assets-output=asset --flavor=main"
+    },
+    "dependencies": {
+      "react-native-bootsplash": "^6.1.3"
+    }
+  }
+}

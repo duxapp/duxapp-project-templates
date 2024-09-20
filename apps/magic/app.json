@@ -1,0 +1,9 @@
+{
+  "name": "magic",
+  "description": "数据魔方",
+  "version": "1.0.2",
+  "dependencies": [
+    "duxcms",
+    "duxui"
+  ]
+}

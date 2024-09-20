@@ -1,0 +1,11 @@
+.NumInput {
+  &__num-add {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: $duxappPrimaryColor;
+    &--disabled {
+      background-color: lighten($duxappPrimaryColor, 20);
+    }
+  }
+}

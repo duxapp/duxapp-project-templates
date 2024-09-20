@@ -1,0 +1,62 @@
+@font-face {
+  font-family: "shop-design"; /* Project id 4461756 */
+  src: url('//at.alicdn.com/t/c/font_4461756_ad9efegpd7n.woff2?t=1710508808498') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4461756_ad9efegpd7n.woff?t=1710508808498') format('woff'),
+       url('//at.alicdn.com/t/c/font_4461756_ad9efegpd7n.ttf?t=1710508808498') format('truetype');
+}
+
+.shop-design {
+  font-family: "shop-design" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.shop-design-component:before {
+  content: "\e730";
+}
+
+.shop-design-template:before {
+  content: "\e6d4";
+}
+
+.shop-design-price:before {
+  content: "\e600";
+}
+
+.shop-design-num-input:before {
+  content: "\e611";
+}
+
+.shop-design-header-search:before {
+  content: "\e61d";
+}
+
+.shop-design-address:before {
+  content: "\e6cf";
+}
+
+.shop-design-data-source:before {
+  content: "\e857";
+}
+
+.shop-design-swiper:before {
+  content: "\e63a";
+}
+
+.shop-design-nav:before {
+  content: "\e620";
+}
+
+.shop-design-goods:before {
+  content: "\e650";
+}
+
+.shop-design-ad:before {
+  content: "\e616";
+}
+
+.shop-design-menu:before {
+  content: "\e63b";
+}

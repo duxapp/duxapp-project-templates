@@ -1,4 +1,29 @@
 {
   "name": "cms商城(单用户商城模块 支持RN端)",
-  "result": "小程序: yarn dev:weapp --app=duxcmsShop\nH5: yarn dev:h5 --app=duxcmsShop\nAPP: yarn start --app=duxcmsShop\n编译安卓调试版:yarn android --app=duxcmsShop\n编译安卓发布版:yarn build:android --app=duxcmsShop\n商城模块需要配置请求域名等参数，在 configs/duxcmsShop/index.js 配置"
+  "apps": [
+    "alipay",
+    "duxapp",
+    "duxappReactNative",
+    "duxcms",
+    "duxcmsAccount",
+    "duxcmsChat",
+    "duxcmsContent",
+    "duxcmsMall",
+    "duxcmsOrder",
+    "duxcmsPay",
+    "duxcmsShop",
+    "duxcmsUser",
+    "duxui",
+    "unionpay",
+    "user",
+    "wechat"
+  ],
+  "result": [
+    "小程序: yarn dev:weapp --app=duxcmsShop",
+    "H5: yarn dev:h5 --app=duxcmsShop",
+    "APP: yarn start --app=duxcmsShop",
+    "编译安卓调试版:yarn android --app=duxcmsShop",
+    "编译安卓发布版:yarn build:android --app=duxcmsShop",
+    "商城模块需要配置请求域名等参数，在 configs/duxcmsShop/index.js 配置"
+  ]
 }
