@@ -36,7 +36,7 @@ export default function StepExample() {
         </GroupList.Item>
         <GroupList.Item title='纵向'>
           <Step
-            type='column'
+            vertical
             data={list}
             startSize={150}
             renderStart={Start}

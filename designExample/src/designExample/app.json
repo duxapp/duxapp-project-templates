@@ -1,7 +1,7 @@
 {
   "name": "designExample",
   "description": "页面编辑器示例",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "dependencies": [
     "duxuiDesign",
     "design"

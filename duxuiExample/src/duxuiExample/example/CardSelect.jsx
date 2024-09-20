@@ -1,5 +1,5 @@
-import { CardSelect, Grid, Header, ScrollView, TopView, GroupList, Space, Button } from '@/duxuiExample'
-import { Form } from '@/duxui'
+import { GroupList } from '@/duxuiExample'
+import { CardSelect, Grid, Header, ScrollView, TopView, Form } from '@/duxui'
 import { Text } from '@tarojs/components'
 
 const list = [

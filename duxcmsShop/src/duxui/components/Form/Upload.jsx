@@ -1,6 +1,6 @@
 import { View, Image } from '@tarojs/components'
 import { useCallback, useState } from 'react'
-import { Loading } from '@/duxapp/components'
+import { ActionSheet, Loading } from '@/duxapp/components'
 import classNames from 'classnames'
 import { formConfig } from './config'
 import { DuxuiIcon } from '../DuxuiIcon'
@@ -17,8 +17,9 @@ if (process.env.TARO_ENV === 'rn') {
 export const UploadImages = ({
   value = [],
   column = 4,
-  addText = '添加图片',
+  addText = '上传',
   onChange,
+  type = 'image',
   max = 9,
   disabled,
   _designKey,
@@ -39,7 +40,15 @@ export const UploadImages = ({
       if (requestPermissionMessage) {
         await requestPermissionMessage(requestPermissionMessage.types.image)
       }
-      const urls = await upload('image', { count: max - (value?.length || 0), ...option, sizeType: ['compressed'] })
+      let _type = type
+      if (type === 'all') {
+        const { index } = await ActionSheet.show({
+          title: '请选择',
+          list: ['图片', '视频']
+        })
+        _type = index ? 'video' : 'image'
+      }
+      const urls = await upload(_type, { count: max - (value?.length || 0), ...option, sizeType: ['compressed'] })
         .start(() => {
           setProgress(0)
         })
@@ -49,7 +58,7 @@ export const UploadImages = ({
     } catch (error) {
       setProgress(-1)
     }
-  }, [max, onChange, option, value])
+  }, [max, onChange, option, type, value])
 
   const isOne = max === 1
 
@@ -101,4 +110,14 @@ export const UploadImages = ({
 export const UploadImage = ({ onChange, value, ...props }) => {
 
   return <UploadImages max={1} onChange={val => onChange(val[0])} value={value ? [value] : []}  {...props} />
+}
+
+export const Upload = ({
+  max = 1,
+  ...props
+}) => {
+  if (max === 1) {
+    return <UploadImage {...props} />
+  }
+  return <UploadImages max={max} {...props} />
 }

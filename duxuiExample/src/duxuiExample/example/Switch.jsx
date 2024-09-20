@@ -8,7 +8,7 @@ export default function SwitchExample() {
         <Card margin verticalPadding={false}>
           <Divider.Group>
 
-            <Form.Item label='单列选择' field='switch'>
+            <Form.Item label='开关' field='switch'>
               <Switch />
             </Form.Item>
           </Divider.Group>

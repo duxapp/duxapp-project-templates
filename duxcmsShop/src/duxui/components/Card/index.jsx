@@ -53,9 +53,10 @@ const Title = ({
   children,
   sizeStyle = {},
   style,
-  className
+  className,
+  ...props
 }) => {
-  return <View style={style} className={classNames('CardTitle', className)}>
+  return <View style={style} className={classNames('CardTitle', className)} {...props}>
     {line && <View className='CardTitle__line' />}
     <Text className='CardTitle__text' style={sizeStyle} numberOfLines={numberOfLines}>{children}</Text>
   </View>

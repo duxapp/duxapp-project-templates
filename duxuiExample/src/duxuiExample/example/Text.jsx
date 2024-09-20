@@ -20,17 +20,6 @@ export default function TextExample() {
             </Space>
           </Card>
         </GroupList.Item>
-        {/* <GroupList.Item title='字体测试'>
-          <Card>
-            <Space>
-              <Text style={{fontFamily: '宋体'}}>宋体：中文字体展示</Text>
-              <Text style={{fontFamily: '微软雅黑'}}>微软雅黑：中文字体展示</Text>
-              <Text style={{fontFamily: '黑体'}}>黑体：中文字体展示</Text>
-              <Text style={{fontFamily: 'Georgia'}}> 英文字体：Georgia: London. Michaelmas term lately over, and the Lord Chancellor sitting in Lincoln's Inn Hall</Text>
-              <Text style={{fontFamily: '黑体'}}> 英文字体：Gill San: London. Michaelmas term lately over, and the Lord Chancellor sitting in Lincoln's Inn Hall</Text>
-            </Space>
-          </Card>
-        </GroupList.Item> */}
         <GroupList.Item title='大小'>
           <Card>
             <Space>

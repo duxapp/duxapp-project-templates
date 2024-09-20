@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import { View } from '@tarojs/components'
 import { px } from '@/duxapp/utils'

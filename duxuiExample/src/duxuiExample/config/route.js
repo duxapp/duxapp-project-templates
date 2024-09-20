@@ -76,7 +76,8 @@ const config = {
         InputCode: {},
         TouchableOpacity: {},
         LicensePlate: {},
-        HorseLanternLottery: {}
+        HorseLanternLottery: {},
+        ActionSheet: {}
       }
     }
   },

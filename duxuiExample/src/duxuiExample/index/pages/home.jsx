@@ -31,7 +31,7 @@ export const Home = () => {
         <GroupList.Item title='导航组件'>
           <Cell.Group>
             <Cell title='Header 头部导航' onClick={() => nav('duxuiExample/example/Header')} />
-            <Cell title='Tab 选项卡切换' onClick={() => nav('duxuiExample/example/Tab')} />
+            <Cell title='Tab 选项卡' onClick={() => nav('duxuiExample/example/Tab')} />
             <Cell title='TabBar 底部导航' onClick={() => nav('duxuiExample/example/TabBar')} />
             <Cell title='Elevator 电梯楼层' onClick={() => nav('duxuiExample/example/Elevator')} />
             <Cell title='Menu 下拉菜单' onClick={() => nav('duxuiExample/example/Menu')} />
@@ -43,17 +43,17 @@ export const Home = () => {
             <Cell title='Input 输入框' onClick={() => nav('duxuiExample/example/Input')} />
             <Cell title='Textarea 多行文本' onClick={() => nav('duxuiExample/example/Textarea')} />
             <Cell title='Picker 选择器' onClick={() => nav('duxuiExample/example/Picker')} />
-            <Cell title='Date 日期时间' onClick={() => nav('duxuiExample/example/Date')} />
+            <Cell title='PickerDate 日期时间' onClick={() => nav('duxuiExample/example/Date')} />
             <Cell title='Radio 单选' onClick={() => nav('duxuiExample/example/Radio')} />
             <Cell title='Checkbox 多选' onClick={() => nav('duxuiExample/example/Checkbox')} />
             <Cell title='Switch 开关' onClick={() => nav('duxuiExample/example/Switch')} />
             <Cell title='Calendar 日历' onClick={() => nav('duxuiExample/example/Calendar')} />
             <Cell title='Grade 评分' onClick={() => nav('duxuiExample/example/Grade')} />
             <Cell title='Cascade 级联选择' onClick={() => nav('duxuiExample/example/Cascade')} />
-            <Cell title='CardSelect 卡片选择器' onClick={() => nav('duxuiExample/example/CardSelect')} />
+            <Cell title='CardSelect 卡片选择' onClick={() => nav('duxuiExample/example/CardSelect')} />
             <Cell title='Upload 上传' onClick={() => nav('duxuiExample/example/Upload')} />
             <Cell title='ModalForm 弹出表单' onClick={() => nav('duxuiExample/example/ModalForm')} />
-            <Cell title='ModalForms 弹出复杂表单(对象数组)' onClick={() => nav('duxuiExample/example/FormComplex')} />
+            <Cell title='FormComplex 复杂表单(对象数组)' onClick={() => nav('duxuiExample/example/FormComplex')} />
             <Cell title='NumberKeyboard 数字键盘' onClick={() => nav('duxuiExample/example/NumberKeyboard')} />
             <Cell title='InputCode 验证码密码输入' onClick={() => nav('duxuiExample/example/InputCode')} />
             <Cell title='LicensePlate 车牌号输入' onClick={() => nav('duxuiExample/example/LicensePlate')} />
@@ -76,6 +76,7 @@ export const Home = () => {
           <Cell.Group>
             <Cell title='LongPress 长按' onClick={() => nav('duxuiExample/example/LongPress')} />
             <Cell title='TouchableOpacity 触摸反馈' onClick={() => nav('duxuiExample/example/TouchableOpacity')} />
+            <Cell title='ActionSheet 弹出菜单' onClick={() => nav('duxuiExample/example/ActionSheet')} />
             <Cell title='Layout 布局计算' onClick={() => nav('duxuiExample/example/Layout')} />
             <Cell title='TopView 顶层容器' onClick={() => nav('duxuiExample/example/TopView')} />
             <Cell title='Absolute 绝对定位' onClick={() => nav('duxuiExample/example/Absolute')} />

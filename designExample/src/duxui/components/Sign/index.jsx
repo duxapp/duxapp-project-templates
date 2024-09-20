@@ -2,8 +2,8 @@ import { Component } from 'react'
 import { nextTick, createSelectorQuery, getSystemInfoSync, canvasToTempFilePath } from '@tarojs/taro'
 import { Canvas } from '@tarojs/components'
 import { Layout } from '@/duxapp'
+import classNames from 'classnames'
 import { formConfig } from '../Form/config'
-import './index.scss'
 
 export class Sign extends Component {
   state = {
@@ -131,15 +131,15 @@ export class Sign extends Component {
   }
 
   render() {
-    const { style } = this.props
+    const { style, className, ...props } = this.props
     const { width, height, show } = this.state
     return (
-      <Layout className='Sign' onLayout={this.layout}>
+      <Layout className={classNames('Sign', className)} style={style} {...props} onLayout={this.layout}>
         {show && (
           <Canvas
             type='2d'
             id={this.canvasID}
-            style={{ ...style, width: width + 'px', height: height + 'px' }}
+            style={{ width: width + 'px', height: height + 'px' }}
             onTouchStart={this.touchStart}
             onTouchMove={this.touchMove}
             onTouchEnd={this.touchEnd}

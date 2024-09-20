@@ -49,14 +49,37 @@ module.exports = ({ config }) => {
   // react-native-wechat-lib end`
       }
     },
-    // 对复制的文件进行处理
-    copy: {
-      'android/app/src/main/java/cn/duxapp/wxapi/WXEntryActivity.java': content => {
-        return content.replaceAll('#packageName#', android.appid)
-      },
-      'android/app/src/main/java/cn/duxapp/wxapi/WXPayEntryActivity.java': content => {
-        return content.replaceAll('#packageName#', android.appid)
-      }
+    create: {
+      'android/app/src/main/java/cn/duxapp/wxapi/WXEntryActivity.java': `package ${android.appid}.wxapi;
+
+import android.app.Activity;
+import android.os.Bundle;
+import com.wechatlib.WeChatLibModule;
+
+public class WXEntryActivity extends Activity {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    WeChatLibModule.handleIntent(getIntent());
+    finish();
+  }
+}
+`,
+      'android/app/src/main/java/cn/duxapp/wxapi/WXPayEntryActivity.java': `package ${android.appid}.wxapi;
+
+import android.app.Activity;
+import android.os.Bundle;
+import com.wechatlib.WeChatLibModule;
+
+public class WXPayEntryActivity extends Activity {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    WeChatLibModule.handleIntent(getIntent());
+    finish();
+  }
+}
+`
     },
     android: {
       xml: {

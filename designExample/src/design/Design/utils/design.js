@@ -114,8 +114,13 @@ export const useDesign = (defaultNodes, onChange, userConfig) => {
         const config = comp.getConfig(currentNode.tag)
         if (!config.child || currentNode.child.length >= config.child.max || comp.isChildDisable(currentNode.tag, key1)) {
           // 无法添加到子元素 添加到同级后面
-          const index = currentNode.parentNode.child.findIndex(v => v.key === hoverKeyRef.current)
-          key2 = new NodePosition(currentNode.parentNode.key, index + 1)
+          if (currentNode.parentNode) {
+            const index = currentNode.parentNode.child.findIndex(v => v.key === hoverKeyRef.current)
+            key2 = new NodePosition(currentNode.parentNode.key, index + 1)
+          } else {
+            toast('不支持插入到此位置')
+            return
+          }
         } else {
           key2 = new NodePosition(currentNode.key, currentNode.child.length)
         }

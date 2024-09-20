@@ -1,15 +1,11 @@
 import { Column, Empty, Header, Image, Row, Tab, Text, TopView, nav, px, useRoute } from '@/duxui'
 import { List } from '@/duxcmsOrder'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 export default function RefundList() {
   const { params } = useRoute()
 
   const [navType, setNavType] = useState(params.type | 0)
-
-  const listData = useMemo(() => ({
-    type: navType,
-  }), [navType])
 
   return <TopView>
     <Header title='退款/售后' />
@@ -20,7 +16,9 @@ export default function RefundList() {
     </Tab>
     <List
       url='order/refund'
-      data={listData}
+      data={{
+        type: navType,
+      }}
       renderItem={Item}
       renderEmpty={<Empty title='暂无售后' />}
     />

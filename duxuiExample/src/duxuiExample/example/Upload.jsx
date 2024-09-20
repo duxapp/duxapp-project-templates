@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, UploadImages, UploadImage } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Divider, Upload } from '@/duxuiExample'
 
 export default function UploadExample() {
   return <TopView>
@@ -8,10 +8,16 @@ export default function UploadExample() {
         <Card margin verticalPadding={false}>
           <Divider.Group>
             <Form.Item label='图片上传' field='image' direction='vertical' >
-              <UploadImage />
+              <Upload />
             </Form.Item>
             <Form.Item label='多图上传' field='images' direction='vertical' >
-              <UploadImages />
+              <Upload max={9} />
+            </Form.Item>
+            <Form.Item label='视频上传' field='images' direction='vertical' >
+              <Upload type='video' />
+            </Form.Item>
+            <Form.Item label='视频和图片上传' field='images' direction='vertical' >
+              <Upload type='all' />
             </Form.Item>
           </Divider.Group>
         </Card>

@@ -4591,10 +4591,10 @@ duplexer3@^0.1.4:
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.5.tgz#0b5e4d7bad5de8901ea4440624c8e1d20099217e"
   integrity sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==
 
-duxapp-cli@~2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/duxapp-cli/-/duxapp-cli-2.0.7.tgz#96ce7d7dea8c17f5c91c3465090dfabb983037e4"
-  integrity sha512-nK+nEthK8lxl2P9utfo8HXFz23UgppXeoK6XFronll817NFLFIqPymlQ/F4LE2HsKXh6TXeIhHNnzF4IWyqGlw==
+duxapp-cli@~2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/duxapp-cli/-/duxapp-cli-2.0.9.tgz#e88df1549c602ea96debb39b4fb1c7017d8f41c4"
+  integrity sha512-fVz28l46T+EVLzyoZ1zcX2d7XtWg3uxc8R6onj08UKCT7Vo3UbniKWt0om1XePzcn7LEHbNc/QcfuDHYry8Ljw==
   dependencies:
     "@babel/parser" "^7.25.6"
     "@xmldom/xmldom" "^0.9.2"

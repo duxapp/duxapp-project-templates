@@ -1,7 +1,7 @@
 {
   "name": "duxcmsMall",
   "description": "CMS商品模块",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "dependencies": [
     "duxcmsOrder"
   ]

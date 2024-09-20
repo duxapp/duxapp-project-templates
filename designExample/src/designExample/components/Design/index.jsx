@@ -32,7 +32,7 @@ Taro.initPxTransform({
 
 export default function DuxDesign({ config, ...props }) {
 
-  return <Design config={{ ...defaultConfig, ...config }} {...props}>
+  return <Design config={{ ...defaultConfig, ...config }} Design={DuxDesign} {...props}>
     <Row grow justify='between' className='design-page'>
       <ComponentList />
       <div className='center'>

@@ -14,16 +14,16 @@ export const Price = ({
 }) => {
 
   const prices = ('' + (children || 0)).split('.')
-  prices[1] = +prices[1]
-  if (prices[1] && prices[1] % 10 === 0) {
-    prices[1] = prices[1] / 10
+  if (prices[1]?.[1] === '0') {
+    prices[1] = prices[1].slice(0, 1)
   }
+
   return <Text type='danger' size={size} {...props}>
     <accountHook.Render mark='Pirce.before' option={{ props }}>
       {config.position !== 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
     </accountHook.Render>
     <Text bold={bold}>{prices[0]}</Text>
-    {prices[1] > 0 && <Text size={pointSize}>.{prices[1]}</Text>}
+    {prices[1] !== '0' && <Text size={pointSize}>.{prices[1]}</Text>}
     <accountHook.Render mark='Pirce.after' option={{ props }}>
       {config.position === 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
     </accountHook.Render>

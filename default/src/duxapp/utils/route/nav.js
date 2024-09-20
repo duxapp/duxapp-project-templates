@@ -513,6 +513,15 @@ class Route {
       paths,
     }
   }
+
+  useRoute = () => {
+
+    const data = useMemo(() => {
+      return deepCopy(this.current[this.current.length - 1]) || { path: '', params: {} }
+    }, [])
+
+    return data
+  }
 }
 
 export const route = new Route()
@@ -521,14 +530,7 @@ export const route = new Route()
  * 获取当前页面路由信息
  * @returns {params: {}, path: ''}
  */
-export const useRoute = () => {
-
-  const data = useMemo(() => {
-    return deepCopy(route.current[route.current.length - 1]) || { path: '', params: {} }
-  }, [])
-
-  return data
-}
+export const useRoute = route.useRoute
 
 export const nav = route.nav
 

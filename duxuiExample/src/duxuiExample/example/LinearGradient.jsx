@@ -1,5 +1,4 @@
 import { LinearGradient, Header, ScrollView, TopView, GroupList, px } from '@/duxuiExample'
-import Taro from '@tarojs/taro'
 
 export default function LinearGradientExample() {
   return <TopView>
@@ -22,7 +21,7 @@ export default function LinearGradientExample() {
           <LinearGradient colors={['#e94727', '#6661ee']} useAngle angle={155} style={{ height: px(200) }}>
           </LinearGradient>
         </GroupList.Item>
-        <GroupList.Item title='不透明度' desc='RN端角度与h5端会有差异'>
+        <GroupList.Item title='不透明度'>
           <LinearGradient colors={['#e94727', 'rgba(0,0,0,0.2)']} useAngle angle={90} style={{ height: px(200) }}>
           </LinearGradient>
         </GroupList.Item>

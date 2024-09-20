@@ -58,5 +58,9 @@ export default {
     textColor: '#000', // 文本颜色
     showWechat: false, // 微信公众号是否显示header
     showWap: true, // h5是否显示header
+  },
+
+  topView: {
+    weappRem: false
   }
 }
