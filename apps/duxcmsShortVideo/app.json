@@ -1,0 +1,16 @@
+{
+  "name": "duxcmsShortVideo",
+  "description": "短视频模块",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxcmsUser",
+    "duxcmsAccount",
+    "echarts",
+    "amap"
+  ],
+  "npm": {
+    "dependencies": {
+      "expo-video-thumbnails": "^9.0.0-canary-20240904-69100c1"
+    }
+  }
+}

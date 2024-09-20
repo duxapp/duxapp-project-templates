@@ -1,4 +1,11 @@
 {
   "name": "基础模板(仅包含基础duxapp模块)",
-  "result": "小程序: yarn dev:weapp --app=duxapp\nH5: yarn dev:h5 --app=duxapp\n安装模块: yarn duxapp app add duxui"
+  "apps": [
+    "duxapp"
+  ],
+  "result": [
+    "小程序: yarn dev:weapp --app=duxapp",
+    "H5: yarn dev:h5 --app=duxapp",
+    "安装模块: yarn duxapp app add duxui"
+  ]
 }
