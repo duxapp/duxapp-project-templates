@@ -1,7 +1,7 @@
 {
   "name": "duxappReactNative",
   "description": "react-native基础系统",
-  "version": "1.0.21",
+  "version": "1.0.23",
   "dependencies": [
     "duxapp"
   ],
@@ -9,7 +9,7 @@
     "scripts": {
       "build:rn-android": "duxapp runtime enterFile && taro build --type rn --platform android",
       "build:rn-ios": "duxapp runtime enterFile && taro build --type rn --platform ios",
-      "android": "duxapp runtime enterFile && duxapp rn create && react-native run-android",
+      "android": "duxapp runtime enterFile && duxapp rn create && react-native run-android && cd .",
       "start": "duxapp runtime enterFile && taro build --type rn --watch",
       "debug:android": "duxapp runtime enterFile && duxapp rn create && cd android && ./gradlew installDebug && cd ..",
       "build:android": "duxapp runtime enterFile && duxapp rn create && cd android && ./gradlew assembleRelease && cd ..",

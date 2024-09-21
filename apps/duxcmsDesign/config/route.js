@@ -23,19 +23,7 @@ const config = {
     'duxcmsAccount/',
     'duxcmsMall/',
     'duxcmsPay/'
-  ],
-  /**
-   * 路由转换，当跳转到左侧路由时，实际上跳转的是右侧的路由
-   *
-   * 右侧是字符串则全局匹配
-   * {
-   *  mode: 'start', // start匹配路由的开始部分
-   *  page: ''
-   * }
-   */
-  transfer: {
-
-  }
+  ]
 }
 
 module.exports = config

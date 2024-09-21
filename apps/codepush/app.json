@@ -1,7 +1,7 @@
 {
   "name": "codepush",
   "description": "集成微软热更新模块",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "dependencies": [
     "duxappReactNative"
   ],
