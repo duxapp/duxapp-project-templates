@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-commonjs
 module.exports = ({ config }) => {
-  const { android } = config
+  const { android, option } = config
   return {
     // 描点插入
     insert: {
@@ -116,11 +116,16 @@ public class WXPayEntryActivity extends Activity {
               CFBundleTypeRole: 'Editor',
               CFBundleURLName: 'weixin',
               CFBundleURLSchemes: [
-                `wx${config.option?.wechat?.appid || ''}`
+                option?.wechat?.appid || 'wx'
               ]
             }
           ],
           LSApplicationQueriesSchemes: ['weixin', 'wechat', 'weixinULAPI']
+        },
+        'duxapp/duxapp.entitlements': {
+          'com.apple.developer.associated-domains': [
+            `applinks:${option?.wechat?.applinks || 'duxapp.cn'}`
+          ]
         }
       }
     }
