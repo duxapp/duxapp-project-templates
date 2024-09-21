@@ -16,10 +16,7 @@ const config = {
   },
   disablePages: [
     'duxapp/pages/index/index'
-  ],
-  transfer: {
-
-  }
+  ]
 }
 
 module.exports = config

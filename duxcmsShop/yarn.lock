@@ -2198,7 +2198,7 @@
   resolved "https://registry.yarnpkg.com/@react-native-camera-roll/camera-roll/-/camera-roll-7.8.3.tgz#c0ad3035ed129cc84101fb586d6bb070629cb26d"
   integrity sha512-F4xNVg/cqN+MiAhoqC11/RafIVQCzLxJVMYke1eBkqLmP5aJ+fKfPPClnRcvXfWHyXOuM17og45LP0S4H09wnQ==
 
-"@react-native-clipboard/clipboard@1.14.1", "@react-native-clipboard/clipboard@~1.14.1":
+"@react-native-clipboard/clipboard@1.14.1", "@react-native-clipboard/clipboard@~1.14.1", "@react-native-clipboard/clipboard@~1.14.2":
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.14.2.tgz#d290e9f79799e260ba4ebd9e9948079258826b25"
   integrity sha512-Mb58f3neB6sM9oOtKYVGLvN8KVByea67OA9ekJ0c9FwdH24INu8RJoA7/fq+PRk+7oxbeamAcEoQPRv0uwbbMw==
@@ -7109,10 +7109,10 @@ duplexer3@^0.1.4:
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.5.tgz#0b5e4d7bad5de8901ea4440624c8e1d20099217e"
   integrity sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==
 
-duxapp-cli@~2.0.9:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/duxapp-cli/-/duxapp-cli-2.0.9.tgz#e88df1549c602ea96debb39b4fb1c7017d8f41c4"
-  integrity sha512-fVz28l46T+EVLzyoZ1zcX2d7XtWg3uxc8R6onj08UKCT7Vo3UbniKWt0om1XePzcn7LEHbNc/QcfuDHYry8Ljw==
+duxapp-cli@~2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/duxapp-cli/-/duxapp-cli-2.0.11.tgz#d4cc516418b8de5091d030c393da13174cfcc716"
+  integrity sha512-fRD8KgxFMHmsPp3L3ELsxaVxizYbSDU9ceGGSVA+BE50IWzCTABsHsLXfqw0Ny6zjU+hQ7bxN/AZStMbrGuCBA==
   dependencies:
     "@babel/parser" "^7.25.6"
     "@xmldom/xmldom" "^0.9.2"

@@ -1,7 +1,7 @@
 {
   "name": "duxcmsChat",
   "description": "CMS聊天",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "dependencies": [
     "duxcmsUser"
   ]
