@@ -1,15 +1,6 @@
 // import qiniu from './base/components/UploadFileManage/drive/qiniu'
 
 const config = {
-  // 对于默认不开启的页面 配置在此处将开启这些页面
-  openPages: [
-    // 'user/auth/start', // 需要登录才能访问的app 将此页面打开
-    // 'base/location/index', // 需要选择位置信息的app 将此页面打开
-  ],
-  // 不需要的页面可以配置路径禁用
-  disablePages: [
-    'user/'
-  ],
   // 覆盖app.config.js 配置
   appConfig: {
     // 使用小程序新的渲染引擎

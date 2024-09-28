@@ -20,6 +20,8 @@ interface StepProps extends ViewProps {
   onItemClick?: (option: { item: any, index: number }) => void
   // 每一项的样式
   itemClassName?: string
+  // 线条类型
+  lineType?: 'solid' | 'dashed' | 'dotted'
   // 每一项的样式
   itemStyle?: CSSProperties
 }

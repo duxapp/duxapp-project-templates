@@ -1,6 +1,6 @@
 const config = {
   android: {
-    appid: 'com.duxapp.cmsshop',
+    appid: 'cn.duxapp.cmsshop',
     appName: 'DUX商城',
     versionCode: 1,
     versionName: '1.0.0',
@@ -12,11 +12,8 @@ const config = {
       keyPassword: '8s7FGpH8RzkQjmNT'
     }
   },
-  /**
-   * ios上传相关配置
-   */
   ios: {
-    BundleId: 'com.duxapp.cmsshop',
+    BundleId: 'cn.duxapp.cmsshop',
     appName: 'DUX商城',
     versionCode: 1,
     versionName: '1.0.0',

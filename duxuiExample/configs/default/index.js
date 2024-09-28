@@ -1,23 +1,6 @@
 // import qiniu from './base/components/UploadFileManage/drive/qiniu'
 
 const config = {
-  // 对于默认不开启的页面 配置在此处将开启这些页面
-  openPages: [],
-  // 不需要的页面可以配置路径禁用
-  disablePages: [],
-  // 覆盖app.config.js 配置
-  appConfig: {
-    // 使用小程序新的渲染引擎
-    // renderer: 'skyline',
-    // lazyCodeLoading: 'requiredComponents',
-    requiredPrivateInfos: [
-      'chooseLocation',
-      'getLocation',
-      'onLocationChange',
-      'startLocationUpdateBackground',
-      'chooseAddress'
-    ]
-  },
   // 调试配置
   debug: {
     // 在h5端开启vconsole调试功能

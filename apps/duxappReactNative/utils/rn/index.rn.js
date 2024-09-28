@@ -277,7 +277,6 @@ requestPermissionMessage.types = {
   }
 }
 
-
 const getLocationBaseRN = enableHighAccuracy => {
   return new Promise(async (resolve, reject) => {
     const errKey = 'get-location-duxapp-error'

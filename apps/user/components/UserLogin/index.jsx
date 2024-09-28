@@ -2,6 +2,7 @@ import { View } from '@tarojs/components'
 import { getCurrentPages } from '@tarojs/taro'
 import { useCallback, useMemo, useEffect, useState } from 'react'
 import { user } from '@/user/utils'
+import { TopView } from '@/duxapp'
 
 const LoginPage = ({
   load,
@@ -78,3 +79,12 @@ export const UserLogin = (() => {
     return <LoginPage load={load} onLoad={onLoad} Page={Page} />
   }
 })()
+
+UserLogin.start = Login => {
+  TopView.add([
+    UserLogin,
+    {
+      Login
+    }
+  ])
+}

@@ -1,4 +1,4 @@
-import userConfig from '../../../configs/duxcmsShop'
+import userConfig from '../../../configs/duxuiExample'
 
 export {
   userConfig

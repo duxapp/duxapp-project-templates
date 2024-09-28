@@ -1,7 +1,7 @@
 
 const config = {
   android: {
-    appid: 'com.duxapp.duxui',
+    appid: 'cn.duxapp.duxui',
     appName: 'duxUI库',
     versionCode: 1,
     versionName: '1.0.0',
@@ -12,11 +12,8 @@ const config = {
       keyPassword: 'TN62eyasJAKm2ksD'
     }
   },
-  /**
-   * ios上传相关配置
-   */
   ios: {
-    BundleId: 'com.duxapp.duxui',
+    BundleId: 'cn.duxapp.duxui',
     appName: 'duxUI库',
     versionCode: 1,
     versionName: '1.0.0',

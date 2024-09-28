@@ -5,6 +5,9 @@
  * home: 是否是主页 是主页的页面将会被排在前面
  */
 const config = {
+  disablePages: [
+    'user/'
+  ],
   pages: {
     'duxuiExample/index': {
       pages: {
