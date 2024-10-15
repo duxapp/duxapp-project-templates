@@ -23,7 +23,7 @@ export const Price = ({
       {config.position !== 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
     </accountHook.Render>
     <Text bold={bold}>{prices[0]}</Text>
-    {prices[1] !== '0' && <Text size={pointSize}>.{prices[1]}</Text>}
+    {prices.length > 1 && prices[1] !== '0' && <Text size={pointSize}>.{prices[1]}</Text>}
     <accountHook.Render mark='Pirce.after' option={{ props }}>
       {config.position === 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
     </accountHook.Render>

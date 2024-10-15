@@ -80,7 +80,8 @@ const config = {
         TouchableOpacity: {},
         LicensePlate: {},
         HorseLanternLottery: {},
-        ActionSheet: {}
+        ActionSheet: {},
+        Recorder: {}
       }
     }
   }

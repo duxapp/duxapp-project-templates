@@ -1,7 +1,7 @@
 {
   "name": "duxcmsAccount",
   "description": "DMS用户账户模块，管理实名认证、银行卡、账户余额、提现",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "dependencies": [
     "duxcmsUser",
     "duxcmsPay"

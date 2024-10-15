@@ -22,5 +22,5 @@ yarn dev:rn --app=duxuiExample
 ## 打包示例
 
 - 小程序 （小程序搜索 duxui）
-- APP https://app.share.dux.plus/com.duxapp.duxui
+- APP https://app.share.dux.plus/cn.duxapp.duxui
 - H5 https://example.duxui.cn

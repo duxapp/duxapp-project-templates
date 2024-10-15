@@ -81,10 +81,7 @@ export const UserLogin = (() => {
 })()
 
 UserLogin.start = Login => {
-  TopView.add([
-    UserLogin,
-    {
-      Login
-    }
-  ])
+  TopView.addContainer(UserLogin, {
+    Login
+  })
 }

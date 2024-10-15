@@ -49,7 +49,7 @@ export default function OrderCreate() {
       <ScrollView>
         <orderHook.Render mark='order.create.address' option={{ address, data, submitStatus, ...total }}>
           <Row className='p-3 r-2 mh-3 mt-3 bg-white gap-3' items='center' onClick={orderCreate.selectAddress}>
-            <Column grow className='gap-2'>
+            <Column grow className='gap-2 overflow-hidden'>
               <Row className='gap-2' items='center'>
                 <Column
                   style={{ width: px(48), height: px(48), backgroundColor: duxappTheme.primaryColor }}

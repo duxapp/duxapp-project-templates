@@ -52,6 +52,7 @@ export const Home = () => {
             <Cell title='Cascade 级联选择' onClick={() => nav('duxuiExample/example/Cascade')} />
             <Cell title='CardSelect 卡片选择' onClick={() => nav('duxuiExample/example/CardSelect')} />
             <Cell title='Upload 上传' onClick={() => nav('duxuiExample/example/Upload')} />
+            <Cell title='Recorder 录音' onClick={() => nav('duxuiExample/example/Recorder')} />
             <Cell title='ModalForm 弹出表单' onClick={() => nav('duxuiExample/example/ModalForm')} />
             <Cell title='FormComplex 复杂表单(对象数组)' onClick={() => nav('duxuiExample/example/FormComplex')} />
             <Cell title='NumberKeyboard 数字键盘' onClick={() => nav('duxuiExample/example/NumberKeyboard')} />

@@ -18,7 +18,7 @@ export const User = () => {
             <Cell title='作者' subTitle='908634674@qq.com' />
             {process.env.TARO_ENV !== 'rn' && <Cell title='APP版本' desc='查看' isLink
               onClick={() => {
-                setClipboardData({ data: 'https://app.share.dux.plus/com.duxapp.duxui' })
+                setClipboardData({ data: 'https://app.share.dux.plus/cn.duxapp.duxui' })
               }}
             />}
             {process.env.TARO_ENV !== 'weapp' && <Cell title='小程序版本' desc='查看' isLink onClick={() => confirm({ content: '微信搜索小程序 duxui 查看' })} />}
