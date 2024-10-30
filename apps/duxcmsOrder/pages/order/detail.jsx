@@ -178,8 +178,20 @@ export const OrderTotal = () => {
       <Text color={2}>运费</Text>
       <Price bold color={1}>{data.delivery_price}</Price>
     </Row>
+    {
+      data.premium_data?.map(item => <Row key={item.type} items='center' justify='between'>
+        <Text color={2}>{item.name}</Text>
+        <Price bold color={1}>{item.price}</Price>
+      </Row>)
+    }
+    {
+      data.discount_data?.map(item => <Row key={item.type} items='center' justify='between'>
+        <Text color={2}>{item.name}</Text>
+        <Price bold type='danger'>{-item.price}</Price>
+      </Row>)
+    }
     {+data.discount_price > 0 && <Row items='center' justify='between'>
-      <Text color={2}>优惠</Text>
+      <Text color={2}>总优惠</Text>
       <Price bold type='danger'>{-data.discount_price || 0}</Price>
     </Row>}
     <Row items='center' justify='between'>

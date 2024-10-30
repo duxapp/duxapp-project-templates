@@ -1,5 +1,5 @@
 import { Button, Card, Column, Divider, Form, Header, Input, Radio, Row, ScrollView, Text, TopView, asyncTimeOut, loading, nav, useRoute } from '@/duxui'
-import { request, useRequest } from '@/duxcmsOrder'
+import { request, useRequest, orderHook } from '@/duxcmsOrder'
 import { showToast } from '@tarojs/taro'
 import { useCallback } from 'react'
 import { chooseLocation } from '@/amap'
@@ -71,9 +71,11 @@ const FormContent = () => {
           <Form.Item label='联系电话' field='tel'>
             <Input grow placeholder='请输入联系人号码' />
           </Form.Item>
-          <Form.Item label='所在区域' fields>
-            <Address />
-          </Form.Item>
+          <orderHook.Render mark='address.edit.area'>
+            <Form.Item label='所在区域' fields>
+              <Address />
+            </Form.Item>
+          </orderHook.Render>
           <Form.Item label='详细地址' field='address'>
             <Input grow placeholder='请输入详细地址' />
           </Form.Item>

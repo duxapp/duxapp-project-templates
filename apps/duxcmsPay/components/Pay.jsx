@@ -149,7 +149,17 @@ export const startPay = async ({
       balance.balance = account.balance
     }
     stop()
-    const { name: type, password } = await Select.select(_payList, price, mask)
+    if (!_payList.length) {
+      throw '请联系管理员配置支付方式'
+    }
+    let type, password = ''
+    if (_payList.length === 1 && ['wechat', 'alipay'].includes(_payList[0].name)) {
+      type = _payList[0].name
+    } else {
+      const info = await Select.select(_payList, price, mask)
+      type = info.name
+      password = info.password
+    }
     if (onType) {
       await onType({
         type,

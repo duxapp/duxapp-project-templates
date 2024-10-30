@@ -32,7 +32,7 @@ Qrcode.show = async (verify, url = 'sale/user/qrcode') => {
         content: err.message,
         confirmText: '去升级'
       }).then(status => {
-        status && nav('modeDevice/member/index')
+        status && nav('duxcmsSale/index/apply')
       })
       throw err
     })

@@ -141,8 +141,20 @@ export default function OrderCreate() {
                         <Text bold>运费</Text>
                         <Price color={2}>{store.total.delivery_price}</Price>
                       </Row>
+                      {
+                        store.premium?.map(item => <Row key={item.type} items='center' justify='between'>
+                          <Text bold>{item.name}</Text>
+                          <Price color={2}>{item.price}</Price>
+                        </Row>)
+                      }
+                      {
+                        store.discount?.map(item => <Row key={item.type} items='center' justify='between'>
+                          <Text bold>{item.name}</Text>
+                          <Price type='danger'>{-item.price}</Price>
+                        </Row>)
+                      }
                       {+store.total.discount_price > 0 && <Row items='center' justify='between'>
-                        <Text bold>优惠</Text>
+                        <Text bold>总优惠</Text>
                         <Price type='danger'>{-store.total.discount_price}</Price>
                       </Row>}
                     </orderHook.Render>

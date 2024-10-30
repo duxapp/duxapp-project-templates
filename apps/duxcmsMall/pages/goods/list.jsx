@@ -13,12 +13,6 @@ export default function GoodsList() {
 
   const [keyword, setKeyword] = useState(params.keyword)
 
-  const listData = useMemo(() => ({
-    ...params,
-    ...filter,
-    keyword
-  }), [filter, keyword, params])
-
   const callback = useCallback((_list, res) => {
     setFilterOption(old => old.length ? old : res._meta.filter)
     return _list
@@ -39,7 +33,11 @@ export default function GoodsList() {
         listCallback={callback}
         url='mall/mall'
         renderItem={Item}
-        data={listData}
+        data={{
+          ...params,
+          ...filter,
+          keyword
+        }}
         renderEmpty={<Empty title='暂无商品' className='w-full' />}
         renderHeader={<mallHook.Render mark='goods.list.header' />}
         renderFooter={<mallHook.Render mark='goods.list.footer' />}

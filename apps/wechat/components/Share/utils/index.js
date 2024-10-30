@@ -39,10 +39,13 @@ export const useWeappShare = (key, Share) => {
 
   const getResult = useCallback((data = {}) => {
     const { params, path, title, weappImage } = data
-    const query = qs.stringify(params)
+
+    const [_path, pathQuery] = path.split('?')
+
+    const query = qs.stringify({ ...params, ...qs.parse(pathQuery || '') })
 
     return {
-      path: `${path.startsWith('/') ? '' : '/'}${path}${query ? (path.includes('?') ? '&' : '?') : ''}${query}`,
+      path: `${path.startsWith('/') ? '' : '/'}${_path}${query ? '?' : ''}${query}`,
       title: title,
       imageUrl: weappImage,
       // 分享到朋友圈参数 分享朋友圈不支持 path 但支持query

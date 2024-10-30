@@ -162,7 +162,7 @@ export class WechatShare {
 
     const _option = useDeepObject(option)
 
-    useMemo(() => {
+    useEffect(() => {
       if (typeof option?.async === 'function') {
         _option.async = option.async
       }

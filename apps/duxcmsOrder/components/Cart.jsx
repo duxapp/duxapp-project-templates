@@ -86,8 +86,8 @@ export const CartContent = ({ edit, setEdit, data }) => {
 
   }, [checkedAll, edit, setChecks, data])
 
-  const submit = useCallback(() => {
-    orderCreate.setCart(cart)
+  const submit = useCallback(async () => {
+    await orderCreate.setCart(cart)
     nav('duxcmsOrder/order/create')
   }, [])
 

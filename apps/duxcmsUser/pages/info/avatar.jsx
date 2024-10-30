@@ -29,7 +29,7 @@ export default function UserAvatar() {
     <Header title='设置头像' />
     <ScrollView>
       <Card margin className='items-center gap-4'>
-        <Avatar size='l' url={userInfo.avatar} />
+        <Avatar size='l' url={userInfo.avatar}>空</Avatar>
         <Row className='gap-3 mt-3'>
           <Button type='primary' onClick={updateAvatar}>上传头像</Button>
           {process.env.TARO_ENV === 'weapp' && <Button type='secondary' openType='chooseAvatar' onChooseAvatar={wxAvatar}>使用微信头像</Button>}

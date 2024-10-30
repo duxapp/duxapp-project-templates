@@ -64,8 +64,9 @@ export class OrderCreate extends ObjectManage {
       this.set({ ...this.data, ...res._meta, data: res })
       this.getDataPromise = null
       return await res
-    } catch {
+    } catch (error) {
       this.getDataPromise = null
+      throw error
     }
   }
 

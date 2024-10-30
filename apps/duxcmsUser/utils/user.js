@@ -171,13 +171,7 @@ export const cmsUser = {
     const data = user.useUserInfo(cmsUser.appName)
 
     return data
-  },
-
-  // 用于覆盖默认的登录页面
-  LoginPage: null,
-  setLoginPage: (page) => {
-    cmsUser.LoginPage = page
-  },
+  }
 }
 
 const requestBefore = async (params) => {

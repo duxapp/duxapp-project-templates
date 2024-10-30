@@ -70,7 +70,7 @@ export const HomeMenu = () => {
     {
       data.map(item => <Column key={item.id}
         className='gap-1' items='center'
-        onClick={() => nav(item.path)}
+        onClick={() => nav(item.url)}
       >
         <Image src={item.image} style={{ width: px(72) }} square />
         <Text size={2}>{item.title}</Text>
@@ -100,7 +100,7 @@ export const HomeAd = () => {
         className='w-full r-2'
         mode='widthFix'
         src={item.image}
-        onClick={() => nav(item.path)}
+        onClick={() => nav(item.url)}
       />)
     }
   </Column>

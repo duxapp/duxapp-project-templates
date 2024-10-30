@@ -10,6 +10,7 @@ export const Price = ({
   pointSize = size,
   unitSize = size,
   unit = config.unit,
+  position = config.position,
   ...props
 }) => {
 
@@ -18,14 +19,24 @@ export const Price = ({
     prices[1] = prices[1].slice(0, 1)
   }
 
-  return <Text type='danger' size={size} {...props}>
-    <accountHook.Render mark='Pirce.before' option={{ props }}>
-      {config.position !== 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
-    </accountHook.Render>
-    <Text bold={bold}>{prices[0]}</Text>
-    {prices.length > 1 && prices[1] !== '0' && <Text size={pointSize}>.{prices[1]}</Text>}
-    <accountHook.Render mark='Pirce.after' option={{ props }}>
-      {config.position === 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
-    </accountHook.Render>
-  </Text>
+  const option = {
+    price: children, prices, bold, pointSize, unitSize,
+    size, unit,
+    props
+  }
+
+  return <accountHook.Render mark='Pirce' option={option}>
+    <Text type='danger' size={size} {...props}>
+      <accountHook.Render mark='Pirce.before' option={option}>
+        {position !== 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
+      </accountHook.Render>
+      <accountHook.Render mark='Pirce.price' option={option}>
+        <Text bold={bold}>{prices[0]}</Text>
+        {prices.length > 1 && prices[1] !== '0' && <Text size={pointSize}>.{prices[1]}</Text>}
+      </accountHook.Render>
+      <accountHook.Render mark='Pirce.after' option={option}>
+        {position === 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
+      </accountHook.Render>
+    </Text>
+  </accountHook.Render>
 }

@@ -1,7 +1,7 @@
 {
   "name": "duxcmsUser",
   "description": "CMS用户模块",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "dependencies": [
     "user",
     "duxcms",

@@ -29,7 +29,7 @@ export const MallList = ({
         data.map(item => <Item key={item.id} item={item} />)
       }
     </Row>
-    <ListLoading loading={bottomLoadStatus} text={bottomLoadStatus ? '加载中' : ''} />
+    {paging && <ListLoading loading={bottomLoadStatus} text={bottomLoadStatus ? '加载中' : ''} />}
   </>
 }
 

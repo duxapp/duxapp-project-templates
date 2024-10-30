@@ -1,5 +1,5 @@
 import { Column, Image, PullView, Row, Text, px, TopView, toast, Button, contextState, nav, duxappTheme, ScrollView, useRoute } from '@/duxui'
-import { Price, directBuy, orderCreate, cart as cartDefault, NumInput } from '@/duxcmsOrder'
+import { Price as OrderPrice, directBuy, orderCreate, cart as cartDefault, NumInput } from '@/duxcmsOrder'
 import { useCallback, useMemo, useState, cloneElement } from 'react'
 import { Spec } from './Spec'
 import { mallHook } from '../utils'
@@ -7,6 +7,7 @@ import { mallHook } from '../utils'
 export const GoodsSpec = ({
   data,
   cart = cartDefault,
+  mallType,
   spec,
   sku,
   value,
@@ -18,7 +19,8 @@ export const GoodsSpec = ({
   onBuy,
   showCart,
   setData,
-  onClose
+  onClose,
+  Price = OrderPrice
 }) => {
 
   const { params } = useRoute()
@@ -41,8 +43,8 @@ export const GoodsSpec = ({
       return toast('请选择规格')
     }
     onClose()
-    cart.add(skuId, qty, params.mallType)
-  }, [cart, onClose, params.mallType, qty, skuId])
+    cart.add(skuId, qty, params.mallType || mallType)
+  }, [cart, mallType, onClose, params.mallType, qty, skuId])
 
   const buy = useCallback(async () => {
     if (!skuId) {
@@ -54,10 +56,10 @@ export const GoodsSpec = ({
       onBuy(skuId, qty)
       return
     }
-    await directBuy.init(skuId, qty, params.mallType)
-    orderCreate.setCart(directBuy)
+    await directBuy.init(skuId, qty, params.mallType || mallType)
+    await orderCreate.setCart(directBuy)
     nav('duxcmsOrder/order/create')
-  }, [onBuy, onClose, params.mallType, qty, skuId])
+  }, [mallType, onBuy, onClose, params.mallType, qty, skuId])
 
   return <PullView onClose={onClose}>
     <Column className='rt-3 p-3 gap-3' style={{ backgroundColor: duxappTheme.pageColor }}>

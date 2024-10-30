@@ -8,15 +8,11 @@ class UserManage extends ObjectManage {
     super(option)
     this.quickEvent.on((data, type) => {
       if (type === 'cache') {
-        // 从本地读取的用户信息 调用模块接口判断是否是登录状态 等待接口注册成功再执行
-        setTimeout(() => {
-          if (this.getCurrentConfig()?.isLogin?.(data?.[this.getCurrentApp()])) {
-            this.setLoginStatus(true, 'local')
-            // 获取线上用户信息
-            const { getOnlineUserInfo } = this.getCurrentConfig()
-            // getOnlineUserInfo?.().then(this.setInfo)
-          }
-        }, 0)
+        if (this.getCurrentConfig()?.isLogin?.(data?.[this.getCurrentApp()])) {
+          this.setLoginStatus(true, 'local')
+          // 获取线上用户信息
+          this.getCurrentConfig().getOnlineUserInfo?.().then(this.setInfo)
+        }
       }
     })
     // 监听路由跳转 如果异步报错则不会跳转
@@ -154,6 +150,34 @@ class UserManage extends ObjectManage {
     const loginStatus = this.config.loginStatus || this.getCurrentConfig()?.devOpen
     !!openLogin && !loginStatus && this.login().then(callback)
     return loginStatus
+  }
+
+  /**
+   * 异步验证用户是否登录
+   * 这可以确保在程序初始化的时候正确的判断用户是否登录
+   */
+  isLoginAsync = async () => {
+    if (this.isLogin()) {
+      return true
+    }
+    return new Promise(resolve => {
+      const timer = setTimeout(() => {
+        remove()
+        resolve(this.isLogin())
+      }, 500)
+      const { remove } = this.quickEvent.on((data, type) => {
+        if (type === 'cache') {
+          clearTimeout(timer)
+          remove()
+          resolve(this.isLogin())
+        } else if (type === 'no-cache') {
+          clearTimeout(timer)
+          remove()
+          resolve(false)
+        }
+      })
+    })
+
   }
 
   /**
