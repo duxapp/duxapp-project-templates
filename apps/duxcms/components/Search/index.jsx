@@ -74,28 +74,26 @@ export const ListSearch = ({
   }, [keys, keyword, mark, onChange])
 
   return <>
-    <Layout className='list-search' onLayout={e => setTop(e.height + e.top)}>
-      <View className='list-search__child' style={color ? { backgroundColor: color } : {}}>
-        <InputSearch className='list-search__child__input'
-          placeholder='请输入查询内容'
-          confirmType='search'
-          value={keyword}
-          focus={!!show} // 注释掉 h5端报错
-          onClick={() => setShow(true)}
-          onChange={value => {
-            setKeyword(value.trim())
-          }}
-          onFocus={() => setShow(true)}
-          onConfirm={() => submit(keyword)}
-        />
-        <Button radiusType='round' type='primary' onClick={() => submit(keyword)}>搜索</Button>
-      </View>
+    <Layout className='list-search' onLayout={e => setTop(e.height + e.top)} style={color ? { backgroundColor: color } : {}}>
+      <InputSearch className='list-search__input'
+        placeholder='请输入查询内容'
+        confirmType='search'
+        value={keyword}
+        focus={!!show}
+        onClick={() => setShow(true)}
+        onChange={value => {
+          setKeyword(value.trim())
+        }}
+        onFocus={() => setShow(true)}
+        onConfirm={() => submit(keyword)}
+      />
+      <Button radiusType='round' type='primary' onClick={() => submit(keyword)}>搜索</Button>
     </Layout>
     {show && <Absolute>
       <View className='list-search__old' style={{ top: top + inputTop }}>
         <View className='list-search__old__head'>
-          <Text className='list-search__old__head__name'>搜索历史</Text>
-          <CmsIcon name='ashbin' size={46} color='#333' onClick={() => { searchKeys.setKeys('mark', []), setShow(false) }} />
+          <Text className='list-search__old__head__name text-c1'>搜索历史</Text>
+          <CmsIcon name='ashbin' size={46} className='text-c2' onClick={() => { searchKeys.setKeys('mark', []), setShow(false) }} />
         </View>
         <ScrollView>
           <View className='list-search__old__keys'>
@@ -106,7 +104,7 @@ export const ListSearch = ({
                   submit(item)
                 }}
               >
-                <Text numberOfLines={1} className='list-search__old__key__text'>{item}</Text>
+                <Text numberOfLines={1} className='list-search__old__key__text text-c2'>{item}</Text>
               </View>
             })}
           </View>

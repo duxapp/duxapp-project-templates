@@ -4,7 +4,9 @@ import { font, px } from '@/duxapp/utils'
 import icons from './icons.json'
 import './index.scss'
 
-font.load('CmsIcon', 'https://pictcdn.client.jujiang.me/fonts/CmsIcon.1725175618012.ttf')
+if (process.env.TARO_ENV === 'rn') {
+  font.loadLocal('CmsIcon', require('./CmsIcon.ttf'))
+}
 
 export const CmsIcon = ({ name, color, size, style, className, ...props }) => {
 
@@ -19,14 +21,8 @@ export const CmsIcon = ({ name, color, size, style, className, ...props }) => {
     return sty
   }, [color, size, style])
 
-  const status = font.useFont('CmsIcon')
-
   if (!icons[name]) {
     return console.log(`CmsIcon的${name}图标不存在`)
-  }
-
-  if (!status) {
-    return null
   }
 
   return <Text

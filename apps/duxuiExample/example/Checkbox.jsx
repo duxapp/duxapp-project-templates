@@ -1,4 +1,9 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Checkbox, Button } from '@/duxuiExample'
+import {
+  Header, ScrollView, TopView, Form, Card,
+  Divider,
+  Checkbox,
+  Button
+} from '@/duxuiExample'
 
 const UserButton = ({
   label,
@@ -38,6 +43,11 @@ export default function CheckboxExample() {
                 <Checkbox label='选项3' value={3} >{UserButton}</Checkbox>
                 <Checkbox label='选项4' value={4} >{UserButton}</Checkbox>
               </Checkbox.Group>
+            </Form.Item>
+            <Form.Item label='自定义控制' field='radio4'>
+              <Checkbox label='选中' checked />
+              <Checkbox label='部分选中' half />
+              <Checkbox label='未选中' />
             </Form.Item>
           </Divider.Group>
         </Card>

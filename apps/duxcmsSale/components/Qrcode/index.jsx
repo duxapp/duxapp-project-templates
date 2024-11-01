@@ -1,5 +1,5 @@
 import { Button, Column, Image, Text, TopView, confirm, loading } from '@/duxui'
-import { request, saveToPhoto, nav } from '@/duxcmsSale/utils'
+import { request, saveToPhoto, nav, user } from '@/duxcmsSale/utils'
 import './index.scss'
 
 export const Qrcode = ({
@@ -21,6 +21,9 @@ export const Qrcode = ({
 
 Qrcode.show = async (verify, url = 'sale/user/qrcode') => {
   if (verify === true) {
+    if (!user.isLogin()) {
+      await user.login()
+    }
     // 验证分销权限
     await request({
       url: 'sale/index',

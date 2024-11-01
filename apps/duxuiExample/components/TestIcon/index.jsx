@@ -1,10 +1,12 @@
 import { Text } from '@tarojs/components'
 import { useMemo } from 'react'
-import { font, px } from '@/duxui/utils'
+import { font, px } from '@/duxapp/utils'
 import icons from './icons.json'
 import './index.scss'
 
-font.load('TestIcon', 'https://pictcdn.client.jujiang.me/fonts/TestIcon.1691639019000.ttf')
+if (process.env.TARO_ENV === 'rn') {
+  font.loadLocal('TestIcon', require('./TestIcon.ttf'))
+}
 
 export const TestIcon = ({ name, color, size, style, className, ...props }) => {
 
@@ -21,12 +23,6 @@ export const TestIcon = ({ name, color, size, style, className, ...props }) => {
 
   if (!icons[name]) {
     return console.log(`TestIcon的${name}图标不存在`)
-  }
-
-  const status = font.useFont('TestIcon')
-
-  if (!status) {
-    return null
   }
 
   return <Text

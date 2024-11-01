@@ -3,7 +3,7 @@ import { Text } from '@tarojs/components'
 import { cloneElement, isValidElement } from 'react'
 import { getVersion, getBuildNumber } from 'react-native-device-info'
 import { toast } from '@/duxapp/utils/util'
-import { loading } from '@/duxui'
+import { loading } from '@/duxapp'
 
 export const AppUpgrade = ({
   children

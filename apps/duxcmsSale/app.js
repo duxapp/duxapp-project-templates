@@ -1,5 +1,5 @@
 import { confirm, nav, route, loading } from '@/duxui'
-import { request, saleBindForm } from './utils'
+import { request, saleBindForm, user } from './utils'
 
 export default {
   show: data => {
@@ -18,6 +18,9 @@ if (process.env.TARO_ENV === 'h5') {
 
 route.onNavBefore(async (config, params) => {
   if (params.path === 'duxcmsSale/pages/index/index') {
+    if (!user.isLogin()) {
+      await user.login()
+    }
     await request({
       url: 'sale/index',
       repeatTime: 0,

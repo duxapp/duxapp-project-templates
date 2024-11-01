@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { View, Input } from '@tarojs/components'
 import { CmsIcon } from '@/duxcms/components'
-import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState } from '@/duxcmsUser/utils'
+import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook } from '@/duxcmsUser/utils'
 import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px } from '@/duxui'
 import './login.scss'
 
@@ -470,6 +470,8 @@ export const WeappTelLogin = ({
   onSkip
 }) => {
 
+  const noSkip = userHook.useMark('WeappTelLogin.noSkip')
+
   const [check, setCheck] = useState(false)
 
   const getPhoneNumber = useCallback(e => {
@@ -478,9 +480,9 @@ export const WeappTelLogin = ({
         onLogin(data)
       })
     } else {
-      onSkip()
+      !noSkip && onSkip()
     }
-  }, [onLogin, onSkip])
+  }, [noSkip, onLogin, onSkip])
 
   return <View className='cms-login-weapp--mask inset-0 absolute'>
     <View className='cms-login-weapp'>
@@ -500,7 +502,9 @@ export const WeappTelLogin = ({
             })}
           >快捷登录</Button>
       }
-      <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>手机号登录</Text>
+      {
+        !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>手机号登录</Text>
+      }
 
       <Row items='center' className='gap-2 mt-3' justify='center'>
         <Radio checked={check} onClick={() => setCheck(!check)} />
