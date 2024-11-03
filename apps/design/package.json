@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-color": "^2.19.3",
+    "react-syntax-highlighter": "^15.5.0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "logo": "react-native generate-bootsplash logo.png --background=FFFFFF --logo-width=100 --assets-output=asset --flavor=main"
+  },
+  "dependencies": {
+    "react-native-bootsplash": "^6.1.3"
+  }
+}

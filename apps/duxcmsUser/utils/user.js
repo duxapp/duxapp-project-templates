@@ -142,7 +142,7 @@ export const cmsUser = {
         toast: true,
         data: info,
       })
-      toast('信息保存成功')
+      toast('更新成功')
     }
     return user.setInfo(info, cmsUser.appName)
   },

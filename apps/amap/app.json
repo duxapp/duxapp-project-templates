@@ -1,14 +1,8 @@
 {
   "name": "amap",
   "description": "高德地图",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "dependencies": [
     "duxappReactNative"
-  ],
-  "npm": {
-    "dependencies": {
-      "@uiw/react-amap": "^7.1.1",
-      "react-native-amap3d": "^3.2.4"
-    }
-  }
+  ]
 }

@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "codepush:init": "duxapp rn codepushInit android && duxapp rn codepushInit ios",
+    "codepush:key": "duxapp rn codepushDeploymentKey android && duxapp rn codepushDeploymentKey ios",
+    "codepush:android": "duxapp runtime enterFile && duxapp rn codepush android && cd .",
+    "codepush:ios": "duxapp runtime enterFile && duxapp rn codepush ios && cd .",
+    "codepush": "duxapp runtime enterFile && duxapp rn codepush android && duxapp runtime enterFile && duxapp rn codepush ios && cd ."
+  },
+  "dependencies": {
+    "react-native-code-push": "~8.3.1"
+  }
+}

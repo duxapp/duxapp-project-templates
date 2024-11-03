@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@shaogong/react-native-unionpay": "^0.0.4"
+  }
+}

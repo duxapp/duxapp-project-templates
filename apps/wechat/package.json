@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-native-wechat-lib": "^3.0.4",
+    "wechat-jssdk": "^5.1.0"
+  }
+}
