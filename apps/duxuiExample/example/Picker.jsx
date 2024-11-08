@@ -27,6 +27,10 @@ export default function PickerExample() {
               <PickerSelect placeholder='请选择' range={selectorData} grow title='请选择' />
             </Form.Item>
 
+            <Form.Item label='单列选择启用搜索' field='pickerSearch'>
+              <PickerSelect placeholder='请选择' search range={selectorData} grow title='请选择' />
+            </Form.Item>
+
             <Form.Item label='多列选择' field='picker2'>
               <PickerMultiSelect placeholder='请选择' range={multiSelectorData} grow title='请选择' />
             </Form.Item>

@@ -48,6 +48,9 @@ export default function CascadeExample() {
             <Form.Item label='只允许最后一级选中' field='cascade4' direction='vertical' >
               <Cascade data={cascadeData} level={2} mode='checkbox' />
             </Form.Item>
+            <Form.Item label='非受控模式' direction='vertical' >
+              <Cascade data={cascadeData} level={2} mode='checkbox' />
+            </Form.Item>
           </Divider.Group>
         </Card>
       </ScrollView>

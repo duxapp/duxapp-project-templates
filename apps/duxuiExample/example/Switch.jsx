@@ -7,9 +7,14 @@ export default function SwitchExample() {
       <ScrollView>
         <Card margin verticalPadding={false}>
           <Divider.Group>
-
             <Form.Item label='开关' field='switch'>
-              <Switch />
+              <Switch onChange={console.log} />
+            </Form.Item>
+            <Form.Item label='自定义选中值' field='custom'>
+              <Switch values={[0, 1]} onChange={console.log} />
+            </Form.Item>
+            <Form.Item label='非受控模式'>
+              <Switch onChange={console.log} />
             </Form.Item>
           </Divider.Group>
         </Card>

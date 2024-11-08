@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Step, GroupList, Text } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Step, GroupList, Text, Column } from '@/duxuiExample'
 
 const list = [
   { name: '阶段1', time: '06-18 14:22' },
@@ -9,17 +9,7 @@ const list = [
   { name: '阶段6', time: '06-23 14:24' },
 ]
 
-const Start = ({
-  item
-}) => {
-  return <Text align='center'>{item.name}</Text>
-}
 
-const End = ({
-  item
-}) => {
-  return <Text align='center'>{item.time}</Text>
-}
 
 export default function StepExample() {
   return <TopView>
@@ -28,7 +18,7 @@ export default function StepExample() {
       <GroupList>
         <GroupList.Item title='横向'>
           <Step
-            data={list}
+            data={list.slice(0, 4)}
             startSize={30}
             renderStart={Start}
             renderEnd={End}
@@ -39,11 +29,42 @@ export default function StepExample() {
             vertical
             data={list}
             startSize={150}
-            renderStart={Start}
-            renderEnd={End}
+            renderStart={VerticalStart}
+            renderEnd={VerticalEnd}
+            pointTop={65}
           />
         </GroupList.Item>
       </GroupList>
     </ScrollView>
   </TopView>
+}
+
+const Start = ({
+  item
+}) => {
+  return <Text align='center' size={1}>{item.name}</Text>
+}
+
+const End = ({
+  item
+}) => {
+  return <Column className='pv-1 ph-2 bg-white r-2 mh-2'>
+    <Text size={1} align='center'>{item.time}</Text>
+  </Column>
+}
+
+const VerticalStart = ({
+  item
+}) => {
+  return <Column className='p-3 r-2 bg-white mt-3'>
+    <Text>{item.name}</Text>
+  </Column>
+}
+
+const VerticalEnd = ({
+  item
+}) => {
+  return <Column className='p-3 r-2 bg-white mt-3'>
+    <Text>{item.time}</Text>
+  </Column>
 }

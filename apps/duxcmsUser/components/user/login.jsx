@@ -470,7 +470,7 @@ export const WeappTelLogin = ({
   onSkip
 }) => {
 
-  const noSkip = userHook.useMark('WeappTelLogin.noSkip')
+  const [noSkip] = userHook.useMark('WeappTelLogin.noSkip')
 
   const [check, setCheck] = useState(false)
 

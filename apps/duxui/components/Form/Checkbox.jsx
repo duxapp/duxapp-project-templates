@@ -4,12 +4,14 @@ import classNames from 'classnames'
 import { Space } from '../Space'
 import { Text } from '../Text'
 import { DuxuiIcon } from '../DuxuiIcon'
+import { Form } from './Form'
 
 const context = createContext({ check: noop })
 
 const CheckboxGroup = ({
   children,
   value = [],
+  defaultValue,
   onChange,
   disabled,
   direction = 'horizontal',
@@ -20,23 +22,32 @@ const CheckboxGroup = ({
   ...props
 }) => {
 
+  const [val, setVal] = Form.useFormItemProxy({
+    onChange,
+    value,
+    defaultValue
+  })
+
   const horizontal = direction === 'horizontal' && !vertical
 
-  const check = useCallback(val => {
+  const check = useCallback(_val => {
     if (disabled) {
       return
     }
-    const _value = value ? [...value] : []
-    const index = _value.indexOf(val)
-    if (~index) {
-      _value.splice(index, 1)
-    } else {
-      _value.push(val)
-    }
-    onChange?.(_value)
-  }, [onChange, value, disabled])
 
-  return <context.Provider value={{ check, currentValue: value }}>
+    setVal(old => {
+      const select = old ? [...old] : []
+      const index = select.indexOf(_val)
+      if (~index) {
+        select.splice(index, 1)
+      } else {
+        select.push(_val)
+      }
+      return select
+    })
+  }, [setVal, disabled])
+
+  return <context.Provider value={{ check, currentValue: val }}>
     {
       virtual ?
         children :

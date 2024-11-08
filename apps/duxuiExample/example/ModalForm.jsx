@@ -64,7 +64,7 @@ export default function ModalFormExample() {
       <ScrollView>
         <Card margin verticalPadding={false}>
           <Divider.Group>
-            <Form.Item label='日期' field='date' >
+            <Form.Item label='日期' field='date'>
               <ModalForm
                 renderForm={<DatePicker />}
                 placeholder='请选择日期'
@@ -72,7 +72,7 @@ export default function ModalFormExample() {
                 title='请选择日期'
               />
             </Form.Item>
-            <Form.Item label='日期时间' field='datetime' >
+            <Form.Item label='日期时间' field='datetime'>
               <ModalForm
                 renderForm={<DatePicker mode='datetime' />}
                 placeholder='请选择日期时间'
@@ -80,7 +80,7 @@ export default function ModalFormExample() {
                 title='请选择日期时间'
               />
             </Form.Item>
-            <Form.Item label='弹出级联选择' field='cascade3' >
+            <Form.Item label='弹出级联选择' field='cascade3'>
               <ModalForm
                 renderForm={<Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel style={{ height: px(800) }} />}
                 placeholder='请选择等级'
@@ -88,6 +88,15 @@ export default function ModalFormExample() {
                 title='级联选择'
               >
 
+              </ModalForm>
+            </Form.Item>
+            <Form.Item label='非受控模式'>
+              <ModalForm
+                renderForm={<Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel style={{ height: px(800) }} />}
+                placeholder='请选择等级'
+                grow
+                title='级联选择'
+              >
               </ModalForm>
             </Form.Item>
             <ModalForms

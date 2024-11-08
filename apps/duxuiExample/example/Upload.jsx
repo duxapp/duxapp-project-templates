@@ -13,11 +13,11 @@ export default function UploadExample() {
             <Form.Item label='多图上传' field='images' direction='vertical' >
               <Upload max={9} />
             </Form.Item>
-            <Form.Item label='视频上传' field='images' direction='vertical' >
+            <Form.Item label='视频上传' field='videos' direction='vertical' >
               <Upload type='video' />
             </Form.Item>
-            <Form.Item label='视频和图片上传' field='images' direction='vertical' >
-              <Upload type='all' />
+            <Form.Item label='视频和图片上传' field='all' direction='vertical' >
+              <Upload max={9} type='all' />
             </Form.Item>
           </Divider.Group>
         </Card>

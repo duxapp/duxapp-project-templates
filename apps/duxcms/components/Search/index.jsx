@@ -2,6 +2,7 @@ import { View } from '@tarojs/components'
 import { useCallback, useState } from 'react'
 import { ObjectManage } from '@/duxapp'
 import { Button, InputSearch, ScrollView, Text, Layout, Absolute } from '@/duxui'
+import classNames from 'classnames'
 import { CmsIcon } from '../CmsIcon'
 import './index.scss'
 
@@ -39,7 +40,9 @@ export const ListSearch = ({
   defaultShow,
   onChange,
   color,
-  top: inputTop = 0
+  top: inputTop = 0,
+  className,
+  style
 }) => {
 
   const [show, setShow] = useState(defaultShow)
@@ -90,15 +93,17 @@ export const ListSearch = ({
       <Button radiusType='round' type='primary' onClick={() => submit(keyword)}>搜索</Button>
     </Layout>
     {show && <Absolute>
-      <View className='list-search__old' style={{ top: top + inputTop }}>
+      <View className={classNames('list-search__old', className)} style={{ top: top + inputTop, ...style }}>
         <View className='list-search__old__head'>
-          <Text className='list-search__old__head__name text-c1'>搜索历史</Text>
-          <CmsIcon name='ashbin' size={46} className='text-c2' onClick={() => { searchKeys.setKeys('mark', []), setShow(false) }} />
+          <Text className='list-search__old__head__name text-c1'>搜索记录</Text>
+          <CmsIcon name='ashbin' size={40} className='text-c2'
+            onClick={() => { searchKeys.setKeys('mark', []); setShow(false) }}
+          />
         </View>
         <ScrollView>
           <View className='list-search__old__keys'>
             {keys.map(item => {
-              return <View key={item} className='list-search__old__key'
+              return <View key={item} className='list-search__old__key bg-page'
                 onClick={() => {
                   setKeyword(item)
                   submit(item)

@@ -28,9 +28,9 @@ const Home = () => {
 
 const Category = () => {
   return <>
-    <Header title='消息' />
+    <Header title='订单' />
     <ScrollView>
-      <Text>消息内容</Text>
+      <Text>订单</Text>
     </ScrollView>
   </>
 }
@@ -47,20 +47,20 @@ const User = () => {
 const tabbarList = [
   {
     text: '首页',
-    icon: 'shuxing',
-    iconHover: 'shuxing',
+    icon: 'nav-home-line',
+    iconHover: 'nav-home-fill',
     comp: Home
   },
   {
-    text: '消息',
-    icon: 'biaoti',
-    iconHover: 'biaoti',
+    text: '订单',
+    icon: 'nav-order-line',
+    iconHover: 'nav-order-fill',
     comp: Category
   },
   {
     text: '个人中心',
-    icon: 'canshu',
-    iconHover: 'canshu',
+    icon: 'nav-mine-line',
+    iconHover: 'nav-mine-fill',
     comp: User
   }
 ]
@@ -73,7 +73,10 @@ const TabBarIcon = ({
   return <TabBar.ItemIcon
     hover={hover}
     name={tabbarList[index].text}
-    icon={<TestIcon size={40} color={hover ? duxappTheme.primaryColor : duxappTheme.textColor1} name={tabbarList[index][hover ? 'iconHover' : 'icon']} />}
+    icon={<TestIcon size={40}
+      color={hover ? duxappTheme.primaryColor : duxappTheme.textColor1}
+      name={tabbarList[index][hover ? 'iconHover' : 'icon']}
+    />}
   />
 }
 
