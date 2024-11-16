@@ -3,6 +3,7 @@ import {
   Cascade, ModalForm, ModalForms, DatePicker, Input, Text, CardSelect, duxappTheme, Space, Row, Column,
   px
 } from '@/duxuiExample'
+import { getSystemInfoSync } from '@tarojs/taro'
 
 const cascadeData = [
   {
@@ -36,7 +37,7 @@ const defaultValues = {
 }
 
 const PullForm = () => <Card shadow={false}>
-  <Column style={{ height: global.systemInfo.statusBarHeight + (process.env.TARO_ENV === 'weapp' ? 22 : 0) }} />
+  <Column style={{ height: getSystemInfoSync().statusBarHeight + (process.env.TARO_ENV === 'weapp' ? 22 : 0) }} />
   <Form.Item label='输入框' field='pull1' direction='vertical'>
     <Input placeholder='请输入' />
   </Form.Item>
@@ -62,7 +63,7 @@ export default function ModalFormExample() {
     <Header title='ModalForm' />
     <Form onSubmit={console.log} defaultValues={defaultValues}>
       <ScrollView>
-        <Card margin verticalPadding={false}>
+        <Card margin verticalPadding={false} className='self-stretch'>
           <Divider.Group>
             <Form.Item label='日期' field='date'>
               <ModalForm

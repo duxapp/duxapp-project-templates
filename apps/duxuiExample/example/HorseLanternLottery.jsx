@@ -85,11 +85,13 @@ const Item = ({ item, index, select }) => {
       select ?
         {
           borderColor: duxappTheme.primaryColor,
-          borderWidth: 3,
+          borderWidth: px(6),
           height: px(180)
         } :
         {
-          height: px(180)
+          height: px(180),
+          borderWidth: px(6),
+          borderColor: 'transparent'
         }
     }
   >

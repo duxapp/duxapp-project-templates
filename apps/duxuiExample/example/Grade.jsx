@@ -5,7 +5,7 @@ export default function GradeExample() {
     <Header title='Grade' />
     <Form onSubmit={console.log}>
       <ScrollView>
-        <Card margin verticalPadding={false}>
+        <Card margin verticalPadding={false} className='self-stretch'>
           <Divider.Group>
             <Form.Item label='评分' field='grade' >
               <Grade />

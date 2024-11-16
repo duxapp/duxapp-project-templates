@@ -6,7 +6,7 @@ export default function AvatarExample() {
     <ScrollView>
       <GroupList>
         <GroupList.Item title='尺寸'>
-          <Space row>
+          <Space row items='center'>
             <Avatar size='s' />
             <Avatar size='m' />
             <Avatar size='l' />

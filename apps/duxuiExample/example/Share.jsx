@@ -28,6 +28,9 @@ export default TopView.HOC(function LoadingExample() {
         <GroupList.Item desc='分享组件同时支持小程序、h5、RN，h5端需要注册一个返回jssdk初始化参数的函数、app端需要配置分享到小程序或者H5的相关参数即可使用'>
 
         </GroupList.Item>
+        <GroupList.Item title='鸿蒙端暂不支持分享功能'>
+
+        </GroupList.Item>
       </GroupList>
     </ScrollView>
   </>

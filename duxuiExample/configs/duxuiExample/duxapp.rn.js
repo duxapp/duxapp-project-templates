@@ -3,8 +3,8 @@ const config = {
   android: {
     appid: 'cn.duxapp.duxui',
     appName: 'duxUI库',
-    versionCode: 1,
-    versionName: '1.0.0',
+    versionCode: 2,
+    versionName: '1.1.0',
     keystore: {
       storeFile: 'duxui.keystore',
       keyAlias: 'duxui',
@@ -32,15 +32,15 @@ const config = {
         NSPhotoLibraryAddUsageDescription: 'duxUI库需要保存宣传图到你的相册用于分享',
         NSPhotoLibraryUsageDescription: 'duxUI库需要访问相册用于APP内图片上传更换头像',
         NSRemindersUsageDescription: 'Allow duxapp to access your reminders',
-      },
-      'duxapp/duxapp.entitlements': {
-        'com.apple.developer.associated-domains': [
-          'applinks:a.mayouji.cn'
-        ]
       }
     }
   },
-  qiniu: {},
+  qiniu: {
+    accessKey: 'tddCAA-Vehph1waxeIZcMIqrFIVzghMBfjz9KGen',
+    secretKey: '7LYQnMUUXahg90EvlB2UdNICUpjyqZu5odWbfokS',
+    bucket: 'pict-cdn',
+    cdn: 'https://pictcdn.client.jujiang.me'
+  },
   // 模块选项
   option: {
     /**
@@ -54,7 +54,19 @@ const config = {
      * }
      */
     codepush: {
-      common: {}
+      common: {
+        token: '09a115a7a099eafe25f32fcf5281ac257aa25aff',
+        account: 'xj908634674-live.com',
+        version: '^1.0.0'
+      },
+      android: {
+        name: 'duxui-android',
+        version: '^1.1.0'
+      },
+      ios: {
+        name: 'duxui-ios',
+        version: '^1.1.0'
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ export default function DateExample() {
     <Header title='Date' />
     <Form onSubmit={console.log}>
       <ScrollView>
-        <Card margin verticalPadding={false}>
+        <Card margin verticalPadding={false} className='self-stretch'>
           <Divider.Group>
             <Form.Item label='日期' field='date'>
               <PickerDate title='日期' placeholder='请选择日期' grow />

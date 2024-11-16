@@ -5,7 +5,7 @@ export default function SwitchExample() {
     <Header title='Switch' />
     <Form onSubmit={console.log}>
       <ScrollView>
-        <Card margin verticalPadding={false}>
+        <Card margin verticalPadding={false} className='self-stretch'>
           <Divider.Group>
             <Form.Item label='开关' field='switch'>
               <Switch onChange={console.log} />

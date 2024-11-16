@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .NumInput {
   &__num-add {
     width: 40px;
@@ -5,7 +7,7 @@
     border-radius: 20px;
     background-color: $duxappPrimaryColor;
     &--disabled {
-      background-color: lighten($duxappPrimaryColor, 20);
+      background-color: color.adjust($duxappPrimaryColor, $lightness: 20%);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, GroupList, Text, Button, Modal, Column } from '@/duxuiExample'
+import { Header, ScrollView, TopView, GroupList, Text, Button, Modal, Column, px } from '@/duxuiExample'
 import { useState } from 'react'
 
 export default function ModalExample() {
@@ -13,6 +13,9 @@ export default function ModalExample() {
         <GroupList.Item title='关闭动画'>
           <Item animation={false} />
         </GroupList.Item>
+        <GroupList.Item title='禁止点击阴影关闭'>
+          <Item maskClosable={false} />
+        </GroupList.Item>
       </GroupList>
     </ScrollView>
   </TopView>
@@ -24,8 +27,8 @@ const Item = props => {
 
   return <>
     <Button onClick={() => setShow(true)} type='primary'>点击弹出</Button>
-    <Modal show={show} onClose={() => setShow(false)} {...props}>
-      <Column style={{ width: 200, height: 150, backgroundColor: '#fff', padding: 12 }}>
+    <Modal show={show} onClose={() => setShow(false)} maskClosable {...props}>
+      <Column className='bg-white p-3' style={{ width: px(400), height: px(300) }}>
         <Text>弹出内容</Text>
         <Button onClick={() => setShow(false)} type='danger'>关闭</Button>
       </Column>

@@ -8,13 +8,15 @@
     "duxui",
     "duxuiExample",
     "echarts",
-    "wechat"
+    "wechat",
+    "duxappHarmony"
   ],
   "result": [
     "小程序: yarn dev:weapp --app=duxuiExample",
     "H5: yarn dev:h5 --app=duxuiExample",
     "APP: yarn start --app=duxuiExample",
     "编译安卓调试版: yarn android --app=duxuiExample",
-    "编译安卓发布版: yarn build:android --app=duxuiExample"
+    "编译安卓发布版: yarn build:android --app=duxuiExample",
+    "鸿蒙: yarn dev:harmony --app=duxuiExample"
   ]
 }

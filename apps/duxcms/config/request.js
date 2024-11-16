@@ -8,16 +8,16 @@ const config = userConfig.option.duxcms?.request || {}
 
 if (config.origin) {
   // 全局资源请求Header参数 Referer用于防盗链
-  global.__IMAGE_GLOBAL_SOURCE__ = {
-    headers: {
-      Referer: config.origin + '/'
-    }
-  }
-  global.__VIDEO_GLOBAL_SOURCE__ = {
-    headers: {
-      Referer: config.origin + '/'
-    }
-  }
+  // global.__IMAGE_GLOBAL_SOURCE__ = {
+  //   headers: {
+  //     Referer: config.origin + '/'
+  //   }
+  // }
+  // global.__VIDEO_GLOBAL_SOURCE__ = {
+  //   headers: {
+  //     Referer: config.origin + '/'
+  //   }
+  // }
 }
 
 export default config

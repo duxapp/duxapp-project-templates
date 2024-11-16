@@ -20,7 +20,7 @@ export default function PickerExample() {
     <Header title='Picker' />
     <Form onSubmit={console.log}>
       <ScrollView>
-        <Card margin verticalPadding={false}>
+        <Card margin verticalPadding={false} className='self-stretch'>
           <Divider.Group>
 
             <Form.Item label='单列选择' field='picker1'>

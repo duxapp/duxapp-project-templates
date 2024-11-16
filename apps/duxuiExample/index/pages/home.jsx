@@ -37,6 +37,19 @@ export const Home = () => {
             <Cell title='Menu 下拉菜单' onClick={() => nav('duxuiExample/example/Menu')} />
           </Cell.Group>
         </GroupList.Item>
+        <GroupList.Item title='展示组件'>
+          <Cell.Group>
+            <Cell title='Text 文本' onClick={() => nav('duxuiExample/example/Text')} />
+            <Cell title='Image 图片' onClick={() => nav('duxuiExample/example/Image')} />
+            <Cell title='Badge 徽标' onClick={() => nav('duxuiExample/example/Badge')} />
+            <Cell title='Tag 标签' onClick={() => nav('duxuiExample/example/Tag')} />
+            <Cell title='Avatar 头像' onClick={() => nav('duxuiExample/example/Avatar')} />
+            <Cell title='HtmlView 富文本' onClick={() => nav('duxuiExample/example/HtmlView')} />
+            <Cell title='Step 步骤条' onClick={() => nav('duxuiExample/example/Step')} />
+            <Cell title='Empty 空数据' onClick={() => nav('duxuiExample/example/Empty')} />
+            <Cell title='Status 角标状态' onClick={() => nav('duxuiExample/example/Status')} />
+          </Cell.Group>
+        </GroupList.Item>
         <GroupList.Item title='表单组件'>
           <Cell.Group>
             <Cell title='Form 表单' onClick={() => nav('duxuiExample/example/Form')} />
@@ -58,19 +71,6 @@ export const Home = () => {
             <Cell title='NumberKeyboard 数字键盘' onClick={() => nav('duxuiExample/example/NumberKeyboard')} />
             <Cell title='InputCode 验证码密码输入' onClick={() => nav('duxuiExample/example/InputCode')} />
             <Cell title='LicensePlate 车牌号输入' onClick={() => nav('duxuiExample/example/LicensePlate')} />
-          </Cell.Group>
-        </GroupList.Item>
-        <GroupList.Item title='展示组件'>
-          <Cell.Group>
-            <Cell title='Text 文本' onClick={() => nav('duxuiExample/example/Text')} />
-            <Cell title='Image 图片' onClick={() => nav('duxuiExample/example/Image')} />
-            <Cell title='Badge 徽标' onClick={() => nav('duxuiExample/example/Badge')} />
-            <Cell title='Tag 标签' onClick={() => nav('duxuiExample/example/Tag')} />
-            <Cell title='Avatar 头像' onClick={() => nav('duxuiExample/example/Avatar')} />
-            <Cell title='HtmlView 富文本' onClick={() => nav('duxuiExample/example/HtmlView')} />
-            <Cell title='Step 步骤条' onClick={() => nav('duxuiExample/example/Step')} />
-            <Cell title='Empty 空数据' onClick={() => nav('duxuiExample/example/Empty')} />
-            <Cell title='Status 角标状态' onClick={() => nav('duxuiExample/example/Status')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='操作反馈'>

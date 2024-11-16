@@ -191,7 +191,7 @@ class UserManage extends ObjectManage {
    * 去登录
    */
   login = async () => {
-    if (global.platform === 'wechat' && !this.startConfig?.disableH5Watch) {
+    if (getPlatform() === 'wechat' && !this.startConfig?.disableH5Watch) {
       const time = new Date().getTime()
       // 对比上一次调用登录的时间小于2秒则不再执行登录
       if (time - this.config.wechatLoingStatus < 2000) {
@@ -203,15 +203,8 @@ class UserManage extends ObjectManage {
         let H5LoginUrl
         H5LoginUrl = await getH5WechatLoginUrl()
         // 全局请求参数传到登录页面
-        const { apiParams = {} } = global
-        let params = {
-          ...route.getQueryVariable(),
-          ...apiParams
-        }
-        for (const key in apiParams) {
-          if (apiParams.hasOwnProperty(key)) {
-            params[key] = apiParams[key]
-          }
+        const params = {
+          ...route.getQueryVariable()
         }
         // 回调页面 如果当前不在首页传入回调页面
         if (Object.keys(pages)[0] !== currentPage()) {
@@ -355,6 +348,5 @@ class UserManage extends ObjectManage {
  */
 export const user = new UserManage({
   cacheKey: 'userInfo',
-  cache: true,
-  global: true
+  cache: true
 })

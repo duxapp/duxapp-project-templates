@@ -1,4 +1,4 @@
-import { Loading, Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
+import { Loading, Header, ScrollView, TopView, GroupList, px } from '@/duxuiExample'
 import { View } from '@tarojs/components'
 
 export default function LoadingExample() {
@@ -13,7 +13,7 @@ export default function LoadingExample() {
           <Loading size={72} />
         </GroupList.Item>
         <GroupList.Item title='白色模式'>
-          <View style={{ padding: 12, backgroundColor: '#333'}}>
+          <View className='p-3 bg-primary items-center'>
             <Loading color='blank' />
           </View>
         </GroupList.Item>

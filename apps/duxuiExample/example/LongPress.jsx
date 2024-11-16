@@ -8,7 +8,7 @@ export default function LongPressExample() {
       <GroupList>
         <GroupList.Item title='长按事件'>
           <LongPress onLongPress={() => toast('长按事件')}>
-            <Column style={{ backgroundColor: '#fff', padding: 12 }}>
+            <Column className='p-3 bg-white'>
               <Text>长按此区域</Text>
             </Column>
           </LongPress>

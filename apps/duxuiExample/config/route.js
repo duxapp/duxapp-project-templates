@@ -38,7 +38,9 @@ const config = {
         Text: {},
         Form: {},
         Menu: {},
-        Chart: {},
+        Chart: {
+          platform: ['weapp', 'rn', 'h5']
+        },
         Map: {},
         Cascade: {},
         Calendar: {},

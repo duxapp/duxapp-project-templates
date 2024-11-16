@@ -1,0 +1,74 @@
+diff --git a/node_modules/@tarojs/vite-runner/dist/harmony/template/page.js b/node_modules/@tarojs/vite-runner/dist/harmony/template/page.js
+index 616491d..dcc717b 100644
+--- a/node_modules/@tarojs/vite-runner/dist/harmony/template/page.js
++++ b/node_modules/@tarojs/vite-runner/dist/harmony/template/page.js
+@@ -242,60 +242,6 @@ return state`,
+                     `eventCenter?.off('__taroNavigationStyle', this.handleNavigationStyle)`,
+                     `eventCenter?.off('__taroPageStyle', this.handlePageStyle)`,
+                 ]),
+-            }, {
+-                decorators: ['Builder'],
+-                name: 'renderTitle',
+-                body: `Flex({
+-  direction: FlexDirection.Row,
+-  justifyContent: FlexAlign.Start,
+-  alignItems: ItemAlign.Center,
+-}) {${!this.isTabbarPage && !this.buildConfig.isBuildNativeComp
+-                    // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
+-                    ? `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
+-    Image($r('app.media.taro_home'))
+-      .height(convertNumber2VP(40 / 7.5, 'vw'))
+-      .width(convertNumber2VP(40 / 7.5, 'vw'))
+-      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })
+-      .fillColor((this.navigationBarTextStyle || '${(_b = this.appConfig.window) === null || _b === void 0 ? void 0 : _b.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+-      .objectFit(ImageFit.Contain)
+-      .onClick(() => {
+-        router.replaceUrl({
+-          url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${page_1.TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,
+-          params: {
+-            '$page': this.entryPagePath,
+-          },
+-        })
+-      })
+-  } else if (this.pageStack.length > 1) {
+-    Image($r('app.media.taro_arrow_left'))
+-      .height(convertNumber2VP(40 / 7.5, 'vw'))
+-      .width(convertNumber2VP(40 / 7.5, 'vw'))
+-      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })
+-      .fillColor((this.navigationBarTextStyle || '${(_c = this.appConfig.window) === null || _c === void 0 ? void 0 : _c.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+-      .objectFit(ImageFit.Contain)
+-      .onClick(() => {
+-        router.back()
+-      })
+-  }` : ''}
+-  Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${((_d = this.appConfig.window) === null || _d === void 0 ? void 0 : _d.navigationBarTitleText) || ''}')
+-    .margin({ left: convertNumber2VP(40 / 7.5, 'vw') })
+-    .fontSize(convertNumber2VP(32 / 7.5, 'vw'))
+-    .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${(_e = this.appConfig.window) === null || _e === void 0 ? void 0 : _e.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+-  if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
+-    LoadingProgress()
+-      .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })
+-      .height(convertNumber2VP(40 / 7.5, 'vw'))
+-      .width(convertNumber2VP(40 / 7.5, 'vw'))
+-      .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${(_f = this.appConfig.window) === null || _f === void 0 ? void 0 : _f.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+-  }
+-}
+-.height('100%')
+-.width('100%')
+-.backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${((_g = this.appConfig.window) === null || _g === void 0 ? void 0 : _g.navigationBarBackgroundColor) || '#000000'}')
+-.padding({
+-  top: px2vp(sysInfo.safeArea?.top || 0),
+-})
+-.zIndex(1)`,
+             });
+             if (this.isTabbarPage) {
+                 generateMethods.push({
+@@ -673,7 +619,7 @@ callFn(this.page?.onReady, this, params)`}`;
+         var _a, _b, _c, _d, _e, _f;
+         const isCustomNavigationBar = ((_a = this.appConfig.window) === null || _a === void 0 ? void 0 : _a.navigationStyle) === 'custom';
+         let pageStr = '';
+-        if (this.buildConfig.isBuildNativeComp) {
++        if (true || this.buildConfig.isBuildNativeComp) {
+             return `if (this.node) {
+   TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })
+   if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {

@@ -1,0 +1,208 @@
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets
+index aec14d7..84e5a7b 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets
+@@ -91,7 +91,7 @@ export default struct TaroInput {
+     .placeholderFont(getPlaceholderFont(this.node))
+     .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
+     .padding(0) // Note: 移出 Input 默认 padding 设置
+-    .backgroundColor(getStyleAttr(this.node, "backgroundColor"))
++    .backgroundColor(getStyleAttr(this.node, "backgroundColor") ?? 'transparent')
+     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+     .styles(this.node?.hmStyle)
+     .attrs(getAttributes(this.node))
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/scrollView.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/scrollView.ets
+index c88760e..f53a00c 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/scrollView.ets
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/scrollView.ets
+@@ -99,8 +99,9 @@ export default struct TaroScrollView {
+         }
+         .alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
+         .justifyContent(FlexManager.justifyContent(this.node))
+-        .height(getStyleAttr(this.node, 'height'))
+-        .width(null)
++        // .height(getStyleAttr(this.node, 'height'))
++        // .width(null)
++        .height('100%')
+         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
+           this.node._nodeInfo._scroll = areaResult
+         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
+@@ -115,8 +116,9 @@ export default struct TaroScrollView {
+         }
+         .alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
+         .justifyContent(FlexManager.justifyContent(this.node))
+-        .width(getStyleAttr(this.node, 'width'))
+-        .height(null)
++        .width('100%')
++        // .width(getStyleAttr(this.node, 'width'))
++        // .height(null)
+         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
+           this.node._nodeInfo._scroll = areaResult
+         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
+@@ -124,8 +126,8 @@ export default struct TaroScrollView {
+       }
+     }
+     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+-    .width(this.isScrollX() ? getStyleAttr(this.node, 'width') : undefined)
+-    .height(!this.isScrollX() ? getStyleAttr(this.node, 'height') : undefined)
++    // .width(this.isScrollX() ? getStyleAttr(this.node, 'width') : undefined)
++    // .height(!this.isScrollX() ? getStyleAttr(this.node, 'height') : undefined)
+     .align(Alignment.TopStart)
+     .clip(true)
+     .scrollable(getScrollable(this.node))
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/style.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/style.ets
+index 8bc9fef..cba1963 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/style.ets
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/style.ets
+@@ -133,6 +133,10 @@ class RowStyleModify extends CommonStyleModify {
+       if (this.node) {
+         instance.alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
+         instance.justifyContent(FlexManager.justifyContent(this.node))
++        const hmStyle = getNormalAttributes(this.node)
++        if (hmStyle.flexDirection === FlexDirection.RowReverse) {
++          instance.reverse(true)
++        }
+       }
+       setTransformAttributeIntoInstance(instance, this.style || {})
+     }
+@@ -153,6 +157,10 @@ class ColumnStyleModify extends CommonStyleModify {
+       if (this.node) {
+         instance.alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
+         instance.justifyContent(FlexManager.justifyContent(this.node))
++        const hmStyle = getNormalAttributes(this.node)
++        if (hmStyle.flexDirection === FlexDirection.ColumnReverse) {
++          instance.reverse(true)
++        }
+       }
+       setTransformAttributeIntoInstance(instance, this.style || {})
+     }
+@@ -401,6 +409,9 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
+       fill: style.boxShadow.fill,
+     })
+   }
++  if (!isUndefined(style.aspectRatio)) {
++    instance.aspectRatio(style.aspectRatio)
++  }
+ }
+
+ export const pseudoModify = new PseudoStyleModify()
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/textArea.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/textArea.ets
+index c5379ed..400e8f5 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/textArea.ets
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/textArea.ets
+@@ -66,6 +66,7 @@ export default struct TaroTextArea {
+       .key(this.node._nid.toString())
+       .maxLength(Number(this.node._attrs?.maxlength) || null)
+       .placeholderColor(getPlaceholderColor(this.node))
++      .backgroundColor('transparent')
+       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+       .textStyle(this.node?.hmStyle)
+       .textAttr(getAttributes(this.node))
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/utils/flexManager.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/utils/flexManager.ets
+index ca77b30..eebbb5d 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/utils/flexManager.ets
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/utils/flexManager.ets
+@@ -7,9 +7,15 @@ interface IFlexOptions {
+   justifyContent: FlexAlign,
+   alignItems: ItemAlign,
+   wrap?: FlexWrap,
+-  alignContent?: FlexAlign
++  alignContent?: FlexAlign,
++  space?: FlexSpaceOptions
+ }
+
++interface IFlexBaseOptions {
++  space?: number | string
++}
++
++
+ class FlexManager {
+   static isFlexNode (node: TaroElement): boolean {
+     return !!node.hmStyle?.display?.includes('flex')
+@@ -39,9 +45,8 @@ class FlexManager {
+
+   static useFlexLayout (node: TaroElement): boolean {
+     const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
+-    const isReverse = hmStyle.flexDirection && [FlexDirection.RowReverse, FlexDirection.ColumnReverse].indexOf(hmStyle.flexDirection) !== -1;
+     const isUnknownAlign = [ItemAlign.Stretch, ItemAlign.Baseline].indexOf(hmStyle.alignItems!) !== -1;
+-    return !isUndefined(hmStyle.flexWrap) || isReverse || isUnknownAlign;
++    return !isUndefined(hmStyle.flexWrap) || isUnknownAlign;
+   }
+
+   static flexOptions (node: TaroElement): IFlexOptions {
+@@ -52,12 +57,28 @@ class FlexManager {
+       flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
+     }
+
++    const isRow = flexDirection === FlexDirection.Row || FlexDirection.RowReverse
++
+     return {
+       alignItems: isFlex ? (isUndefined(hmStyle.alignItems) ? ItemAlign.Start : hmStyle.alignItems) : ItemAlign.Start,
+       justifyContent: isFlex ? (isUndefined(hmStyle.justifyContent) ? FlexAlign.Start : hmStyle.justifyContent) : FlexAlign.Start,
+       direction: flexDirection,
+       wrap: isFlex ? hmStyle.flexWrap: FlexWrap.NoWrap,
+-      alignContent: isFlex ? hmStyle.alignContent: FlexAlign.Start
++      alignContent: isFlex ? hmStyle.alignContent: FlexAlign.Start,
++      space: {
++        main: hmStyle[isRow ? 'columnGap' : 'rowGap'] ?? hmStyle['gap'],
++        cross: hmStyle[!isRow ? 'columnGap' : 'rowGap'] ?? hmStyle['gap']
++      }
++    }
++  }
++
++  static flexBaseOptions (node: TaroElement): IFlexBaseOptions {
++    const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
++
++    const isRow = hmStyle.flexDirection === FlexDirection.Row || hmStyle.flexDirection === FlexDirection.RowReverse
++
++    return {
++      space: hmStyle[isRow ? 'columnGap' : 'rowGap'] ?? hmStyle['gap']
+     }
+   }
+
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets
+index 408f034..e164d91 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets
+@@ -18,6 +18,11 @@ export default struct TaroView {
+   aboutToAppear(): void {
+     if (this.node) {
+       this.node._instance = this
++      if (this.node.hmStyle) {
++        this.node.hmStyle.display ??= 'flex'
++        this.node.hmStyle.flexDirection ??= FlexDirection.Column
++        this.node.hmStyle.alignItems ??= ItemAlign.Stretch
++      }
+     }
+   }
+
+@@ -38,7 +43,7 @@ export default struct TaroView {
+       }))
+       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+     } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
+-      Row() {
++      Row(FlexManager.flexBaseOptions(this.node)) {
+         if (this.node._pseudo_before || this.node._pseudo_after) {
+           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
+         } else {
+@@ -53,7 +58,7 @@ export default struct TaroView {
+       }))
+       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+     } else {
+-      Column() {
++      Column(FlexManager.flexBaseOptions(this.node)) {
+         if (this.node._pseudo_before || this.node._pseudo_after) {
+           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
+         } else {
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/runtime-ets/dom/stylesheet/type.ts b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/runtime-ets/dom/stylesheet/type.ts
+index 0e5ff2f..f19c852 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/runtime-ets/dom/stylesheet/type.ts
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/runtime-ets/dom/stylesheet/type.ts
+@@ -129,6 +129,7 @@ export interface TaroStyleType {
+   overflow?: string
+   focus?: boolean
+   content?: string
++  aspectRatio?: number
+ }
+
+ export interface TaroTextStyleType {

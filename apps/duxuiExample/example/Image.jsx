@@ -17,7 +17,7 @@ export default function ImagedExample() {
           </Space>
         </GroupList.Item>
         <GroupList.Item title='预览'>
-          <Image style={{ width: px(200), height: px(160) }} preview
+          <Image style={{ width: px(200), height: px(160) }} className='self-start' preview
             src='https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'
           />
         </GroupList.Item>
@@ -37,12 +37,12 @@ export default function ImagedExample() {
           </Image.Group>
         </GroupList.Item>
         <GroupList.Item title='SVG' desc='当使用svg时，请勿使用widthFix或者heightFix'>
-          <Image mode='aspectFit' style={{ width: px(200), height: px(100) }}
+          <Image mode='aspectFit' className='self-start' style={{ width: px(200), height: px(100) }}
             src={require('./static/image.svg')}
           />
         </GroupList.Item>
         <GroupList.Item title='模式'>
-          <Space>
+          <Space items='start'>
             <Text>aspectFill</Text>
             <Image style={{ width: px(400), height: px(400) }}
               mode='aspectFill'
@@ -76,7 +76,7 @@ export default function ImagedExample() {
           </Space>
         </GroupList.Item>
         <GroupList.Item title='超长图' desc='RN的Image显示超长图会模糊，此处替换为expo-image后解决了这个问题'>
-          <Image mode='widthFix' style={{ width: px(600) }}
+          <Image mode='widthFix' className='self-start' style={{ width: px(600) }}
             src='https://cdn.mifi.top/2024-09-09/5f655a3e0bfa6f4de8bd.jpg'
           />
         </GroupList.Item>

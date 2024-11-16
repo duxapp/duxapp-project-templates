@@ -250,29 +250,35 @@ export const Account = ({
         toast: true
       })
     }
-    promise.then(async res => {
-      if (bind) {
-        cmsUser.setInfo({ token: res.token })
-        // 绑定账户
-        await request({
-          url: 'member/oauth/bind',
-          toast: true,
-          method: 'POST',
-          data: {
-            token: bind
-          }
-        }).catch(err => {
-          cmsUser.setInfo({ token: '' })
-          throw err
+    promise
+      .then(async res => {
+        if (bind) {
+          cmsUser.setInfo({ token: res.token })
+          // 绑定账户
+          await request({
+            url: 'member/oauth/bind',
+            toast: true,
+            method: 'POST',
+            data: {
+              token: bind
+            }
+          }).catch(err => {
+            cmsUser.setInfo({ token: '' })
+            throw err
+          })
+        }
+        onLogin({
+          type: 'account',
+          data: { token: res.token, ...res.userInfo }
         })
-      }
-      onLogin({
-        type: 'account',
-        data: { token: res.token, ...res.userInfo }
+        loadingAction(old => !old)
       })
-    }).finally(() => {
-      loadingAction(old => !old)
-    })
+      .catch(() => {
+        loadingAction(old => !old)
+      })
+    // .finally(() => {
+    //   loadingAction(old => !old)
+    // })
   }, [bind, check, loginUrl, onLogin, passwordLogin, post, reg, regUrl])
 
   return <>

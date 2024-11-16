@@ -1,0 +1,8 @@
+{
+  "name": "duxappHarmony",
+  "description": "鸿蒙基础系统",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxapp"
+  ]
+}

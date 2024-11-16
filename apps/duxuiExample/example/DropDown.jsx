@@ -40,7 +40,7 @@ export default function DropDownExample() {
         </GroupList.Item>
         <GroupList.Item title='弹出自定义内容' desc=''>
           <DropDown
-            renderContent={<Space style={{ padding: 12, backgroundColor: '#fff' }}>
+            renderContent={<Space className='p-3 bg-white' items='center'>
               <Text>菜单1</Text>
               <Text>菜单2</Text>
               <Text>菜单3</Text>

@@ -10,7 +10,7 @@ export default function TopViewExample() {
         <GroupList.Item title='添加元素' desc='TopView提供了静态方法，可以将一下元素转发到TopView子下一级，利用此特性可以再元素内部做全局弹出之类的操作'>
           <Button type='primary'
             onClick={() => {
-              const action = TopView.add(<Column>
+              const action = TopView.add(<Column items='center' className='p-3'>
                 <Text type='success'>添加成功</Text>
                 <Text>可以利用元素检查器，看看此元素的实际渲染位置</Text>
                 <Button onClick={() => action.remove()} type='danger'>移除此元素</Button>
@@ -22,7 +22,7 @@ export default function TopViewExample() {
           <Button type='primary'
             onClick={() => {
               const action = TopView.add(<Column className='absolute inset-0' items='center' justify='center' style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}>
-                <Column style={{ padding: 12, backgroundColor: '#fff' }}>
+                <Column className='p-3 bg-white items-center'>
                   <Text type='success'>添加成功</Text>
                   <Text>可以利用元素检查器，看看此元素的实际渲染位置</Text>
                   <Button onClick={() => action.remove()} type='danger'>移除此元素</Button>

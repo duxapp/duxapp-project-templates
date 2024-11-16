@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, GroupList, Text, Absolute, Column } from '@/duxuiExample'
+import { Header, ScrollView, TopView, GroupList, Text, Absolute, Column, px } from '@/duxuiExample'
 
 export default function AbsoluteExample() {
 
@@ -8,14 +8,14 @@ export default function AbsoluteExample() {
       <GroupList>
         <GroupList.Item title='绝对定位' desc='此容器的children将会被渲染到TopView的内部，而不是当前位置'>
           <Absolute>
-            <Column style={{ backgroundColor: '#fff', padding: 12 }}>
+            <Column className='p-3 bg-white items-start'>
               <Text>这是Absolute的子元素，但是最终渲染位置在这里</Text>
             </Column>
           </Absolute>
         </GroupList.Item>
         <GroupList.Item title='浮动' desc='加上绝对定位的css样式即可浮动'>
           <Absolute>
-            <Column style={{ backgroundColor: '#fff', padding: 12, top: 300 }} className=' absolute left-0'>
+            <Column style={{ top: px(600) }} className='absolute left-0 p-3 bg-white items-start'>
               <Text>这是Absolute的子元素，但是最终渲染位置在这里</Text>
             </Column>
           </Absolute>

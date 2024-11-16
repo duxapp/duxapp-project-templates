@@ -1,10 +1,6 @@
 import { Header, ScrollView, Cell, GroupList, updateApp, confirm } from '@/duxuiExample'
 import { setClipboardData } from '@tarojs/taro'
 
-let DeviceInfo
-if (process.env.TARO_ENV === 'rn') {
-  DeviceInfo = require('react-native-device-info')
-}
 
 export const User = () => {
 
@@ -27,9 +23,17 @@ export const User = () => {
                 setClipboardData({ data: 'https://example.duxui.cn' })
               }}
             />}
-            {process.env.TARO_ENV === 'rn' &&
+            {process.env.TARO_ENV !== 'harmony' && <Cell title='鸿蒙版本' desc='查看' isLink
+              onClick={() => {
+                confirm({
+                  title: '提示',
+                  content: '鸿蒙版本需要自行使用源代码编译查看'
+                })
+              }}
+            />}
+            {/* {process.env.TARO_ENV === 'rn' &&
               <Cell title='版本更新' subTitle='duxapp集成了codepush热更新模块' onClick={updateApp} desc={`${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`} />
-            }
+            } */}
           </Cell.Group>
         </GroupList.Item>
       </GroupList>

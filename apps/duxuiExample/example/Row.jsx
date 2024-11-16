@@ -10,7 +10,7 @@ const Child = ({
   list = list1
 }) => {
 
-  return list.map(item => <Column key={item} className='p-2 bg-white' style={{ height: 24 * item }}>
+  return list.map(item => <Column shrink key={item} className='p-2 bg-white' style={{ height: 24 * item }}>
     <Text>内容{item}</Text>
   </Column>)
   return
@@ -68,7 +68,7 @@ export default function RowExample() {
           </Row>
         </GroupList.Item>
         <GroupList.Item title='换行'>
-          <Row wrap className='gap-2'>
+          <Row wrap items='center' className='gap-2'>
             <Child list={list3} />
           </Row>
         </GroupList.Item>

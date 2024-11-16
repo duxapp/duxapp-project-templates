@@ -1,5 +1,5 @@
 import { Tab, Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
-import { View } from '@tarojs/components'
+import { Text } from '@tarojs/components'
 
 export default function TabExample() {
   return <TopView>
@@ -9,13 +9,13 @@ export default function TabExample() {
         <GroupList.Item title='基础用法'>
           <Tab>
             <Tab.Item title='标题1' paneKey={1} >
-              <View>内容1</View>
+              <Text className='text-s5 text-c1'>内容1</Text>
             </Tab.Item>
             <Tab.Item title='标题2' paneKey={2} >
-              <View>内容2</View>
+              <Text className='text-s5 text-c1'>内容2</Text>
             </Tab.Item>
             <Tab.Item title='标题3' paneKey={3} >
-              <View>内容3</View>
+              <Text className='text-s5 text-c1'>内容3</Text>
             </Tab.Item>
           </Tab>
         </GroupList.Item>
@@ -55,14 +55,6 @@ export default function TabExample() {
         </GroupList.Item>
         <GroupList.Item title='显示红点未读数'>
           <Tab>
-            <Tab.Item title='标题1' badgeProps={{ count: 2 }} />
-            <Tab.Item title='标题2' badgeProps={{ dot: true }} />
-            <Tab.Item title='标题3' badgeProps={{ count: 1, text: '红点' }} />
-            <Tab.Item title='标题4' />
-          </Tab>
-        </GroupList.Item>
-        <GroupList.Item title='显示红点未读数'>
-          <Tab type='button' buttonRound>
             <Tab.Item title='标题1' badgeProps={{ count: 2 }} />
             <Tab.Item title='标题2' badgeProps={{ dot: true }} />
             <Tab.Item title='标题3' badgeProps={{ count: 1, text: '红点' }} />

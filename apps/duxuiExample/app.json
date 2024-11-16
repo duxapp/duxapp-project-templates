@@ -1,10 +1,11 @@
 {
   "name": "duxuiExample",
   "description": "ui库示例",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "dependencies": [
     "duxui",
     "duxcms",
+    "duxappHarmony",
     "amap",
     "echarts",
     "wechat"

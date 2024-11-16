@@ -16,7 +16,7 @@ export default function TextExample() {
               <Text color={1}>color1</Text>
               <Text color={2}>color2</Text>
               <Text color={3}>color3</Text>
-              <Text color={4}>color4</Text>
+              <Text color={4} className='bg-primary'>color4</Text>
             </Space>
           </Card>
         </GroupList.Item>

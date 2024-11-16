@@ -1,5 +1,3 @@
-// import qiniu from './base/components/UploadFileManage/drive/qiniu'
-
 const config = {
   // 覆盖app.config.js 配置
   appConfig: {
@@ -30,13 +28,17 @@ const config = {
     // 基础模块
     duxapp: {
       theme: {
-        primaryColor: '#CDDE00',
-        secondaryColor: '#FDD000',
+        primaryColor: '#E70012',
+        secondaryColor: '#E84C00',
         successColor: '#34a853',
         warningColor: '#fbbc05',
         dangerColor: '#ea4335',
-        pageColor: '#fafbf8',
-        mutedColor: '#666',
+        pageColor: '#F7F9FC',
+
+        textColor1: '#373D52',
+        textColor2: '#73778E',
+        textColor3: '#A1A6B6',
+        textColor4: '#FFF',
         header: {
           color: '#fff', // 仅支持rgb hex值，请勿使用纯单词 设置为数组将显示一个渐变按钮
           textColor: '#000', // 文本颜色
@@ -49,14 +51,7 @@ const config = {
       androidKey: 'w7-YPbuRGUGEteGzH6t1q7qcY6Onx3AcJrwhf',
       iosKey: 'yZrqff5-q6NpJUknyiW-k4ILeeecPlJxGyLol',
     },
-    // 用户模块
-    user: {
-      // 使用哪个模块注册的登录功能
-      use: 'slim',
-      // 是否禁用h5端微信登录
-      disableH5Watch: false
-    },
-    duxui: {
+    wechat: {
       // 分享组件配置
       share: {
         open: true,
@@ -97,10 +92,10 @@ const config = {
     // 新php模块化系统
     duxcms: {
       request: {
-        origin: 'https://example.service.dux.cn',
+        origin: 'https://mock.dux.plus',
         path: 'api', // 域名二级目录
-        secretId: '69172925',
-        secretKey: 'c8bcd59b5b3e43522b084e56db51f19a',
+        secretId: '53368068',
+        secretKey: '6c278fbf1791fbed3ae79197de03f65f',
         devOpen: false,
         devToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1iZXIiLCJpYXQiOjE2ODc5Mzg3NDEsImV4cCI6MTY5MDUzMDc0MSwiaWQiOjZ9.kCb82Y3bgUJWUo_WYsUPO1cLYzF1OJdEWTKAj9iNlF0'
       },
@@ -115,7 +110,7 @@ const config = {
         // 小程序微信登录
         weappWatch: true,
         // 名称
-        appName: 'DuxSlim'
+        appName: 'duxui'
       }
     }
   }

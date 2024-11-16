@@ -18,7 +18,7 @@ export default function StepExample() {
       <GroupList>
         <GroupList.Item title='横向'>
           <Step
-            data={list.slice(0, 4)}
+            data={list}
             startSize={30}
             renderStart={Start}
             renderEnd={End}

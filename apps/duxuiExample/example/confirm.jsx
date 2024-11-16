@@ -44,7 +44,7 @@ export default function ConfirmExample() {
             onClick={() => {
               confirm({
                 title: '自定义',
-                content: <Column className='mh-3 mt-3'>
+                content: <Column className='mh-3 mt-3 items-center'>
                   <Text type='primary'>这是自定义文本内容，这里可以放任何内容</Text>
                 </Column>
               })

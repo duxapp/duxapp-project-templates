@@ -1,4 +1,4 @@
-import { downloadFile, getStorage, setStorage } from '@tarojs/taro'
+import { downloadFile, getStorage, setStorage, getSystemInfoSync } from '@tarojs/taro'
 import { Image, Text, View } from '@tarojs/components'
 import { Platform, LogBox, Linking, Alert, PermissionsAndroid } from 'react-native'
 import { getVersion } from 'react-native-device-info'
@@ -214,7 +214,7 @@ export const requestPermissionMessage = async (type, msg) => {
     }
     if (await check()) {
       const permissions = userConfig.option?.duxappReactNative?.permissions || {}
-      const { statusBarHeight = 0 } = global.systemInfo
+      const { statusBarHeight = 0 } = getSystemInfoSync()
       const { remove } = TopView.add(<View
         className='absolute gap-1 p-3 r-2 z-1 bg-primary'
         style={{

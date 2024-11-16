@@ -3,14 +3,9 @@ import { useCallback, useState } from 'react'
 import { ObjectManage } from '@/duxapp'
 import { Button, InputSearch, ScrollView, Text, Layout, Absolute } from '@/duxui'
 import classNames from 'classnames'
+import { Keyboard } from '@/duxapp/utils/rn/util'
 import { CmsIcon } from '../CmsIcon'
 import './index.scss'
-
-let Keyboard
-
-if (process.env.TARO_ENV === 'rn') {
-  Keyboard = require('react-native').Keyboard
-}
 
 class SearchKeys extends ObjectManage {
   constructor(props) {

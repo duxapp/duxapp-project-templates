@@ -16,6 +16,7 @@ export default function IconExample() {
             <TestIcon name='publish_add_fill' color='red' />
             <TestIcon name='icon_24_brush' color='blue' />
             <TestIcon name='copy' color='green' />
+            <TestIcon name='shafa' className='text-primary text-s7' />
             <TestIcon name='shafa' color='orange' />
           </Space>
         </GroupList.Item>

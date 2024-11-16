@@ -16,7 +16,7 @@ const GroupListItem = ({
 export const GroupList = ({
   children
 }) => {
-  return <Column className='GroupList'>
+  return <Column className='GroupList self-stretch'>
     {children}
   </Column>
 }
