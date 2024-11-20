@@ -1,6 +1,7 @@
 {
   "name": "cms商城(单用户商城模块 支持RN端)",
   "apps": [
+    "amap",
     "alipay",
     "duxapp",
     "duxappReactNative",
