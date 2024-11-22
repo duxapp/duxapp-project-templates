@@ -1,3 +1,23 @@
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/apis/base/system.ts b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/apis/base/system.ts
+index 0bf7737..c63e553 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/apis/base/system.ts
++++ b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/apis/base/system.ts
+@@ -72,6 +72,15 @@ function setSafeArea({ top, left, right, bottom }) {
+   }
+ }
+ 
++// TODO 兼容未实现的函数，防止报错
++export const getWindowInfo = () => {
++
++}
++
++export const chooseMessageFile = () => {
++
++}
++
+ 
+ /* 同步版本 */
+ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
 diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets
 index aec14d7..84e5a7b 100644
 --- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/input.ets
@@ -84,7 +104,7 @@ index 8bc9fef..cba1963 100644
 +    instance.aspectRatio(style.aspectRatio)
 +  }
  }
-
+ 
  export const pseudoModify = new PseudoStyleModify()
 diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/textArea.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/textArea.ets
 index c5379ed..400e8f5 100644
@@ -110,7 +130,7 @@ index ca77b30..eebbb5d 100644
 +  alignContent?: FlexAlign,
 +  space?: FlexSpaceOptions
  }
-
+ 
 +interface IFlexBaseOptions {
 +  space?: number | string
 +}
@@ -120,7 +140,7 @@ index ca77b30..eebbb5d 100644
    static isFlexNode (node: TaroElement): boolean {
      return !!node.hmStyle?.display?.includes('flex')
 @@ -39,9 +45,8 @@ class FlexManager {
-
+ 
    static useFlexLayout (node: TaroElement): boolean {
      const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
 -    const isReverse = hmStyle.flexDirection && [FlexDirection.RowReverse, FlexDirection.ColumnReverse].indexOf(hmStyle.flexDirection) !== -1;
@@ -128,12 +148,12 @@ index ca77b30..eebbb5d 100644
 -    return !isUndefined(hmStyle.flexWrap) || isReverse || isUnknownAlign;
 +    return !isUndefined(hmStyle.flexWrap) || isUnknownAlign;
    }
-
+ 
    static flexOptions (node: TaroElement): IFlexOptions {
 @@ -52,12 +57,28 @@ class FlexManager {
        flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
      }
-
+ 
 +    const isRow = flexDirection === FlexDirection.Row || FlexDirection.RowReverse
 +
      return {
@@ -159,7 +179,7 @@ index ca77b30..eebbb5d 100644
 +      space: hmStyle[isRow ? 'columnGap' : 'rowGap'] ?? hmStyle['gap']
      }
    }
-
+ 
 diff --git a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets b/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets
 index 408f034..e164d91 100644
 --- a/node_modules/@tarojs/plugin-platform-harmony-ets/dist/components-harmony-ets/view.ets
@@ -175,7 +195,7 @@ index 408f034..e164d91 100644
 +      }
      }
    }
-
+ 
 @@ -38,7 +43,7 @@ export default struct TaroView {
        }))
        .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -204,5 +224,5 @@ index 0e5ff2f..f19c852 100644
    content?: string
 +  aspectRatio?: number
  }
-
+ 
  export interface TaroTextStyleType {

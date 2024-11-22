@@ -499,14 +499,14 @@ export const WeappTelLogin = ({
       </View>
       {
         check ?
-          <Button size='l' type='primary' openType='getPhoneNumber' className='button-clean' onGetPhoneNumber={getPhoneNumber}>快捷登录</Button> :
+          <Button size='l' type='primary' openType='getPhoneNumber' className='button-clean' onGetPhoneNumber={getPhoneNumber}>手机号快捷登录</Button> :
           <Button size='l' type='primary'
             onClick={() => confirm({
               content: '请阅读并勾选同意隐私政策',
               cancel: false,
               confirmText: '知道了'
             })}
-          >快捷登录</Button>
+          >手机号快捷登录</Button>
       }
       {
         !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>手机号登录</Text>

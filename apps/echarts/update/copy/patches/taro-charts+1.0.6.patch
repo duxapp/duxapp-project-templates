@@ -1,5 +1,5 @@
 diff --git a/node_modules/taro-charts/build/main/index.js b/node_modules/taro-charts/build/main/index.js
-index dd24946..1fb2d06 100644
+index dd24946..f7d5add 100644
 --- a/node_modules/taro-charts/build/main/index.js
 +++ b/node_modules/taro-charts/build/main/index.js
 @@ -2,15 +2,15 @@
@@ -22,3 +22,27 @@ index dd24946..1fb2d06 100644
  exports.Echarts = instance.Echarts;
  exports.EchartsRenderer = instance.EchartsRenderer;
  //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsSUFBSSxRQUFRLENBQUM7QUFDYixJQUFJLE9BQU8sQ0FBQyxHQUFHLENBQUMsUUFBUSxLQUFLLE9BQU8sRUFBRTtJQUNwQyxRQUFRLEdBQUcsT0FBTyxDQUFDLFVBQVUsQ0FBQyxDQUFDO0NBQ2hDO0tBQU0sSUFBSSxPQUFPLENBQUMsR0FBRyxDQUFDLFFBQVEsS0FBSyxJQUFJLEVBQUU7SUFDeEMsUUFBUSxHQUFHLE9BQU8sQ0FBQyxVQUFVLENBQUMsQ0FBQztDQUNoQztLQUFNLElBQUksT0FBTyxDQUFDLEdBQUcsQ0FBQyxRQUFRLEtBQUssSUFBSSxFQUFFO0lBQ3hDLFFBQVEsR0FBRyxPQUFPLENBQUMsVUFBVSxDQUFDLENBQUM7Q0FDaEM7QUFFWSxRQUFBLE9BQU8sR0FBRyxRQUFRLENBQUMsT0FBTyxDQUFDO0FBQzNCLFFBQUEsZUFBZSxHQUFHLFFBQVEsQ0FBQyxlQUFlLENBQUMifQ==
+\ No newline at end of file
+diff --git a/node_modules/taro-charts/build/main/lib/mp.js b/node_modules/taro-charts/build/main/lib/mp.js
+index 049dda8..411dc83 100644
+--- a/node_modules/taro-charts/build/main/lib/mp.js
++++ b/node_modules/taro-charts/build/main/lib/mp.js
+@@ -27,7 +27,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.EchartsRenderer = exports.Echarts = void 0;
+-const components_1 = require("@tarojs/components");
+ const taro_1 = __importDefault(require("@tarojs/taro"));
+ const echarts = __importStar(require("echarts/core"));
+ const renderers_1 = require("echarts/renderers");
+@@ -104,8 +103,8 @@ function EchartsComponetMP(props, ref) {
+             });
+         }, 0);
+     }, []);
+-    return (react_1.default.createElement(components_1.View, { style: { width: canvas === null || canvas === void 0 ? void 0 : canvas.style.width, height: canvas === null || canvas === void 0 ? void 0 : canvas.style.height } },
+-        react_1.default.createElement(components_1.Canvas, { canvasId: (_a = props.canvasId) !== null && _a !== void 0 ? _a : 'i-echarts', id: (_b = props.canvasId) !== null && _b !== void 0 ? _b : 'i-echarts', type: "2d", style: { width: canvas === null || canvas === void 0 ? void 0 : canvas.style.width, height: canvas === null || canvas === void 0 ? void 0 : canvas.style.height }, ref: ref, onClick: events.current.click, onTouchStart: events.current.touchstart, onTouchMove: events.current.touchmove, onTouchEnd: events.current.touchend })));
++    return (react_1.default.createElement('view', { style: { width: canvas === null || canvas === void 0 ? void 0 : canvas.style.width, height: canvas === null || canvas === void 0 ? void 0 : canvas.style.height } },
++        react_1.default.createElement('canvas', { canvasId: (_a = props.canvasId) !== null && _a !== void 0 ? _a : 'i-echarts', id: (_b = props.canvasId) !== null && _b !== void 0 ? _b : 'i-echarts', type: "2d", style: { width: canvas === null || canvas === void 0 ? void 0 : canvas.style.width, height: canvas === null || canvas === void 0 ? void 0 : canvas.style.height }, ref: ref, onClick: events.current.click, onTouchStart: events.current.touchstart, onTouchMove: events.current.touchmove, onTouchEnd: events.current.touchend })));
+ }
+ exports.Echarts = (0, react_1.memo)((0, react_1.forwardRef)(EchartsComponetMP));
+ exports.EchartsRenderer = renderers_1.CanvasRenderer;
