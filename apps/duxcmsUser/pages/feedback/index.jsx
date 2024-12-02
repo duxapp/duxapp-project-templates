@@ -1,6 +1,6 @@
 import { showToast } from '@tarojs/taro'
 import { request, nav, asyncTimeOut } from '@/duxcmsUser'
-import { Header, TopView, UploadImages, ScrollView, Form, Button, Textarea, loading, Column } from '@/duxui'
+import { Header, TopView, UploadImages, ScrollView, Form, Button, Textarea, loading, Column, Text } from '@/duxui'
 import { useCallback } from 'react'
 
 export default function Feedback() {
@@ -35,6 +35,11 @@ export default function Feedback() {
             <UploadImages />
           </Form.Item>
         </Column>
+        {
+          process.env.TARO_ENV === 'weapp' && <Column>
+            <Text size={1} color={3} align='center'>此反馈为小程序自有反馈渠道，非{process.env.TARO_ENV === 'qq' ? 'QQ' : '微信'}官方投诉渠道</Text>
+          </Column>
+        }
       </ScrollView>
 
       <Form.Submit>

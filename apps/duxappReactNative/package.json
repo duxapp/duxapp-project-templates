@@ -15,6 +15,7 @@
     "upload-ios": "duxapp ios upload dist/ios/duxapp.ipa/duxapp.ipa"
   },
   "dependencies": {
+    "@babel/helper-define-polyfill-provider": "0.6.3",
     "@react-native-async-storage/async-storage": "2.0.0",
     "@react-native-camera-roll/camera-roll": "7.8.3",
     "@react-native-clipboard/clipboard": "1.14.3",
@@ -48,7 +49,8 @@
     "react-native-svg": "15.8.0",
     "react-native-webview": "13.12.3",
     "react-native-blob-util": "0.19.11",
-    "react-native-url-polyfill": "^2.0.0"
+    "react-native-url-polyfill": "^2.0.0",
+    "stylelint": "~16.9.0"
   },
   "devDependencies": {
     "@react-native/babel-preset": "^0.75.4",
@@ -58,6 +60,7 @@
     "metro-react-native-babel-preset": "^0.77.0"
   },
   "resolutions": {
+    "@babel/helper-define-polyfill-provider": "0.6.3",
     "@react-native/babel-preset": "^0.75.4",
     "@react-native/metro-babel-transformer": "0.75.4",
     "@react-native/metro-config": "^0.75.4",
@@ -94,7 +97,8 @@
     "react-native-screens": "3.35.0",
     "react-native-svg": "15.8.0",
     "react-native-webview": "13.12.3",
-    "react-native-blob-util": "0.19.11"
+    "react-native-blob-util": "0.19.11",
+    "stylelint": "~16.9.0"
   },
   "expo": {
     "autolinking": {
