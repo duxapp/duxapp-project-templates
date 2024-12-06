@@ -1,5 +1,6 @@
 import { formConfig } from '@/duxui'
 import { getMedia } from '@/duxapp/utils/net/util'
+import '@/duxapp/utils/touchEvent'
 
 export default {}
 

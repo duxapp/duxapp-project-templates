@@ -31,15 +31,17 @@ export class Sign extends Component {
             const canvas = _res[0].node
             const ctx = canvas.getContext('2d')
 
-            const dpr = getSystemInfoSync().pixelRatio
-            canvas.width = _res[0].width * dpr
-            canvas.height = _res[0].height * dpr
-            ctx.scale(dpr, dpr)
+            if (process.env.TARO_ENV !== 'h5') {
+              const dpr = getSystemInfoSync().pixelRatio
+              canvas.width = _res[0].width * dpr
+              canvas.height = _res[0].height * dpr
+              ctx.scale(dpr, dpr)
+            }
 
             this.ctx = ctx
             this.canvas = canvas
 
-            const { color = '#333333' } = this.props
+            const { color = '#333' } = this.props
             //设置线的颜色
             ctx.strokeStyle = color
             //设置线的宽度
@@ -57,20 +59,30 @@ export class Sign extends Component {
   touchs = []
   touchCount = 0
 
+  getPos = e => {
+    const touch = e.touches[0]
+    if (process.env.TARO_ENV !== 'h5') {
+      return {
+        x: touch.x,
+        y: touch.y
+      }
+    }
+    const rect = e.target.getBoundingClientRect()
+    return {
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    }
+
+  }
+
   touchStart = e => {
     e.preventDefault()
-    this.touchs.push({
-      x: e.touches[0].x,
-      y: e.touches[0].y,
-    })
+    this.touchs.push(this.getPos(e))
   }
 
   touchMove = e => {
     e.preventDefault()
-    this.touchs.push({
-      x: e.touches[0].x,
-      y: e.touches[0].y,
-    })
+    this.touchs.push(this.getPos(e))
     this.touchCount++
     if (this.touchs.length >= 2) {
       this.draw()
@@ -93,6 +105,7 @@ export class Sign extends Component {
     }
     const point1 = this.touchs[0]
     const point2 = this.touchs[1]
+
     // 删除第一个元素
     this.touchs.shift()
     ctx.moveTo(point1.x, point1.y)

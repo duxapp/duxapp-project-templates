@@ -13,6 +13,7 @@ export const Home = () => {
             <Cell title='BoxShadow 阴影' onClick={() => nav('duxuiExample/example/BoxShadow')} />
             <Cell title='Loading 加载动画' onClick={() => nav('duxuiExample/example/Loading')} />
             <Cell title='Icon 图标' onClick={() => nav('duxuiExample/example/Icon')} />
+            <Cell title='Animated 动画' onClick={() => nav('duxuiExample/example/Animated')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='布局组件'>
@@ -23,9 +24,7 @@ export const Home = () => {
             <Cell title='Divider 分割线' onClick={() => nav('duxuiExample/example/Divider')} />
             <Cell title='Grid 宫格' onClick={() => nav('duxuiExample/example/Grid')} />
             <Cell title='Card 卡片' onClick={() => nav('duxuiExample/example/Card')} />
-            {/* <Cell title='ScrollView 滚动容器' onClick={() => nav('duxuiExample/example/ScrollView')} />
-            <Cell title='ScrollViewHorizontal 横向滚动容器' onClick={() => nav('duxuiExample/example/ScrollViewHorizontal')} />
-            <Cell title='ScrollViewManage 滚动容器管理器' onClick={() => nav('duxuiExample/example/ScrollViewManage')} /> */}
+            <Cell title='ScrollView 滚动容器' onClick={() => nav('duxuiExample/example/ScrollView')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='导航组件'>

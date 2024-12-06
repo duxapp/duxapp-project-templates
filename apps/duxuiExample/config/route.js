@@ -83,7 +83,9 @@ const config = {
         LicensePlate: {},
         HorseLanternLottery: {},
         ActionSheet: {},
-        Recorder: {}
+        Recorder: {},
+        ScrollView: {},
+        Animated: {}
       }
     }
   }
