@@ -1,4 +1,4 @@
-import { Button, Header, ScrollView, TopView, GroupList, Space } from '@/duxuiExample'
+import { Button, Header, ScrollView, TopView, GroupList, Space, duxappTheme } from '@/duxuiExample'
 
 export default function ButtonExample() {
   return <TopView>
@@ -13,8 +13,8 @@ export default function ButtonExample() {
         </GroupList.Item>
         <GroupList.Item title='使用渐变'>
           <Space>
-            <Button color={['#e94727', '#6661ee']}>默认从左到右</Button>
-            <Button color={['#e94727', '#6661ee']} colorAngle={180}>指定角度从上到下</Button>
+            <Button color={[duxappTheme.primaryColor, duxappTheme.secondaryColor]}>默认从左到右</Button>
+            <Button color={[duxappTheme.primaryColor, duxappTheme.secondaryColor]} colorAngle={180}>指定角度从上到下</Button>
           </Space>
         </GroupList.Item>
         <GroupList.Item title='圆角类型'>
