@@ -25,6 +25,7 @@ export const Home = () => {
             <Cell title='Grid 宫格' onClick={() => nav('duxuiExample/example/Grid')} />
             <Cell title='Card 卡片' onClick={() => nav('duxuiExample/example/Card')} />
             <Cell title='ScrollView 滚动容器' onClick={() => nav('duxuiExample/example/ScrollView')} />
+            <Cell title='RollingView 自动滚动容器' onClick={() => nav('duxuiExample/example/RollingView')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='导航组件'>
@@ -47,6 +48,7 @@ export const Home = () => {
             <Cell title='Step 步骤条' onClick={() => nav('duxuiExample/example/Step')} />
             <Cell title='Empty 空数据' onClick={() => nav('duxuiExample/example/Empty')} />
             <Cell title='Status 角标状态' onClick={() => nav('duxuiExample/example/Status')} />
+            <Cell title='ProgressCircle 环形进度' onClick={() => nav('duxuiExample/example/ProgressCircle')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='表单组件'>
@@ -59,6 +61,7 @@ export const Home = () => {
             <Cell title='Radio 单选' onClick={() => nav('duxuiExample/example/Radio')} />
             <Cell title='Checkbox 多选' onClick={() => nav('duxuiExample/example/Checkbox')} />
             <Cell title='Switch 开关' onClick={() => nav('duxuiExample/example/Switch')} />
+            <Cell title='InputNumber 数字输入' onClick={() => nav('duxuiExample/example/InputNumber')} />
             <Cell title='Calendar 日历' onClick={() => nav('duxuiExample/example/Calendar')} />
             <Cell title='Grade 评分' onClick={() => nav('duxuiExample/example/Grade')} />
             <Cell title='Cascade 级联选择' onClick={() => nav('duxuiExample/example/Cascade')} />

@@ -65,7 +65,7 @@ export default function FormComplexExample() {
         <Form.Item field='array'>
           <Form.Array renderItem={ArrayItem} />
         </Form.Item>
-        <Form.Submit>提交</Form.Submit>
+        <Form.Submit className='m-3' type='primary' size='l'>提交</Form.Submit>
       </ScrollView>
     </Form>
   </TopView>

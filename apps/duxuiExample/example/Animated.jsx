@@ -97,7 +97,7 @@ export default function AnimatedExample() {
           }}
           >测试</Button>
         </GroupList.Item>
-        <GroupList.Item title='变换原点和延迟' desc=''>
+        <GroupList.Item title='变换原点和延迟' desc='PullView confirm message 等功能的动画效果是使用这个库实现的，可以查看对应组件'>
           <Animated.View
             animation={an4}
             className='bg-primary'

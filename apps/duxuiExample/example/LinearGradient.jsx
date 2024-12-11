@@ -1,4 +1,4 @@
-import { LinearGradient, Header, ScrollView, TopView, GroupList, px } from '@/duxuiExample'
+import { LinearGradient, Header, ScrollView, TopView, GroupList, px, Text, Column } from '@/duxuiExample'
 
 export default function LinearGradientExample() {
   return <TopView>
@@ -22,8 +22,14 @@ export default function LinearGradientExample() {
           </LinearGradient>
         </GroupList.Item>
         <GroupList.Item title='不透明度'>
-          <LinearGradient colors={['#e94727', 'rgba(0,0,0,0.2)']} useAngle angle={90} style={{ height: px(200) }}>
-          </LinearGradient>
+          <Column style={{ height: px(200) }} items='center' justify='center'>
+            <LinearGradient
+              colors={['#e94727', 'rgba(0,0,0,0.2)']}
+              useAngle angle={90}
+              className='inset-0 absolute'
+            />
+            <Text>底部文本展示 底部文本展示 底部文本展示 底部文本</Text>
+          </Column>
         </GroupList.Item>
       </GroupList>
     </ScrollView>

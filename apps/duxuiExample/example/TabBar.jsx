@@ -1,6 +1,7 @@
-import { TestIcon, TopView, Header, createTabBar, ScrollView, Text, duxappTheme, confirm } from '@/duxuiExample'
+import { TestIcon, TopView, Header, createTabBar, ScrollView, Text, duxappTheme, confirm, Column, px } from '@/duxuiExample'
 import { useEffect } from 'react'
 
+// TabBar 应该在单独的文件里面创建并导出，这样你才能在其他地方调用，例如设置红点、切换 TabBar 的功能
 const TabBar = createTabBar()
 
 const Home = () => {
@@ -21,7 +22,9 @@ const Home = () => {
   return <>
     <Header title='首页' />
     <ScrollView>
-      <Text>首页内容</Text>
+      <Column style={{ height: px(500) }} justify='end'>
+        <Text bold size={7} align='center'>首页内容</Text>
+      </Column>
     </ScrollView>
   </>
 }
@@ -30,7 +33,9 @@ const Category = () => {
   return <>
     <Header title='订单' />
     <ScrollView>
-      <Text>订单</Text>
+      <Column style={{ height: px(500) }} justify='end'>
+        <Text bold size={7} align='center'>订单</Text>
+      </Column>
     </ScrollView>
   </>
 }
@@ -39,7 +44,9 @@ const User = () => {
   return <>
     <Header title='个人中心' />
     <ScrollView>
-      <Text>个人中心内容</Text>
+      <Column style={{ height: px(500) }} justify='end'>
+        <Text bold size={7} align='center'>个人中心内容</Text>
+      </Column>
     </ScrollView>
   </>
 }

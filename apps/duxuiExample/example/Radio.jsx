@@ -24,7 +24,7 @@ export default function RadioExample() {
               </Radio.Group>
             </Form.Item>
             <Form.Item label='竖向排列' field='radio2'>
-              <Radio.Group direction='vertical'>
+              <Radio.Group vertical>
                 <Radio label='选项1' value={1} />
                 <Radio label='选项2' value={2} />
                 <Radio label='选项3' value={3} />

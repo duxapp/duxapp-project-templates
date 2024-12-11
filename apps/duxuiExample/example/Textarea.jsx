@@ -10,8 +10,11 @@ export default function TextareaExample() {
             <Form.Item label='输入框' field='input1'>
               <Textarea placeholder='请输入' grow />
             </Form.Item>
-            <Form.Item label='文本在右' field='input2' direction='vertical'>
-              <Textarea placeholder='请输入' grow />
+            <Form.Item label='上下布局' field='input2' vertical>
+              <Textarea placeholder='请输入' />
+            </Form.Item>
+            <Form.Item label='限制文本和高度' field='input3' vertical>
+              <Textarea placeholder='请输入' maxlength={120} line={10} />
             </Form.Item>
           </Divider.Group>
         </Card>

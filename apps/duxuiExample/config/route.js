@@ -85,7 +85,10 @@ const config = {
         ActionSheet: {},
         Recorder: {},
         ScrollView: {},
-        Animated: {}
+        Animated: {},
+        InputNumber: {},
+        ProgressCircle: {},
+        RollingView: {}
       }
     }
   }

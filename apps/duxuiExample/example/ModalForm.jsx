@@ -108,25 +108,6 @@ export default function ModalFormExample() {
             >
               <Text style={{ padding: 20 }}>弹出多个表单</Text>
             </ModalForms>
-            <ModalForms
-              side='right'
-              renderForm={<>
-                <ScrollView>
-                  <PullForm />
-                </ScrollView>
-                <Row>
-                  <ModalForms.Reset>
-                    <Text>重制</Text>
-                  </ModalForms.Reset>
-                  <ModalForms.Submit>
-                    <Text>提交</Text>
-                  </ModalForms.Submit>
-                </Row>
-              </>}
-              showButton={false}
-            >
-              <Text style={{ padding: 20 }}>弹出多个表单 自定义按钮</Text>
-            </ModalForms>
           </Divider.Group>
         </Card>
       </ScrollView>

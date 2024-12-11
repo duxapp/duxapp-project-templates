@@ -7,6 +7,7 @@ export default function ModalExample() {
     <Header title='Modal' />
     <ScrollView>
       <GroupList>
+        <Text type='danger'>这个组件即将被删除，请使用 PullView</Text>
         <GroupList.Item title='弹出框'>
           <Item />
         </GroupList.Item>

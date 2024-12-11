@@ -17,6 +17,10 @@ export default function StatusExample() {
         </GroupList.Item>
         <GroupList.Item title='类型'>
           <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+            <Text>default</Text>
+            <Status status={<Status.Incline type='default'>状态</Status.Incline>} />
+          </View>
+          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
             <Text>primary</Text>
             <Status status={<Status.Incline type='primary'>状态</Status.Incline>} />
           </View>
@@ -46,39 +50,43 @@ export default function StatusExample() {
           </Status>
         </GroupList.Item>
         <GroupList.Item title='Common组件'>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
+            <Text>default</Text>
+            <Status status={<Status.Common type='default'>状态</Status.Common>} />
+          </View>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>primary</Text>
             <Status status={<Status.Common type='primary'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>secondary</Text>
             <Status status={<Status.Common type='secondary'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>success</Text>
             <Status status={<Status.Common type='success'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>danger</Text>
             <Status status={<Status.Common type='danger'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>warning</Text>
             <Status status={<Status.Common type='warning'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>内测圆角</Text>
-            <Status status={<Status.Common type='warning' radius>状态</Status.Common>} />
+            <Status status={<Status.Common type='primary' radius>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>尺寸s</Text>
             <Status status={<Status.Common size='s'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>尺寸m</Text>
             <Status status={<Status.Common size='m'>状态</Status.Common>} />
           </View>
-          <View className='bg-white items-center justify-center overflow-hidden' style={{ height: px(150) }}>
+          <View className='bg-white items-center justify-center overflow-hidden r-2' style={{ height: px(150) }}>
             <Text>尺寸l</Text>
             <Status status={<Status.Common size='l'>状态</Status.Common>} />
           </View>

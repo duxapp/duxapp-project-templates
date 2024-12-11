@@ -3,11 +3,13 @@ import { Header, ScrollView, TopView, GroupList, ActionSheet, Button, confirm } 
 export default function ActionSheetExample() {
 
   return <TopView>
-    <Header title='Absolute' />
+    <Header title='ActionSheet' />
     <ScrollView>
       <GroupList>
-        <GroupList.Item title='基础用法'>
+        <GroupList.Item title='基础用法' desc='这是一个方法，而不是一个组件，Promise返回选择结果'>
           <Button
+            type='primary'
+            size='l'
             onClick={async () => {
               const res = await ActionSheet.show({
                 title: '请选择',

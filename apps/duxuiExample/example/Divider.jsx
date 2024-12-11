@@ -13,8 +13,10 @@ export default function DividerExample() {
           </View>
         </GroupList.Item>
         <GroupList.Item title='竖向'>
-          <View className='divider-item' style={{ height: px(200), flexDirection: 'row' }}>
-            <Divider vertical />
+          <View className='divider-item gap-4 flex-row' style={{ height: px(200) }}>
+            <Divider vertical type='solid' size={10} />
+            <Divider vertical type='dashed' size={10} />
+            <Divider vertical type='dotted' size={10} />
           </View>
         </GroupList.Item>
         <GroupList.Item title='类型'>
