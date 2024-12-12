@@ -88,7 +88,8 @@ const config = {
         Animated: {},
         InputNumber: {},
         ProgressCircle: {},
-        RollingView: {}
+        RollingView: {},
+        Swiper: {}
       }
     }
   }

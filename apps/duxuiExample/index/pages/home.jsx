@@ -26,6 +26,7 @@ export const Home = () => {
             <Cell title='Card 卡片' onClick={() => nav('duxuiExample/example/Card')} />
             <Cell title='ScrollView 滚动容器' onClick={() => nav('duxuiExample/example/ScrollView')} />
             <Cell title='RollingView 自动滚动容器' onClick={() => nav('duxuiExample/example/RollingView')} />
+            <Cell title='Swiper 幻灯片' onClick={() => nav('duxuiExample/example/Swiper')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='导航组件'>

@@ -1,4 +1,4 @@
-import { Tab, Header, ScrollView, TopView, GroupList, Card } from '@/duxuiExample'
+import { Tab, Header, ScrollView, TopView, GroupList, Card, px } from '@/duxuiExample'
 import { Text } from '@tarojs/components'
 
 export default function TabExample() {
@@ -8,18 +8,37 @@ export default function TabExample() {
       <GroupList>
         <GroupList.Item title='基础用法'>
           <Tab>
-            <Tab.Item title='标题1' paneKey={1} >
+            <Tab.Item title='标题1' >
               <Card margin>
                 <Text className='text-s5 text-c1'>内容1</Text>
               </Card>
             </Tab.Item>
-            <Tab.Item title='标题2' paneKey={2} >
+            <Tab.Item title='标题2' >
               <Card margin>
                 <Text className='text-s5 text-c1'>内容2</Text>
               </Card>
             </Tab.Item>
-            <Tab.Item title='标题3' paneKey={3} >
+            <Tab.Item title='标题3'  >
               <Card margin>
+                <Text className='text-s5 text-c1'>内容3</Text>
+              </Card>
+            </Tab.Item>
+          </Tab>
+        </GroupList.Item>
+        <GroupList.Item title='滑动切换' desc='开启滑动切换后，需要给 Tab 设置高度，或者开启 justify 属性'>
+          <Tab swiper style={{ height: px(400) }}>
+            <Tab.Item title='标题1' paneKey={1} >
+              <Card margin className='flex-grow'>
+                <Text className='text-s5 text-c1'>内容1</Text>
+              </Card>
+            </Tab.Item>
+            <Tab.Item title='标题2' paneKey={2} >
+              <Card margin className='flex-grow'>
+                <Text className='text-s5 text-c1'>内容2</Text>
+              </Card>
+            </Tab.Item>
+            <Tab.Item title='标题3' paneKey={3} >
+              <Card margin className='flex-grow'>
                 <Text className='text-s5 text-c1'>内容3</Text>
               </Card>
             </Tab.Item>
@@ -47,7 +66,7 @@ export default function TabExample() {
           <Tab type='button'>
             <Tab.Item title='标题1' />
             <Tab.Item title='标题2' />
-            <Tab.Item title='标题3' />
+            <Tab.Item title='标题3' badgeProps={{ count: 5 }} />
           </Tab>
         </GroupList.Item>
         <GroupList.Item title='按钮样式2'>
