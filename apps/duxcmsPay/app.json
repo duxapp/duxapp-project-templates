@@ -1,7 +1,7 @@
 {
   "name": "duxcmsPay",
   "description": "CMS支付",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "dependencies": [
     "duxcms",
     "wechat",

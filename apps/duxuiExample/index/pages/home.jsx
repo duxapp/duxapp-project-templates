@@ -50,6 +50,7 @@ export const Home = () => {
             <Cell title='Empty 空数据' onClick={() => nav('duxuiExample/example/Empty')} />
             <Cell title='Status 角标状态' onClick={() => nav('duxuiExample/example/Status')} />
             <Cell title='ProgressCircle 环形进度' onClick={() => nav('duxuiExample/example/ProgressCircle')} />
+            <Cell title='Svg Svg渲染' onClick={() => nav('duxuiExample/example/Svg')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='表单组件'>

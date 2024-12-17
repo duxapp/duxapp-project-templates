@@ -35,8 +35,14 @@ export default TopView.HOC(function ProgressCircleExample() {
         </GroupList.Item>
         <GroupList.Item title='进度条圆角'>
           <Row items='center' className='gap-3'>
-          <ProgressCircle value={50} />
+            <ProgressCircle value={50} />
             <ProgressCircle value={50} strokeLinecap='square' />
+          </Row>
+        </GroupList.Item>
+        <GroupList.Item title='加载中'>
+          <Row items='center' className='gap-3'>
+            <ProgressCircle loading />
+            <ProgressCircle value={30} loading />
           </Row>
         </GroupList.Item>
         <GroupList.Item title='子元素'>

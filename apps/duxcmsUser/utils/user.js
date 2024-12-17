@@ -1,5 +1,5 @@
 import { login, getAccountInfoSync } from '@tarojs/taro'
-import { loading } from '@/duxui/utils/interact'
+import { loading } from '@/duxapp'
 import {
   user,
   toast,

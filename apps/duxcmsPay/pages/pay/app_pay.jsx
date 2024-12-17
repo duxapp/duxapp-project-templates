@@ -4,7 +4,7 @@ import { TopView, Header } from '@/duxcms/components'
 import { login, useRouter } from '@tarojs/taro'
 import { request, startPay } from '@/duxcmsPay'
 import { Button } from '@/duxui/components/Button'
-import { loading } from '@/duxui/utils/interact'
+import { loading } from '@/duxapp'
 import './app_pay.scss'
 
 export default function OrderAppPay() {
