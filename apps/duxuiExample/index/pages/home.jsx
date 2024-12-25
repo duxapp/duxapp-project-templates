@@ -50,7 +50,6 @@ export const Home = () => {
             <Cell title='Empty 空数据' onClick={() => nav('duxuiExample/example/Empty')} />
             <Cell title='Status 角标状态' onClick={() => nav('duxuiExample/example/Status')} />
             <Cell title='ProgressCircle 环形进度' onClick={() => nav('duxuiExample/example/ProgressCircle')} />
-            <Cell title='Svg Svg渲染' onClick={() => nav('duxuiExample/example/Svg')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='表单组件'>
@@ -92,6 +91,13 @@ export const Home = () => {
             <Cell title='loding 显示加载动画' onClick={() => nav('duxuiExample/example/loadingUtil')} />
             <Cell title='message 消息通知' onClick={() => nav('duxuiExample/example/message')} />
             <Cell title='confirm 确认弹框' onClick={() => nav('duxuiExample/example/confirm')} />
+          </Cell.Group>
+        </GroupList.Item>
+        <GroupList.Item title='Svg'>
+          <Cell.Group>
+            <Cell title='组件属性' onClick={() => nav('duxuiExample/example/Svg')} />
+            <Cell title='动画' onClick={() => nav('duxuiExample/example/SvgAnimated')} />
+            <Cell title='事件结合' onClick={() => nav('duxuiExample/example/SvgEvent')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='内容优化'>

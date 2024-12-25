@@ -90,7 +90,9 @@ const config = {
         ProgressCircle: {},
         RollingView: {},
         Swiper: {},
-        Svg: {}
+        Svg: {},
+        SvgAnimated: {},
+        SvgEvent: {}
       }
     }
   }
