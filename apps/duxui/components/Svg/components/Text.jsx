@@ -112,7 +112,7 @@ const parseChildren = (
         if (notUndefined(dy)) {
           oldDys.shift()
         }
-        const bbox = textBbox(ctx, text[0], xy.x, xy.y)
+        const bbox = textBbox(ctx, text[0], xy.x, xy.y, props.fontSize, props.textAnchor)
         ctx.restore()
         xy.x += dxi
         xy.y += dyi
@@ -131,7 +131,7 @@ const parseChildren = (
       if (text.length) {
         ctx.save()
         setStyle(ctx, props)
-        const bbox = textBbox(ctx, text, xy.x, xy.y)
+        const bbox = textBbox(ctx, text, xy.x, xy.y, props.fontSize, props.textAnchor)
         ctx.restore()
         arr.push({
           t: text,

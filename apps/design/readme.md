@@ -14,7 +14,7 @@
 ```bash
 yarn duxapp app add design
 ```
-此模块需要在 [duxapp 框架](https://app.docs.dux.plus) 中运行
+此模块需要在 [duxapp 框架](https://duxapp.cn) 中运行
 
 此模块只包含了编辑器的核心代码，如果你需要开箱即用，可以安装 `designExample` 模块
 

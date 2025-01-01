@@ -17,20 +17,24 @@ export const UserLogin = ({ onLogin }) => {
   const agreement = useRef(null)
 
   return <contextState.Provider defaultValue={{ reg: false }}>
-    <Header title='' />
-    <ScrollView style={{ backgroundColor: '#fff' }}>
-      <View className='cms-login'>
+    <View className='flex-grow bg-white'>
+      <userHook.Render mark='page'>
+        <Header style={{ backgroundColor: 'transparent' }} />
+        <ScrollView>
+          <View className='cms-login'>
 
-        <Head bind={bind} />
-        {(config.phone || config.email) && <Account check={check} onLogin={onLogin} bind={bind} />}
+            <Head bind={bind} />
+            {(config.phone || config.email) && <Account check={check} onLogin={onLogin} bind={bind} />}
 
-        <Agreement ref={agreement} checkAction={checkAction} check={check} />
+            <Agreement ref={agreement} checkAction={checkAction} check={check} />
 
-        {process.env.TARO_ENV === 'rn' && config.appWatch && <AppWechat check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
+            {process.env.TARO_ENV === 'rn' && config.appWatch && <AppWechat check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
 
-        {process.env.TARO_ENV === 'weapp' && config.weappWatch && <WeappWatch check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
-      </View>
-    </ScrollView>
+            {process.env.TARO_ENV === 'weapp' && config.weappWatch && <WeappWatch check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
+          </View>
+        </ScrollView>
+      </userHook.Render>
+    </View>
   </contextState.Provider>
 }
 
