@@ -1,12 +1,9 @@
 import { formConfig } from '@/duxui/components/Form/config'
 import {
-  app,
   request,
   updateApp,
   userConfig
 } from './utils'
-
-app.register('duxcms')
 
 formConfig.setConfig({
   request

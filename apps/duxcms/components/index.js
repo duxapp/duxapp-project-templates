@@ -1,5 +1,6 @@
 import { useRequest, usePageData } from '@/duxcms/utils'
-import { createDetail, createList } from '@/duxapp/components'
+import { createList } from '@/duxapp/components'
+import { createDetail } from './Detail'
 
 const Detail = createDetail(useRequest)
 const List = createList(usePageData)

@@ -1,5 +1,5 @@
-import { useMemo, useEffect, isValidElement, cloneElement, Fragment } from 'react'
-import { ScrollView } from '../ScrollView'
+import { useMemo, useEffect, isValidElement, cloneElement } from 'react'
+import { ScrollView } from '@/duxapp'
 
 /**
  * 用于详情页面的渲染
