@@ -6,6 +6,8 @@ import { WechatShare } from '@/wechat'
 
 export default TopView.HOC(function ArticleDetail() {
 
+  const [config = {}] = contentHook.useMark('article.config')
+
   const { params } = useRoute()
 
   const [data] = useRequest(`content/article/${params.id}`)
@@ -36,10 +38,10 @@ export default TopView.HOC(function ArticleDetail() {
               </Row>}
               <Text color={3} size={1}>{data.time?.substring(5, 16)}</Text>
             </Row>
-            <Row items='center' className='gap-1'>
+            {!config.disabledView && <Row items='center' className='gap-1'>
               <CmsIcon name='a-Eyevision' size={32} color={duxappTheme.textColor3} />
               <Text size={1} color={3}>{data.view}</Text>
-            </Row>
+            </Row>}
           </Row>
           {!!data.extend?.video?.url && <Video src={data.extend.video.url} showPlayBtn showFullscreenBtn controls style={{ height: px(420) }} />}
           <HtmlView html={data.content} />
@@ -69,10 +71,10 @@ export default TopView.HOC(function ArticleDetail() {
       </contentHook.Render>
       <Column grow />
       <contentHook.Render mark='detail.like' option={{ likeStatus, likeAction, data }}>
-        <Row items='center' onClick={likeAction.action}>
+        {!config.disabledPraise && <Row items='center' onClick={likeAction.action}>
           <CmsIcon size={42} name={likeStatus ? 'good-fill' : 'good'} color={likeStatus ? duxappTheme.dangerColor : duxappTheme.textColor3} />
           <Text {...likeStatus ? { type: 'danger' } : { color: 3 }}>{likeAction.count}</Text>
-        </Row>
+        </Row>}
       </contentHook.Render>
     </Row>
   </>

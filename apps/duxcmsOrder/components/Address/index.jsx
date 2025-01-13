@@ -116,6 +116,7 @@ export const Address = ({
   useChild,
   children,
   cancel,
+  disabled,
   ...props
 }) => {
 
@@ -124,8 +125,8 @@ export const Address = ({
   return <>
     {
       useChild ?
-        cloneElement(children, { onClick: () => showAction(!show) }) :
-        <View onClick={() => showAction(!show)} style={style} {...props}>
+        cloneElement(children, { onClick: () => !disabled && showAction(!show) }) :
+        <View onClick={() => !disabled && showAction(!show)} style={style} {...props}>
           {children}
         </View>
     }

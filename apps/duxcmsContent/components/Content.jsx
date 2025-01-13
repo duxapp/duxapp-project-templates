@@ -3,6 +3,7 @@ import { Column, Grid, Image, Row, ScrollViewManage, Tag, Text } from '@/duxui'
 import { usePageData } from '@/duxcmsUser'
 import { useCallback, useEffect } from 'react'
 import { CmsIcon } from '@/duxcms'
+import { contentHook } from '../utils'
 
 export const ContentItem = ({ item }) => {
 
@@ -50,6 +51,9 @@ export const ContentItem = ({ item }) => {
 }
 
 const OtherInfo = ({ left, item, oneImg }) => {
+
+  const [config = {}] = contentHook.useMark('article.config')
+
   return <Row items='center' className='gap-2'>
     {left}
     <Row items='center' className='gap-3' grow>
@@ -60,11 +64,11 @@ const OtherInfo = ({ left, item, oneImg }) => {
       <Text color={3} size={1}>{item.time.substring(5, 16)}</Text>
     </Row>
     {(!oneImg || !item.source) && <Row items='center' className='gap-3'>
-      {item.praise > 0 && <Row items='center' className='gap-1'>
+      {item.praise > 0 && !config.disabledPraise && <Row items='center' className='gap-1'>
         <CmsIcon name='good-fill' size={32} color={duxappTheme.textColor3} />
         <Text size={1} color={3}>{item.praise}</Text>
       </Row>}
-      {item.view > 0 && <Row items='center' className='gap-1'>
+      {item.view > 0 && !config.disabledView && <Row items='center' className='gap-1'>
         <CmsIcon name='a-Eyevision' size={32} color={duxappTheme.textColor3} />
         <Text size={1} color={3}>{item.view}</Text>
       </Row>}
