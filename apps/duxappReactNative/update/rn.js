@@ -81,6 +81,11 @@ module.exports = {
   end`
     }
   },
+  replace: {
+    'android/gradle/wrapper/gradle-wrapper.properties': {
+      distributionUrl: 'https://mirrors.cloud.tencent.com/gradle/gradle-8.8-all.zip'
+    }
+  },
   android: {
     xml: {
       'app/src/main/AndroidManifest.xml': {
