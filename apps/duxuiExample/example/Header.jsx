@@ -12,7 +12,7 @@ export default function CellExample() {
           <Header title='标题' renderRight={<Text>右侧</Text>} />
         </GroupList.Item>
         <GroupList.Item title='自定义样式'>
-          <Header title='标题' style={{backgroundColor: '#333'}} color='#fff' />
+          <Header title='标题' style={{ backgroundColor: '#333' }} color='#fff' />
         </GroupList.Item>
       </GroupList>
     </ScrollView>

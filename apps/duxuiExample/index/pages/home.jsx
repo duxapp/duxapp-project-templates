@@ -98,6 +98,7 @@ export const Home = () => {
             <Cell title='组件属性' onClick={() => nav('duxuiExample/example/Svg')} />
             <Cell title='动画' onClick={() => nav('duxuiExample/example/SvgAnimated')} />
             <Cell title='事件结合' onClick={() => nav('duxuiExample/example/SvgEvent')} />
+            <Cell title='内容裁剪' onClick={() => nav('duxuiExample/example/SvgClipPath')} />
           </Cell.Group>
         </GroupList.Item>
         <GroupList.Item title='内容优化'>

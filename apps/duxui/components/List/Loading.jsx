@@ -1,5 +1,5 @@
 import { Text, View } from '@tarojs/components'
-import { Loading } from '../Loading'
+import { Loading } from '@/duxapp'
 import './Loading.scss'
 
 export const ListLoading = ({ loading = true, text = '', flip }) => {

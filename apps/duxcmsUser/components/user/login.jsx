@@ -57,6 +57,8 @@ export const config = {
   appWatch: true,
   // 小程序微信登录
   weappWatch: true,
+  // 开启验证码功能
+  code: true,
   // 名称
   appName: 'DuxCms',
   // 扩展表单
@@ -314,12 +316,12 @@ export const Account = ({
           {
             reg
               ? <>
-                <Code codeUrl={codeUrl} username={post.username} onInput={e => postAction(old => ({ ...old, 'code': e.detail.value }))} value={post.code} />
+                {config.code && <Code codeUrl={codeUrl} username={post.username} onInput={e => postAction(old => ({ ...old, 'code': e.detail.value }))} value={post.code} />}
                 <Password onInput={e => postAction(old => ({ ...old, 'password': e.detail.value }))} value={post.password} placeholder='请设置密码' />
               </>
               : <>
                 {
-                  passwordLogin
+                  passwordLogin || !config.code
                     ? <Password onInput={e => postAction(old => ({ ...old, 'password': e.detail.value }))} value={post.password} />
                     : <Code codeUrl={codeUrl} username={post.username} onInput={e => postAction(old => ({ ...old, 'code': e.detail.value }))} value={post.code} />
                 }
@@ -331,7 +333,9 @@ export const Account = ({
                 if (item.show && ((item.show === 'reg' && !reg) || (item.show === 'login' && reg))) {
                   return null
                 }
-                return <View key={item.field} className='cms-login__content__phone'>
+                const input = <View key={item.field} className='cms-login__content__phone gap-1 mt-3'
+                  style={{ marginTop: item.title ? px(16) : px(32) }}
+                >
                   <Input
                     className='cms-login__content__phone__input'
                     onInput={e => postAction(old => ({ ...old, [item.field]: e.detail.value }))}
@@ -342,6 +346,15 @@ export const Account = ({
                     placeholderStyle={`color: ${duxappTheme.textColor3}`}
                   />
                 </View>
+                if (item.title) {
+                  return <View key={item.field}
+                    style={{ marginTop: px(32) }}
+                  >
+                    {!!item.title && <Text className='text-s2 text-danger mh-3'>{item.title}</Text>}
+                    {input}
+                  </View>
+                }
+                return input
               }
               return null
             })
@@ -361,7 +374,7 @@ export const Account = ({
       </Button>
       {!reg && <Row justify='between' className='mt-3 pv-2'>
         <Text onClick={() => passwordLoginAction(old => !old)}>
-          {passwordLogin ? '验证码登录' : '密码登录'}
+          {!config.code ? '' : passwordLogin ? '验证码登录' : '密码登录'}
         </Text>
         {passwordLogin && <Text onClick={() => nav('duxcmsUser/info/forget')}>忘记密码?</Text>}
       </Row>}

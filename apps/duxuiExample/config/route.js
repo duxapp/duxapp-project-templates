@@ -92,7 +92,8 @@ const config = {
         Swiper: {},
         Svg: {},
         SvgAnimated: {},
-        SvgEvent: {}
+        SvgEvent: {},
+        SvgClipPath: {}
       }
     }
   }

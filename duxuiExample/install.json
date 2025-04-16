@@ -3,6 +3,7 @@
   "apps": [
     "amap",
     "duxapp",
+    "duxappStyle",
     "duxappReactNative",
     "duxcms",
     "duxui",

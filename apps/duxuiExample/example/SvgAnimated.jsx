@@ -48,6 +48,7 @@ const Fade = () => {
           Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 1000,
+            useNativeDriver: true
           }).start()
         }}
       >淡入</Button>
@@ -171,7 +172,7 @@ const Transform = () => {
     }, 500)
   }, [transformAnim])
 
-  return <GroupList.Item title='变换动画' desc='在RN上似乎不生效'>
+  return <GroupList.Item title='变换动画' desc='要支持变换动画，需要使用transform属性，且不支持transformOrigin属性，需要用translate属性模拟实现变换原点功能'>
     <Svg width={width} height={height}>
       <AnimatedRect
         x={(width - size) / 2}
@@ -181,15 +182,26 @@ const Transform = () => {
         rx={10} ry={10}
         stroke={secondary}
         fill={primary}
-        origin={[width / 2, height / 2]}
-        rotation={transformAnim.interpolate({
-          inputRange: [0, 1, 2],
-          outputRange: [0, 180, 360]
-        })}
-        scale={transformAnim.interpolate({
-          inputRange: [0, 1, 2],
-          outputRange: [1, 2, 1]
-        })}
+        transform={[
+          {
+            translate: [width / 2, height / 2]
+          },
+          {
+            scale: transformAnim.interpolate({
+              inputRange: [0, 1, 2],
+              outputRange: [1, 2, 1]
+            })
+          },
+          {
+            rotate: transformAnim.interpolate({
+              inputRange: [0, 1, 2],
+              outputRange: [0, Math.PI, Math.PI * 2]
+            })
+          },
+          {
+            translate: [-width / 2, -height / 2]
+          }
+        ]}
       />
     </Svg>
   </GroupList.Item>

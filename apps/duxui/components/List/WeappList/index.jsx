@@ -3,8 +3,7 @@ import { VirtualList } from '@tarojs/components-advanced/dist/components/virtual
 import { VirtualWaterfall } from '@tarojs/components-advanced/dist/components/virtual-waterfall'
 import { useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
-import { noop } from '@/duxapp/utils'
-import { Layout } from '../../Layout'
+import { noop, Layout } from '@/duxapp'
 
 export const WeappList = ({
   list,
