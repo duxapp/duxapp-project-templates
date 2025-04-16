@@ -1,5 +1,4 @@
-import { ListLoading, duxappTheme, nav, px } from '@/duxapp'
-import { Column, Grid, Image, Row, ScrollViewManage, Tag, Text } from '@/duxui'
+import { Column, Grid, Image, Row, ScrollViewManage, Tag, Text, ListLoading, duxappTheme, nav, px } from '@/duxui'
 import { usePageData } from '@/duxcmsUser'
 import { useCallback, useEffect } from 'react'
 import { CmsIcon } from '@/duxcms'
