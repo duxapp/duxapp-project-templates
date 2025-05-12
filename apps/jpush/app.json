@@ -1,0 +1,8 @@
+{
+  "name": "jpush",
+  "description": "APP极光推送",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxappReactNative"
+  ]
+}

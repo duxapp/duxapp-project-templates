@@ -15,7 +15,7 @@ module.exports = ({ config }) => {
         'podEnd': `  pod 'WechatOpenSDK'`
       },
       'ios/duxapp/AppDelegate.h': {
-        import: '  #import "WXApi.h"',
+        import: '#import "WXApi.h"',
         'appDelegate.protocol': '  ,WXApiDelegate'
       },
       'ios/duxapp/AppDelegate.mm': {

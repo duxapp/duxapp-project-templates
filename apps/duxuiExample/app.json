@@ -1,7 +1,7 @@
 {
   "name": "duxuiExample",
   "description": "ui库示例",
-  "version": "1.0.37",
+  "version": "1.0.40",
   "dependencies": [
     "duxui",
     "duxcms",

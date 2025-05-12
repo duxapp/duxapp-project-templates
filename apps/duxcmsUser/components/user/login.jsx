@@ -30,7 +30,7 @@ export const UserLogin = ({ onLogin }) => {
 
             {process.env.TARO_ENV === 'rn' && config.appWatch && <AppWechat check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
 
-            {process.env.TARO_ENV === 'weapp' && config.weappWatch && <WeappWatch check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
+            {process.env.TARO_ENV === 'weapp' && config.weappWatch && <WeappWatch check={check} auto={config.weappForceWatch} onLogin={onLogin} bind={bind} onBind={setBind} />}
           </View>
         </ScrollView>
       </userHook.Render>
@@ -57,6 +57,8 @@ export const config = {
   appWatch: true,
   // 小程序微信登录
   weappWatch: true,
+  // 强制小程序微信登录
+  weappForceWatch: false,
   // 开启验证码功能
   code: true,
   // 名称
@@ -448,10 +450,10 @@ export const AppWechat = ({ check, onLogin, bind, onBind }) => {
   </>
 }
 
-export const WeappWatch = ({ check, onLogin, bind, onBind }) => {
+export const WeappWatch = ({ check, auto, onLogin, bind, onBind }) => {
 
   const weappLogin = useCallback(() => {
-    if (!check) {
+    if (!check && !auto) {
       return toast('请同意用户协议')
     }
     cmsUser.weappLogin().then(data => {
@@ -464,7 +466,14 @@ export const WeappWatch = ({ check, onLogin, bind, onBind }) => {
         toast(err.message)
       }
     })
-  }, [check, onBind, onLogin])
+  }, [auto, check, onBind, onLogin])
+
+  useEffect(() => {
+    if (auto) {
+      weappLogin()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (bind) {
     return null

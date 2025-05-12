@@ -203,7 +203,7 @@ class UserManage extends ObjectManage {
         let H5LoginUrl
         H5LoginUrl = await getH5WechatLoginUrl()
         // 全局请求参数传到登录页面
-        const params = {
+        let params = {
           ...route.getQueryVariable()
         }
         // 回调页面 如果当前不在首页传入回调页面
