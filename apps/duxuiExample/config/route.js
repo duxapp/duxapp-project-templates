@@ -94,7 +94,8 @@ const config = {
         SvgAnimated: {},
         SvgEvent: {},
         SvgClipPath: {},
-        QRCode: {}
+        QRCode: {},
+        SvgEditor: {}
       }
     }
   }

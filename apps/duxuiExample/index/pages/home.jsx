@@ -115,6 +115,7 @@ export const Home = () => {
             <Cell title='Map 地图' onClick={() => nav('duxuiExample/example/Map')} />
             <Cell title='Sign 签名' onClick={() => nav('duxuiExample/example/Sign')} />
             <Cell title='HorseLanternLottery 跑马灯抽奖' onClick={() => nav('duxuiExample/example/HorseLanternLottery')} />
+            <Cell title='SvgEditor Svg编辑器' onClick={() => nav('duxuiExample/example/SvgEditor')} />
             <Cell title='UploadManage 大文件上传及管理' onClick={() => confirm({ title: '暂未更新示例', content: '此组件目的是直接将文件上传到云存储，而不需要经过服务器转发，提升上传速度，并且组件封装了文件管理的功能' })} />
           </Cell.Group>
         </GroupList.Item>

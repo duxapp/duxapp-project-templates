@@ -5,7 +5,7 @@ import {
   Defs, Use, G,
   LinearGradient, Stop, SvgToImage, SvgComponent
 } from '@/duxui/components/Svg'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { saveImageToPhotosAlbum } from '@tarojs/taro'
 
 export default TopView.HOC(function SvgExample() {
@@ -33,9 +33,7 @@ export default TopView.HOC(function SvgExample() {
                   <Ellipse cx={25} cy={85} rx={25} ry={15} />
                   <Path d={generateRoundedRectPath(50, 60, 50, 50, 12)} />
                   <Text x={150} y={80} fontSize={24}>文本效果</Text>
-                  <Text x={150} y={100} fontSize={18}
-                    textAnchor='middle'
-                  >对齐方式</Text>
+                  <Text x={150} y={100} fontSize={18} textAnchor='middle'>对齐方式</Text>
                   <Text x={200} y={100} fontSize={18} dx='0 5 5 5 5 5' dy='0 5 5'>
                     文本
                     <TSpan dx={5}>子元素1</TSpan>
@@ -109,6 +107,8 @@ const CustomSvg = () => {
   const primary = duxappTheme.primaryColor
   const secondary = duxappTheme.secondaryColor
 
+  const [layout, setLayout] = useState()
+
   return <SvgComponent>
     <Defs>
       <G id='shape'>
@@ -134,6 +134,8 @@ const CustomSvg = () => {
       // translate={[50, 50]}
       translateX={30}
       translateY={30}
+      onLayout={e => setLayout(e.nativeEvent.layout)}
     />
+    {layout && <Rect {...layout} fill='none' stroke='#666' />}
   </SvgComponent>
 }
