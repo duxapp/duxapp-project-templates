@@ -1,4 +1,4 @@
-import { RenderHook } from '../components'
+import { RenderHook } from '@/duxapp'
 
 export * from '@/duxcms/utils'
 export * from './pay'

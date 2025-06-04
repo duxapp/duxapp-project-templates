@@ -1,4 +1,4 @@
-import { Cell, Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
+import { Cell, Header, ScrollView, TopView, GroupList, CellGroup } from '@/duxuiExample'
 
 export default function CellExample() {
   return <TopView>
@@ -15,12 +15,12 @@ export default function CellExample() {
           <Cell title='菜单' subTitle='这是副标题' desc='简介' />
         </GroupList.Item>
         <GroupList.Item title='组'>
-          <Cell.Group>
+          <CellGroup>
             <Cell title='菜单1' />
             <Cell title='菜单2' />
             <Cell title='菜单3' />
             <Cell title='菜单4' />
-          </Cell.Group>
+          </CellGroup>
         </GroupList.Item>
       </GroupList>
     </ScrollView>

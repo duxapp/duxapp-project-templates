@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Swiper, GroupList, Text, Column, px } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Swiper, GroupList, Text, Column, px, SwiperItem } from '@/duxuiExample'
 
 export default function SwiperExample() {
   return <TopView>
@@ -27,15 +27,15 @@ export default function SwiperExample() {
 
 const content = () => {
   return [
-    <Swiper.Item key={1}>
+    <SwiperItem key={1}>
       <Column grow items='center' justify='center' className='bg-primary'>
         <Text size={5} bold color={4}>内容 1</Text>
       </Column>
-    </Swiper.Item>,
-    <Swiper.Item key={2}>
+    </SwiperItem>,
+    <SwiperItem key={2}>
       <Column grow items='center' justify='center' className='bg-success'>
         <Text size={5} bold color={4}>内容 2</Text>
       </Column>
-    </Swiper.Item>
+    </SwiperItem>
   ]
 }

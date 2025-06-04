@@ -14,7 +14,7 @@
 ```bash
 yarn duxapp app add design
 ```
-此模块需要在 [duxapp 框架](https://duxapp.cn) 中运行
+此模块需要在 [duxapp 框架](https://duxapp.com) 中运行
 
 此模块只包含了编辑器的核心代码，如果你需要开箱即用，可以安装 `designExample` 模块
 
@@ -70,7 +70,7 @@ yarn dev:h5 --app=designExample
 
 ## <a name='example'></a>在线体验
 
-[https://design.duxapp.cn/](https://design.duxapp.cn/)
+[https://design.duxapp.com/](https://design.duxapp.com/)
 
 - 体验地址中的模板相关功能需要自行实现
 

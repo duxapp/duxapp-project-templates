@@ -3,6 +3,7 @@ import { View, Input } from '@tarojs/components'
 import { CmsIcon } from '@/duxcms/components'
 import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook } from '@/duxcmsUser/utils'
 import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px } from '@/duxui'
+import { WechatLib } from '@/wechat'
 import './login.scss'
 
 export const UserLogin = ({ onLogin }) => {
@@ -77,14 +78,6 @@ export const setLoginConfig = _val => {
     config[key] = _val[key]
   })
 }
-
-// react-native-wechat-lib start
-let isWXAppInstalleds
-if (process.env.TARO_ENV === 'rn') {
-  const { isWXAppInstalled } = require('react-native-wechat-lib')
-  isWXAppInstalleds = isWXAppInstalled
-}
-// react-native-wechat-lib end
 
 const phoneReg = /^1\d{10}$/
 const emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
@@ -405,7 +398,7 @@ export const AppWechat = ({ check, onLogin, bind, onBind }) => {
 
   useEffect(() => {
     if (process.env.TARO_ENV === 'rn') {
-      isWXAppInstalleds().then(setWxInstall)
+      WechatLib.isWXAppInstalled().then(setWxInstall)
     }
   }, [])
 

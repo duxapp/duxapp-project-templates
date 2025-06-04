@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { Text, Image, Button, Empty, Space, Avatar, Column, Grade, Grid, Divider } from '@/duxui'
+import { Text, Image, Button, Empty, Space, Avatar, Column, Grade, Grid, Divider, ImageGroup } from '@/duxui'
 import { nav, usePageData } from '@/duxcms'
 
 export const DiscussDetailList = ({
@@ -36,13 +36,13 @@ export const DiscussItem = ({ item, index }) => {
         <Text size={1} color={3} grow align='right'>{item.time}</Text>
       </Space>
       <Text size={1}>{item.content}</Text>
-      <Image.Group>
+      <ImageGroup>
         <Grid column={4} square gap={24}>
           {
             item.images?.map((v, i) => <Image className='w-full h-full' src={v} key={i} radiusType='round-min' />)
           }
         </Grid>
-      </Image.Group>
+      </ImageGroup>
       <Divider padding={0} />
     </Column>
   </Space>

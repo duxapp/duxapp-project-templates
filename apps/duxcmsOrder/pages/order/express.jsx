@@ -1,5 +1,5 @@
 import { List, usePageData } from '@/duxcmsOrder'
-import { Column, Divider, Empty, Header, ListLoading, Status, Step, Text, TopView, px, useRoute } from '@/duxui'
+import { Column, Divider, Empty, Header, ListLoading, Status, Step, Text, TopView, px, useRoute, StatusIncline } from '@/duxui'
 
 export default function OrderExpress() {
 
@@ -35,7 +35,7 @@ const Item = ({ item }) => {
             renderEnd={End}
           />
     }
-    <Status horizontal='right' status={<Status.Incline>{logStatus[item.log_status]}</Status.Incline>}></Status>
+    <Status horizontal='right' status={<StatusIncline>{logStatus[item.log_status]}</StatusIncline>}></Status>
   </Column>
 }
 

@@ -1,4 +1,4 @@
-import { Card, Column, Divider, Header, Text, TopView, Row, Empty, Tab } from '@/duxui'
+import { Card, Column, Divider, Header, Text, TopView, Row, Empty, Tab, TabItem } from '@/duxui'
 import { List } from '@/duxcmsAccount'
 import { useState } from 'react'
 
@@ -11,7 +11,7 @@ export default function Log() {
     <Header title='账单' />
     <Tab className='bg-white' value={fund} onChange={setFund}>
       {
-        tabs.map(item => <Tab.Item key={item.value} title={item.name} paneKey={item.value} />)
+        tabs.map(item => <TabItem key={item.value} title={item.name} paneKey={item.value} />)
       }
     </Tab>
     <Card margin className='flex-grow' verticalPadding={false}>

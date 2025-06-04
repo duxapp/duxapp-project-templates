@@ -9,8 +9,6 @@ const list = [
   { name: '阶段6', time: '06-23 14:24' },
 ]
 
-
-
 export default function StepExample() {
   return <TopView>
     <Header title='Step' />

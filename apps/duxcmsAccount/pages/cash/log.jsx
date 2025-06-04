@@ -1,4 +1,4 @@
-import { Card, Empty, Column, Divider, Header, Text, TopView, Row, Tab } from '@/duxui'
+import { Card, Empty, Column, Divider, Header, Text, TopView, Row, Tab, TabItem } from '@/duxui'
 import { useMemo, useState } from 'react'
 import { List } from '@/duxcmsAccount'
 
@@ -12,7 +12,7 @@ export default function CashLog() {
   return <TopView>
     <Header title='提现明细' />
     <Tab value={type} onChange={setType}>
-      {tab.map(item => <Tab.Item key={item.type} title={item.text} paneKey={item.type} />)}
+      {tab.map(item => <TabItem key={item.type} title={item.text} paneKey={item.type} />)}
     </Tab>
     <Card margin className='flex-grow'>
       <List

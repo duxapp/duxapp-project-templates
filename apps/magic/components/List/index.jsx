@@ -1,7 +1,7 @@
 import { List, ScrollView, useRequest } from '@/duxcms'
 import { pxTransform } from '@tarojs/taro'
 import { isValidElement, useMemo } from 'react'
-import { Card, Grid, Row, Text, nav } from '@/duxui'
+import { Card, Grid, Row, Text, nav, CardTitle } from '@/duxui'
 import { MagicForm } from '../Form'
 import { items } from '../items'
 
@@ -32,9 +32,9 @@ const RenderListItem = ({
   disabled
 }) => {
   return <Card margin disableMarginTop={!!index} style={{ gap: pxTransform(24) }} onClick={() => detailPage && nav(`${detailPage}`, { table, id: item.id, disabled: disabled ? 1 : '' })}>
-    <Card.Title >
+    <CardTitle >
       序号: {item.id}
-    </Card.Title>
+    </CardTitle>
     <Grid column={2}>
       {
         showKeys.map(config => {

@@ -1,14 +1,15 @@
 {
   "scripts": {
-    "build:harmony": "duxapp runtime enterFile && duxapp harmony create && taro build --type harmony",
+    "build:harmony": "duxapp runtime enterFile && duxapp harmony create && taro build --type harmony_cpp",
     "dev:harmony": "npm run build:harmony -- --watch"
   },
   "dependencies": {
-    "@tarojs/plugin-platform-harmony-ets": "4.0.7",
-    "vite": "^5.4.10",
-    "terser": "^5.36.0",
-    "@tarojs/vite-runner": "4.0.5",
+    "@tarojs/plugin-platform-harmony-cpp": "4.1.1",
+    "@tarojs/plugin-platform-harmony-ets": "4.1.1",
+    "vite": "^6.3.5",
+    "terser": "^5.39.2",
+    "@tarojs/vite-runner": "4.1.1",
     "@vitejs/plugin-react": "^4.3.3",
-    "vite-plugin-commonjs": "^0.10.3"
+    "vite-plugin-commonjs": "^0.10.4"
   }
 }

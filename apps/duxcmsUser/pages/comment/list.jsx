@@ -1,4 +1,4 @@
-import { Card, Empty, Header, Tab, TopView, useRoute } from '@/duxui'
+import { Card, Empty, Header, Tab, TopView, useRoute, TabItem } from '@/duxui'
 import { useState, useMemo } from 'react'
 import { List, CommentItem, useRequest } from '@/duxcmsUser'
 import QueryString from 'qs'
@@ -32,7 +32,7 @@ export default function CommentList() {
   return <TopView>
     <Header title='评价列表' />
     <Tab value={score} onChange={setScore} className='bg-white rb-3'>
-      {navs.map(item => <Tab.Item key={item.value} title={item.name} paneKey={item.value} />)}
+      {navs.map(item => <TabItem key={item.value} title={item.name} paneKey={item.value} />)}
     </Tab>
     <List
       url='member/assess/has'

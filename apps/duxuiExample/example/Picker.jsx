@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, PickerSelect, PickerMultiSelect } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Divider, PickerSelect, PickerMultiSelect, DividerGroup, FormItem } from '@/duxuiExample'
 
 const selectorData = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -20,25 +20,25 @@ export default function PickerExample() {
     <Header title='Picker' />
     <Form onSubmit={console.log}>
       <ScrollView>
-        <Card margin verticalPadding={false} className='self-stretch'>
-          <Divider.Group>
+        <Card margin verticalPadding={false}>
+          <DividerGroup>
 
-            <Form.Item label='单列选择' field='picker1'>
+            <FormItem label='单列选择' field='picker1'>
               <PickerSelect placeholder='请选择' range={selectorData} grow title='请选择' />
-            </Form.Item>
+            </FormItem>
 
-            <Form.Item label='单列选择启用搜索' field='pickerSearch'>
+            <FormItem label='单列选择启用搜索' field='pickerSearch'>
               <PickerSelect placeholder='请选择' search range={selectorData} grow title='请选择' />
-            </Form.Item>
+            </FormItem>
 
-            <Form.Item label='多列选择' field='picker2'>
+            <FormItem label='多列选择' field='picker2'>
               <PickerMultiSelect placeholder='请选择' range={multiSelectorData} grow title='请选择' />
-            </Form.Item>
+            </FormItem>
 
-            <Form.Item label='单列选择对象数据' field='picker3'>
+            <FormItem label='单列选择对象数据' field='picker3'>
               <PickerSelect placeholder='请选择' range={selectorObjectData} grow title='请选择' />
-            </Form.Item>
-          </Divider.Group>
+            </FormItem>
+          </DividerGroup>
         </Card>
       </ScrollView>
     </Form>

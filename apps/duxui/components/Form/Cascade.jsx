@@ -2,13 +2,13 @@ import { View } from '@tarojs/components'
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ScrollView, duxappTheme, recursionGetValue } from '@/duxapp'
 import classNames from 'classnames'
-import { Divider } from '../Divider'
+import { Divider, DividerGroup } from '../Divider'
 import { DuxuiIcon } from '../DuxuiIcon'
 import { Column } from '../Flex'
 import { Text } from '../Text'
 import { Space } from '../Space'
+import { useFormItemProxy } from './Form'
 import './Cascade.scss'
-import { Form } from './Form'
 
 const findPosition = (cascadeData, value, valueKey = 'value', childrenKey = 'children', path = []) => {
   for (let i = 0; i < cascadeData.length; i++) {
@@ -62,7 +62,7 @@ export const Cascade = ({
   ...props
 }) => {
 
-  const [val, setVal] = Form.useFormItemProxy({
+  const [val, setVal] = useFormItemProxy({
     onChange,
     value,
     defaultValue
@@ -332,7 +332,7 @@ const DefaultRender = ({
           {
             group.map((item, index) => {
               const isSelect = select[groupIndex] === index
-              return <View key={index} className='Cascade__left__label self-stretch gap-2' onClick={() => labelClick(groupIndex, index, item)}>
+              return <View key={index} className='Cascade__left__label gap-2' onClick={() => labelClick(groupIndex, index, item)}>
                 <Text style={{ color: isSelect ? duxappTheme.primaryColor : duxappTheme.textColor1 }} className='Cascade__left__label__title'>{item[nameKey]}</Text>
                 {!isRadio && groupIndex === 0 && checkNumbers[index] > 0 && !anyLevel &&
                   <Text className='text-s1 text-primary'>已选 {checkNumbers[index]}</Text>
@@ -349,8 +349,8 @@ const DefaultRender = ({
           right.map((item, index) => {
             const isSelect = isRadio ? value === item[valueKey] : value?.includes?.(item[valueKey])
             return <Fragment key={'item' + index}>
-              {!!index && <Divider className='self-stretch' />}
-              <View className='Cascade__right__item self-stretch' onClick={() => rightClick(item)}>
+              {!!index && <Divider />}
+              <View className='Cascade__right__item' onClick={() => rightClick(item)}>
                 <Text style={{ color: isSelect ? duxappTheme.primaryColor : duxappTheme.textColor1 }} className='Cascade__right__item__label'>{item[nameKey]}</Text>
                 <DuxuiIcon
                   className='Cascade__right__item__icon'
@@ -384,7 +384,7 @@ const FillRender = ({
   anyLevel
 }) => {
 
-  return <Divider.Group vertical>
+  return <DividerGroup vertical>
     {
       list.map((group, groupIndex) => {
         const last = groupIndex == list.length - 1
@@ -417,5 +417,5 @@ const FillRender = ({
         </Column>
       })
     }
-  </Divider.Group>
+  </DividerGroup>
 }

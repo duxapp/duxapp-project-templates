@@ -1,7 +1,25 @@
 import {
-  Header, ScrollView, TopView, Form, Card, Divider,
-  Cascade, ModalForm, ModalForms, DatePicker, Input, Text, CardSelect, duxappTheme, Space, Row, Column,
-  px
+  Header,
+  ScrollView,
+  TopView,
+  Form,
+  Card,
+  Divider,
+  Cascade,
+  ModalForm,
+  ModalForms,
+  DatePicker,
+  Input,
+  Text,
+  CardSelect,
+  duxappTheme,
+  Space,
+  Row,
+  Column,
+  px,
+  CardSelectGroup,
+  DividerGroup,
+  FormItem
 } from '@/duxuiExample'
 import { getSystemInfoSync } from '@tarojs/taro'
 
@@ -38,11 +56,11 @@ const defaultValues = {
 
 const PullForm = () => <Card shadow={false}>
   <Column style={{ height: getSystemInfoSync().statusBarHeight + (process.env.TARO_ENV === 'weapp' ? 22 : 0) }} />
-  <Form.Item label='输入框' field='pull1' direction='vertical'>
+  <FormItem label='输入框' field='pull1' direction='vertical'>
     <Input placeholder='请输入' />
-  </Form.Item>
-  <Form.Item label='cardSelect' field='pull2' direction='vertical'>
-    <CardSelect.Group checkedProps={{ color: duxappTheme.primaryColor, border: true }}>
+  </FormItem>
+  <FormItem label='cardSelect' field='pull2' direction='vertical'>
+    <CardSelectGroup checkedProps={{ color: duxappTheme.primaryColor, border: true }}>
       <Space row wrap>
         <CardSelect color={duxappTheme.textColor1} value={1} plain border={false} radiusType='round'>
           <Text size={3}>选项1</Text>
@@ -54,8 +72,8 @@ const PullForm = () => <Card shadow={false}>
           <Text size={3}>选项3</Text>
         </CardSelect>
       </Space>
-    </CardSelect.Group>
-  </Form.Item>
+    </CardSelectGroup>
+  </FormItem>
 </Card>
 
 export default function ModalFormExample() {
@@ -63,25 +81,25 @@ export default function ModalFormExample() {
     <Header title='ModalForm' />
     <Form onSubmit={console.log} defaultValues={defaultValues}>
       <ScrollView>
-        <Card margin verticalPadding={false} className='self-stretch'>
-          <Divider.Group>
-            <Form.Item label='日期' field='date'>
+        <Card margin verticalPadding={false}>
+          <DividerGroup>
+            <FormItem label='日期' field='date'>
               <ModalForm
                 renderForm={<DatePicker />}
                 placeholder='请选择日期'
                 grow
                 title='请选择日期'
               />
-            </Form.Item>
-            <Form.Item label='日期时间' field='datetime'>
+            </FormItem>
+            <FormItem label='日期时间' field='datetime'>
               <ModalForm
                 renderForm={<DatePicker mode='datetime' />}
                 placeholder='请选择日期时间'
                 grow
                 title='请选择日期时间'
               />
-            </Form.Item>
-            <Form.Item label='弹出级联选择' field='cascade3'>
+            </FormItem>
+            <FormItem label='弹出级联选择' field='cascade3'>
               <ModalForm
                 renderForm={<Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel style={{ height: px(800) }} />}
                 placeholder='请选择等级'
@@ -90,8 +108,8 @@ export default function ModalFormExample() {
               >
 
               </ModalForm>
-            </Form.Item>
-            <Form.Item label='非受控模式'>
+            </FormItem>
+            <FormItem label='非受控模式'>
               <ModalForm
                 renderForm={<Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel style={{ height: px(800) }} />}
                 placeholder='请选择等级'
@@ -99,7 +117,7 @@ export default function ModalFormExample() {
                 title='级联选择'
               >
               </ModalForm>
-            </Form.Item>
+            </FormItem>
             <ModalForms
               side='right'
               renderForm={<ScrollView>
@@ -108,7 +126,7 @@ export default function ModalFormExample() {
             >
               <Text style={{ padding: 20 }}>弹出多个表单</Text>
             </ModalForms>
-          </Divider.Group>
+          </DividerGroup>
         </Card>
       </ScrollView>
     </Form>

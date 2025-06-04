@@ -1,11 +1,11 @@
 import { Grid, UploadImage, UploadImages, Image as UIImage } from '@/duxui'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 
 export const Image = ({ config }) => {
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <UploadImage />
-  </FormItem>
+  </NestFormItem>
 }
 
 Image.type = 'image'
@@ -19,9 +19,9 @@ Image.Display = ({ value }) => {
 
 export const Images = ({ config }) => {
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <UploadImages />
-  </FormItem>
+  </NestFormItem>
 }
 
 Images.type = 'images'

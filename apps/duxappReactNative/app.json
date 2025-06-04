@@ -1,8 +1,8 @@
 {
   "name": "duxappReactNative",
   "description": "react-native基础系统",
-  "version": "1.0.37",
+  "version": "1.0.40",
   "dependencies": [
-    "duxapp"
+    "duxappStyle"
   ]
 }

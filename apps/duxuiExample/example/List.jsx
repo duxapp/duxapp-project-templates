@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, GroupList, Column, Image, Form, Menu, Empty, Text, Row } from '@/duxuiExample'
+import { Header, ScrollView, TopView, GroupList, Column, Image, Form, Menu, Empty, Text, Row, FormItem, MenuItem } from '@/duxuiExample'
 import { List, px } from '@/duxcms'
 import classNames from 'classnames'
 
@@ -9,12 +9,12 @@ export default function ListExample() {
     <Form>
       {({ values }) => <>
         <Menu>
-          <Form.Item field='sort'>
-            <Menu.Item title='排序' options={[{ name: '新品', value: 1 }, { name: '价格', value: 2 }]} />
-          </Form.Item>
-          <Form.Item field='class'>
-            <Menu.Item title='分类' options={[{ name: '全部', value: 0 }, { name: '分类1', value: 1 }, { name: '分类2', value: 10 }]} />
-          </Form.Item>
+          <FormItem field='sort'>
+            <MenuItem title='排序' options={[{ name: '新品', value: 1 }, { name: '价格', value: 2 }]} />
+          </FormItem>
+          <FormItem field='class'>
+            <MenuItem title='分类' options={[{ name: '全部', value: 0 }, { name: '分类1', value: 1 }, { name: '分类2', value: 10 }]} />
+          </FormItem>
         </Menu>
         <ScrollView>
           <GroupList>

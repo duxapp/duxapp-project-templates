@@ -1,4 +1,4 @@
-import { TopView, Header, Row, Text, Tab, nav, Empty, loading, stopPropagation, Column, duxappTheme, colorLighten, px } from '@/duxui'
+import { TopView, Header, Row, Text, Tab, nav, Empty, loading, stopPropagation, Column, duxappTheme, colorLighten, px, TabItem } from '@/duxui'
 import { List, request, contextState, foot, CmsIcon } from '@/duxcmsUser'
 import { useCallback } from 'react'
 
@@ -7,7 +7,7 @@ export default function Foot() {
     <Header title='足迹' />
     <Tab buttonRound lazyload justify oneHidden tabStyle={{ backgroundColor: '#fff', borderBottomLeftRadius: px(24), borderBottomRightRadius: px(24) }}>
       {
-        foot.types.map(item => <Tab.Item key={item.type} title={item.name}>
+        foot.types.map(item => <TabItem key={item.type} title={item.name}>
           <contextState.Provider defaultValue={item}>
             <List
               url={`member/foot/${item.type}`}
@@ -15,7 +15,7 @@ export default function Foot() {
               renderEmpty={<Empty title='没有足迹' />}
             />
           </contextState.Provider>
-        </Tab.Item>)
+        </TabItem>)
       }
     </Tab>
   </TopView>

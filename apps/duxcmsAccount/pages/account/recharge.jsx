@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Form, Header, Text, TopView, Row, Input, toast, loading } from '@/duxui'
+import { Button, Card, Divider, Form, Header, Text, TopView, Row, Input, toast, loading, CardTitle, FormItem } from '@/duxui'
 import { useCallback, useState } from 'react'
 import { CommonPay, request, useRequest } from '@/duxcmsAccount'
 
@@ -47,10 +47,10 @@ export default function Recharge() {
     <Card margin className='p-3'>
       <Text className='mt-2'>充值积分</Text>
       <Row className='mt-3' justify='start' items='center'>
-        <Form.Item field='money'>
+        <FormItem field='money'>
           <Text size={52} bold>￥</Text>
           <Input className='mh-3' type='number' onChange={setMoney} value={money} placeholder='请输入充值金额' />
-        </Form.Item>
+        </FormItem>
       </Row>
       <Divider />
       <Row justify='between'>
@@ -58,7 +58,7 @@ export default function Recharge() {
       </Row>
     </Card>
     <Card className='gap-3' margin disableMarginTop shadow={false}>
-      <Card.Title>充值说明</Card.Title>
+      <CardTitle>充值说明</CardTitle>
       <Text>{content}</Text>
     </Card>
     <Card className='ph-3 w-full bottom-0 absolute'>

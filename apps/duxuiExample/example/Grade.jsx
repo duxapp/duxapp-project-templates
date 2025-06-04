@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Grade } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Divider, Grade, DividerGroup, FormItem } from '@/duxuiExample'
 
 export default function GradeExample() {
   return <TopView>
@@ -13,24 +13,24 @@ export default function GradeExample() {
       }}
     >
       <ScrollView>
-        <Card margin verticalPadding={false} className='self-stretch'>
-          <Divider.Group>
-            <Form.Item label='评分' field='grade1' >
+        <Card margin verticalPadding={false}>
+          <DividerGroup>
+            <FormItem label='评分' field='grade1' >
               <Grade />
-            </Form.Item>
-            <Form.Item label='类型 secondary' field='grade2' >
+            </FormItem>
+            <FormItem label='类型 secondary' field='grade2' >
               <Grade type='secondary' />
-            </Form.Item>
-            <Form.Item label='类型 success' field='grade3' >
+            </FormItem>
+            <FormItem label='类型 success' field='grade3' >
               <Grade type='success' />
-            </Form.Item>
-            <Form.Item label='尺寸 s' field='grade4' >
+            </FormItem>
+            <FormItem label='尺寸 s' field='grade4' >
               <Grade size='s' />
-            </Form.Item>
-            <Form.Item label='尺寸 l' field='grade5' >
+            </FormItem>
+            <FormItem label='尺寸 l' field='grade5' >
               <Grade size='l' />
-            </Form.Item>
-          </Divider.Group>
+            </FormItem>
+          </DividerGroup>
         </Card>
       </ScrollView>
     </Form>

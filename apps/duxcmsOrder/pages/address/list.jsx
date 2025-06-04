@@ -1,4 +1,4 @@
-import { Button, Card, Column, Divider, Empty, Header, Row, ScrollView, Tag, Text, TopView, duxappTheme, nav, stopPropagation, useRoute } from '@/duxui'
+import { Button, Card, Column, Divider, Empty, Header, Row, ScrollView, Tag, Text, TopView, duxappTheme, nav, stopPropagation, useRoute, DividerGroup } from '@/duxui'
 import { CmsIcon, usePageData } from '@/duxcmsOrder'
 import { useDidShow } from '@tarojs/taro'
 import { useCallback } from 'react'
@@ -19,11 +19,11 @@ export default function AddressList() {
         {
           !data.length && !action.loading ?
             <Empty title='没有收货地址' /> :
-            <Divider.Group padding={0}>
+            <DividerGroup padding={0}>
               {
                 data.map(item => <Item key={item.id} item={item} params={params} />)
               }
-            </Divider.Group>
+            </DividerGroup>
         }
       </Card>
     </ScrollView>

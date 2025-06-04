@@ -1,16 +1,16 @@
-import { Form } from '@/duxui'
+import { FormItem } from '@/duxui'
 
-export const FormItem = ({
+export const NestFormItem = ({
   children,
   config
 }) => {
 
-  return <Form.Item
+  return <FormItem
     label={config.label}
     field={config.name}
     required={config.required}
     initialValue={config.setting?.default}
   >
     {children}
-  </Form.Item>
+  </FormItem>
 }

@@ -1,4 +1,4 @@
-import { Button, Column, Empty, Header, Image, Row, Tab, Text, colorLighten, duxappTheme, nav, px, stopPropagation, useRoute } from '@/duxui'
+import { Button, Column, Empty, Header, Image, Row, Tab, Text, colorLighten, duxappTheme, nav, px, stopPropagation, useRoute, TabItem } from '@/duxui'
 import { order, orderHook } from '@/duxcmsOrder/utils'
 import { List } from '@/duxcms'
 import { useState } from 'react'
@@ -20,7 +20,7 @@ export const OrderList = () => {
     />
     <Tab value={navType} onChange={setNavType} className='bg-white rb-3'>
       {
-        navList.map(item => <Tab.Item key={item.value} paneKey={item.value} title={item.name} />)
+        navList.map(item => <TabItem key={item.value} paneKey={item.value} title={item.name} />)
       }
     </Tab>
     <List

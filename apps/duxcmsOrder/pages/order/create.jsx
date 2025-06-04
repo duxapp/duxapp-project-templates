@@ -1,4 +1,4 @@
-import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, InputSearch, toast, PickerDate } from '@/duxui'
+import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, InputSearch, toast, PickerDate, FormItem, FormObject } from '@/duxui'
 import { duxappTheme, CmsIcon, NumInput, orderCreate, Price, orderHook } from '@/duxcmsOrder'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
@@ -67,8 +67,8 @@ export default function OrderCreate() {
           </Row>
         </orderHook.Render>
         <orderHook.Render mark='order.create.data' option={{ address, data, submitStatus, ...total }}>
-          <Form.Item field='action'>
-            <Form.Object>
+          <FormItem field='action'>
+            <FormObject>
               {
                 data.map((store, storeIndex) => <orderHook.Render key={storeIndex} mark='order.create.data.store' option={{ store, storeIndex }}>
                   <Column className='ph-3 mt-3 mh-3 r-2 bg-white'>
@@ -96,14 +96,14 @@ export default function OrderCreate() {
                     </orderHook.Render>
                   </Column>
                   <Column className='ph-3 mt-3 mh-3 r-2 bg-white'>
-                    <Form.Item field={store.key}>
-                      <Form.Object>
+                    <FormItem field={store.key}>
+                      <FormObject>
                         <orderHook.Render mark='order.create.data.action' option={{ store, storeIndex }}>
                           {
                             store.action.map((item, index) => {
                               return <orderHook.Render key={item.field} mark='order.create.data.action.item' option={{ store, storeIndex, item, index }}>
                                 {!!index && <Divider padding={0} />}
-                                <Form.Item field={item.field} label={item.name}>
+                                <FormItem field={item.field} label={item.name}>
                                   {
                                     item.type === 'select' ?
                                       <PickerSelect
@@ -123,13 +123,13 @@ export default function OrderCreate() {
                                             <Text align='right' grow>{item.value}</Text>
                                             : null
                                   }
-                                </Form.Item>
+                                </FormItem>
                               </orderHook.Render>
                             })
                           }
                         </orderHook.Render>
-                      </Form.Object>
-                    </Form.Item>
+                      </FormObject>
+                    </FormItem>
                   </Column>
                   <Column className='p-3 mt-3 mh-3 r-2 bg-white gap-3'>
                     <orderHook.Render mark='order.create.data.total' option={{ store, storeIndex, total }}>
@@ -161,8 +161,8 @@ export default function OrderCreate() {
                   </Column>
                 </orderHook.Render>)
               }
-            </Form.Object>
-          </Form.Item>
+            </FormObject>
+          </FormItem>
         </orderHook.Render>
         <Column className='pv-2' />
       </ScrollView>

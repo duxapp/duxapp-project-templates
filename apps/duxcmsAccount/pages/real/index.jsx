@@ -1,5 +1,5 @@
 import { Detail } from '@/duxcmsAccount'
-import { TopView, Header, Divider, Card, Empty, Button, nav, Text, Image, Row, px } from '@/duxui'
+import { TopView, Header, Divider, Card, Empty, Button, nav, Text, Image, Row, px, DividerGroup } from '@/duxui'
 
 export default function UserReal() {
   return <TopView>
@@ -28,7 +28,7 @@ const Content = ({ data, action }) => {
   }
   return <>
     <Card margin className='gap-3'>
-      <Divider.Group padding={0}>
+      <DividerGroup padding={0}>
         <Row items='center' justify='between'>
           <Text color={2}>状态</Text>
           <Text bold>{data.status ? '已实名认证' : '认证被驳回'}</Text>
@@ -49,7 +49,7 @@ const Content = ({ data, action }) => {
           <Text color={2}>身份证反面</Text>
           <Image src={data.card_back} preview style={{ width: px(400), height: px(280) }} />
         </Row>
-      </Divider.Group>
+      </DividerGroup>
       {data.status === 0 && <Button type='primary' size='l' className='self-center' style={{ width: px(320) }}>重新认证</Button>}
     </Card>
   </>

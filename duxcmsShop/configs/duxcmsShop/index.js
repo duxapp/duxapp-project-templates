@@ -108,12 +108,11 @@ const config = {
     // cms框架
     duxcms: {
       request: {
-        origin: 'https://example.service.dux.cn',
-        // origin: 'http://192.168.2.24:8090',
-        // origin: '',
+        // 测试
+        origin: 'https://a.hhsd.net',
         path: 'api', // 域名二级目录
-        secretId: '69172925',
-        secretKey: 'c8bcd59b5b3e43522b084e56db51f19a',
+        secretId: '53368068',
+        secretKey: '6c278fbf1791fbed3ae79197de03f65f',
         devOpen: false,
         devToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1iZXIiLCJpYXQiOjE2NzU2NjA2MzUsImV4cCI6MTY3NTc0NzAzNSwiaWQiOjF9._kX-uT-hUEbo_J3fN5F0HHs0ee01TPNQHrDiH3SHQlc'
       },

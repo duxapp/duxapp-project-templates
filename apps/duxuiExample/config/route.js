@@ -41,7 +41,9 @@ const config = {
         Chart: {
           platform: ['weapp', 'rn', 'h5']
         },
-        Map: {},
+        Map: {
+          platform: ['weapp', 'rn', 'h5']
+        },
         Cascade: {},
         Calendar: {},
         Checkbox: {},
@@ -58,19 +60,19 @@ const config = {
         Elevator: {},
         TabBar: {},
         Step: {},
-        Sign: {},
+        Sign: {
+          platform: ['weapp', 'rn', 'h5']
+        },
         TopView: {},
         PullView: {},
         Layout: {},
         LongPress: {},
         Absolute: {},
-        Modal: {},
         DropDown: {},
         Column: {},
         Row: {},
         Empty: {},
         List: {},
-        Detail: {},
         confirm: {},
         message: {},
         loadingUtil: {},
@@ -87,15 +89,32 @@ const config = {
         ScrollView: {},
         Animated: {},
         InputNumber: {},
-        ProgressCircle: {},
+        ProgressCircle: {
+          platform: ['weapp', 'rn', 'h5']
+        },
         RollingView: {},
         Swiper: {},
-        Svg: {},
-        SvgAnimated: {},
-        SvgEvent: {},
-        SvgClipPath: {},
-        QRCode: {},
-        SvgEditor: {}
+        Svg: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        SvgAnimated: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        SvgEvent: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        SvgClipPath: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        QRCode: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        SvgEditor: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        ColorPicker: {
+          platform: ['weapp', 'rn', 'h5']
+        }
       }
     }
   }

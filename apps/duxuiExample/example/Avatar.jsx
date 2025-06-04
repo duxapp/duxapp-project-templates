@@ -1,4 +1,4 @@
-import { Avatar, TestIcon, Header, ScrollView, TopView, GroupList, Space } from '@/duxuiExample'
+import { Avatar, TestIcon, Header, ScrollView, TopView, GroupList, Space, AvatarGroup } from '@/duxuiExample'
 
 export default function AvatarExample() {
   return <TopView>
@@ -26,7 +26,7 @@ export default function AvatarExample() {
           </Space>
         </GroupList.Item>
         <GroupList.Item title='头像组'>
-          <Avatar.Group max={5} maxProps={{ color: '#666' }}>
+          <AvatarGroup max={5} maxProps={{ color: '#666' }}>
             <Avatar>头像1</Avatar>
             <Avatar>头像2</Avatar>
             <Avatar>头像3</Avatar>
@@ -34,7 +34,7 @@ export default function AvatarExample() {
             <Avatar>头像5</Avatar>
             <Avatar>头像6</Avatar>
             <Avatar>头像7</Avatar>
-          </Avatar.Group>
+          </AvatarGroup>
         </GroupList.Item>
       </GroupList>
     </ScrollView>

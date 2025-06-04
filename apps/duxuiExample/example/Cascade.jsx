@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Cascade } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Divider, Cascade, DividerGroup, FormItem } from '@/duxuiExample'
 
 const cascadeData = [
   {
@@ -35,23 +35,23 @@ export default function CascadeExample() {
     <Form onSubmit={console.log} defaultValues={defaultValues}>
       <ScrollView>
         <Card margin verticalPadding={false}>
-          <Divider.Group>
-            <Form.Item label='级联选择单选' field='cascade1' direction='vertical' >
+          <DividerGroup>
+            <FormItem label='级联选择单选' field='cascade1' direction='vertical' >
               <Cascade data={cascadeData} level={2} mode='radio' theme='fill' anyLevel />
-            </Form.Item>
-            <Form.Item label='级联选择多选' field='cascade2' direction='vertical' >
+            </FormItem>
+            <FormItem label='级联选择多选' field='cascade2' direction='vertical' >
               <Cascade data={cascadeData} level={2} mode='checkbox' theme='fill' anyLevel />
-            </Form.Item>
-            <Form.Item label='默认样式' field='cascade3' direction='vertical' >
+            </FormItem>
+            <FormItem label='默认样式' field='cascade3' direction='vertical' >
               <Cascade data={cascadeData} level={2} mode='checkbox' anyLevel />
-            </Form.Item>
-            <Form.Item label='只允许最后一级选中' field='cascade4' direction='vertical' >
+            </FormItem>
+            <FormItem label='只允许最后一级选中' field='cascade4' direction='vertical' >
               <Cascade data={cascadeData} level={2} mode='checkbox' />
-            </Form.Item>
-            <Form.Item label='非受控模式' direction='vertical' >
+            </FormItem>
+            <FormItem label='非受控模式' direction='vertical' >
               <Cascade data={cascadeData} level={2} mode='checkbox' />
-            </Form.Item>
-          </Divider.Group>
+            </FormItem>
+          </DividerGroup>
         </Card>
       </ScrollView>
     </Form>

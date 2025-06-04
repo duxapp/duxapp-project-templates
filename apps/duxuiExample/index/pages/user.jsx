@@ -1,4 +1,4 @@
-import { Header, ScrollView, Cell, GroupList, updateApp, confirm } from '@/duxuiExample'
+import { Header, ScrollView, Cell, GroupList, updateApp, confirm, CellGroup } from '@/duxuiExample'
 import { setClipboardData } from '@tarojs/taro'
 
 
@@ -9,7 +9,7 @@ export const User = () => {
     <ScrollView>
       <GroupList>
         <GroupList.Item title='设置' desc='duxui 是 duxapp 提供的一个开源模块'>
-          <Cell.Group>
+          <CellGroup>
             <Cell title='duxui' subTitle='基于Taro开发的UI库，兼容小程序、H5、ReactNaitve、鸿蒙' />
             <Cell title='作者' subTitle='908634674@qq.com' />
             {process.env.TARO_ENV !== 'rn' && <Cell title='APP版本' desc='复制链接' isLink
@@ -23,7 +23,7 @@ export const User = () => {
                 setClipboardData({ data: 'https://example.duxui.cn' })
               }}
             />}
-            {process.env.TARO_ENV !== 'harmony' && <Cell title='鸿蒙版本' desc='查看' isLink
+            {process.env.TARO_ENV !== 'harmony_cpp' && <Cell title='鸿蒙版本' desc='查看' isLink
               onClick={() => {
                 confirm({
                   title: '提示',
@@ -34,7 +34,7 @@ export const User = () => {
             {/* {process.env.TARO_ENV === 'rn' &&
               <Cell title='版本更新' subTitle='duxapp集成了codepush热更新模块' onClick={updateApp} desc={`${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`} />
             } */}
-          </Cell.Group>
+          </CellGroup>
         </GroupList.Item>
       </GroupList>
     </ScrollView>

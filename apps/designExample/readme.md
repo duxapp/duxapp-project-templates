@@ -5,4 +5,4 @@
 ```bash
 yarn duxapp app add designExample
 ```
-此模块需要在 [duxapp 框架](https://duxapp.cn) 中运行
+此模块需要在 [duxapp 框架](https://duxapp.com) 中运行

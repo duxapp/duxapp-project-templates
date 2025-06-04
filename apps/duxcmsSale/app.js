@@ -1,4 +1,5 @@
 import { confirm, nav, route, loading } from '@/duxui'
+import { WechatShare } from '@/wechat'
 import { request, saleBindForm, user } from './utils'
 
 export default {
@@ -34,6 +35,26 @@ route.onNavBefore(async (config, params) => {
         status && nav('duxcmsSale/index/apply')
       })
       throw err
+    })
+  }
+})
+
+// 设置全局分享参数
+user.onSet(data => {
+  const sale_code = data.duxcms?.sale?.sale_code
+  if (sale_code) {
+    WechatShare.setGlobalParams(old => {
+      return {
+        ...old,
+        sale_code
+      }
+    })
+  } else {
+    WechatShare.setGlobalParams(old => {
+      if (old?.sale_code) {
+        delete old.sale_code
+      }
+      return old
     })
   }
 })

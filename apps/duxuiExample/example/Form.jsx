@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Input, PickerDate, PickerSelect, Textarea, Row } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Divider, Input, PickerDate, PickerSelect, Textarea, Row, DividerGroup, FormItem, FormSubmit, FormReset } from '@/duxuiExample'
 
 const defaultValues = {
 
@@ -27,27 +27,27 @@ export default function FormExample() {
     <Form onSubmit={console.log} defaultValues={defaultValues}>
       <ScrollView>
         <Card margin verticalPadding={false}>
-          <Divider.Group>
-            <Form.Item label='输入框' field='name' rules={rules.name}>
+          <DividerGroup>
+            <FormItem label='输入框' field='name' rules={rules.name}>
               <Input placeholder='请输入' align='right' grow />
-            </Form.Item>
-            <Form.Item label='介绍的输入' field='tel' desc='输入框介绍，这是输入框介绍' rules={rules.tel}>
+            </FormItem>
+            <FormItem label='介绍的输入' field='tel' desc='输入框介绍，这是输入框介绍' rules={rules.tel}>
               <Input placeholder='请输入' />
-            </Form.Item>
-            <Form.Item label='日期' field='date'>
+            </FormItem>
+            <FormItem label='日期' field='date'>
               <PickerDate title='日期' placeholder='请选择日期' grow />
-            </Form.Item>
-            <Form.Item label='选择' field='sex'>
+            </FormItem>
+            <FormItem label='选择' field='sex'>
               <PickerSelect title='选择' placeholder='请选择性别' range={['男', '女']} grow />
-            </Form.Item>
-            <Form.Item label='介绍' field='desc' direction='vertical' >
+            </FormItem>
+            <FormItem label='介绍' field='desc' direction='vertical' >
               <Textarea placeholder='请输入介绍' maxlength={100} />
-            </Form.Item>
-          </Divider.Group>
+            </FormItem>
+          </DividerGroup>
         </Card>
         <Row className='p-3 gap-3'>
-          <Form.Reset className='flex-grow'>重置</Form.Reset>
-          <Form.Submit className='flex-grow' type='primary'>提交</Form.Submit>
+          <FormReset className='flex-grow'>重置</FormReset>
+          <FormSubmit className='flex-grow' type='primary'>提交</FormSubmit>
         </Row>
       </ScrollView>
     </Form>

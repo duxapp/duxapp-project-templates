@@ -1,4 +1,4 @@
-import { Column, Empty, TopView, Header, Elevator } from '@/duxui'
+import { Column, Empty, TopView, Header, Elevator, ElevatorSearch } from '@/duxui'
 
 const list = [
   {
@@ -67,7 +67,7 @@ export default function ElevatorExample() {
       <Elevator
         onItemClick={item => console.log('项目点击', item)}
         renderTop={<>
-          <Elevator.Search placeholder='输入名称进行搜索' />
+          <ElevatorSearch placeholder='输入名称进行搜索' />
         </>}
         renderEmpty={<Empty title='没有内容' />}
         list={list}

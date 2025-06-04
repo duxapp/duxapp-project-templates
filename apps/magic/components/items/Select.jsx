@@ -1,5 +1,5 @@
 import { Column, PickerSelect } from '@/duxui'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 import { useSourceData } from './util'
 import './common.scss'
 
@@ -15,7 +15,7 @@ export const Select = ({ config }) => {
 
   const range = useSourceData(setting)
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicPickerSelect
       title={config.label}
       range={range}
@@ -23,7 +23,7 @@ export const Select = ({ config }) => {
       valueKey={setting.keys_value || 'value'}
       placeholder='请选择'
     />
-  </FormItem>
+  </NestFormItem>
 }
 
 Select.type = 'select'

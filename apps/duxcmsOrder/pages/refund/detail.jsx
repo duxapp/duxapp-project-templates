@@ -1,4 +1,4 @@
-import { Button, Header, Row, TopView, useRoute, Column, Card, Divider, Image, Text, duxappTheme, px, contextState, nav, Grid } from '@/duxui'
+import { Button, Header, Row, TopView, useRoute, Column, Card, Divider, Image, Text, duxappTheme, px, contextState, nav, Grid, ImageGroup } from '@/duxui'
 import { Detail, Price, orderHook } from '@/duxcmsOrder'
 import { setClipboardData } from '@tarojs/taro'
 import bg from '../order/images/order-bg.png'
@@ -159,13 +159,13 @@ export const RefundInfo = () => {
     </Row>
     {!!info.images?.length && <Column className='gap-4'>
       <Text color={2}>退款图片</Text>
-      <Image.Group>
+      <ImageGroup>
         <Grid column={4} square gap={24}>
           {
             info.images?.map(item => <Image key={item} src={item} className='w-full h-full r-2' />)
           }
         </Grid>
-      </Image.Group>
+      </ImageGroup>
     </Column>}
   </Column>
 }

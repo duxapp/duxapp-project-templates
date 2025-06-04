@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { TopView, Header, Text, Row, Card, Column, Empty, Image, Tab, duxappTheme, px, colorLighten } from '@/duxui'
+import { TopView, Header, Text, Row, Card, Column, Empty, Image, Tab, duxappTheme, px, colorLighten, TabItem } from '@/duxui'
 import { CmsIcon, List } from '@/duxcmsSale'
 
 export default function Order() {
@@ -13,7 +13,7 @@ export default function Order() {
       <Header title='推广订单' />
       <Tab className='bg-white' onChange={setStatus} value={status}>
         {
-          tabs.map(item => <Tab.Item title={item.name} key={item.value} paneKey={item.value} />)
+          tabs.map(item => <TabItem title={item.name} key={item.value} paneKey={item.value} />)
         }
       </Tab>
       <List

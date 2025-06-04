@@ -1,5 +1,5 @@
 /* eslint-disable import/no-commonjs */
-import { Row, Text, Column, Image, Card, nav, TopView, Header, ScrollView, Button, loading, Avatar } from '@/duxui'
+import { Row, Text, Column, Image, Card, nav, TopView, Header, ScrollView, Button, loading, Avatar, CardTitle } from '@/duxui'
 import { Qrcode, request, useRequest, user, saleHook } from '@/duxcmsSale'
 import { Fragment, useCallback, useMemo } from 'react'
 import { pxTransform } from '@tarojs/taro'
@@ -98,7 +98,7 @@ export default function SaleApply() {
         </Column>}
       </Column>
       <Card margin disableMarginTop className='gap-3'>
-        <Card.Title>商家权益</Card.Title>
+        <CardTitle>商家权益</CardTitle>
         <Text>{level.content}</Text>
       </Card>
     </ScrollView>

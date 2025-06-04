@@ -1,4 +1,4 @@
-import { Card, Column, Divider, Header, Text, TopView, nav, Row } from '@/duxui'
+import { Card, Column, Divider, Header, Text, TopView, nav, Row, DividerGroup } from '@/duxui'
 import { useRequest, CmsIcon, duxappTheme } from '@/duxcms'
 import { Price, accountHook } from '@/duxcmsAccount'
 
@@ -26,12 +26,12 @@ export default function Account() {
     </Card>
 
     <Card margin disableMarginTop shadow={false} className='gap-3'>
-      <Divider.Group padding={0}>
+      <DividerGroup padding={0}>
         <ListItem title='银行卡' url='duxcmsAccount/card/list' />
         <ListItem title='交易记录' url='duxcmsAccount/account/log' />
         <ListItem title='支付密码' url='duxcmsAccount/account/password' />
         <ListItem title='去提现' url='duxcmsAccount/cash/index' />
-      </Divider.Group>
+      </DividerGroup>
     </Card>
   </TopView>
 }

@@ -1,17 +1,17 @@
 import { Radio as UIRadio, Checkbox as UICheckbox } from '@/duxui'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 
 export const Radio = ({ config }) => {
 
   const { setting = {} } = config
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <UIRadio.Group>
       {
         setting.options?.map(item => <UIRadio key={item.value} value={item.value} label={item.label} />)
       }
     </UIRadio.Group>
-  </FormItem>
+  </NestFormItem>
 }
 
 Radio.type = 'radio'
@@ -24,13 +24,13 @@ export const Checkbox = ({ config }) => {
 
   const { setting = {} } = config
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <UICheckbox.Group>
       {
         setting.options?.map(item => <UICheckbox key={item.value} value={item.value} label={item.label} />)
       }
     </UICheckbox.Group>
-  </FormItem>
+  </NestFormItem>
 }
 
 Checkbox.type = 'checkbox'

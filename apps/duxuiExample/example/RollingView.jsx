@@ -74,16 +74,14 @@ export default TopView.HOC(function RollingViewExample() {
             style={{ height: px(200) }}
             vertical
           >
-            <Column>
-              <Column className='bg-primary square items-center justify-center' style={{ height: px(150) }}>
-                <Text size={5} bold color={4}>文本 1</Text>
-              </Column>
-              <Column className='bg-success square items-center justify-center' style={{ height: px(150) }}>
-                <Text size={5} bold color={4}>文本 2</Text>
-              </Column>
-              <Column className='bg-warning square items-center justify-center' style={{ height: px(150) }}>
-                <Text size={5} bold color={4}>文本 3</Text>
-              </Column>
+            <Column className='bg-primary items-center justify-center' style={{ height: px(150) }}>
+              <Text size={5} bold color={4}>文本 1</Text>
+            </Column>
+            <Column className='bg-success items-center justify-center' style={{ height: px(150) }}>
+              <Text size={5} bold color={4}>文本 2</Text>
+            </Column>
+            <Column className='bg-warning items-center justify-center' style={{ height: px(150) }}>
+              <Text size={5} bold color={4}>文本 3</Text>
             </Column>
           </RollingView>
         </GroupList.Item>

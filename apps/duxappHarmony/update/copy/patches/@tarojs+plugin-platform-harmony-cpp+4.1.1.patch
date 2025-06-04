@@ -1,0 +1,43 @@
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js b/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js
+index 62e144b..d5d40fd 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js
++++ b/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js
+@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
+
+ var node_child_process = require('node:child_process');
+ var path = require('node:path');
++var fs = require('node:fs');
+ var helper = require('@tarojs/helper');
+ var constants$1 = require('@tarojs/vite-runner/dist/utils/constants');
+ var dist = require('@tarojs/plugin-platform-harmony-ets/dist');
+@@ -596,7 +597,7 @@ function pagePlugin () {
+                         });
+                         if (!isPure) {
+                             const index = methods.findIndex((e) => e.name === 'renderTitle');
+-                            methods.splice(index, 1, {
++                            methods.splice(index, 0, {
+                                 name: 'renderTitle',
+                                 decorators: ['Builder'],
+                                 body: this.transArr2Str([
+@@ -974,7 +975,16 @@ function stylePlugin () {
+                     cssModuleId.add(moduleInfo.id);
+                 }
+                 const styleMap = compiler.loaderMeta.parseJSXStyleMapCache?.get(viteConfigResolved);
+-                for (const oid of moduleInfo.importedIds) {
++                // fix 加入全局样式
++                const importedIds = [
++                  ...moduleInfo.importedIds
++                ]
++                const srcPath = path.join(__dirname, '..', '..', '..', '..', 'src')
++                const scss = path.join(srcPath, 'app.scss')
++                if (fs.existsSync(scss)) {
++                  importedIds.unshift(scss)
++                }
++                for (const oid of importedIds) {
+                     const id = utils.stripVirtualModulePrefix(oid).replace(STYLE_SUFFIX_RE, '').replace(constants.usedRE, '');
+                     if (helper.REG_STYLE.test(id) && styleMap) {
+                         if (styleMap.has(id)) {
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-cpp/static/.DS_Store b/node_modules/@tarojs/plugin-platform-harmony-cpp/static/.DS_Store
+new file mode 100644
+index 0000000..e9f47bd
+Binary files /dev/null and b/node_modules/@tarojs/plugin-platform-harmony-cpp/static/.DS_Store differ

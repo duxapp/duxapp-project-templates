@@ -8,7 +8,7 @@
 yarn duxapp app add duxcmsShop
 ```
 
-此模块需要在 [duxapp 框架](https://duxapp.cn) 中运行
+此模块需要在 [duxapp 框架](https://duxapp.com) 中运行
 
 ## 配置
 

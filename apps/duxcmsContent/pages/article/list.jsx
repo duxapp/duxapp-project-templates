@@ -1,5 +1,5 @@
 import { duxappTheme, Header, TopView, useRoute } from '@/duxapp'
-import { Empty, Row, Tab } from '@/duxui'
+import { Empty, Row, Tab, TabItem } from '@/duxui'
 import { ContentItem, List, ListSearch, usePageData } from '@/duxcmsContent'
 import { useMemo, useState } from 'react'
 
@@ -33,7 +33,7 @@ export default function ContentList() {
       />
       {renderList.length > 1 && <Tab scroll className='bg-white rb-3' value={classId} onChange={setClass}>
         {
-          renderList.map(item => <Tab.Item key={item.id} title={item.name} paneKey={item.id} />)
+          renderList.map(item => <TabItem key={item.id} title={item.name} paneKey={item.id} />)
         }
       </Tab>}
       <List

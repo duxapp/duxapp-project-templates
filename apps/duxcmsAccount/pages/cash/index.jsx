@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Form, Header, Text, TopView, Row, px, Input, toast, loading, PullView, Column, ScrollView, Space, duxappTheme, Radio, confirm, nav, DuxuiIcon } from '@/duxui'
+import { Button, Card, Divider, Form, Header, Text, TopView, Row, px, Input, toast, loading, PullView, Column, ScrollView, Space, duxappTheme, Radio, confirm, nav, DuxuiIcon, CardTitle, FormItem } from '@/duxui'
 import { useCallback, useState } from 'react'
 import { request, useRequest } from '@/duxcmsAccount'
 
@@ -35,10 +35,10 @@ export default function Cash() {
     <Card margin className='p-3' shadow>
       <Text className='mt-2'>可提现：{info.amount}</Text>
       <Row className='mt-3' justify='start' items='center'>
-        <Form.Item field='money'>
+        <FormItem field='money'>
           <Text size={52} bold>￥</Text>
           <Input className='mh-3' grow type='number' onChange={setMoney} value={money} placeholder='请输入提现金额' />
-        </Form.Item>
+        </FormItem>
       </Row>
       <Divider />
       <Row justify='between' className='mt-1'>
@@ -47,7 +47,7 @@ export default function Cash() {
       </Row>
     </Card>
     <Card className='' margin disableMarginTop shadow={false}>
-      <Card.Title>提现说明</Card.Title>
+      <CardTitle>提现说明</CardTitle>
       <Text className='mt-2' color='#535766'>{cash.cash_info}</Text>
     </Card>
     <Card className='ph-3 w-full bottom-0 absolute'>

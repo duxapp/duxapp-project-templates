@@ -82,12 +82,12 @@ export const Tab = ({
     setShowExpand(false)
   }, [onChange, disabled])
 
-  const tabs = sty => <Scroll
+  const tabs = () => <Scroll
     scroll={scroll}
-    style={{ ...sty, ...expand && scroll ? undefined : tabStyle }}
+    style={expand && scroll ? undefined : tabStyle}
   >
     {
-      list.map((item, index) => <TabItem
+      list.map((item, index) => <TabItemRender
         type={type}
         buttonColor={buttonColor}
         buttonRound={buttonRound}
@@ -107,18 +107,12 @@ export const Tab = ({
       {
         oneHidden && list.length < 2 ?
           null : expand && scroll ?
-            <Layout className='flex-row items-center self-stretch' style={tabStyle} onLayout={setLayout} reloadKey={showExpand ? 1 : 0}>
-              {
-                process.env.TARO_ENV === 'harmony' ?
-                  <Row grow items='center'>
-                    {!!layout.height && tabs({ width: '100%', height: layout.height })}
-                  </Row> :
-                  <Row grow self='stretch'>
-                    <Column className='inset-0 absolute' justify='center'>
-                      {tabs()}
-                    </Column>
-                  </Row>
-              }
+            <Layout className='flex-row' style={tabStyle} onLayout={setLayout} reloadKey={showExpand ? 1 : 0}>
+              <Row grow>
+                <Column className='inset-0 absolute' justify='center'>
+                  {tabs()}
+                </Column>
+              </Row>
               <BoxShadow className='Tab__expand' x={-10} onClick={() => setShowExpand(true)}>
                 <DuxuiIcon name='more-horizontal' size={48} />
               </BoxShadow>
@@ -130,7 +124,7 @@ export const Tab = ({
                   }}
                 />
                 <Space row wrap className='Tab__expand__content absolute left-0 right-0' style={{ top: layout.top }}>
-                  {list.map((item, index) => <TabItem
+                  {list.map((item, index) => <TabItemRender
                     type={type}
                     buttonColor='page'
                     buttonRound={buttonRound}
@@ -201,7 +195,7 @@ const RenderContent = ({
   </View>
 }
 
-const TabItem = ({
+const TabItemRender = ({
   type,
   buttonColor,
   buttonRound,
@@ -286,11 +280,9 @@ const LineAn = ({
 
 let an = Animated.create({ duration: 100 })
 
-const Item = ({ children }) => {
+export const TabItem = ({ children }) => {
   return children
 }
-
-Tab.Item = Item
 
 const BadgeText = ({ children, badgeProps, outside }) => {
   if (!badgeProps || (!badgeProps.count && !badgeProps.dot)) {

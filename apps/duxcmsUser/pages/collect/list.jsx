@@ -1,4 +1,4 @@
-import { TopView, Header, Row, Text, Card, Tab, nav, Empty, loading, stopPropagation, Button, px, colorLighten, duxappTheme } from '@/duxui'
+import { TopView, Header, Row, Text, Card, Tab, nav, Empty, loading, stopPropagation, Button, px, colorLighten, duxappTheme, TabItem } from '@/duxui'
 import { List, request, contextState, collect } from '@/duxcmsUser'
 import { useCallback } from 'react'
 
@@ -7,7 +7,7 @@ export default function Collect() {
     <Header title='我的收藏' />
     <Tab buttonRound lazyload justify oneHidden tabStyle={{ backgroundColor: '#fff', borderBottomLeftRadius: px(24), borderBottomRightRadius: px(24) }}>
       {
-        collect.types.map(item => <Tab.Item key={item.type} title={item.name}>
+        collect.types.map(item => <TabItem key={item.type} title={item.name}>
           <contextState.Provider defaultValue={item}>
             <List
               url={`member/collect/${item.type}`}
@@ -15,7 +15,7 @@ export default function Collect() {
               renderEmpty={<Empty title='没有相关收藏' />}
             />
           </contextState.Provider>
-        </Tab.Item>)
+        </TabItem>)
       }
     </Tab>
   </TopView>

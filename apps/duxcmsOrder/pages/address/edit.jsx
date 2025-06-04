@@ -1,4 +1,4 @@
-import { Button, Card, Column, Divider, Form, Header, Input, Radio, Row, ScrollView, Text, TopView, asyncTimeOut, loading, nav, useRoute } from '@/duxui'
+import { Button, Card, Column, Divider, Form, Header, Input, Radio, Row, ScrollView, Text, TopView, asyncTimeOut, loading, nav, useRoute, DividerGroup, FormItem, FormSubmit } from '@/duxui'
 import { request, useRequest, orderHook } from '@/duxcmsOrder'
 import { showToast } from '@tarojs/taro'
 import { useCallback } from 'react'
@@ -64,31 +64,31 @@ const FormContent = () => {
   return <>
     <ScrollView>
       <Card margin verticalPadding={false}>
-        <Divider.Group padding={0}>
-          <Form.Item label='联系人' field='name'>
+        <DividerGroup padding={0}>
+          <FormItem label='联系人' field='name'>
             <Input grow placeholder='请输入联系人姓名' />
-          </Form.Item>
-          <Form.Item label='联系电话' field='tel'>
+          </FormItem>
+          <FormItem label='联系电话' field='tel'>
             <Input grow placeholder='请输入联系人号码' />
-          </Form.Item>
+          </FormItem>
           <orderHook.Render mark='address.edit.area'>
-            <Form.Item label='所在区域' fields>
+            <FormItem label='所在区域' fields>
               <Address />
-            </Form.Item>
+            </FormItem>
           </orderHook.Render>
-          <Form.Item label='详细地址' field='address'>
+          <FormItem label='详细地址' field='address'>
             <Input grow placeholder='请输入详细地址' />
-          </Form.Item>
-        </Divider.Group>
+          </FormItem>
+        </DividerGroup>
       </Card>
-      <Form.Item field='default'>
+      <FormItem field='default'>
         <DefaultCheck />
-      </Form.Item>
+      </FormItem>
     </ScrollView>
     <Column className='p-3 bg-white'>
-      <Form.Submit>
+      <FormSubmit>
         <Button type='primary' size='l' radiusType='round'>保存地址</Button>
-      </Form.Submit>
+      </FormSubmit>
     </Column>
   </>
 }

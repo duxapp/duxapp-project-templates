@@ -1,4 +1,4 @@
-import { Image, Header, ScrollView, TopView, GroupList, Space, px, Text } from '@/duxuiExample'
+import { Image, Header, ScrollView, TopView, GroupList, Space, px, Text, ImageGroup } from '@/duxuiExample'
 
 export default function ImagedExample() {
   return <TopView>
@@ -22,7 +22,7 @@ export default function ImagedExample() {
           />
         </GroupList.Item>
         <GroupList.Item title='多图预览'>
-          <Image.Group>
+          <ImageGroup>
             <Space row>
               <Image style={{ width: px(200), height: px(160) }}
                 src='https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'
@@ -34,7 +34,7 @@ export default function ImagedExample() {
                 src='https://img1.baidu.com/it/u=4049022245,514596079&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=2b375ed6d93d638d1be405d04eb8c7f2'
               />
             </Space>
-          </Image.Group>
+          </ImageGroup>
         </GroupList.Item>
         <GroupList.Item title='SVG' desc='当使用svg时，请勿使用widthFix或者heightFix'>
           <Image mode='aspectFit' className='self-start' style={{ width: px(200), height: px(100) }}

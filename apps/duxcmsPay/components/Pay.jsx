@@ -1,6 +1,6 @@
 import { CmsIcon, duxappTheme, nav, request } from '@/duxcms'
 import { nativePay, payHook } from '@/duxcmsPay/utils'
-import { Column, InputCode, NumberKeyboard, PullView, Row, Text, TopView, confirm, loading, px } from '@/duxui'
+import { Button, Column, InputCode, NumberKeyboard, PullView, Row, Text, TopView, confirm, loading, px, useNumberKeyboardController } from '@/duxui'
 import { useCallback, useEffect } from 'react'
 import { login } from '@tarojs/taro'
 
@@ -93,7 +93,7 @@ Select.select = (list, price, mask) => {
 
 const PayPassword = ({ onSubmit, onClose }) => {
 
-  const [value, props] = NumberKeyboard.useController()
+  const [value, props] = useNumberKeyboardController()
 
   useEffect(() => {
     if (value.length === 6) {
@@ -123,6 +123,30 @@ PayPassword.input = () => {
         onClose: () => {
           remove()
           reject('用户取消')
+        }
+      }
+    ])
+  })
+}
+
+const PaySuccess = ({ onClose }) => {
+  return <PullView mask>
+    <Column className='rt-3 bg-white p-3 items-center gap-4'>
+      <Text size={7} bold className='mt-2'>支付成功</Text>
+      <CmsIcon name='fuhao-zhuangtai-chenggong' size={120} className='text-primary p-3' />
+      <Button type='primary' size='l' onClick={onClose} className='m-3'>完成</Button>
+    </Column>
+  </PullView>
+}
+
+PaySuccess.show = () => {
+  return new Promise(resolve => {
+    const { remove } = TopView.add([
+      PaySuccess,
+      {
+        onClose: () => {
+          remove()
+          resolve()
         }
       }
     ])
@@ -207,6 +231,8 @@ export const startPay = async ({
     if (payInfo._meta?.async) {
       await nativePay(type, payInfo)
     }
+    await PaySuccess.show()
+    return payInfo
   } catch (error) {
     stop()
     throw error

@@ -1,5 +1,5 @@
 import { Column, PickerDate } from '@/duxui'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 import './common.scss'
 
 const MagicPickerDate = props => {
@@ -10,9 +10,9 @@ const MagicPickerDate = props => {
 
 export const Date = ({ config }) => {
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicPickerDate mode='date' title={config.label} placeholder='请选择' />
-  </FormItem>
+  </NestFormItem>
 }
 
 Date.type = 'date'
@@ -23,9 +23,9 @@ Date.Display = ({ value }) => {
 
 export const Time = ({ config }) => {
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicPickerDate mode='time' title={config.label} placeholder='请选择' />
-  </FormItem>
+  </NestFormItem>
 }
 
 Time.type = 'time'

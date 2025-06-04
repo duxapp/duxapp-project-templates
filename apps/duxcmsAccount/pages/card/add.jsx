@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { TopView, Header, loading, nav, Row, Card, ScrollView, Form, Divider, Input, Column, Button, PickerSelect, confirm } from '@/duxui'
+import { TopView, Header, loading, nav, Row, Card, ScrollView, Form, Divider, Input, Column, Button, PickerSelect, confirm, DividerGroup, FormItem, FormSubmit } from '@/duxui'
 import { request, usePageData, useVerifyCode, toast } from '@/duxcmsAccount'
 
 export default function CardAdd() {
@@ -71,43 +71,43 @@ export default function CardAdd() {
     <Form ref={form} onSubmit={submit}>
       <ScrollView>
         <Card margin verticalPadding={false}>
-          <Divider.Group padding={0}>
-            <Form.Item label='卡号' field='no'>
+          <DividerGroup padding={0}>
+            <FormItem label='卡号' field='no'>
               <Input onBlur={noChange} grow placeholder='请输入银行卡卡号' type='number' />
-            </Form.Item>
-            <Form.Item label='电话' field='tel'>
+            </FormItem>
+            <FormItem label='电话' field='tel'>
               <Input grow placeholder='请填写银行预留电话' type='number' />
-            </Form.Item>
-            <Form.Item label='开户行' field='bank_id'>
+            </FormItem>
+            <FormItem label='开户行' field='bank_id'>
               <PickerSelect range={bank} placeholder='请选择开户行' valueKey='id' title='开户行' />
-            </Form.Item>
-            <Form.Item label='开户行支行' field='deposit'>
+            </FormItem>
+            <FormItem label='开户行支行' field='deposit'>
               <Input grow placeholder='请填写开户行支行' />
-            </Form.Item>
+            </FormItem>
             <Row items='center'>
-              <Form.Item label='验证码' field='code' className='flex-grow'>
+              <FormItem label='验证码' field='code' className='flex-grow'>
                 <Input grow placeholder='请输入验证码' type='number' />
-              </Form.Item>
+              </FormItem>
               <Button onClick={_getCode} size='s'>{text}</Button>
             </Row>
             {
               type === 'CC' && <>
-                <Form.Item label='安全码' field='credit_code'>
+                <FormItem label='安全码' field='credit_code'>
                   <Input onBlur={noChange} grow placeholder='请填写信用卡背部的安全码' type='number' />
-                </Form.Item>
+                </FormItem>
                 <Divider padding={0} />
-                <Form.Item label='过期时间' field='credit_expire'>
+                <FormItem label='过期时间' field='credit_expire'>
                   <Input onBlur={noChange} grow placeholder='请填过期时间' type='number' />
-                </Form.Item>
+                </FormItem>
               </>
             }
-          </Divider.Group>
+          </DividerGroup>
         </Card>
       </ScrollView>
       <Column className='p-3 bg-white'>
-        <Form.Submit>
+        <FormSubmit>
           <Button type='primary' size='l'>提交</Button>
-        </Form.Submit>
+        </FormSubmit>
       </Column>
     </Form>
   </TopView>

@@ -1,5 +1,5 @@
 import { Chart } from '@/echarts'
-import { Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
+import { Header, ScrollView, TopView, GroupList, px } from '@/duxuiExample'
 
 import {
   PieChart,
@@ -13,9 +13,6 @@ import {
   TitleComponent,
   LegendComponent
 } from 'echarts/components'
-
-import './Chart.scss'
-
 
 const options = {
   line: {
@@ -93,21 +90,21 @@ export default function CellExample() {
       <GroupList>
         <GroupList.Item title='折线图'>
           <Chart
-            className='ChartItem'
+            style={{ height: px(400) }}
             option={options.line}
             components={[LineChart, TooltipComponent, GridComponent, TitleComponent, LegendComponent]}
           />
         </GroupList.Item>
         <GroupList.Item title='柱状图'>
           <Chart
-            className='ChartItem'
+            style={{ height: px(400) }}
             option={options.bar}
             components={[BarChart, TooltipComponent, GridComponent]}
           />
         </GroupList.Item>
         <GroupList.Item title='饼图'>
           <Chart
-            className='ChartItem'
+            style={{ height: px(400) }}
             option={options.pie}
             components={[PieChart, TooltipComponent, GridComponent]}
           />

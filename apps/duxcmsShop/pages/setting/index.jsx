@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Column, Divider, Header, Row, ScrollView, Text, TopView, nav } from '@/duxui'
+import { Avatar, Button, Card, Column, Divider, Header, Row, ScrollView, Text, TopView, nav, DividerGroup } from '@/duxui'
 import { CmsIcon, cmsUser, duxappTheme, user, AppUpgrade } from '@/duxcmsUser'
 
 export default function UserSetting() {
@@ -19,7 +19,7 @@ export default function UserSetting() {
         </Row>
       </Card>}
       <Card margin disableMarginBottom verticalPadding={false}>
-        <Divider.Group padding={0}>
+        <DividerGroup padding={0}>
           {loginStatus && <Row items='center' justify='between' className='pv-3' onClick={() => nav('duxcmsAccount/account/password')}>
             <Text bold grow>支付密码</Text>
             <Text color={3}>去设置</Text>
@@ -51,7 +51,7 @@ export default function UserSetting() {
               <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
             </Row>
           </AppUpgrade>
-        </Divider.Group>
+        </DividerGroup>
       </Card>
       {loginStatus && <Column className='p-2 mt-3'>
         <Button onClick={user.logout} type='primary' radiusType='round' size='l'>退出登录</Button>

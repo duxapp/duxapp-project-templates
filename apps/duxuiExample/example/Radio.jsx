@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Radio, Button } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Divider, Radio, Button, DividerGroup, FormItem, RadioGroup } from '@/duxuiExample'
 
 const UserButton = ({
   label,
@@ -13,33 +13,33 @@ export default function RadioExample() {
     <Header title='Radio' />
     <Form onSubmit={console.log}>
       <ScrollView>
-        <Card margin verticalPadding={false} className='self-stretch'>
-          <Divider.Group>
-            <Form.Item label='单选' field='radio1'>
-              <Radio.Group>
+        <Card margin verticalPadding={false}>
+          <DividerGroup>
+            <FormItem label='单选' field='radio1'>
+              <RadioGroup>
                 <Radio label='选项1' value={1} />
                 <Radio label='选项2' value={2} />
                 <Radio label='选项3' value={3} />
                 <Radio label='选项4' value={4} />
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item label='竖向排列' field='radio2'>
-              <Radio.Group vertical>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label='竖向排列' field='radio2'>
+              <RadioGroup vertical>
                 <Radio label='选项1' value={1} />
                 <Radio label='选项2' value={2} />
                 <Radio label='选项3' value={3} />
                 <Radio label='选项4' value={4} />
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item label='自定义样式' field='radio3'>
-              <Radio.Group>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label='自定义样式' field='radio3'>
+              <RadioGroup>
                 <Radio label='选项1' value={1} >{UserButton}</Radio>
                 <Radio label='选项2' value={2} >{UserButton}</Radio>
                 <Radio label='选项3' value={3} >{UserButton}</Radio>
                 <Radio label='选项4' value={4} >{UserButton}</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </Divider.Group>
+              </RadioGroup>
+            </FormItem>
+          </DividerGroup>
         </Card>
       </ScrollView>
     </Form>

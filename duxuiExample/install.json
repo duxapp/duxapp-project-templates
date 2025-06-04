@@ -1,5 +1,5 @@
 {
-  "name": "duxui 示例代码(包含所有组件的示例代码 支持RN端)",
+  "name": "duxui 示例代码(包含所有组件的示例代码 支持RN鸿蒙端)",
   "apps": [
     "amap",
     "duxapp",
@@ -18,6 +18,6 @@
     "APP: yarn start --app=duxuiExample",
     "编译安卓调试版: yarn android --app=duxuiExample",
     "编译安卓发布版: yarn build:android --app=duxuiExample",
-    "鸿蒙: yarn dev:harmony --app=duxuiExample"
+    "鸿蒙调试版: yarn dev:harmony --app=duxuiExample"
   ]
 }

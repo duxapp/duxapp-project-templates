@@ -25,8 +25,8 @@
     "@react-native-masked-view/masked-view": "0.3.1",
     "@react-native-picker/picker": "2.9.0",
     "@shopify/flash-list": "^1.7.1",
-    "@tarojs/rn-supporter": "4.0.7",
-    "@tarojs/taro-rn": "4.0.7",
+    "@tarojs/rn-supporter": "4.1.1",
+    "@tarojs/taro-rn": "4.1.1",
     "expo": "51.0.39",
     "expo-av": "14.0.7",
     "expo-brightness": "12.0.1",
@@ -50,13 +50,15 @@
     "react-native-webview": "13.12.3",
     "react-native-blob-util": "0.19.11",
     "react-native-url-polyfill": "^2.0.0",
-    "stylelint": "~16.9.0"
+    "stylelint": "~16.9.0",
+    "react-native-image-zoom-viewer": "3.0.1",
+    "react-native-root-siblings": "5.0.1"
   },
   "devDependencies": {
     "@react-native/babel-preset": "^0.75.4",
     "@react-native/metro-babel-transformer": "0.75.4",
     "@react-native/metro-config": "^0.75.4",
-    "@tarojs/rn-runner": "4.0.7",
+    "@tarojs/rn-runner": "4.1.1",
     "metro-react-native-babel-preset": "^0.77.0"
   },
   "resolutions": {
@@ -74,8 +76,8 @@
     "@react-native-masked-view/masked-view": "0.3.1",
     "@react-native-picker/picker": "2.9.0",
     "@shopify/flash-list": "^1.7.1",
-    "@tarojs/rn-supporter": "4.0.7",
-    "@tarojs/taro-rn": "4.0.7",
+    "@tarojs/rn-supporter": "4.1.1",
+    "@tarojs/taro-rn": "4.1.1",
     "expo": "51.0.39",
     "expo-av": "14.0.7",
     "expo-brightness": "12.0.1",

@@ -1,11 +1,11 @@
 import { Switch as UISwitch } from '@/duxui'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 
 export const Switch = ({ config }) => {
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <UISwitch />
-  </FormItem>
+  </NestFormItem>
 }
 
 Switch.type = 'switch'

@@ -68,7 +68,7 @@ APPShare.show = (config, WechatShare) => {
       title: config.title,
       description: config.desc,
       thumbImageUrl: config.image,
-      webpageUrl: `${app?.h5Url || 'http://duxapp.cn'}/#${path}`
+      webpageUrl: `${app?.h5Url || 'http://duxapp.com'}/#${path}`
     }
     menus.push({
       icon: xiaochengxuIcon,

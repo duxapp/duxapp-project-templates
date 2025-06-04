@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { TopView, Header, Row, ScrollView, Divider, Form, Button, Textarea, Card, nav, loading, confirm, Grade, UploadImages, useRoute, Image, Column, Text, px } from '@/duxui'
+import { TopView, Header, Row, ScrollView, Divider, Form, Button, Textarea, Card, nav, loading, confirm, Grade, UploadImages, useRoute, Image, Column, Text, px, FormItem, FormSubmit, FormObject, FormArray } from '@/duxui'
 import { duxappTheme, request, useRequest } from '@/duxcmsOrder'
 
 export default function Evaluate() {
@@ -32,26 +32,26 @@ export default function Evaluate() {
     <Header title='参与评价' />
     <Form onSubmit={submit} labelProps={{ bold: true }}>
       <ScrollView>
-        <Form.Item field='data'>
-          <Form.Array>
+        <FormItem field='data'>
+          <FormArray>
             {
-              goods.map((good, index) => <FormItem good={good} index={index} key={good.id} />)
+              goods.map((good, index) => <FormGoodItem good={good} index={index} key={good.id} />)
             }
-          </Form.Array>
-        </Form.Item>
+          </FormArray>
+        </FormItem>
       </ScrollView>
       <Row style={{ paddingLeft: px(64), paddingRight: px(64), paddingTop: px(8), paddingBottom: px(8), backgroundColor: '#fff' }}>
-        <Form.Submit>
+        <FormSubmit>
           <Button className='flex-grow' style={{ backgroundColor: duxappTheme.primaryColor, height: px(90) }} color='#fff' radiusType='round' size='l'>保存提交</Button>
-        </Form.Submit>
+        </FormSubmit>
       </Row>
     </Form>
   </TopView>
 }
 
-const FormItem = ({ good,index }) => {
-  return <Form.Item field={index}>
-    <Form.Object>
+const FormGoodItem = ({ good,index }) => {
+  return <FormItem field={index}>
+    <FormObject>
       <Card margin verticalPadding={false}>
         <Row className='gap-3 pv-3'>
           <Image src={good.goods_image} className='r-2' square style={{ width: px(160) }} />
@@ -67,18 +67,18 @@ const FormItem = ({ good,index }) => {
           </Column>
         </Row>
         <Divider padding={0} />
-        <Form.Item field='score' label='商品评分'>
+        <FormItem field='score' label='商品评分'>
           <Grade grow />
-        </Form.Item>
+        </FormItem>
         <Divider padding={0} />
-        <Form.Item field='content' label='我的评价' direction='vertical'>
+        <FormItem field='content' label='我的评价' direction='vertical'>
           <Textarea placeholder='选填' />
-        </Form.Item>
+        </FormItem>
         <Divider padding={0} />
-        <Form.Item field='images' label='上传图片' direction='vertical'>
+        <FormItem field='images' label='上传图片' direction='vertical'>
           <UploadImages max={9} />
-        </Form.Item>
+        </FormItem>
       </Card>
-    </Form.Object>
-  </Form.Item>
+    </FormObject>
+  </FormItem>
 }

@@ -1,6 +1,6 @@
-import { Card, Column, Form, Space, Text as UIText } from '@/duxui'
+import { Card, Column, Form, Space, Text as UIText, FormItem, FormObject, FormArray, FormArrayAction } from '@/duxui'
 import { Fragment, createContext, isValidElement, useContext, useMemo } from 'react'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 import { Text, Textarea, Number, Editor } from './Text'
 import { Image, Images } from './Image'
 import { Date, Time } from './Date'
@@ -12,8 +12,8 @@ import { Cascader, CascaderMulti } from './Cascader'
 const ObjectForm = ({
   config
 }) => {
-  return <FormItem config={{ ...config, label: '' }}>
-    <Form.Object>
+  return <NestFormItem config={{ ...config, label: '' }}>
+    <FormObject>
       {
         config.child?.map(field => {
           const item = items[field.type]
@@ -24,8 +24,8 @@ const ObjectForm = ({
           return <item.Form key={field.name} config={field} />
         })
       }
-    </Form.Object>
-  </FormItem>
+    </FormObject>
+  </NestFormItem>
 }
 
 ObjectForm.type = 'object'
@@ -47,16 +47,16 @@ const ArrayForm = ({ config }) => {
   return <DataContext.Provider value={{ config }}>
     <Card shadow>
       <Space>
-        <FormItem config={config}>
-          <Form.Array
+        <NestFormItem config={config}>
+          <FormArray
             renderItem={ArrayItem}
-            renderBottom={<Form.ArrayAction action={list => [...list, config.child?.[0]?.setting?.default || '']}>
+            renderBottom={<FormArrayAction action={list => [...list, config.child?.[0]?.setting?.default || '']}>
               <Card shadow>
                 <UIText>添加</UIText>
               </Card>
-            </Form.ArrayAction>}
+            </FormArrayAction>}
           />
-        </FormItem>
+        </NestFormItem>
       </Space>
     </Card>
   </DataContext.Provider>
@@ -83,14 +83,14 @@ const ArrayItem = ({ index }) => {
     <Column grow>
       <item.Form config={_config} />
     </Column>
-    <Form.ArrayAction
+    <FormArrayAction
       action={list => {
         list.splice(index, 1)
         return list
       }}
     >
       <UIText>删除</UIText>
-    </Form.ArrayAction>
+    </FormArrayAction>
   </Space>
 }
 
@@ -124,10 +124,10 @@ ArrayForm.Display = ({ value, config }) => {
 
 const ArrayObjectForm = ({ config }) => {
   return <DataContext.Provider value={{ config }}>
-    <FormItem config={config}>
-      <Form.Array
+    <NestFormItem config={config}>
+      <FormArray
         renderItem={ArrayObjectItem}
-        renderBottom={<Form.ArrayAction
+        renderBottom={<FormArrayAction
           action={list => [
             ...list,
             Object.fromEntries(config.child?.map(item => [item.name, item.setting?.default]) || [])
@@ -136,9 +136,9 @@ const ArrayObjectForm = ({ config }) => {
           <Card shadow>
             <UIText>添加</UIText>
           </Card>
-        </Form.ArrayAction>}
+        </FormArrayAction>}
       />
-    </FormItem>
+    </NestFormItem>
   </DataContext.Provider>
 }
 
@@ -147,18 +147,18 @@ const ArrayObjectItem = ({ index }) => {
   const { config } = DataContext.useContext()
 
   return <Card shadow>
-    <Form.Item field={index}>
-      <Form.Object>
+    <FormItem field={index}>
+      <FormObject>
         <Space row items='center' justify='between'>
           <UIText>项目{index + 1}</UIText>
-          <Form.ArrayAction
+          <FormArrayAction
             action={list => {
               list.splice(index, 1)
               return list
             }}
           >
             <UIText>删除</UIText>
-          </Form.ArrayAction>
+          </FormArrayAction>
         </Space>
         {
           config.child?.map(field => {
@@ -170,8 +170,8 @@ const ArrayObjectItem = ({ index }) => {
             return <item.Form key={field.name} config={field} />
           })
         }
-      </Form.Object>
-    </Form.Item>
+      </FormObject>
+    </FormItem>
   </Card>
 }
 

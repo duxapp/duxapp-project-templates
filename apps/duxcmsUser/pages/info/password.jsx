@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { request, user, toast, useVerifyCode } from '@/duxcmsUser'
-import { Button, Input, Form, Header, TopView, ScrollView, Loading, Column, Text, Row } from '@/duxui'
+import { Button, Input, Form, Header, TopView, ScrollView, Loading, Column, Text, Row, FormItem, FormSubmit } from '@/duxui'
 
 export default function Password() {
 
@@ -43,9 +43,9 @@ export default function Password() {
           <Input disabled value={userInfo.tel} />
         </Column>
         <Row className='mh-3 mt-3 bg-white r-2 p-3' items='center'>
-          <Form.Item field='code'>
+          <FormItem field='code'>
             <Input placeholder='请输入验证码' className='flex-grow' />
-          </Form.Item>
+          </FormItem>
           {
             code.status === 2 ?
               <Loading size={42} /> :
@@ -53,18 +53,18 @@ export default function Password() {
           }
         </Row>
         <Column className='mh-3 mt-3 bg-white r-2 p-3'>
-          <Form.Item field='password1' >
+          <FormItem field='password1' >
             <Input password placeholder='请输入新密码' />
-          </Form.Item>
+          </FormItem>
         </Column>
         <Column className='mh-3 mt-3 bg-white r-2 p-3'>
-          <Form.Item field='password'>
+          <FormItem field='password'>
             <Input password placeholder='请再次输入新密码' />
-          </Form.Item>
+          </FormItem>
         </Column>
-        <Form.Submit>
+        <FormSubmit>
           <Button type='primary' size='l' className='m-3'>提交</Button>
-        </Form.Submit>
+        </FormSubmit>
       </ScrollView>
     </Form>
   </TopView>

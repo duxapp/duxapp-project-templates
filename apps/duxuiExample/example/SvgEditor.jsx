@@ -1,9 +1,9 @@
 import { getMedia } from '@/duxapp/utils/net/util'
-import { Header, TopView, Column, SvgEditor, SvgEditorController, px } from '@/duxuiExample'
+import { Header, TopView, Column, SvgEditor, SvgEditorController, px, useSvgEditorController } from '@/duxuiExample'
 
 export default function SvgEditorExample() {
 
-  const context = SvgEditorController.useController()
+  const context = useSvgEditorController()
 
   return <TopView>
     <Header title='SvgEditor' />

@@ -1,4 +1,4 @@
-import { ScrollView, Header, Row, nav, Column, px, Text, duxappTheme, Tab, Image, Empty } from '@/duxui'
+import { ScrollView, Header, Row, nav, Column, px, Text, duxappTheme, Tab, Image, Empty, TabItem } from '@/duxui'
 import { HeaderSearch, List, Price, usePageData } from '@/duxcmsOrder'
 import { useState } from 'react'
 import { mallHook } from '@/duxcmsMall/utils'
@@ -53,9 +53,9 @@ const Malls = ({ category }) => {
   return <Column style={{ width: px(550) }} className='gap-3'>
     {
       category.children.length > 0 && <Tab value={select} onChange={setSelect} scroll type='button' buttonRound className='mt-1'>
-        <Tab.Item paneKey={0} title='全部' />
+        <TabItem paneKey={0} title='全部' />
         {
-          category.children.map(item => <Tab.Item key={item.id} paneKey={item.id} title={item.name} />)
+          category.children.map(item => <TabItem key={item.id} paneKey={item.id} title={item.name} />)
         }
       </Tab>
     }

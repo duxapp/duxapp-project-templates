@@ -1,4 +1,4 @@
-import { Avatar, Card, Column, Divider, Form, Header, Input, ModalForm, Row, ScrollView, Text, TopView, SelectorPicker, DatePicker, nav, confirm, loading, toast } from '@/duxui'
+import { Avatar, Card, Column, Divider, Form, Header, Input, ModalForm, Row, ScrollView, Text, TopView, SelectorPicker, DatePicker, nav, confirm, loading, toast, DividerGroup, FormItem } from '@/duxui'
 import { CmsIcon, cmsUser, duxappTheme, request, user, userHook } from '@/duxcmsUser'
 import { useMemo, useCallback } from 'react'
 
@@ -36,13 +36,13 @@ export default function UserSetting() {
     <ScrollView>
       <Form onChange={update} defaultValues={defaultData}>
         <Card margin disableMarginBottom verticalPadding={false}>
-          <Divider.Group padding={0}>
+          <DividerGroup padding={0}>
             <Row items='center' justify='between' className='pv-3' onClick={() => nav('duxcmsUser/info/avatar')}>
               <Text bold grow>我的头像</Text>
               <Avatar size='s' url={userInfo.avatar} />
               <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
             </Row>
-            <Form.Item field='nickname'>
+            <FormItem field='nickname'>
               <ModalForm
                 renderForm={props => <Column className='p-3'>
                   <Input placeholder='请输入昵称' type='nickname' focus {...props} />
@@ -56,8 +56,8 @@ export default function UserSetting() {
                   <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
                 </Row>
               </ModalForm>
-            </Form.Item>
-            <Form.Item field='sex'>
+            </FormItem>
+            <FormItem field='sex'>
               <ModalForm
                 renderForm={<SelectorPicker
                   range={[{ name: '男', value: 1 }, { name: '女', value: 2 }, { name: '保密', value: 0 }]}
@@ -70,9 +70,9 @@ export default function UserSetting() {
                   <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
                 </Row>
               </ModalForm>
-            </Form.Item>
+            </FormItem>
 
-            <Form.Item field='birthday'>
+            <FormItem field='birthday'>
               <ModalForm
                 renderForm={<DatePicker mode='date' minDate='1970-01-01' />}
                 title='出生日期'
@@ -83,13 +83,13 @@ export default function UserSetting() {
                   <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
                 </Row>
               </ModalForm>
-            </Form.Item>
+            </FormItem>
             {userHook.Render({ mark: 'setting.item', option: { defaultData, update } })}
-          </Divider.Group>
+          </DividerGroup>
         </Card>
         <userHook.Render mark='setting.security' option={{ defaultData, update }}>
           <Card margin disableMarginBottom verticalPadding={false}>
-            <Divider.Group padding={0}>
+            <DividerGroup padding={0}>
               <Row items='center' justify='between' className='pv-3' onClick={() => nav('duxcmsUser/info/phone')}>
                 <Text bold grow>手机号</Text>
                 <Text color={3}>更换手机号</Text>
@@ -100,7 +100,7 @@ export default function UserSetting() {
                 <Text color={3}>去修改</Text>
                 <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
               </Row>
-            </Divider.Group>
+            </DividerGroup>
           </Card>
         </userHook.Render>
         <userHook.Render mark='setting.logoff' option={{ defaultData, update }}>

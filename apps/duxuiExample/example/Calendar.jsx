@@ -1,5 +1,5 @@
 import { Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
-import { Calendar, Checkbox, dayjs, Radio, Row, Text, toast } from '@/duxui'
+import { Calendar, Checkbox, dayjs, Radio, Row, Text, toast, RadioGroup } from '@/duxui'
 import { useMemo, useState } from 'react'
 
 export default function ButtonExample() {
@@ -49,12 +49,12 @@ export default function ButtonExample() {
     <ScrollView>
       <GroupList>
         <GroupList.Item title='天选择'>
-          <Radio.Group value={mode} onChange={setMode}>
+          <RadioGroup value={mode} onChange={setMode}>
             <Radio value={undefined} label='不选择' />
             <Radio value='day' label='天选择' />
             <Radio value='scope' label='范围选择' />
             <Radio value='week' label='周选择' />
-          </Radio.Group>
+          </RadioGroup>
           <Row className='gap-3 items-center'>
             <Checkbox label='多选' checked={checkbox} onClick={() => setCheckbox(!checkbox)} />
             <Checkbox label='仅显示当前周' checked={onlyCurrentWeek} onClick={() => setOnlyCurrentWeek(!onlyCurrentWeek)} />

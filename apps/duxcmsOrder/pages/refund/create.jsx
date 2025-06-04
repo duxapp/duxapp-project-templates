@@ -1,4 +1,4 @@
-import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, Radio, useRoute, Input, UploadImages, Textarea, loading, Checkbox, toast } from '@/duxui'
+import { Row, Text, Column, ScrollView, Divider, Button, TopView, Header, Image, route, px, Form, PickerSelect, Radio, useRoute, Input, UploadImages, Textarea, loading, Checkbox, toast, FormItem, FormSubmit, FormObject } from '@/duxui'
 import { Price, useRequest, contextState, request, NumInput, orderHook } from '@/duxcmsOrder'
 import { useCallback, useEffect, useRef } from 'react'
 
@@ -45,30 +45,30 @@ export default function RefundCreate() {
     <contextState.Provider value={{ data }}>
       <Form direction='horizontal' labelProps={{ bold: true }} onSubmit={submit} ref={form}>
         <ScrollView>
-          <Form.Item field='type'>
+          <FormItem field='type'>
             <TypeForm />
-          </Form.Item>
+          </FormItem>
           <Goods />
           <Column className='mh-3 mt-3 bg-white r-2 ph-3'>
-            <Form.Item label='售后原因' field='cause'>
+            <FormItem label='售后原因' field='cause'>
               <PickerSelect grow range={data._meta?.cause} title='售后原因' placeholder='请选择' />
-            </Form.Item>
-            <Form.Item label='退款运费' field='delivery_price'>
+            </FormItem>
+            <FormItem label='退款运费' field='delivery_price'>
               <Input grow align='right' placeholder='请输入退款金额' type='digit' />
-            </Form.Item>
+            </FormItem>
             <Text size={1} color={2}>可退邮费金额：￥{data._meta?.delivery_price}</Text>
-            <Form.Item direction='vertical' label='上传凭证' field='images'>
+            <FormItem direction='vertical' label='上传凭证' field='images'>
               <UploadImages max={6} />
-            </Form.Item>
-            <Form.Item direction='vertical' label='售后原因' field='content'>
+            </FormItem>
+            <FormItem direction='vertical' label='售后原因' field='content'>
               <Textarea placeholder='请输入售后原因' />
-            </Form.Item>
+            </FormItem>
           </Column>
         </ScrollView>
         <Column className='p-3 bg-white'>
-          <Form.Submit>
+          <FormSubmit>
             <Button size='l' type='primary'>提交售后</Button>
-          </Form.Submit>
+          </FormSubmit>
         </Column>
       </Form>
     </contextState.Provider>
@@ -78,23 +78,23 @@ export default function RefundCreate() {
 const Goods = () => {
   const [{ data }] = contextState.useState()
 
-  return <Form.Item field='data'>
-    <Form.Object>
+  return <FormItem field='data'>
+    <FormObject>
       {
         data.map?.(item => <GoodsItem key={item.id} item={item} />)
       }
-    </Form.Object>
-  </Form.Item>
+    </FormObject>
+  </FormItem>
 }
 
 const GoodsItem = ({ item }) => {
   return <Column className='mh-3 mt-3 bg-white r-2 p-3'>
-    <Form.Item field={item.id}>
-      <Form.Object>
-        <Form.Item field='checked'>
+    <FormItem field={item.id}>
+      <FormObject>
+        <FormItem field='checked'>
           <GoodsItemChecked item={item} />
-        </Form.Item>
-        <Form.Item field='checked'>
+        </FormItem>
+        <FormItem field='checked'>
           {({ value }) => {
             if (!value) {
               return
@@ -102,20 +102,20 @@ const GoodsItem = ({ item }) => {
             return <>
               <Divider className='mt-3' />
               <orderHook.Render mark='refund.create.item.input' option={{ item }}>
-                <Form.Item label='退款金额' field='price'>
+                <FormItem label='退款金额' field='price'>
                   <Input grow align='right' placeholder='请输入退款金额' type='digit' />
-                </Form.Item>
-                <Form.Item label='退款数量' field='num' containerProps={{ justify: 'between' }}>
+                </FormItem>
+                <FormItem label='退款数量' field='num' containerProps={{ justify: 'between' }}>
                   <NumInput max={item.goods_num} />
                   {/* <Input grow align='right' placeholder='请输入退款数量' type='number' /> */}
-                </Form.Item>
+                </FormItem>
               </orderHook.Render>
             </>
           }}
-        </Form.Item>
+        </FormItem>
 
-      </Form.Object>
-    </Form.Item>
+      </FormObject>
+    </FormItem>
   </Column>
 }
 

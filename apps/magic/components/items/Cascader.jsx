@@ -1,6 +1,6 @@
 import { Cascade as UICascade } from '@/duxui'
 import { useMemo } from 'react'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 import { useSourceData } from './util'
 
 export const Cascader = ({ config, checkbox }) => {
@@ -25,7 +25,7 @@ export const Cascader = ({ config, checkbox }) => {
     return _level
   }, [data])
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <UICascade
       data={data}
       nameKey={setting.keys_label || 'label'}
@@ -36,7 +36,7 @@ export const Cascader = ({ config, checkbox }) => {
       theme='fill'
       mode={checkbox ? 'checkbox' : 'radio'}
     />
-  </FormItem>
+  </NestFormItem>
 }
 
 Cascader.type = 'cascader'

@@ -1,7 +1,7 @@
 import { useRouter } from '@tarojs/taro'
 import { Video } from '@tarojs/components'
 import { useState } from 'react'
-import { TopView, Swiper, Header, Column, Row, Text, duxappTheme, nav, Badge, Divider, px, useRoute, Image, HtmlView, Button, Empty } from '@/duxui'
+import { TopView, Swiper, Header, Column, Row, Text, duxappTheme, nav, Badge, Divider, px, useRoute, Image, HtmlView, Button, Empty, SwiperItem, ImageGroup } from '@/duxui'
 import { CommentDetailList, CmsIcon, collect, contextState, Detail, mallHook, Price, GoodsSpec, cart, foot } from '@/duxcmsMall'
 import { WechatShare } from '@/wechat'
 import classNames from 'classnames'
@@ -69,14 +69,14 @@ const Images = () => {
   return <Column>
     <Swiper className='w-full' style={{ height: px(750) }} onChange={e => setSelect(e.detail.current)}>
       {
-        videos.map(item => <Swiper.Item key={item}>
+        videos.map(item => <SwiperItem key={item}>
           <Video src={item.url} poster={images[0]} className='w-full h-full' />
-        </Swiper.Item>)
+        </SwiperItem>)
       }
       {
-        images.map(item => <Swiper.Item key={item}>
+        images.map(item => <SwiperItem key={item}>
           <Image preview images={images} src={item} className='w-full h-full' />
-        </Swiper.Item>)
+        </SwiperItem>)
       }
     </Swiper>
     <Row className='absolute left-0 right-0 gap-1 z-1 bottom-0 pv-3' justify='center'>
@@ -191,11 +191,11 @@ const DetailContent = () => {
       <Column className='mt-3' />
       {
         data.content_images?.length ?
-          <Image.Group>
+          <ImageGroup>
             {
               data.content_images.map((image, index) => <Image key={index} src={image} className='w-full' mode='widthFix' />)
             }
-          </Image.Group> : data.content ?
+          </ImageGroup> : data.content ?
             <HtmlView html={data.content} /> :
             <Empty title='暂无详情' />
       }

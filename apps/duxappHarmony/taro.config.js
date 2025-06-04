@@ -1,9 +1,9 @@
-// eslint-disable-next-line import/no-commonjs
+/* eslint-disable import/no-commonjs */
 const commonjs = require('vite-plugin-commonjs').default
 
 module.exports = {
   plugins: [
-    '@tarojs/plugin-platform-harmony-ets'
+    '@tarojs/plugin-platform-harmony-cpp'
   ],
   harmony: {
     compiler: {
@@ -12,6 +12,12 @@ module.exports = {
         commonjs()
       ]
     },
-    projectPath: './dist/harmony'
+    projectPath: './dist/harmony',
+    hapName: 'entry',
+    ohPackage: {
+      dependencies: {
+        '@taro-oh/library': 'file:../../../src/duxappHarmony/library.har'
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Column, HtmlView, Input, Textarea as UITextarea } from '@/duxui'
-import { FormItem } from './FormItem'
+import { NestFormItem } from './FormItem'
 import './common.scss'
 
 const MagicInput = props => {
@@ -12,9 +12,9 @@ export const Text = ({ config }) => {
 
   const { setting = {} } = config
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicInput maxlength={setting.maxlength} placeholder={`请输入${config.label || ''}`} />
-  </FormItem>
+  </NestFormItem>
 }
 
 Text.type = 'text'
@@ -33,9 +33,9 @@ export const Textarea = ({ config }) => {
 
   const { setting = {} } = config
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicTextarea maxlength={setting.maxlength} placeholder={`请输入${config.label || ''}`} />
-  </FormItem>
+  </NestFormItem>
 }
 
 Textarea.type = 'textarea'
@@ -46,9 +46,9 @@ Textarea.Display = ({ value }) => {
 
 export const Number = ({ config }) => {
   const { setting = {} } = config
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicInput maxlength={setting.maxlength} type='number' placeholder={`请输入${config.label || ''}`} />
-  </FormItem>
+  </NestFormItem>
 }
 
 Number.type = 'number'
@@ -61,9 +61,9 @@ export const Editor = ({ config }) => {
 
   const { setting = {} } = config
 
-  return <FormItem config={config}>
+  return <NestFormItem config={config}>
     <MagicTextarea maxlength={setting.maxlength} placeholder={`请输入${config.label || ''}`} />
-  </FormItem>
+  </NestFormItem>
 }
 
 Editor.type = 'editor'

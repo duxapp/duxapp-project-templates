@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { Row, Text, Image, Button, Empty, Space, Avatar, Column, Grade, Grid, Divider, duxappTheme } from '@/duxui'
+import { Row, Text, Image, Button, Empty, Space, Avatar, Column, Grade, Grid, Divider, duxappTheme, ImageGroup } from '@/duxui'
 import { nav, usePageData, useRequest, CmsIcon } from '@/duxcms'
 
 export const CommentDetailList = ({
@@ -61,13 +61,13 @@ export const CommentItem = ({ item }) => {
         <Text size={1} color={3} grow align='right'>{item.time?.substring(0, 10)}</Text>
       </Space>
       <Text size={1}>{item.content}</Text>
-      {!!item.images.length && <Image.Group>
+      {!!item.images.length && <ImageGroup>
         <Grid column={4} square gap={24}>
           {
             item.images?.map((v, i) => <Image className='w-full h-full' src={v} key={i} radiusType='round-min' />)
           }
         </Grid>
-      </Image.Group>}
+      </ImageGroup>}
     </Column>
   </Space>
 }

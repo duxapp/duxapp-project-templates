@@ -1,6 +1,6 @@
 import { request } from '@/duxcmsUser'
 import { loading } from '@/duxui'
-import { RenderHook } from '../components'
+import { RenderHook } from '@/duxapp'
 
 export * from '@/duxcmsUser/utils'
 
