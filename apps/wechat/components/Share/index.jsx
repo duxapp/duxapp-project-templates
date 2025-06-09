@@ -31,18 +31,18 @@ const ShareRoot = (() => {
       return _params
     }, [params])
 
-    const paramsString = JSON.stringify(findParams)
+    const paramsDeep = useDeepObject(findParams)
 
     const _key = useMemo(() => pageKey++, [])
 
     useMemo(() => {
-      WechatShare.addPage({ pageKey: _key, path, findParams })
+      WechatShare.addPage({ pageKey: _key, path, params: findParams })
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_key])
 
     const addPageShare = useCallback(option => {
-      WechatShare.addPage({ pageKey: _key, path, params: JSON.parse(paramsString), ...option, pageRegister: true })
-    }, [_key, paramsString, path])
+      WechatShare.addPage({ pageKey: _key, path, params: paramsDeep, ...option, pageRegister: true })
+    }, [_key, paramsDeep, path])
 
     useEffect(() => {
       return () => WechatShare.removePage(_key)

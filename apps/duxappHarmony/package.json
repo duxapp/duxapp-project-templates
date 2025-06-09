@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build:harmony": "duxapp runtime enterFile && duxapp harmony create && taro build --type harmony_cpp",
-    "dev:harmony": "npm run build:harmony -- --watch"
+    "build:harmony": "duxapp build harmony build",
+    "dev:harmony": "duxapp build harmony dev"
   },
   "dependencies": {
     "@tarojs/plugin-platform-harmony-cpp": "4.1.1",

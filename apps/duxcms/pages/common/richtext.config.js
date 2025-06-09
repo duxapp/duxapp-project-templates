@@ -1,4 +1,4 @@
 export default {
-  navigationBarTitleText: '',
-  disableScroll: true
+  enableShareAppMessage: true,
+  enableShareTimeline: true
 }

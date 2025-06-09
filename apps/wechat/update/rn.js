@@ -14,37 +14,38 @@ module.exports = ({ config }) => {
       'ios/Podfile': {
         'podEnd': `  pod 'WechatOpenSDK'`
       },
-      'ios/duxapp/AppDelegate.h': {
-        import: '#import "WXApi.h"',
-        'appDelegate.protocol': '  ,WXApiDelegate'
+      'ios/duxapp/BridgingHeader.h': {
+        import: `#import "WXApi.h"
+#import <React/RCTLinkingManager.h>
+`
       },
-      'ios/duxapp/AppDelegate.mm': {
-        import: '#import <React/RCTLinkingManager.h>',
-        appDelegate: `// react-native-wechat-lib start
+      'ios/duxapp/AppDelegate.swift': {
+        'app.delegate': ', WXApiDelegate',
+        app: `  // react-native-wechat-lib start
 
-  - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-      return  [WXApi handleOpenURL:url delegate:self];
+  override func application(_ application: UIApplication,
+                            open url: URL,
+                            options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    RCTLinkingManager.application(application, open: url, options: options)
+    return WXApi.handleOpen(url, delegate: self)
   }
 
-  - (BOOL)application:(UIApplication *)application
-    continueUserActivity:(NSUserActivity *)userActivity
-    restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable
-    restorableObjects))restorationHandler {
-    // 触发回调方法
-    [RCTLinkingManager application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
-    return [WXApi handleOpenUniversalLink:userActivity
-    delegate:self];
+  // MARK: - 微信回调（Universal Link）
+  override func application(_ application: UIApplication,
+                            continue userActivity: NSUserActivity,
+                            restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    return WXApi.handleOpenUniversalLink(userActivity, delegate: self)
   }
 
-  // Universal Links 配置文件, 没使用的话可以忽略。
-  // ios 9.0+
-  - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-              options:(NSDictionary<NSString*, id> *)options
-  {
-    // Triggers a callback event.
-    // 触发回调事件
-    [RCTLinkingManager application:application openURL:url options:options];
-    return [WXApi handleOpenURL:url delegate:self];
+  // MARK: - WXApiDelegate
+  func onReq(_ req: BaseReq) {
+    // 可选：处理微信请求
+  }
+
+  func onResp(_ resp: BaseResp) {
+    // 可选：处理微信响应，如登录/支付结果
+    // 你可以用 NotificationCenter 通知 JS 层
   }
   // react-native-wechat-lib end`
       }

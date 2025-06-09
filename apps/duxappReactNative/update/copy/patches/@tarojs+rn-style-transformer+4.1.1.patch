@@ -1,0 +1,18 @@
+diff --git a/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js b/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js
+index c92982d..e8fe67c 100644
+--- a/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js
++++ b/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js
+@@ -56,6 +56,12 @@ const ViewStylePropTypes = Object.assign(Object.assign(Object.assign(Object.assi
+      * On iOS 13+, it is possible to change the corner curve of borders.
+      * @platform ios
+      */
+-    borderCurve: ReactPropTypes.oneOf(['circular', 'continuous']) });
++    borderCurve: ReactPropTypes.oneOf(['circular', 'continuous']),
++    /**
++     * react-native 0.76+
++     */
++    boxShadow: ReactPropTypes.string
++  });
++
+ exports.default = ViewStylePropTypes;
+ //# sourceMappingURL=ViewStylePropTypes.js.map

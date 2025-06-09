@@ -6,7 +6,7 @@ export default function BoxShadowExample() {
     <Header title='BoxShadow' />
     <ScrollView>
       <GroupList>
-        <GroupList.Item title='基础用法'>
+        <GroupList.Item title='基础用法' desc='当前RN端已经原生支持 boxShadow css，请使用css'>
           <BoxShadow className='box-shadow-item'>
             <Text>这是内容</Text>
           </BoxShadow>

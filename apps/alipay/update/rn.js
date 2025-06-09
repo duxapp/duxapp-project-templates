@@ -8,26 +8,14 @@ module.exports = ({ config, apps }) => {
         content: `# 支付宝
   -keep class com.alipay.** { *; }`
       },
-      'ios/duxapp/AppDelegate.mm': {
-        import: apps.includes('wechat') ? '' : '#import <React/RCTLinkingManager.h>',
-        appDelegate: `// react-native-alipay start
-
-  - (BOOL)application:(UIApplication *)application
-              openURL:(NSURL *)url
-    sourceApplication:(NSString *)sourceApplication
-            annotation:(id)annotation
-  {
-    return [RCTLinkingManager application:application openURL:url
-                        sourceApplication:sourceApplication annotation:annotation];
+      'ios/duxapp/BridgingHeader.h': {
+        import: apps.includes('wechat') ? '' : '#import <React/RCTLinkingManager.h>'
+      },
+      'ios/duxapp/AppDelegate.swift': {
+        app: `  // react-native-alipay start
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    return RCTLinkingManager.application(app, open: url, options: options)
   }
-  ${apps.includes('wechat') ? '' : `
-  - (BOOL)application:(UIApplication *)application
-  openURL:(NSURL *)url
-  options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
-  {
-  return [RCTLinkingManager application:application openURL:url options:options];
-  }`}
-
   // react-native-alipay end`
       }
     },

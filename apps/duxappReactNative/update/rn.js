@@ -1,16 +1,16 @@
 // eslint-disable-next-line import/no-commonjs
 module.exports = {
   insert: {
-    'android/build.gradle': {
-      'allprojects.repositories': `        maven {
-            // expo-camera bundles a custom com.google.android:cameraview
-            url "$rootDir/../node_modules/expo-camera/android/maven"
-        }`
-    },
-    'android/gradle.properties': {
-      // Duplicate class android.support.v4.app.INotificationSideChannel
-      content: 'android.enableJetifier=true'
-    },
+    // 'android/build.gradle': {
+    //   'allprojects.repositories': `        maven {
+    //         // expo-camera bundles a custom com.google.android:cameraview
+    //         url "$rootDir/../node_modules/expo-camera/android/maven"
+    //     }`
+    // },
+    // 'android/gradle.properties': {
+    //   // Duplicate class android.support.v4.app.INotificationSideChannel
+    //   content: 'android.enableJetifier=true'
+    // },
     'android/app/proguard-rules.pro': {
       'content': `
 ##### @react-native-community/geolocation #####
@@ -81,11 +81,11 @@ module.exports = {
   end`
     }
   },
-  replace: {
-    'android/gradle/wrapper/gradle-wrapper.properties': {
-      distributionUrl: 'https://mirrors.cloud.tencent.com/gradle/gradle-8.8-all.zip'
-    }
-  },
+  // replace: {
+  //   'android/gradle/wrapper/gradle-wrapper.properties': {
+  //     distributionUrl: 'https://mirrors.cloud.tencent.com/gradle/gradle-8.8-all.zip'
+  //   }
+  // },
   android: {
     xml: {
       'app/src/main/AndroidManifest.xml': {
