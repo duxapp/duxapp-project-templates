@@ -19,9 +19,9 @@ import {
   px,
   CardSelectGroup,
   DividerGroup,
-  FormItem
+  FormItem,
+  getWindowInfo
 } from '@/duxuiExample'
-import { getSystemInfoSync } from '@tarojs/taro'
 
 const cascadeData = [
   {
@@ -55,7 +55,7 @@ const defaultValues = {
 }
 
 const PullForm = () => <Card shadow={false}>
-  <Column style={{ height: getSystemInfoSync().statusBarHeight + (process.env.TARO_ENV === 'weapp' ? 22 : 0) }} />
+  <Column style={{ height: getWindowInfo().statusBarHeight + (process.env.TARO_ENV === 'weapp' ? 22 : 0) }} />
   <FormItem label='输入框' field='pull1' direction='vertical'>
     <Input placeholder='请输入' />
   </FormItem>

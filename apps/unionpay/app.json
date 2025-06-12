@@ -1,7 +1,7 @@
 {
   "name": "unionpay",
   "description": "云闪付支付",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "dependencies": [
     "duxappReactNative"
   ]

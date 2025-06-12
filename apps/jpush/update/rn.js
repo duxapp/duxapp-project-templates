@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-commonjs
-module.exports = ({ config }) => {
+export default ({ config }) => {
   const jpush = config.option?.jpush || {}
   return {
     insert: {

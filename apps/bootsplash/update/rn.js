@@ -2,7 +2,7 @@
 const xcode = require('xcode')
 const file = require('duxapp-cli/lib/file')
 
-module.exports = {
+export default {
   // 描点插入
   insert: {
     'android/app/src/main/java/cn/duxapp/MainActivity.kt': {

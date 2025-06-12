@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-commonjs
-module.exports = ({ config, apps }) => {
+export default ({ config, apps }) => {
   const BundleId = config.ios?.BundleId || 'com.duxapp'
   return {
     // 描点插入

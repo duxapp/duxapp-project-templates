@@ -4,7 +4,7 @@
  * subPackage:是否将其设置为分包
  * home: 是否是主页 是主页的页面将会被排在前面
  */
-const config = {
+export default {
   disablePages: [
     'user/'
   ],
@@ -119,5 +119,3 @@ const config = {
     }
   }
 }
-
-module.exports = config

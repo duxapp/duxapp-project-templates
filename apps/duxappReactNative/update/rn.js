@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-commonjs
-module.exports = {
+export default {
   insert: {
     // 'android/build.gradle': {
     //   'allprojects.repositories': `        maven {

@@ -1,7 +1,6 @@
-/* eslint-disable import/no-commonjs */
-const commonjs = require('vite-plugin-commonjs').default
+import commonjs from 'vite-plugin-commonjs'
 
-module.exports = {
+export default {
   plugins: [
     '@tarojs/plugin-platform-harmony-cpp'
   ],

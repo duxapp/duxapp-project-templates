@@ -1,5 +1,5 @@
 import { setLoginConfig } from '@/duxcmsUser/components/user/login'
-import { requestMiddle, user } from '@/duxcmsSale'
+import { requestMiddle, user } from '@/duxcmsUser'
 
 let event = null
 

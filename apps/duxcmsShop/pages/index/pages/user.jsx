@@ -1,6 +1,5 @@
-import { Avatar, Badge, Card, Column, Grid, Header, LinearGradient, Row, ScrollView, ScrollViewManage, Text, colorLighten, duxappTheme, nav, px } from '@/duxui'
+import { Avatar, Badge, Card, Column, Grid, Header, LinearGradient, Row, ScrollView, ScrollViewManage, Text, colorLighten, duxappTheme, getWindowInfo, nav, px } from '@/duxui'
 import { AppUpgrade, CmsIcon, TabBar, request, user, shopHook, contextState } from '@/duxcmsShop'
-import { getSystemInfoSync } from '@tarojs/taro'
 import { useEffect, useState } from 'react'
 
 export function User() {
@@ -52,7 +51,7 @@ const UserInfo = () => {
 
   const [userInfo, loginStatus] = user.useUserInfo()
 
-  const statusBarHeight = getSystemInfoSync().statusBarHeight || 0
+  const statusBarHeight = getWindowInfo().statusBarHeight || 0
 
   return loginStatus ?
     <Row className='gap-3 p-3' items='center' style={{ marginTop: statusBarHeight + 40 }} onClick={() => nav('duxcmsUser/info/setting')}>

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   designWidth: 375,
   deviceRatio: {
     375: 1.25,

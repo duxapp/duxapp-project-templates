@@ -1,5 +1,5 @@
-import { getSystemInfoSync } from "@tarojs/taro"
 import markerIcon from '../images/marker.png'
+import { getWindowInfo } from '@/duxapp'
 
 const sizeKeys = ['width', 'height', 'borderWidth', 'borderRadius', 'padding', 'fontSize', 'anchorX', 'anchorY']
 
@@ -7,7 +7,7 @@ const toPx = (() => {
   let width
   return size => {
     if (!width) {
-      width = getSystemInfoSync().screenWidth
+      width = getWindowInfo().screenWidth
     }
     return size / (750 / width)
   }

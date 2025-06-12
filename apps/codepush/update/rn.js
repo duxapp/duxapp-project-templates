@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-commonjs
-module.exports = {
+export default {
   // 描点插入
   insert: {
     'android/settings.gradle': {

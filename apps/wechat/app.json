@@ -1,7 +1,7 @@
 {
   "name": "wechat",
   "description": "端微信模块依赖,APP端和h5端",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "dependencies": [
     "duxappReactNative"
   ]

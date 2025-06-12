@@ -4,7 +4,9 @@ import { request, saleBindForm, user } from './utils'
 
 export default {
   show: data => {
-    saleBindForm(data.query)
+    if (process.env.TARO_ENV === 'weapp') {
+      saleBindForm(data.query)
+    }
   }
 }
 
