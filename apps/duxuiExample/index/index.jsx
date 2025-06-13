@@ -1,4 +1,4 @@
-import { TopView, TabBar, TestIcon, duxappTheme } from '@/duxuiExample'
+import { TopView, TabBar, TestIcon } from '@/duxuiExample'
 import { Home, User } from './pages'
 
 const tabbarList = [
@@ -24,7 +24,10 @@ const TabBarIcon = ({
   return <TabBar.ItemIcon
     hover={hover}
     name={tabbarList[index].text}
-    icon={<TestIcon size={40} color={hover ? duxappTheme.primaryColor : duxappTheme.textColor1} name={tabbarList[index][hover ? 'iconHover' : 'icon']} />}
+    icon={<TestIcon size={40}
+      className={hover ? 'text-primary' : ' text-c1'}
+      name={tabbarList[index][hover ? 'iconHover' : 'icon']}
+    />}
   />
 }
 

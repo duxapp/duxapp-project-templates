@@ -306,11 +306,11 @@ taro-input-core {
 }
 
 .text-black {
-  color: #000;
+  color: $duxappBlackColor;
 }
 
 .text-white {
-  color: #fff;
+  color: $duxappWhiteColor;
 }
 
 .text-c1 {
@@ -402,11 +402,11 @@ taro-input-core {
 
 /* 边框颜色 */
 .border-black {
-  border-color: #000;
+  border-color: $duxappBlackColor;
 }
 
 .border-white {
-  border-color: #fff;
+  border-color: $duxappWhiteColor;
 }
 
 .border-primary {
@@ -605,7 +605,7 @@ taro-input-core {
 
 // 背景
 .bg-white {
-  background-color: white;
+  background-color: $duxappWhiteColor;
 }
 
 .bg-primary {

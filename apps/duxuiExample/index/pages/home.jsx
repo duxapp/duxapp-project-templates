@@ -15,6 +15,7 @@ export const Home = () => {
             <Cell title='Loading 加载动画' onClick={() => route.nav('duxuiExample/example/Loading')} />
             <Cell title='Icon 图标' onClick={() => route.nav('duxuiExample/example/Icon')} />
             <Cell title='Animated 动画' onClick={() => route.nav('duxuiExample/example/Animated')} />
+            <Cell title='theme 动态主题' onClick={() => route.nav('duxuiExample/example/Theme')} />
           </CellGroup>
         </GroupList.Item>
         <GroupList.Item title='布局组件'>

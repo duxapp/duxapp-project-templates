@@ -9,4 +9,3 @@ if (userConfig.option?.wechat?.share?.open) {
   WechatShare.init()
 }
 
-export default {}

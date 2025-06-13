@@ -7,7 +7,8 @@
     border-radius: 20px;
     background-color: $duxappPrimaryColor;
     &--disabled {
-      background-color: color.adjust($duxappPrimaryColor, $lightness: 20%);
+      opacity: 0.3;
+      // background-color: color.adjust($duxappPrimaryColor, $lightness: 20%);
     }
   }
 }

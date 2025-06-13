@@ -61,4 +61,3 @@ formConfig.setConfig({
   uploadTempFile: createUpload(uploadTempFile)
 })
 
-export default {}

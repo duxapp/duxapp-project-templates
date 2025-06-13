@@ -6,10 +6,10 @@ export default function IconExample() {
     <ScrollView>
       <GroupList>
         <GroupList.Item title='基础用法'>
-          <TestIcon name='tuangouyanquan' />
+          <TestIcon name='tuangouyanquan' className='text-white' />
         </GroupList.Item>
         <GroupList.Item title='大小'>
-          <TestIcon name='navigation_fill' size={72} />
+          <TestIcon name='navigation_fill' className='text-white' size={72} />
         </GroupList.Item>
         <GroupList.Item title='颜色' desc=''>
           <Space row>
@@ -20,7 +20,7 @@ export default function IconExample() {
             <TestIcon name='calendar' color='orange' className='text-s7' />
           </Space>
         </GroupList.Item>
-        <GroupList.Item title='说明' desc='Icon并不是一个具体的组件，而是通过 `yarn duxapp icon TestIcon duxuiExample css地址 1` 命令创建，创建后就是一个可以使用的Icon组件(这个命令是将 iconfont 上的图标库创建为组件)'>
+        <GroupList.Item title='说明' desc='Icon并不是一个具体的组件，而是通过 `yarn duxapp icon TestIcon duxuiExample css地址` 命令创建，创建后就是一个可以使用的Icon组件(这个命令是将 iconfont 上的图标库创建为组件)'>
         </GroupList.Item>
       </GroupList>
     </ScrollView>

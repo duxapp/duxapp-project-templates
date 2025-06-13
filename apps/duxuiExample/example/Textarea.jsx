@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Textarea, DividerGroup, FormItem } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Textarea, DividerGroup, FormItem } from '@/duxuiExample'
 
 export default function TextareaExample() {
   return <TopView>

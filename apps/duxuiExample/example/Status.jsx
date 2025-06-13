@@ -1,5 +1,5 @@
-import { Status, Header, ScrollView, TopView, GroupList, px, StatusCommon, StatusIncline } from '@/duxuiExample'
-import { Text, View } from '@tarojs/components'
+import { Text, Status, Header, ScrollView, TopView, GroupList, px, StatusCommon, StatusIncline } from '@/duxuiExample'
+import { View } from '@tarojs/components'
 
 export default function StatusExample() {
   return <TopView>

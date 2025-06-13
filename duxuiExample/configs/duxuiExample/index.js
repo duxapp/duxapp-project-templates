@@ -27,29 +27,86 @@ const config = {
   option: {
     // 基础模块
     duxapp: {
-      theme: {
-        primaryColor: '#E70012',
-        secondaryColor: '#E84C00',
-        successColor: '#34a853',
-        warningColor: '#fbbc05',
-        dangerColor: '#ea4335',
-        pageColor: '#F7F9FC',
+      themeConfig: {
+        themes: {
+          light: {
+            name: '明亮主题',
+            color: '#fff'
+          },
+          dark: {
+            name: '暗黑主题',
+            color: '#333'
+          }
+        },
+        // dark: 'dark',
+        // light: 'light',
+        // default: 'light'
+      },
+      themes: {
+        light: {
+          primaryColor: '#E70012',
+          secondaryColor: '#0092e8',
+          successColor: '#34a853',
+          warningColor: '#fbbc05',
+          dangerColor: '#ea4335',
+          pageColor: '#F7F9FC',
 
-        textColor1: '#373D52',
-        textColor2: '#73778E',
-        textColor3: '#A1A6B6',
-        textColor4: '#FFF',
-        header: {
-          color: '#fff', // 仅支持rgb hex值，请勿使用纯单词 设置为数组将显示一个渐变按钮
-          textColor: '#000', // 文本颜色
-          showWechat: false, // 微信公众号是否显示header
-          showWap: true, // h5是否显示header
+          textColor1: '#373D52',
+          textColor2: '#73778E',
+          textColor3: '#A1A6B6',
+          textColor4: '#FFF',
+          header: {
+            color: '#fff', // 仅支持rgb hex值，请勿使用纯单词 设置为数组将显示一个渐变按钮
+            textColor: '#000', // 文本颜色
+            showWechat: true, // 微信公众号是否显示header
+            showWap: true, // h5是否显示header
+          }
+        },
+        dark: {
+          pageColor: '#1E1E1E',
+
+          whiteColor: '#181818',
+          blackColor: '#fff',
+          lineColor: '#1F1F1F',
+
+          textColor1: '#FFF',
+          textColor2: '#A1A6B6',
+          textColor3: '#73778E',
+          textColor4: '#373D52',
+          header: {
+            color: '#121212',
+            textColor: '#fff'
+          },
+          loading: {
+            dark: '#fff',
+            blank: '#7a7a7a'
+          }
+        }
+      }
+    },
+    duxui: {
+      themes: {
+        light: {
+          button: {
+            radiusType: 'round'
+          }
+        },
+        dark: {
+          tabBar: {
+            nameColor: '#888',
+            nameHoverColor: '#fff'
+          }
         }
       }
     },
     codepush: {
       androidKey: 'w7-YPbuRGUGEteGzH6t1q7qcY6Onx3AcJrwhf',
       iosKey: 'yZrqff5-q6NpJUknyiW-k4ILeeecPlJxGyLol',
+    },
+    jpush: {
+      autoInit: true,
+      key: 'ee41c0229b32316285476f09',
+      channel: 'duxapp'
     },
     wechat: {
       // 分享组件配置

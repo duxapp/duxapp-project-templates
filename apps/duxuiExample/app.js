@@ -2,8 +2,6 @@ import { formConfig } from '@/duxui'
 import { getMedia } from '@/duxapp/utils/net/util'
 import '@/duxapp/utils/touchEvent'
 
-export default {}
-
 formConfig.setConfig({
   upload: (type, option) => {
     const promse = getMedia(type, option).then(res => res.map(v => v.path))

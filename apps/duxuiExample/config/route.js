@@ -114,7 +114,8 @@ export default {
         },
         ColorPicker: {
           platform: ['weapp', 'rn', 'h5']
-        }
+        },
+        Theme: {}
       }
     }
   }

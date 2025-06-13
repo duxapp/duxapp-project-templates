@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Cascade, DividerGroup, FormItem } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Cascade, DividerGroup, FormItem } from '@/duxuiExample'
 
 const cascadeData = [
   {

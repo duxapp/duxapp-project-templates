@@ -1,7 +1,7 @@
 {
   "name": "duxappStyle",
   "description": "用于存放兼容多端的公共样式和全局基础样式",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "dependencies": [
     "duxapp"
   ]
