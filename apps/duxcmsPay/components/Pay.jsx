@@ -20,10 +20,19 @@ const Select = ({ list, price, mask, onClose, onSelect }) => {
     }
   }, [mask, onClose])
 
+  const icons = {
+    balance: { icon: 'qianbao', color: '#337ab7', bgColor: duxappTheme.whiteColor },
+    alipay: { icon: 'zhifubao', color: '#5a9ef7', bgColor: duxappTheme.whiteColor },
+    wechat: { icon: 'weixin', color: '#00c800', bgColor: duxappTheme.whiteColor },
+    fast: { icon: 'yinhangqia', color: '#337ab7', bgColor: duxappTheme.whiteColor },
+    union: { icon: 'yinlian', color: '#d63120', bgColor: duxappTheme.whiteColor },
+    ticket: { icon: 'pay-fill', color: '#d63120', bgColor: duxappTheme.whiteColor }
+  }
+
   return <PullView onClose={onClose} modal={mask}>
     <Column className='rt-3 bg-white p-3 gap-4'>
       <Row justify='between' items='center'>
-        <CmsIcon name='op_close' size={48} color='#fff' />
+        <CmsIcon name='op_close' size={48} className='text-white' />
         {
           price ?
             <payHook.Render mark='pay.title' option={{ price }}>
@@ -31,7 +40,7 @@ const Select = ({ list, price, mask, onClose, onSelect }) => {
             </payHook.Render> :
             <Text size={4} bold>选择支付方式</Text>
         }
-        <CmsIcon name='op_close' size={48} color={duxappTheme.textColor1} onClick={close} />
+        <CmsIcon name='op_close' size={48} className='text-c1' onClick={close} />
       </Row>
       <Column className='p-2' />
       {
@@ -59,15 +68,6 @@ const Select = ({ list, price, mask, onClose, onSelect }) => {
       <Column className='p-2' />
     </Column>
   </PullView>
-}
-
-const icons = {
-  balance: { icon: 'qianbao', color: '#337ab7', bgColor: '#fff' },
-  alipay: { icon: 'zhifubao', color: '#5a9ef7', bgColor: '#fff' },
-  wechat: { icon: 'weixin', color: '#00c800', bgColor: '#fff' },
-  fast: { icon: 'yinhangqia', color: '#337ab7', bgColor: '#fff' },
-  union: { icon: 'yinlian', color: '#d63120', bgColor: '#fff' },
-  ticket: { icon: 'pay-fill', color: '#d63120', bgColor: '#fff' }
 }
 
 Select.select = (list, price, mask) => {

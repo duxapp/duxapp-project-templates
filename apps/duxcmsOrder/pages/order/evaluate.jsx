@@ -40,9 +40,9 @@ export default function Evaluate() {
           </FormArray>
         </FormItem>
       </ScrollView>
-      <Row style={{ paddingLeft: px(64), paddingRight: px(64), paddingTop: px(8), paddingBottom: px(8), backgroundColor: '#fff' }}>
+      <Row className='bg-white' style={{ paddingLeft: px(64), paddingRight: px(64), paddingTop: px(8), paddingBottom: px(8) }}>
         <FormSubmit>
-          <Button className='flex-grow' style={{ backgroundColor: duxappTheme.primaryColor, height: px(90) }} color='#fff' radiusType='round' size='l'>保存提交</Button>
+          <Button className='flex-grow' type='primary' radiusType='round' size='l'>保存提交</Button>
         </FormSubmit>
       </Row>
     </Form>

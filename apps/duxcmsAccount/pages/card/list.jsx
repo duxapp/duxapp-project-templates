@@ -45,7 +45,7 @@ const Item = ({ item, index, action }) => {
     <Space size={36}>
       <Row justify='between' items='center'>
         <Text color={4} size={5}>{item.bank_name}</Text>
-        <CmsIcon name='ashbin' color='#fff' size={32} onClick={del} />
+        <CmsIcon name='ashbin' className='text-c4' size={32} onClick={del} />
       </Row>
       <Space size={48} row justify='start' items='center'>
         <Text color={4} size={5}>****</Text>

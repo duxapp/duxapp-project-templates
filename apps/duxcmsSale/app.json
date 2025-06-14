@@ -1,8 +1,0 @@
-{
-  "name": "duxcmsSale",
-  "description": "分销系统",
-  "version": "1.0.0",
-  "dependencies": [
-    "duxcmsAccount"
-  ]
-}

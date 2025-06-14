@@ -9,7 +9,7 @@
 }
 
 .GoodsCate-left {
-  background-color: #fff;
+  background-color: $duxappWhiteColor;
   width: 240px;
   flex-shrink: 0;
 
@@ -23,7 +23,7 @@
     flex-direction: row;
     align-items: center;
     height: 90px;
-    background-color: #fff;
+    background-color: $duxappWhiteColor;
 
     &--hover {
       background-color: transparent;
@@ -62,7 +62,7 @@
   &__item {
     margin: 24px;
     padding: 24px;
-    background-color: #fff;
+    background-color: $duxappWhiteColor;
     border-radius: 6px;
   }
 

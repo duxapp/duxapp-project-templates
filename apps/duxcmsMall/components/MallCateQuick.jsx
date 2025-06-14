@@ -29,12 +29,15 @@ export const MallCateQuick = () => {
                 key={item.id}
                 items='center'
                 onClick={() => setSelect(index)}
+                className={isSelect ? 'bg-page' : 'bg-white'}
                 style={{
-                  height: px(100),
-                  backgroundColor: isSelect ? duxappTheme.pageColor : '#fff'
+                  height: px(100)
                 }}
               >
-                <Column className='absolute left-0' style={{ width: px(8), height: px(60), top: px(20), backgroundColor: isSelect ? duxappTheme.primaryColor : '#fff' }} />
+                <Column
+                  className={classNames('absolute left-0', isSelect ? 'bg-primary' : 'bg-white')}
+                  style={{ width: px(8), height: px(60), top: px(20) }}
+                />
                 <Text grow align='center'>{item.name}</Text>
               </Row>
             })

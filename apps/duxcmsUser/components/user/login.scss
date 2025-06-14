@@ -18,7 +18,7 @@
       align-items: center;
       padding: 0 40px;
       height: 96px;
-      background: #f7f7f7;
+      background: $duxappPageColor;
       border-radius: 48px;
 
       &__input {
@@ -49,12 +49,12 @@
       &__line {
         width: 138px;
         height: 1px;
-        background: #e5e5e5;
+        background: $duxappLineColor;
       }
 
       &__text {
         font-size: 28px;
-        color: #999999;
+        color: $duxappTextColor2;
         margin: 0 40px;
       }
     }
@@ -88,7 +88,7 @@
 
     &__text {
       font-size: 22px;
-      color: #999;
+      color: $duxappTextColor2;
     }
   }
 }
@@ -96,7 +96,7 @@
 .cms-login-weapp {
   padding: 36px;
   border-radius: 16px;
-  background-color: #fff;
+  background-color: $duxappWhiteColor;
   width: 600px;
 
   &--mask {
@@ -126,7 +126,7 @@
   //   align-items: center;
   //   justify-content: center;
   //   margin-top: 100px;
-  //   color: #fff;
+  //   color: $duxappWhiteColor;
   // }
 
   &__tel {

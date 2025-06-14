@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { View, Input } from '@tarojs/components'
-import { ScrollView, PullView, Text, px } from '@/duxui'
+import { ScrollView, PullView, Text, px, Button, Row } from '@/duxui'
 import { CmsIcon } from '@/duxcms'
 import './filter.scss'
 
@@ -102,12 +102,10 @@ export default class PullListFilter extends Component {
               </View>
             })}
           </ScrollView>
-          <View className='search__button'>
-            {/* <View className='search__button__icon' onClick={() => { this.show() }}><ShopIcon name='close' /></View> */}
-            {/* <Text style={{ width: px(40), fontSize: px(30) }}>|</Text> */}
-            <Text className='search__button__item' onClick={this.reset.bind(this)}>重置</Text>
-            <Text className='search__button__item search__button__item--hover' onClick={this.submit.bind(this)}>确定</Text>
-          </View>
+          <Row className='gap-3 p-3'>
+            <Button type='primary' className='flex-grow' size='l' plain onClick={this.reset.bind(this)}>重置</Button>
+            <Button type='primary' className='flex-grow' size='l' onClick={this.submit.bind(this)}>确定</Button>
+          </Row>
         </View>
       </PullView>
     )

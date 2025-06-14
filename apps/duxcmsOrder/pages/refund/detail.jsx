@@ -1,4 +1,4 @@
-import { Button, Header, Row, TopView, useRoute, Column, Card, Divider, Image, Text, duxappTheme, px, contextState, nav, Grid, ImageGroup } from '@/duxui'
+import { Button, Header, Row, TopView, useRoute, Column, Card, Divider, Image, Text, duxappTheme, px, contextState, nav, Grid, ImageGroup, Tag } from '@/duxui'
 import { Detail, Price, orderHook } from '@/duxcmsOrder'
 import { setClipboardData } from '@tarojs/taro'
 import bg from '../order/images/order-bg.png'
@@ -78,9 +78,7 @@ const RefundExpress = () => {
         <Text color={2}>快递单号</Text>
         <Row items='center' className='gap-2'>
           <Text bold>{delivery_no}</Text>
-          <Column className='pv-1 ph-2 r-1' style={{ backgroundColor: '#A1A6B6' }} onClick={() => setClipboardData({ data: delivery_no })}>
-            <Text color={4} size={1}>复制</Text>
-          </Column>
+          <Tag onClick={() => setClipboardData({ data: delivery_no })}>复制</Tag>
         </Row>
       </Row>
     </Column>
@@ -126,9 +124,7 @@ export const RefundInfo = () => {
       <Text color={2}>服务单号</Text>
       <Row items='center' className='gap-2'>
         <Text bold>{info.refund_no}</Text>
-        <Column className='pv-1 ph-2 r-1' style={{ backgroundColor: '#A1A6B6' }} onClick={() => setClipboardData({ data: info.order_no })}>
-          <Text color={4} size={1}>复制</Text>
-        </Column>
+        <Tag onClick={() => setClipboardData({ data: info.order_no })}>复制</Tag>
       </Row>
     </Row>
     <Row className='gap-4' items='center'>

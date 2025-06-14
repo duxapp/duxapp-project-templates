@@ -4,6 +4,7 @@ import { ScrollView, Image, Header, Row } from '@/duxui'
 import { nav, usePageData, duxappTheme, userConfig } from '@/duxcmsMall/utils'
 import { HeaderSearch } from '@/duxcmsOrder'
 import './index.scss'
+import classNames from 'classnames'
 
 export const MallCate = ({ url = 'duxcmsMall/goods/list' }) => {
 
@@ -48,7 +49,7 @@ export const MallCate = ({ url = 'duxcmsMall/goods/list' }) => {
                     onClick={() => !item.disable && setSelect(index)}
                     style={hover ? { backgroundColor: duxappTheme.pageColor } : {}}
                   >
-                    <View className='GoodsCate-left__line' style={{ backgroundColor: hover ? duxappTheme.primaryColor : '#fff' }} />
+                    <View className={classNames('GoodsCate-left__line', hover ? 'bg-primary' : 'bg-white')} />
                     <Text className={['GoodsCate-left__name', hover && 'GoodsCate-left__name--hover'].join(' ')} style={{ color: hover ? duxappTheme.primaryColor : '#5c5b5a' }}>{item.name}</Text>
                   </View>
                 </View>

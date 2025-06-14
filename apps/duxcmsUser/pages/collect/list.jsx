@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 export default function Collect() {
   return <TopView>
     <Header title='我的收藏' />
-    <Tab buttonRound lazyload justify oneHidden tabStyle={{ backgroundColor: '#fff', borderBottomLeftRadius: px(24), borderBottomRightRadius: px(24) }}>
+    <Tab buttonRound lazyload justify oneHidden tabStyle={{ backgroundColor: duxappTheme.whiteColor, borderBottomLeftRadius: px(24), borderBottomRightRadius: px(24) }}>
       {
         collect.types.map(item => <TabItem key={item.type} title={item.name}>
           <contextState.Provider defaultValue={item}>

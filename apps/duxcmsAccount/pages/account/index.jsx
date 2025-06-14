@@ -40,7 +40,7 @@ const ListItem = ({ title, url }) => {
   return <Row justify='between' className='pv-1' onClick={() => nav(url)}>
     <Text bold>{title}</Text>
     <CmsIcon
-      color='#a9aebd'
+      className='text-c2'
       name='direction_right'
       size={32}
     />

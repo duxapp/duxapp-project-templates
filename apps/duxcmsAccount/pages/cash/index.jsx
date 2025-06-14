@@ -48,7 +48,7 @@ export default function Cash() {
     </Card>
     <Card className='' margin disableMarginTop shadow={false}>
       <CardTitle>提现说明</CardTitle>
-      <Text className='mt-2' color='#535766'>{cash.cash_info}</Text>
+      <Text className='mt-2 text-c2'>{cash.cash_info}</Text>
     </Card>
     <Card className='ph-3 w-full bottom-0 absolute'>
       <Button size='l' type='primary' onClick={submit}>提交</Button>
@@ -80,7 +80,7 @@ const CardList = ({ list, onSubmit, onClose }) => {
                         <Text color={4} size={5}>
                           {item.bank_name}
                         </Text>
-                        <DuxuiIcon name={id === item.id ? 'roundcheckfill' : 'roundcheck'} color='#fff' size={42} />
+                        <DuxuiIcon name={id === item.id ? 'roundcheckfill' : 'roundcheck'} className='text-c4' size={42} />
                       </Row>
                       <Space size={48} row justify='start' items='center'>
                         <Text color={4} size={5}>****</Text>

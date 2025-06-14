@@ -1,4 +1,4 @@
-import { Button, Header, Row, TopView, useRoute, Column, Card, Divider, Image, Text, duxappTheme, px, contextState, nav } from '@/duxui'
+import { Button, Header, Row, TopView, useRoute, Column, Card, Divider, Image, Text, duxappTheme, px, contextState, nav, Tag } from '@/duxui'
 import { Detail, order, CmsIcon, Price, orderHook } from '@/duxcmsOrder'
 import { setClipboardData } from '@tarojs/taro'
 import bg from './images/order-bg.png'
@@ -69,7 +69,7 @@ export const OrderTopInfo = () => {
   return <Column className='pv-3'>
     <Image src={bg} className='absolute left-0 top-0 w-full rb-3 h-full' style={{ backgroundColor: duxappTheme.primaryColor }} />
     <Row items='center' className='gap-2 ph-3 mv-1'>
-      {!!statusData.icon && <CmsIcon name={statusData.icon} size={64} color='#fff' />}
+      {!!statusData.icon && <CmsIcon name={statusData.icon} size={64} className='text-c4' />}
       <Text size={7} color={4} bold grow>{statusData.name}</Text>
       {statusData.btns?.includes('pay') && <Price color={4}>{info.pay_price}</Price>}
     </Row>
@@ -80,7 +80,7 @@ export const OrderTopInfo = () => {
           <Text bold>{receive.name} {receive.tel}</Text>
         </Row>
         <Row className='gap-2'>
-          <CmsIcon name='map' size={40} color='#fff' />
+          <CmsIcon name='map' size={40} className='text-c4' />
           <Text color={2} numberOfLines={1} grow>{receive.province}{receive.city}{receive.region}{receive.street}{receive.address}</Text>
         </Row>
       </Card>
@@ -127,7 +127,7 @@ const GoodsItem = ({ item }) => {
 
 
 export const OrderInfo = () => {
-  const [{ data: { goods = [], ...info } }] = contextState.useState()
+  const [{ data: { ...info } }] = contextState.useState()
 
   return <Card margin disableMarginBottom className='gap-3'>
     <Text bold size={4}>订单信息</Text>
@@ -135,9 +135,7 @@ export const OrderInfo = () => {
       <Text color={2}>下单编号</Text>
       <Row items='center' className='gap-2'>
         <Text bold>{info.order_no}</Text>
-        <Column className='pv-1 ph-2 r-1' style={{ backgroundColor: '#A1A6B6' }} onClick={() => setClipboardData({ data: info.refund_no })}>
-          <Text color={4} size={1}>复制</Text>
-        </Column>
+        <Tag onClick={() => setClipboardData({ data: info.refund_no })}>复制</Tag>
       </Row>
     </Row>
     <Row className='gap-4' items='center'>

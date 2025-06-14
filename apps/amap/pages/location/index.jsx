@@ -182,7 +182,7 @@ export default function Location() {
               backgroundColor: select.select ? duxappTheme.primaryColor : colorLighten(duxappTheme.primaryColor, 0.5)
             }}
             onClick={() => select.select ? submit() : toast('请选择地址')}
-          ><Text style={{color: '#fff'}}>确定</Text></View>
+          ><Text style={{ color: '#fff' }}>确定</Text></View>
         </View>
       </View>
       {(showList && list.length > 0) && <View className='get-location__mapList'>

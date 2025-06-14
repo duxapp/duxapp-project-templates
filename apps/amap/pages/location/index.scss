@@ -1,7 +1,7 @@
 .get-location {
   width: 750px;
   height: 814px;
-  background: rgba(255, 255, 255, 1);
+  background: $duxappWhiteColor;
   opacity: 1;
   border-radius: 40px 40px 0px 0px;
 
@@ -18,7 +18,7 @@
     justify-content: space-between;
 
     &__search {
-      color: #999;
+      color: $duxappTextColor2;
       margin-left: 30px;
       width: 28px;
       height: 28px;
@@ -27,7 +27,7 @@
     &__input {
       flex: 1;
       height: 64px;
-      background: rgba(244, 244, 244, 1);
+      background: $duxappPageColor;
       border-radius: 32px;
       flex-direction: row;
       align-items: center;
@@ -65,7 +65,7 @@
     right: 32px;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: $duxappWhiteColor;
 
     z-index: 9;
     width: 100px;
@@ -103,19 +103,19 @@
       /*postcss-pxtransform rn eject enable*/
       border-top-style: solid;
       /*postcss-pxtransform rn eject disable*/
-      border-bottom-color: #e3e3e3;
+      border-bottom-color: $duxappLineColor;
 
       &__big {
         font-size: 28px;
         font-weight: bold;
         line-height: 40px;
-        color: rgba(15, 15, 15, 1);
+        color: $duxappTextColor1;
       }
 
       &__adres {
         font-size: 24px;
         line-height: 34px;
-        color: rgba(170, 170, 170, 1);
+        color: $duxappTextColor2;
       }
 
       &__select {
@@ -129,7 +129,6 @@
     width: 750px;
     padding: 12px 34px 0;
     height: 150px;
-    // background-color: #ffffff;
     opacity: 1;
     align-items: stretch;
 
@@ -149,7 +148,7 @@
     top: 150px;
     bottom: 0;
     right: 0;
-    background-color: #fff;
+    background-color: $duxappWhiteColor;
     padding-top: 20px;
 
     &__item {
@@ -163,19 +162,19 @@
     }
 
     &__title {
-      color: #0f0f0f;
+      color: $duxappTextColor1;
       font-size: 28px;
     }
 
     &__address {
-      color: #aaaaaa;
+      color: $duxappTextColor3;
       font-size: 24px;
     }
 
     &__distance {
       margin-left: 10px;
       flex-shrink: 0;
-      color: #aaaaaa;
+      color: $duxappTextColor3;
       font-size: 24px;
     }
   }

@@ -3,6 +3,7 @@ import { usePageData, duxappTheme, CmsIcon } from '@/duxcms'
 import { PullView, ScrollView } from '@/duxui'
 import { useCallback, useEffect, useMemo, useRef, useState, cloneElement } from 'react'
 import './index.scss'
+import classNames from 'classnames'
 
 const levels = ['省', '市', '区', '街道']
 
@@ -78,11 +79,10 @@ const Select = ({
             && <Text
               key={'item' + index}
               onClick={() => changeLevel(index)}
-              className='Address__nav__child'
-              style={{
-                color: index == val.length ? duxappTheme.primaryColor : '#333',
-                borderColor: index == val.length ? duxappTheme.primaryColor : '#fff',
-              }}
+              className={classNames(
+                'Address__nav__child',
+                index == val.length ? 'border-primary text-primary' : 'border-white text-c1'
+              )}
             >{val[index] || '请选择'}</Text>
         })
       }
@@ -90,7 +90,7 @@ const Select = ({
     <ScrollView>
       {
         cancel && !!value?.length && <View className='Address__item' onClick={() => onChange()}>
-          <Text className='Address__item__txt' style={{ color: '#333' }}>
+          <Text className='Address__item__txt text-c1'>
             取消选择
           </Text>
         </View>
@@ -98,7 +98,7 @@ const Select = ({
       {
         list.map(item => {
           return <View key={item.label} className='Address__item' onClick={() => selectArea(item)}>
-            <Text className='Address__item__txt' style={{ color: false ? duxappTheme.primaryColor : '#333' }}>
+            <Text className='Address__item__txt text-c1'>
               {item.label}
             </Text>
           </View>

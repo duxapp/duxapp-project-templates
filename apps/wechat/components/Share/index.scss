@@ -38,7 +38,7 @@
           background-color: rgba(0, 0, 0, 0.5);
           margin: 10px;
           &--select {
-            background-color: #fff;
+            background-color: $duxappWhiteColor;
           }
         }
       }
@@ -60,7 +60,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     border-radius: 10px 10px 0 0;
-    background-color: #fff;
+    background-color: $duxappWhiteColor;
     &__btn {
       display: flex;
       flex-direction: column;
@@ -72,7 +72,7 @@
       padding: 20px 0;
       font-size: 24px;
       border-radius: 0px;
-      border: 0px solid #fff;
+      border: 0px solid $duxappWhiteColor;
       background-color: transparent;
       /*postcss-pxtransform rn eject enable*/
       outline: none;
@@ -89,7 +89,7 @@
         border-radius: 45px;
       }
       &__text {
-        color: #333;
+        color: $duxappTextColor1;
         font-size: 22px;
         text-align: center;
         margin-top: 12px;

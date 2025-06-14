@@ -23,7 +23,7 @@ export const OrderNav = ({ title, url, ...props }) => {
       }}
     >
       <Text color={3}>查看更多</Text>
-      <CmsIcon name='direction_right' color='#A1A6B6' size={32} />
+      <CmsIcon name='direction_right' className='text-c3' size={32} />
     </Row>}
   </Row>
 }

@@ -52,7 +52,7 @@ const Item = ({ item, index, action }) => {
     onClick={() => nav('duxcmsOrder/order/detail', { id: item.id })}
   >
     <Row className='ph-3 pv-2 r-2' items='center' justify='between' style={{ backgroundColor: colorLighten(duxappTheme.primaryColor, 0.8) }}>
-      <Text size={1}>订单编号: <Text bold>{item.order_no}</Text></Text>
+      <Text size={1} color='#373737'>订单编号: <Text bold>{item.order_no}</Text></Text>
       <Text type='primary' color={item.statusData.color}>{item.statusData.name}</Text>
     </Row>
     <Column className='p-3 gap-3'>

@@ -3,7 +3,7 @@
   padding-top: 120px;
   flex: 1;
   // height: 100%;
-  background-color: #fff;
+  background-color: $duxappWhiteColor;
   &__box {
     // border: 0 solid #b3b3b3;
     // border-top-width: 1px;
@@ -21,7 +21,7 @@
       font-weight: bold;
     }
     &__icon {
-      color: #999;
+      color: $duxappTextColor2;
       font-size: 26px;
     }
   }
@@ -46,7 +46,7 @@
         width: 250px;
         height: 57px;
         text-align: center;
-        background: #EFEFEF;
+        background: $duxappPageColor;
         border-radius: 57px;
         font-size: 28px;
         padding: 0 10px;
@@ -58,44 +58,15 @@
       margin-bottom: 30px;
       text-align: center;
       line-height: 57px;
-      background: #EFEFEF;
+      background: $duxappPageColor;
       border-radius: 30px;
-      color: #666;
+      color: $duxappTextColor2;
       font-size: 28px;
       &--hover {
-        background-color: #FFF4F3;
+        // background-color: $duxappWhiteColor;
         border: 2px solid $duxappPrimaryColor;
         color: $duxappPrimaryColor;
       }
-    }
-  }
-}
-
-.search__button {
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: row;
-  border: 0 solid #EAEAEA;
-  border-top-width: 1px;
-  padding: 16px 0px;
-  &__icon {
-    width: 120px;
-    align-items: center;
-    justify-content: center;
-  }
-  &__item {
-    // flex: 1;
-    text-align: center;
-    width: 260px;
-    height: 78px;
-    line-height: 78px;
-    border-radius: 78px;
-    font-size: 28px;
-    background-color: #EFEFEF;
-    color: #666;
-    &--hover {
-      background-color: $duxappPrimaryColor;
-      color: #fff;
     }
   }
 }

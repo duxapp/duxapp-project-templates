@@ -1,6 +1,6 @@
 .Address {
   height: 1000px;
-  background-color: #fff;
+  background-color: $duxappWhiteColor;
   border-radius: 16px 16px 0 0;
   &__head {
     align-items: center;
@@ -30,9 +30,9 @@
       /*postcss-pxtransform rn eject enable*/
       border-bottom-style: solid;
       /*postcss-pxtransform rn eject disable*/
-      border-bottom-color: #fff;
-      background-color: #fff;
-      color: #333;
+      border-bottom-color: $duxappWhiteColor;
+      background-color: $duxappWhiteColor;
+      color: $duxappTextColor1;
       font-weight: bold;
       font-size: 30px;
     }

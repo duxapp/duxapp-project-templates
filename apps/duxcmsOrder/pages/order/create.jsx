@@ -52,12 +52,12 @@ export default function OrderCreate() {
             <Column grow className='gap-2 overflow-hidden'>
               <Row className='gap-2' items='center'>
                 <Column
-                  style={{ width: px(48), height: px(48), backgroundColor: duxappTheme.primaryColor }}
-                  className=' r-max'
+                  style={{ width: px(48), height: px(48) }}
+                  className='r-max bg-primary'
                   items='center'
                   justify='center'
                 >
-                  <CmsIcon name='map' size={40} color='#fff' />
+                  <CmsIcon name='map' size={40} className='text-c4' />
                 </Column>
                 <Text bold>{address.name || '去添加收货地址'}  {address.tel}</Text>
               </Row>

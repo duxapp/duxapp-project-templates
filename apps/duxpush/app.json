@@ -1,8 +1,0 @@
-{
-  "name": "duxpush",
-  "description": "APP消息推送模块",
-  "version": "1.0.2",
-  "dependencies": [
-    "duxapp"
-  ]
-}

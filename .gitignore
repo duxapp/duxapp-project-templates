@@ -1,1 +1,3 @@
 .DS_Store
+/apps/duxapp/components/TopView/userTheme.scss
+/apps/duxapp/config/userConfig.js

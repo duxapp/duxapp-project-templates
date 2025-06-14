@@ -36,12 +36,15 @@ export const MallQuick = () => {
                   key={item.id}
                   items='center'
                   onClick={() => setSelect(index)}
+                  className={isSelect ? 'bg-page' : 'bg-white'}
                   style={{
-                    height: px(100),
-                    backgroundColor: isSelect ? duxappTheme.pageColor : '#fff'
+                    height: px(100)
                   }}
                 >
-                  <Column className='absolute left-0' style={{ width: px(8), height: px(60), top: px(20), backgroundColor: isSelect ? duxappTheme.primaryColor : '#fff' }} />
+                  <Column
+                    className={classNames('absolute left-0', isSelect ? 'bg-primary' : 'bg-white')}
+                    style={{ width: px(8), height: px(60), top: px(20) }}
+                  />
                   <Text grow align='center'>{item.name}</Text>
                 </Row>
               })
@@ -86,7 +89,7 @@ const Footer = () => {
       >
         <Column className='rt-3 overflow-hidden' style={{ height: px(1050), backgroundColor: duxappTheme.pageColor }} onClick={stopPropagation}>
           <Row className='p-3 bg-white' items='center' justify='between'>
-            <CmsIcon name='op_close' size={48} color='#fff' />
+            <CmsIcon name='op_close' size={48} className='text-white' />
             <Text bold>购物车</Text>
             <CmsIcon name='op_close' size={48} onClick={() => setShow(false)} color={duxappTheme.textColor1} />
           </Row>

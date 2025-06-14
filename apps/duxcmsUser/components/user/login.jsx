@@ -512,7 +512,7 @@ export const WeappTelLogin = ({
   return <View className='cms-login-weapp--mask inset-0 absolute'>
     <View className='cms-login-weapp'>
       <View className='cms-login-weapp__head'>
-        <CmsIcon name='guanbi1' size={36} color='#fff' />
+        <CmsIcon name='guanbi1' size={36} className='text-c4' />
         <Text className='cms-login-weapp__head__name'>登录</Text>
         <CmsIcon name='guanbi1' size={36} color={duxappTheme.textColor1} onClick={onCancel} />
       </View>
