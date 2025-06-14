@@ -36,12 +36,14 @@ declare class Theme extends ObjectManage {
 
   /**
    * 获取当前正在使用的主题
+   * 如果 saveMode 传入true是获取当前保存的主题，如果是跟随系统的话会返回 `null`，如果不传这个参数，会返回实际正在使用的主题
    * @param saveMode 是否获取当前纯属的主题而不是真实使用的主题
    */
   useMode(saveMode?: boolean): string | null
 
   /**
    * 设置主题
+   * 如果传入 `null` 则是切换为跟随系统，或者自动选择
    * @param mode 主题
    */
   setMode(mode: string | null): void
