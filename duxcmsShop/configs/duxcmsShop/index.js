@@ -23,24 +23,58 @@ const config = {
   option: {
     // 基础模块
     duxapp: {
-      theme: {
-        primaryColor: '#7DBE27',
-        secondaryColor: '#F58E18',
-        successColor: '#34a853',
-        warningColor: '#fbbc05',
-        dangerColor: '#ea4335',
-        pageColor: '#F2F2F2',
+      themeConfig: {
+        themes: {
+          light: {
+            name: '默认主题',
+            color: '#fff'
+          },
+          dark: {
+            name: '夜间模式',
+            color: '#333'
+          }
+        }
+      },
+      themes: {
+        light: {
+          primaryColor: '#7DBE27',
+          secondaryColor: '#F58E18',
+          successColor: '#34a853',
+          warningColor: '#fbbc05',
+          dangerColor: '#ea4335',
+          pageColor: '#F2F2F2',
 
-        textColor1: '#373D52',
-        textColor2: '#73778E',
-        textColor3: '#A1A6B6',
-        textColor4: '#FFF',
+          textColor1: '#373D52',
+          textColor2: '#73778E',
+          textColor3: '#A1A6B6',
+          textColor4: '#FFF',
 
-        header: {
-          color: '#fff', // 仅支持rgb hex值，请勿使用纯单词 设置为数组将显示一个渐变按钮
-          textColor: '#373D52', // 文本颜色
-          showWechat: true, // 微信公众号是否显示header
-          showWap: true, // h5是否显示header
+          header: {
+            color: '#fff', // 仅支持rgb hex值，请勿使用纯单词 设置为数组将显示一个渐变按钮
+            textColor: '#373D52', // 文本颜色
+            showWechat: true, // 微信公众号是否显示header
+            showWap: true, // h5是否显示header
+          }
+        },
+        dark: {
+          pageColor: '#1E1E1E',
+
+          whiteColor: '#181818',
+          blackColor: '#fff',
+          lineColor: '#1F1F1F',
+
+          textColor1: '#FFF',
+          textColor2: '#A1A6B6',
+          textColor3: '#73778E',
+          textColor4: '#373D52',
+          header: {
+            color: '#121212',
+            textColor: '#fff'
+          },
+          loading: {
+            dark: '#fff',
+            blank: '#7a7a7a'
+          }
         }
       }
     },
@@ -92,17 +126,25 @@ const config = {
       weappTelLogin: true
     },
     duxui: {
-      theme: {
-        card: {
-          shadow: false
+      themes: {
+        light: {
+          card: {
+            shadow: false
+          },
+          button: {
+            radiusType: 'round'
+          },
+          tabBar: {
+            nameColor: '#373D52',
+            nameHoverColor: '#7DBE27'
+          }
         },
-        button: {
-          radiusType: 'round'
-        },
-        tabBar: {
-          nameColor: '#373D52',
-          nameHoverColor: '#7DBE27'
-        },
+        dark: {
+          tabBar: {
+            nameColor: '#888',
+            nameHoverColor: '#fff'
+          }
+        }
       }
     },
     // cms框架
@@ -113,6 +155,7 @@ const config = {
         path: 'api', // 域名二级目录
         secretId: '53368068',
         secretKey: '6c278fbf1791fbed3ae79197de03f65f',
+
         devOpen: false,
         devToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1iZXIiLCJpYXQiOjE2NzU2NjA2MzUsImV4cCI6MTY3NTc0NzAzNSwiaWQiOjF9._kX-uT-hUEbo_J3fN5F0HHs0ee01TPNQHrDiH3SHQlc'
       },
