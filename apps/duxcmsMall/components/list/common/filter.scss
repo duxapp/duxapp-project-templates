@@ -64,7 +64,8 @@
       font-size: 28px;
       &--hover {
         // background-color: $duxappWhiteColor;
-        border: 2px solid $duxappPrimaryColor;
+        border-width: 2px;
+        border-color: $duxappPrimaryColor;
         color: $duxappPrimaryColor;
       }
     }

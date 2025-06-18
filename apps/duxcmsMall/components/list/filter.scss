@@ -52,7 +52,8 @@
       border-radius: 30px;
       &--hover {
         background-color: $duxappPrimaryColor;
-        border: 2px solid $duxappPrimaryColor;
+        border-width: 2px;
+        border-color: $duxappPrimaryColor;
       }
     }
     &__text {
