@@ -4,44 +4,51 @@ import { cart, orderCreate, orderHook } from '@/duxcmsOrder/utils'
 import { AuthLogin, user, Price } from '@/duxcmsAccount'
 import { NumInput } from './NumInput'
 
-user.onLoginStatus(status => {
-  if (status) {
-    cart.init()
-  } else {
-    cart.clearData()
+const cartInit = /*@__PURE__*/ (() => {
+  user.onLoginStatus(status => {
+    if (status) {
+      cart.init()
+    } else {
+      cart.clearData()
+    }
+  })
+})()
+
+export const Cart = /*@__PURE__*/ (() => {
+  const Cart_ = ({ page }) => {
+
+    // 编译优化
+    cartInit
+
+    const [edit, setEdit] = useState(false)
+
+    const [, loginStatus] = user.useUserInfo()
+
+    const { data } = cart.useCart()
+
+    const showData = data.map(store => store.items.map(item => ({
+      ...item,
+      store: { id: store.store_id || 0, name: store.store_name }
+    }))).flat()
+
+    return <>
+      <Header
+        title='购物车'
+        navTitle={page ? '购物车' : ''}
+        titleCenter={!page}
+        renderRight={loginStatus && !!showData.length && <Text onClick={() => setEdit(!edit)}>{edit ? '完成' : '管理'}</Text>}
+      />
+      <AuthLogin title='登录后查看购物车'>
+        <CartContent edit={edit} setEdit={setEdit} data={showData} />
+      </AuthLogin>
+    </>
   }
-})
-
-export const Cart = ({ page }) => {
-
-  const [edit, setEdit] = useState(false)
-
-  const [, loginStatus] = user.useUserInfo()
-
-  const { data } = cart.useCart()
-
-  const showData = data.map(store => store.items.map(item => ({
-    ...item,
-    store: { id: store.store_id || 0, name: store.store_name }
-  }))).flat()
-
-  return <>
-    <Header
-      title='购物车'
-      navTitle={page ? '购物车' : ''}
-      titleCenter={!page}
-      renderRight={loginStatus && !!showData.length && <Text onClick={() => setEdit(!edit)}>{edit ? '完成' : '管理'}</Text>}
-    />
-    <AuthLogin title='登录后查看购物车'>
-      <CartContent edit={edit} setEdit={setEdit} data={showData} />
-    </AuthLogin>
-  </>
-}
-
-Cart.types = {}
-Cart.add = (type, comp) => {
-  Cart.types[type] = comp
-}
+  Cart_.types = {}
+  Cart_.add = (type, comp) => {
+    Cart_.types[type] = comp
+  }
+  return Cart_
+})()
 
 export const CartContent = ({ edit, setEdit, data }) => {
 

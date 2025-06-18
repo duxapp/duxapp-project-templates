@@ -44,7 +44,8 @@
     align-items: center;
     justify-content: center;
     background-color: $duxappWhiteColor;
-    border: 1px solid $duxappLineColor;
+    border-width: 1px;
+    border-color: $duxappLineColor;
     border-radius: 30px;
 
     &__icon {

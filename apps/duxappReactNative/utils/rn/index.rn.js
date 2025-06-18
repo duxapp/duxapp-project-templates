@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { downloadFile, getStorage, setStorage } from '@tarojs/taro'
 import { Image, Text, View } from '@tarojs/components'
-import { Platform, LogBox, Linking, Alert, PermissionsAndroid } from 'react-native'
+import { Platform, LogBox, Linking, Alert, PermissionsAndroid, experimental_LayoutConformance as LayoutConformance } from 'react-native'
 import { getVersion } from 'react-native-device-info'
 import { useEffect, useMemo, useState } from 'react'
 import RNFetchBlob from 'react-native-blob-util'
@@ -288,3 +289,12 @@ const getLocationBaseRN = enableHighAccuracy => {
 }
 
 getLocationBase.rn = getLocationBaseRN
+
+/**
+ * 修复RN端 父元素使用padding，导致子元素 absolute 定位不准确的问题
+ * https://github.com/facebook/react-native/issues/43206
+ */
+const DuxappLayoutConformance = props => <LayoutConformance {...props} />
+export const layoutConformanceStrict = () => {
+  TopView.addContainer(DuxappLayoutConformance)
+}

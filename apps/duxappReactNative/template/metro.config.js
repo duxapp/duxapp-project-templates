@@ -13,9 +13,10 @@ const configs = require('./metro.user.config.js')
 
 const config = {}
 
-module.exports = (async function (){
+module.exports = (async function () {
   const taroConfig = await getMetroConfig()
 
+  // RN 端单独使用react19
   const oldResolveRequest = taroConfig.resolver.resolveRequest
 
   taroConfig.resolver.resolveRequest = (context, moduleName, platform) => {
@@ -25,5 +26,9 @@ module.exports = (async function (){
     }
     return ret
   }
+
+  // 主题系统
+  taroConfig.transformer.babelTransformerPath = require.resolve('./src/duxappReactNative/metro/transformer')
+
   return mergeConfig(getDefaultConfig(__dirname), taroConfig, config, ...configs)
 })()

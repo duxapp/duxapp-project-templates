@@ -1,7 +1,7 @@
 .get-location {
   width: 750px;
   height: 814px;
-  background: $duxappWhiteColor;
+  background-color: $duxappWhiteColor;
   opacity: 1;
   border-radius: 40px 40px 0px 0px;
 
@@ -27,7 +27,7 @@
     &__input {
       flex: 1;
       height: 64px;
-      background: $duxappPageColor;
+      background-color: $duxappPageColor;
       border-radius: 32px;
       flex-direction: row;
       align-items: center;

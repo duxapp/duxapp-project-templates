@@ -1,20 +1,36 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { asyncTimeOut, currentPage, nav, route, ObjectManage, QuickEvent, pages, getPlatform, TopView, userConfig } from '@/duxapp'
 import { useEffect, useState, useMemo } from 'react'
 import qs from 'qs'
 
 class UserManage extends ObjectManage {
 
-  constructor(option) {
-    super(option)
-    this.quickEvent.on((data, type) => {
-      if (type === 'cache') {
-        if (this.getCurrentConfig()?.isLogin?.(data?.[this.getCurrentApp()])) {
-          this.setLoginStatus(true, 'local')
-          // 获取线上用户信息
-          this.getCurrentConfig().getOnlineUserInfo?.().then(this.setInfo)
-        }
+  constructor() {
+    super({
+      cacheKey: 'userInfo',
+      cache: true,
+      cacheSync: true,
+      defaultData: {
+        status: false
       }
     })
+    this.onSet((data, type) => {
+      if (type === 'cache') {
+        const localInit = config => {
+          if (config.isLogin?.(data?.[this.getCurrentApp()])) {
+            this.setLoginStatus(true, 'local')
+            // 获取线上用户信息
+            config.getOnlineUserInfo?.().then(this.setInfo)
+          }
+        }
+        const currentConfig = this.getCurrentConfig()
+        if (currentConfig) {
+          localInit(currentConfig)
+        } else {
+          this.localInit = localInit
+        }
+      }
+    }, false, true)
     // 监听路由跳转 如果异步报错则不会跳转
     route.onNavBefore(async pageRouter => {
       if (pageRouter?.login && !this.isLogin()) {
@@ -56,12 +72,6 @@ class UserManage extends ObjectManage {
     }
   }
 
-  data = {
-    // 登录状态
-    status: false,
-    // ...其他模块的用户信息
-  }
-
   // 当前配置
   config = {
     // 当前的登录状态
@@ -92,6 +102,13 @@ class UserManage extends ObjectManage {
       throw '不能将模块名称注册为status'
     }
     this.appConfigs[name] = config
+    if (this.localInit) {
+      const currentConfig = this.getCurrentConfig()
+      if (currentConfig) {
+        this.localInit(currentConfig)
+        this.localInit = null
+      }
+    }
   }
 
   /**
@@ -125,7 +142,6 @@ class UserManage extends ObjectManage {
    * setInfo({avatar: ''})
    */
   setInfo = (info, app = this?.getCurrentApp()) => {
-
     this.set(old => {
       old[app] = { ...old[app], ...info }
       return { ...old }
@@ -165,7 +181,7 @@ class UserManage extends ObjectManage {
         remove()
         resolve(this.isLogin())
       }, 500)
-      const { remove } = this.quickEvent.on((data, type) => {
+      const { remove } = this.event.on((data, type) => {
         if (type === 'cache') {
           clearTimeout(timer)
           remove()
@@ -346,7 +362,4 @@ class UserManage extends ObjectManage {
 /**
  * 用户管理
  */
-export const user = new UserManage({
-  cacheKey: 'userInfo',
-  cache: true
-})
+export const user = new UserManage()

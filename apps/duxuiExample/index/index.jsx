@@ -33,17 +33,6 @@ const TabBarIcon = ({
 
 export default function Index() {
 
-  // const [items, setItems] = useState('stretch')
-
-
-  // return <Column items={items} className='p-3 bg-success w-full gap-3'>
-  //   <Text className='bg-danger text-c4' onClick={() => setItems('start')}>start</Text>
-  //   <Text className='bg-danger text-c4' onClick={() => setItems('center')}>center</Text>
-  //   <Text className='bg-danger text-c4' onClick={() => setItems('end')}>end</Text>
-  //   <Text className='bg-danger text-c4' onClick={() => setItems('stretch')}>stretch</Text>
-  //   <Text className='bg-danger text-c4' onClick={() => setItems('baseline')}>baseline</Text>
-  // </Column>
-
   return (
     <TopView isSafe>
       <TabBar>

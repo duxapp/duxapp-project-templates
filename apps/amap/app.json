@@ -1,7 +1,7 @@
 {
   "name": "amap",
   "description": "高德地图",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "dependencies": [
     "duxappReactNative"
   ]

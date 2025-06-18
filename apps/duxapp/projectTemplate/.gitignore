@@ -15,7 +15,7 @@ node_modules/
 /src/index.html
 /src/theme.scss
 /src/duxapp/config/userConfig.js
-/src/duxapp/components/TopView/userTheme.scss
+/src/duxapp/userTheme/
 /patches/
 /android
 /ios

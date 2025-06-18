@@ -1,5 +1,5 @@
 diff --git a/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js b/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js
-index 73bc622..4e269d5 100644
+index 73bc622..8e3fc4d 100644
 --- a/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js
 +++ b/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js
 @@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
@@ -50,3 +50,30 @@ index 1ef8f3d..b9dc726 100644
      var values = [];
 
      // borderWidth doesn't currently allow a percent value, but may do in the future
+diff --git a/node_modules/taro-css-to-react-native/dist/index.js b/node_modules/taro-css-to-react-native/dist/index.js
+index 56a63b4..9d9fc91 100644
+--- a/node_modules/taro-css-to-react-native/dist/index.js
++++ b/node_modules/taro-css-to-react-native/dist/index.js
+@@ -26,6 +26,9 @@ var viewportUnitRe = /^([+-]?[0-9.]+)(vh|vw|vmin|vmax)$/;
+ var percentRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?%)$/;
+ var unsupportedUnitRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?(ch|em|ex|cm|mm|in|pc|pt))$/;
+ var shorthandBorderProps = ['border-radius', 'border-width', 'border-color', 'border-style'];
++function kebabToCamel(str) {
++  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
++}
+ var transformDecls = function transformDecls(styles, declarations, result) {
+   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+   for (var d in declarations) {
+@@ -49,6 +52,12 @@ var transformDecls = function transformDecls(styles, declarations, result) {
+     if (typeof options.scalable === 'boolean' && !options.scalable && /(?<!\d)(\d+)px/.test(value)) {
+       value = value.replace(/(?<!\d)(\d+)px/g, '$1PX');
+     }
++    if (typeof options.variables === 'function' && /^var\(--[a-zA-Z0-9-]+\)$/.test(value)) {
++      Object.assign(styles, {
++        [kebabToCamel(property)]: options.variables(value, property)
++      });
++      continue;
++    }
+     // expect value is legal so that remove !import
+     if (/!import/i.test(value)) {
+       value = value.replace(/!import/, '');

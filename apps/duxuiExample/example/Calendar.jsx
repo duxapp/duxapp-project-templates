@@ -2,7 +2,7 @@ import { Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
 import { Calendar, Checkbox, dayjs, Radio, Row, Text, toast, RadioGroup } from '@/duxui'
 import { useMemo, useState } from 'react'
 
-export default function ButtonExample() {
+export default function CalendarExample() {
 
   const [mode, setMode] = useState()
 

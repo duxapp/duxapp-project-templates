@@ -83,7 +83,7 @@ const PullMoreData = () => {
         setShow2(true)
       }}
       type='primary'
-    >{'弹出多个PullView'}</Button>
+    >弹出多个PullView</Button>
     {show1 && <PullView ref={pull1} group='PullView' onClose={() => setShow1(false)}>
       <Space
         className='bg-white p-3 items-center'

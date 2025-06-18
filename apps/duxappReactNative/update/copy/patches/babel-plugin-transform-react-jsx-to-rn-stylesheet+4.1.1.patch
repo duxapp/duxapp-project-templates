@@ -1,0 +1,277 @@
+diff --git a/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js b/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js
+index e1cbd56..d5c8d87 100644
+--- a/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js
++++ b/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js
+@@ -36,7 +36,11 @@ const MERGE_ELE_STYLES_FUNC_NAME = '_mergeEleStyles';
+ const GET_MODULE_CLS_NAME_FUNC_NAME = '_getModuleClassName';
+ const GET_CLS_NAME_FUNC_NAME = '_getClassName';
+ const NAME_SUFFIX = 'styleSheet';
++const duxappConfig = require(path.join(process.cwd(), 'dist', 'duxapp.json'))
++const USE_THEME_FUNC_NAME = 'useDuxappThemeMerge_';
++const USE_THEME_MODE_NAME = '_duxappThemeMode';
+ const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus'];
++const isThemeChange = Object.keys(duxappConfig.themeConfig.themes).length > 1
+ const isStyle = value => {
+     const ext = path.extname(value);
+     return RN_CSS_EXT.indexOf(ext) > -1;
+@@ -80,6 +84,9 @@ function findLastImportIndex(body) {
+ }
+ const MergeStylesFunction = `
+ function ${MERGE_STYLES_FUNC_NAME}() {
++  if (arguments.length === 1) {
++    return arguments[0][0];
++  }
+   var newTarget = {};
+   for (var index = 0; index < arguments.length; index++) {
+     var [styleSheet, rawStyleName] = arguments[index];
+@@ -143,12 +150,26 @@ function ${GET_MODULE_CLS_NAME_FUNC_NAME}(moduleStyle, styleId) {
+   ), {})
+ }
+ `;
++const useThemeFunction = `
++function ${USE_THEME_FUNC_NAME}(...styles) {
++  const mode = duxappTheme_.useMode()
++
++  duxappTheme_.useMemo(() => {
++    if (${USE_THEME_MODE_NAME} !== mode) {
++      ${STYLE_SHEET_NAME} = ${MERGE_STYLES_FUNC_NAME}(...styles.map(item => typeof item[0] === 'function' ? [item[0](mode), item[1]]: item))
++      ${USE_THEME_MODE_NAME} = mode
++    }
++  }, [mode])
++}
++`
++
+ function default_1(babel) {
+     const { types: t, template } = babel;
+     const getClassNameFunctionStmt = template(getClassNameFunction)();
+     const getStyleFunctionStmt = template(getStyleFunction)();
+     const getMergeEleStyleFunctionStmt = template(getMergeEleStyleFunction)();
+     const getModuleClassNameFunctionStmt = template(getModuleClassNameFunction)();
++    const useThemeFunctionStmt = template(useThemeFunction)();
+     function getMap(str) {
+         return str.split(/\s+/).map((className) => {
+             // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
+@@ -300,6 +321,139 @@ function default_1(babel) {
+             }
+         }
+     }
++    // 主题函数开始
++
++    function getFunctionName(path) {
++      const { node } = path;
++
++      if (t.isFunctionDeclaration(node) && node.id) {
++        return node.id.name;
++      }
++
++      if (t.isVariableDeclarator(path.parent) && t.isIdentifier(path.parent.id)) {
++        return path.parent.id.name;
++      }
++
++      if (t.isAssignmentExpression(path.parent) && t.isIdentifier(path.parent.left)) {
++        const name = path.parent.left.name;
++        if (name[0] === '_') {
++          return null;
++        }
++        return name;
++      }
++
++      if (t.isFunctionExpression(node) && node.id) {
++        return node.id.name;
++      }
++
++      return null;
++    }
++
++    function containsJSXWithClassName(path) {
++      let hasClassName = false;
++
++      path.traverse({
++        JSXAttribute(attrPath) {
++          if (t.isJSXIdentifier(attrPath.node.name, { name: 'className' })) {
++            hasClassName = true;
++            attrPath.stop();
++          }
++        }
++      });
++
++      return hasClassName;
++    }
++
++    const REACT_HOC_NAMES = new Set([
++      'memo',
++      'forwardRef',
++      'lazy'
++    ]);
++
++    function isWrappedByReactHOC(path) {
++      let currentPath = path;
++
++      while (currentPath) {
++        const parent = currentPath.parentPath;
++
++        if (!parent) break;
++
++        if (
++          parent.isCallExpression() &&
++          parent.node.arguments.includes(currentPath.node)
++        ) {
++          const callee = parent.node.callee;
++
++          // 判断是否是 React.memo 这种形式或者单独 memo
++          if (
++            (t.isIdentifier(callee) && REACT_HOC_NAMES.has(callee.name)) ||
++            (t.isMemberExpression(callee) &&
++            t.isIdentifier(callee.object, { name: 'React' }) &&
++            t.isIdentifier(callee.property) &&
++            REACT_HOC_NAMES.has(callee.property.name))
++          ) {
++            return true;
++          }
++        }
++
++        if (
++          parent.isAssignmentExpression() &&
++          parent.node.right === currentPath.node
++        ) {
++          currentPath = parent;
++          continue;
++        }
++
++        if (
++          parent.isVariableDeclarator() &&
++          parent.node.init === currentPath.node
++        ) {
++          currentPath = parent;
++          continue;
++        }
++
++        break;
++      }
++
++      return false;
++    }
++
++    function tryInsertHook(path, state) {
++      if (!isThemeChange) return;
++
++      const name = getFunctionName(path);
++      if (name && !/^[A-Z]/.test(name)) return;
++
++      if(!name && !isWrappedByReactHOC(path)) return;
++
++      if (!containsJSXWithClassName(path)) return;
++
++      const bodyPath = path.get('body');
++
++      // 获取插入hook函数
++      const { file } = state;
++      const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || [];
++      const cssModuleStylesheets = file.get('cssModuleStylesheets') || [];
++      const allStyleSheetIdentifiers = [...styleSheetIdentifiers, ...cssModuleStylesheets];
++
++      if (!allStyleSheetIdentifiers.length) {
++        return
++      }
++      const params = allStyleSheetIdentifiers.reduce(
++        (current, next) => `${current},[${next.styleSheetName}, "${next.rawStyleSheetName || ''}"]`,
++        ''
++      ).slice(1);
++
++      const hookNode = template.ast(`
++        ${USE_THEME_FUNC_NAME}(${params});
++      `);
++
++      if (bodyPath && bodyPath.node && Array.isArray(bodyPath.node.body)) {
++        bodyPath.unshiftContainer('body', hookNode);
++      }
++    }
++
++    // 主题函数结束
+     let existStyleImport = false;
+     return {
+         name: 'transform-react-jsx-to-rn-stylesheet',
+@@ -314,27 +468,46 @@ function default_1(babel) {
+                                 // 在 Program 最开始处理 import 样式
+                                 // 防止有些插件在入口对 import 进行处理，比如 @babel/plugin-transform-typescript 会进行删除
+                                 importDeclaration(stmt, state, t);
++
++                                // 导入duxapp主题插件
++                                const themeImport = t.importDeclaration(
++                                    [
++                                        t.importSpecifier(
++                                            t.identifier('duxappTheme_'),
++                                            t.identifier('theme')
++                                        )
++                                    ],
++                                    t.stringLiteral(path.resolve(process.cwd(), 'src/duxapp/utils/theme'))
++                                );
++                                astPath.unshiftContainer('body', themeImport);
+                             }
+                             lastImportAstPath = stmt;
+                         }
+                     }
+                     if (existStyleImport) {
+-                        const { file } = state;
+-                        const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || [];
+-                        const cssModuleStylesheets = file.get('cssModuleStylesheets') || [];
+-                        const allStyleSheetIdentifiers = [...styleSheetIdentifiers, ...cssModuleStylesheets];
+                         let expression;
+-                        // only one css file，由于样式文件合并，永远只有一个
+-                        if (allStyleSheetIdentifiers.length === 1 && styleSheetIdentifiers.length === 1) {
+-                            expression = `var ${STYLE_SHEET_NAME} = ${allStyleSheetIdentifiers[0].styleSheetName};\n`;
+-                        }
+-                        else if (allStyleSheetIdentifiers.length >= 1) {
+-                            const params = allStyleSheetIdentifiers.reduce((current, next) => `${current},[${next.styleSheetName}, "${next.rawStyleSheetName || ''}"]`, '').slice(1);
+-                            expression = `${MergeStylesFunction}\n
+-              var ${STYLE_SHEET_NAME} = ${MERGE_STYLES_FUNC_NAME}(${params});\n`;
+-                        }
+-                        else {
+-                            expression = `var ${STYLE_SHEET_NAME} = {}`;
++                        // 是否开启主题切换
++                        if (!isThemeChange) {
++                          const { file } = state;
++                          const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || [];
++                          const cssModuleStylesheets = file.get('cssModuleStylesheets') || [];
++                          const allStyleSheetIdentifiers = [...styleSheetIdentifiers, ...cssModuleStylesheets];
++                          // only one css file，由于样式文件合并，永远只有一个
++                          if (allStyleSheetIdentifiers.length === 1 && styleSheetIdentifiers.length === 1) {
++                              expression = `var ${STYLE_SHEET_NAME} = ${allStyleSheetIdentifiers[0].styleSheetName}('${duxappConfig.themeConfig.default}');\n`;
++                          }
++                          else if (allStyleSheetIdentifiers.length >= 1) {
++                              const params = allStyleSheetIdentifiers.reduce((current, next) => `${current},[${next.styleSheetName}('${duxappConfig.themeConfig.default}'), "${next.rawStyleSheetName || ''}"]`, '').slice(1);
++                              expression = `${MergeStylesFunction}\n
++                var ${STYLE_SHEET_NAME} = ${MERGE_STYLES_FUNC_NAME}(${params});\n`;
++                          }
++                          else {
++                              expression = `var ${STYLE_SHEET_NAME} = {}`;
++                          }
++                        } else {
++                          expression = `${MergeStylesFunction}\n
++                          var ${STYLE_SHEET_NAME} = {}
++                          var ${USE_THEME_MODE_NAME}`;
+                         }
+                         const expressionAst = template.ast(expression);
+                         lastImportAstPath.insertAfter(expressionAst);
+@@ -367,6 +540,10 @@ function default_1(babel) {
+                             node.body.splice(++lastImportIndex, 0, template(functionTempalte)());
+                         });
+                     }
++                    // 主题钩子函数
++                    if (existStyleImport && isThemeChange) {
++                      node.body.splice(++lastImportIndex, 0, useThemeFunctionStmt);
++                    }
+                     existStyleImport = false;
+                 }
+             },
+@@ -410,6 +587,10 @@ function default_1(babel) {
+                     });
+                 }
+             },
++            // 处理函数组件，在组件内插入主题转换函数
++            FunctionDeclaration: tryInsertHook,
++            FunctionExpression: tryInsertHook,
++            ArrowFunctionExpression: tryInsertHook
+         }
+     };
+ }

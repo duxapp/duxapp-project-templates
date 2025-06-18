@@ -1,7 +1,7 @@
 {
   "name": "duxcmsOrder",
   "description": "CMS订单模块，管理购物车、订单管理、支付、售后、收货地址",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "dependencies": [
     "duxcmsAccount",
     "duxcmsChat",

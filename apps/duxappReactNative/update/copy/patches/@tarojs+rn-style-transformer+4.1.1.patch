@@ -1,5 +1,5 @@
 diff --git a/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js b/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js
-index c92982d..e8fe67c 100644
+index c92982d..df5aa48 100644
 --- a/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js
 +++ b/node_modules/@tarojs/rn-style-transformer/dist/transforms/StyleSheet/ViewStylePropTypes.js
 @@ -56,6 +56,12 @@ const ViewStylePropTypes = Object.assign(Object.assign(Object.assign(Object.assi
@@ -16,3 +16,41 @@ index c92982d..e8fe67c 100644
 +
  exports.default = ViewStylePropTypes;
  //# sourceMappingURL=ViewStylePropTypes.js.map
+\ No newline at end of file
+diff --git a/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js b/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js
+index b8c02bf..f2f1668 100644
+--- a/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js
++++ b/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js
+@@ -58,6 +58,9 @@ function validateStyle({ styleObject, filename }) {
+         }
+         catch (err) {
+             // 先忽略掉 scalePx2dp 的报错
++            if (/Invalid prop `.*` of supplied to `StyleSheet .*`: ([a-zA-Z_$][\w$]*)\.([\w$]+)|([a-zA-Z_$][\w$]*)\[['"]([^'"]+)['"]\]/g.test(err.message))
++              return;
++            // 先忽略掉 主题 的报错
+             if (/Invalid prop `.*` of type `string` supplied to `.*`, expected `number`[^]*/g.test(err.message))
+                 return;
+             (0, helper_1.printLog)("warning" /* processTypeEnum.WARNING */, err.message, `entry file: ${filename}`);
+@@ -190,15 +193,21 @@ class StyleTransform {
+         // 把 css 转换成对象 rn 的样式，接入 taro 的 css-to-react-native，比如有单位的处理
+         const styleObject = (0, taro_css_to_react_native_1.default)(result.css, {
+             parseMediaQueries: true,
+-            scalable: (_b = (_a = this.config.rn) === null || _a === void 0 ? void 0 : _a.postcss) === null || _b === void 0 ? void 0 : _b.scalable
++            scalable: (_b = (_a = this.config.rn) === null || _a === void 0 ? void 0 : _a.postcss) === null || _b === void 0 ? void 0 : _b.scalable,
++            variables: _b.variables
+         });
+         // stylelint，转换成对象，对对象进行校验
+         validateStyle({ styleObject, filename });
+         const css = JSON.stringify(styleObject, null, 2)
+             .replace(/"(scalePx2dp\(.*?\))"/g, '$1')
+             .replace(/"(scaleVu2dp\(.*?\))"/g, '$1')
++            // 主题
++            .replace(/"(([a-zA-Z_$][\w$]*)\.([\w$]+)|([a-zA-Z_$][\w$]*)\[['"]([^'"]+)['"]\])"/g, '$1')
+             .replace(/\\\\/g, '\\');
+         // 注入自适应方法 scalePx2dp
++        if (this.config.rn?.styleSheet?.getWrapedCSS) {
++          return this.config.rn.styleSheet.getWrapedCSS(css)
++        }
+         return getWrapedCSS(css);
+     }
+ }

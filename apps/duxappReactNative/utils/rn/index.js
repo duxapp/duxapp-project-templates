@@ -4,3 +4,5 @@ export const updateApp = callback => null
 export const appUpgrade = {}
 
 export const AppUpgradeProgress = {}
+
+export const layoutConformanceStrict = () => null
