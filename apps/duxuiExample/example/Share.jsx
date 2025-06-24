@@ -1,7 +1,7 @@
 import { Header, ScrollView, TopView, GroupList, Button } from '@/duxuiExample'
 import { WechatShare } from '@/wechat'
 
-export default TopView.HOC(function LoadingExample() {
+export default TopView.page(function LoadingExample() {
 
   // 需要注意的是使用此HOOK需要在TopView的内部使用，因此此处TopView的用法和以前有不同
   WechatShare.useSharePage({

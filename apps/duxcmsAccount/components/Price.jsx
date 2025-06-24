@@ -26,7 +26,7 @@ export const Price = ({
   }
 
   return <accountHook.Render mark='Pirce' option={option}>
-    <Text type='danger' size={size} {...props}>
+    <Text type='danger' size={size} lineHeight={1} {...props}>
       <accountHook.Render mark='Pirce.before' option={option}>
         {position !== 'after' && !!unit && <Text size={unitSize}>{unit}</Text>}
       </accountHook.Render>

@@ -1,0 +1,73 @@
+.search__container {
+  width: 610px;
+  padding-top: 120px;
+  flex: 1;
+  // height: 100%;
+  background-color: $duxappWhiteColor;
+  &__box {
+    // border: 0 solid #b3b3b3;
+    // border-top-width: 1px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  &__title {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 95px;
+    &__titleText {
+      color: $duxappTextColor1;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    &__icon {
+      color: $duxappTextColor2;
+      font-size: 26px;
+    }
+  }
+  &__content {
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    &__enter {
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      margin-bottom: 30px;
+      text-align: center;
+      &__inputBox {
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+        flex-direction: row;
+      }
+      &__input {
+        width: 250px;
+        height: 57px;
+        text-align: center;
+        background: $duxappPageColor;
+        border-radius: 57px;
+        font-size: 28px;
+        padding: 0 10px;
+      }
+    }
+    &__item {
+      width: 163px;
+      height: 57px;
+      margin-bottom: 30px;
+      text-align: center;
+      line-height: 57px;
+      background: $duxappPageColor;
+      border-radius: 30px;
+      color: $duxappTextColor2;
+      font-size: 28px;
+      &--hover {
+        // background-color: $duxappWhiteColor;
+        border-width: 2px;
+        border-color: $duxappPrimaryColor;
+        color: $duxappPrimaryColor;
+      }
+    }
+  }
+}

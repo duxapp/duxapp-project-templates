@@ -78,6 +78,7 @@ export const Home = () => {
             <Cell title='InputCode 验证码密码输入' onClick={() => route.nav('duxuiExample/example/InputCode')} />
             <Cell title='LicensePlate 车牌号输入' onClick={() => route.nav('duxuiExample/example/LicensePlate')} />
             <Cell title='ColorPicker 颜色选择器' onClick={() => route.nav('duxuiExample/example/ColorPicker')} />
+            <Cell title='ConfirmForm API弹出表单' onClick={() => route.nav('duxuiExample/example/ConfirmForm')} />
           </CellGroup>
         </GroupList.Item>
         <GroupList.Item title='操作反馈'>

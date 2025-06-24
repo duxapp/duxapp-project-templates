@@ -6,7 +6,7 @@ import { useRef } from 'react'
 
 const RectAnimated = Animated.createAnimatedComponent(Rect)
 
-export default TopView.HOC(function SvgEventExample() {
+export default TopView.page(function SvgEventExample() {
 
   return <>
     <Header title='Svg 事件结合' />

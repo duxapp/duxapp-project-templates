@@ -1,6 +1,6 @@
 import { Header, ScrollView, TopView, GroupList, RollingView, Text, px, Column, Row, Image } from '@/duxuiExample'
 
-export default TopView.HOC(function RollingViewExample() {
+export default TopView.page(function RollingViewExample() {
 
   return <>
     <Header title='RollingView' />

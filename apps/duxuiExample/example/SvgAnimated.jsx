@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react'
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
-export default TopView.HOC(function SvgAnimatedExample() {
+export default TopView.page(function SvgAnimatedExample() {
 
   return <>
     <Header title='Svg 动画' />

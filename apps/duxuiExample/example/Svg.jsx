@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from 'react'
 import { saveImageToPhotosAlbum } from '@tarojs/taro'
 
-export default TopView.HOC(function SvgExample() {
+export default TopView.page(function SvgExample() {
 
   const toImage = useRef()
 

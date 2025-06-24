@@ -4,7 +4,7 @@ import { collect, useLike, useRequest, contentHook, foot } from '@/duxcmsContent
 import { CmsIcon } from '@/duxcms/components/CmsIcon'
 import { WechatShare } from '@/wechat'
 
-export default TopView.HOC(function ArticleDetail() {
+export default TopView.page(function ArticleDetail() {
 
   const [config = {}] = contentHook.useMark('article.config')
 

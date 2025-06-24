@@ -52,7 +52,7 @@ const getBase = (tags = [], jsx) => {
   return `import { px, TopView } from '@/duxapp'
 ${Object.keys(imports).map(path => `import { ${imports[path].join(', ')} } from '${path}'`).join('\n')}
 
-export default TopView.HOC(function Page() {
+export default TopView.page(function Page() {
 
   return <>
 ${jsx}

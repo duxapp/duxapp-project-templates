@@ -6,7 +6,7 @@ import {
   Stop, Path
 } from '@/duxui/components/Svg'
 
-export default TopView.HOC(function SvgExample() {
+export default TopView.page(function SvgExample() {
 
   return <>
     <Header title='Svg 裁剪' />
