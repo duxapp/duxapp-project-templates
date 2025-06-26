@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "jpush-react-native": "~3.1.5",
-    "jcore-react-native": "~2.2.8"
-  }
-}

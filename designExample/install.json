@@ -1,5 +1,8 @@
 {
   "name": "移动端页面编辑器(编辑器示例代码模块)",
+  "app": [
+    "designExample"
+  ],
   "apps": [
     "design",
     "designExample",
@@ -9,7 +12,7 @@
     "duxuiDesign"
   ],
   "result": [
-    "运行编辑器: yarn dev:h5 --app=designExample",
-    "打包编辑器: yarn build:h5 --app=designExample"
+    "运行编辑器: yarn dev:h5 --app designExample",
+    "打包编辑器: yarn build:h5 --app designExample"
   ]
 }

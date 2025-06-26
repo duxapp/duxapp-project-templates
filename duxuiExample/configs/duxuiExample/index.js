@@ -1,23 +1,4 @@
 const config = {
-  // 覆盖app.config.js 配置
-  appConfig: {
-    // 使用小程序新的渲染引擎
-    // renderer: 'skyline',
-    // lazyCodeLoading: 'requiredComponents',
-    // componentFramework: 'glass-easel',
-    // rendererOptions: {
-    //   skyline: {
-    //     defaultDisplayBlock: false
-    //   }
-    // },
-    requiredPrivateInfos: [
-      'chooseLocation',
-      'getLocation',
-      'onLocationChange',
-      'startLocationUpdateBackground',
-      'chooseAddress'
-    ]
-  },
   // 调试配置
   debug: {
     // 在h5端开启vconsole调试功能
@@ -30,11 +11,11 @@ const config = {
       themeConfig: {
         themes: {
           light: {
-            name: '明亮主题',
+            name: '浅色模式',
             color: '#fff'
           },
           dark: {
-            name: '暗黑主题',
+            name: '深色模式',
             color: '#333'
           }
         },

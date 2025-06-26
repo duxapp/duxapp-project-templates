@@ -17,7 +17,7 @@ let systemInfo
 export const isIphoneX = () => {
   systemInfo = systemInfo || getDeviceInfo()
   if (process.env.TARO_ENV === 'rn') {
-    Platform.OS !== 'android' && systemInfo.safeArea?.bottom < systemInfo.screenHeight
+    return Platform.OS !== 'android' && systemInfo.safeArea?.bottom < systemInfo.screenHeight
   } else {
     const phoneMarks = ['iPhone X', 'iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16', 'iPhone 17', 'iPhone 18']
     const { model = '' } = systemInfo

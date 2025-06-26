@@ -1,5 +1,8 @@
 {
   "name": "cms商城(单用户商城模块 支持RN端)",
+  "app": [
+    "duxcmsShop"
+  ],
   "apps": [
     "amap",
     "alipay",
@@ -22,11 +25,12 @@
     "wechat"
   ],
   "result": [
-    "小程序: yarn dev:weapp --app=duxcmsShop",
-    "H5: yarn dev:h5 --app=duxcmsShop",
-    "APP: yarn start --app=duxcmsShop",
-    "编译安卓调试版:yarn android --app=duxcmsShop",
-    "编译安卓发布版:yarn build:android --app=duxcmsShop",
+    "小程序: yarn dev:weapp --app duxcmsShop",
+    "H5: yarn dev:h5 --app duxcmsShop",
+    "APP服务: yarn start --app duxcmsShop",
+    "编译安卓调试版:yarn android --app duxcmsShop",
+    "编译安卓发布版:yarn build:android --app duxcmsShop",
+    "编译IOS调试版:yarn ios --app duxcmsShop",
     "商城模块需要配置请求域名等参数，在 configs/duxcmsShop/index.js 配置"
   ]
 }

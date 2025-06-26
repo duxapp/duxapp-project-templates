@@ -1,0 +1,7 @@
+{
+  "name": "duxapp-project-templates",
+  "type": "module",
+  "scripts": {
+    "sync": "node sync.js"
+  }
+}
