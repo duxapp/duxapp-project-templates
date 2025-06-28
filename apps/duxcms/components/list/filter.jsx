@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { View } from '@tarojs/components'
 import { Text, Layout, Absolute } from '@/duxui'
-import { duxappTheme, CmsIcon } from '@/duxcms'
+import { duxappTheme } from '@/duxcms/utils'
 import classNames from 'classnames'
+import { CmsIcon } from '../CmsIcon'
 import FilterMore from './common/filter'
 
 import './filter.scss'
@@ -142,7 +143,7 @@ export const ListFilter = ({
               const hoverCheckbox = post[optionItem.name].indexOf(index) != -1
               return <View key={'item' + index} className='list-filter-open__item' style={optionItem.list.length > 5 ? { width: '50%', justifyContent: 'flex-start' } : { justifyContent: 'flex-start' }} onClick={() => selectValue(index)}>
                 <View className={['list-filter-open__item__checkIcon', hoverCheckbox && 'list-filter-open__item__checkIcon--hover'].join(' ')}>
-                  {hoverCheckbox && <CmsIcon name='zhengque' size={18}  className='text-white' />}
+                  {hoverCheckbox && <CmsIcon name='zhengque' size={18} className='text-white' />}
                 </View>
                 <Text className='list-filter-open__item__text'>{item.text}</Text>
               </View>

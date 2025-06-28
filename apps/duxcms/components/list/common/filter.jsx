@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { View, Input } from '@tarojs/components'
 import { ScrollView, PullView, Text, px, Button, Row } from '@/duxui'
-import { CmsIcon } from '@/duxcms'
+import { CmsIcon } from '../../CmsIcon'
 import './filter.scss'
 
 export default class PullListFilter extends Component {
