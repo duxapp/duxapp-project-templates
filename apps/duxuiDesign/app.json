@@ -1,7 +1,7 @@
 {
   "name": "duxuiDesign",
   "description": "为设计器提供设计组件库",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "dependencies": [
     "duxui",
     "duxappDesign"
