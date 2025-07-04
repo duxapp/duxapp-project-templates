@@ -117,7 +117,7 @@ index bc2ae99..41288c3 100644
              }
          ] }, restImageProps)));
 diff --git a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
-index e5b2464..099c110 100644
+index e5b2464..698b9f0 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
 +++ b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
 @@ -13,6 +13,9 @@ const styles = StyleSheet.create({
@@ -168,7 +168,7 @@ index e5b2464..099c110 100644
                  orientation: vertical ? 'vertical' : 'horizontal', ref: this.viewPager }), pages),
              dots && this.renderDots(this.getIndex(selectedIndex, count))));
 diff --git a/node_modules/@tarojs/components-rn/dist/components/SwiperItem/styles.js b/node_modules/@tarojs/components-rn/dist/components/SwiperItem/styles.js
-index 4992721..48ab70e 100644
+index 4992721..76ecf23 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/SwiperItem/styles.js
 +++ b/node_modules/@tarojs/components-rn/dist/components/SwiperItem/styles.js
 @@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
@@ -182,3 +182,98 @@ index 4992721..48ab70e 100644
      }
  });
  //# sourceMappingURL=styles.js.map
+\ No newline at end of file
+diff --git a/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js b/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
+index 3a0243a..84c1040 100644
+--- a/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
++++ b/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
+@@ -15,11 +15,11 @@ export const clickableHandlers = [
+     'onResponderTerminate',
+     'onMoveShouldSetResponderCapture',
+ ];
+-const getWxAppEvent = (event) => {
++const getWxAppEvent = (event, type) => {
+     const nativeEvent = event.nativeEvent;
+     const { timestamp, target, pageX, pageY, touches = [], changedTouches = [] } = nativeEvent;
+     return {
+-        type: 'tap',
++        type,
+         timeStamp: timestamp,
+         target: {
+             id: target,
+@@ -39,7 +39,9 @@ const getWxAppEvent = (event) => {
+                 pageX: item.pageX,
+                 pageY: item.pageY,
+                 clientX: item.locationX,
+-                clientY: item.locationY
++                clientY: item.locationY,
++                x: item.locationX,
++                y: item.locationY
+             };
+         }),
+         changedTouches: changedTouches.map((item) => {
+@@ -48,7 +50,9 @@ const getWxAppEvent = (event) => {
+                 pageX: item.pageX,
+                 pageY: item.pageY,
+                 clientX: item.locationX,
+-                clientY: item.locationY
++                clientY: item.locationY,
++                x: item.locationX,
++                y: item.locationY
+             };
+         })
+     };
+@@ -113,14 +117,18 @@ const useClickable = (props) => {
+         onShouldBlockNativeResponder: () => false,
+         onPanResponderGrant: (evt) => {
+             const { onTouchStart } = ref.current.props;
+-            onTouchStart && onTouchStart(getWxAppEvent(evt));
++            onTouchStart && onTouchStart(getWxAppEvent(evt, 'touchstart'));
+             ref.current.startTimestamp = evt.nativeEvent.timestamp;
+             setStartTimer();
+         },
++        onPanResponderMove: (evt) => {
++            const { onTouchMove } = ref.current.props;
++            onTouchMove && onTouchMove(getWxAppEvent(evt, 'touchmove'));
++        },
+         onPanResponderTerminationRequest: () => true,
+         onPanResponderRelease: (evt, gestureState) => {
+             const { onClick, onLongPress, onTouchEnd } = ref.current.props;
+-            onTouchEnd && onTouchEnd(getWxAppEvent(evt));
++            onTouchEnd && onTouchEnd(getWxAppEvent(evt, 'touchend'));
+             const endTimestamp = evt.nativeEvent.timestamp;
+             let gapTime = endTimestamp - ref.current.startTimestamp;
+             // 1 =>3, 修复部分android机型(三星折叠屏尤为明显),单击时dx,dy为>1，而被误判为move的情况。
+@@ -137,17 +145,17 @@ const useClickable = (props) => {
+                     }
+                 }
+                 if (gapTime <= 350) {
+-                    onClick && onClick(getWxAppEvent(evt));
++                    onClick && onClick(getWxAppEvent(evt, 'tap'));
+                 }
+                 else {
+-                    onLongPress && onLongPress(getWxAppEvent(evt));
++                    onLongPress && onLongPress(getWxAppEvent(evt, 'longpress'));
+                 }
+             }
+             setStayTimer();
+         },
+         onPanResponderTerminate: () => {
+-            // const { onTouchCancel } = this.props
+-            // onTouchCancel && onTouchCancel(this.getWxAppEvent(evt))
++            const { onTouchCancel } = ref.current.props
++            onTouchCancel && onTouchCancel(getWxAppEvent(evt, 'touchcancel'))
+             setStayTimer();
+         }
+     })).current;
+@@ -159,8 +167,8 @@ const useClickable = (props) => {
+         'onClick',
+         'onLongPress',
+         'onTouchStart',
+-        // 'onTouchMove',
+-        // 'onTouchCancel',
++        'onTouchMove',
++        'onTouchCancel',
+         'onTouchEnd'
+     ])), panResponder.panHandlers), { style: [{ backgroundColor: 'transparent' }, style, isHover && hoverStyle] });
+ };

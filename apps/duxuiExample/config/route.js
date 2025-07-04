@@ -116,7 +116,10 @@ export default {
           platform: ['weapp', 'rn', 'h5']
         },
         Theme: {},
-        ConfirmForm: {}
+        ConfirmForm: {},
+        Canvas: {
+          platform: ['weapp', 'rn', 'h5']
+        }
       }
     }
   }

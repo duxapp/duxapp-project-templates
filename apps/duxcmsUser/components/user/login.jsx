@@ -2,8 +2,8 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { View, Input } from '@tarojs/components'
 import { CmsIcon } from '@/duxcms/components'
 import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook } from '@/duxcmsUser/utils'
-import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px } from '@/duxui'
-import { WechatLib } from '@/wechat'
+import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px, PullView } from '@/duxui'
+import { WechatLib } from '@/duxappWechatShare'
 import './login.scss'
 
 export const UserLogin = ({ onLogin }) => {
@@ -54,6 +54,8 @@ export const config = {
   phone: true,
   // 邮箱登录
   email: true,
+  // 注册功能
+  register: true,
   // app微信登录
   appWatch: true,
   // 小程序微信登录
@@ -509,7 +511,7 @@ export const WeappTelLogin = ({
     }
   }, [noSkip, onLogin, onSkip])
 
-  return <View className='cms-login-weapp--mask inset-0 absolute'>
+  return <PullView side='center' mask>
     <View className='cms-login-weapp'>
       <View className='cms-login-weapp__head'>
         <CmsIcon name='guanbi1' size={36} className='text-white' />
@@ -539,5 +541,5 @@ export const WeappTelLogin = ({
         </Row>
       </Row>
     </View>
-  </View>
+  </PullView>
 }

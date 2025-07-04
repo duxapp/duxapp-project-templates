@@ -6,8 +6,9 @@
     "duxui",
     "duxcms",
     "duxappHarmony",
-    "amap",
-    "echarts",
-    "wechat"
+    "duxappAmap",
+    "duxappEcharts",
+    "duxappWechatShare",
+    "duxappCanvas"
   ]
 }

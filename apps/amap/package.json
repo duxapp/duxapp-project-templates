@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@uiw/react-amap": "^7.1.8",
-    "react-native-amap3d": "^3.2.4"
-  }
-}

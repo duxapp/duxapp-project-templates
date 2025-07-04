@@ -80,6 +80,10 @@ export const FormItem = ({
     if (fields) {
       setValues(val)
     } else {
+      // 兼容Taro原生组件
+      if (val && typeof val === 'object' && typeof val.detail?.value !== 'undefined') {
+        val = val.detail.value
+      }
       setValue(field, val)
     }
   }, [fields, setValues, setValue, field])

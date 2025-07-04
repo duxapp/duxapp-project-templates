@@ -1,4 +1,4 @@
-import { getStyleForm } from '@/design/Design'
+import { getStyleForm } from '@/duxappDesign/Design'
 
 export const Text = {
   name: '文本',

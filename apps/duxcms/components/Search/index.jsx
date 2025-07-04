@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components'
 import { useCallback, useState } from 'react'
 import { ObjectManage } from '@/duxapp'
-import { Button, InputSearch, ScrollView, Text, Layout, Absolute } from '@/duxui'
+import { Button, InputSearch, ScrollView, Text, Layout, Absolute, Row } from '@/duxui'
 import classNames from 'classnames'
 import { Keyboard } from '@/duxapp/utils/rn/util'
 import { CmsIcon } from '../CmsIcon'
@@ -34,9 +34,11 @@ export const ListSearch = ({
   defaultValue,
   defaultShow,
   onChange,
+  onShow,
   color,
   top: inputTop = 0,
   className,
+  placeholder = '请输入查询内容',
   style
 }) => {
 
@@ -73,27 +75,37 @@ export const ListSearch = ({
 
   return <>
     <Layout className='list-search' onLayout={e => setTop(e.height + e.top)} style={color ? { backgroundColor: color } : {}}>
+      <CmsIcon name='search' className='text-c3 text-s7' />
       <InputSearch className='list-search__input'
-        placeholder='请输入查询内容'
+        placeholder={placeholder}
         confirmType='search'
         value={keyword}
         focus={!!show}
-        onClick={() => setShow(true)}
+        onClick={() => {
+          setShow(true)
+          onShow?.()
+        }}
         onChange={value => {
           setKeyword(value.trim())
         }}
-        onFocus={() => setShow(true)}
+        onFocus={() => {
+          setShow(true)
+          onShow?.()
+        }}
         onConfirm={() => submit(keyword)}
       />
-      <Button radiusType='round' type='primary' onClick={() => submit(keyword)}>搜索</Button>
+      <Button radiusType='round' type='primary' size='s' onClick={() => submit(keyword)}>搜索</Button>
     </Layout>
     {show && <Absolute>
       <View className={classNames('list-search__old', className)} style={{ top: top + inputTop, ...style }}>
         <View className='list-search__old__head'>
           <Text className='list-search__old__head__name text-c1'>搜索记录</Text>
-          <CmsIcon name='ashbin' size={40} className='text-c2'
-            onClick={() => { searchKeys.setKeys('mark', []); setShow(false) }}
-          />
+          <Row items='center' className='gap-1'>
+            <CmsIcon name='ashbin' size={40} className='text-c2'
+              onClick={() => { searchKeys.setKeys('mark', []); setShow(false) }}
+            />
+            <Text size={1} color={2}>清空记录</Text>
+          </Row>
         </View>
         <ScrollView>
           <View className='list-search__old__keys'>

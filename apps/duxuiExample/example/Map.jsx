@@ -1,6 +1,6 @@
 import { Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
 import { View } from '@tarojs/components'
-import { Map } from '@/amap/components/Map'
+import { Map } from '@/duxappAmap/components/Map'
 import { useState } from 'react'
 
 export default function LoadingExample() {

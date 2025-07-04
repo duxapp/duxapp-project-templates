@@ -5,6 +5,6 @@
   "dependencies": [
     "duxcmsAccount",
     "duxcmsChat",
-    "amap"
+    "duxappAmap"
   ]
 }

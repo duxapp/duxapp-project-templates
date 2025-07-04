@@ -4,9 +4,9 @@ import {
   user,
   toast,
   nav,
-} from '@/user/utils'
+} from '@/duxappUser/utils'
 import config from '@/duxcms/config/request'
-import { WechatLib } from '@/wechat'
+import { WechatLib } from '@/duxappWechatShare'
 import { request, requestMiddle, uploadMiddle } from '@/duxcms'
 
 export const cmsUser = {

@@ -1,4 +1,4 @@
-import { getStyleForm } from '@/design/Design'
+import { getStyleForm } from '@/duxappDesign/Design'
 import { Badge } from '../show/Badge'
 
 export const Tab = {

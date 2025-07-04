@@ -1,5 +1,5 @@
 import { Header, ScrollView, TopView, GroupList, Button } from '@/duxuiExample'
-import { WechatShare } from '@/wechat'
+import { WechatShare } from '@/duxappWechatShare'
 
 export default TopView.page(function LoadingExample() {
 

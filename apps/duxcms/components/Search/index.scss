@@ -5,14 +5,13 @@
   align-items: center;
   margin-right: 24px;
   border-radius: 40px;
-  padding: 10px 15px;
+  padding: 8px 15px;
   background-color: $duxappWhiteColor;
 
   &__input {
     font-size: 28px;
     margin: 0 20px;
     flex: 1;
-    padding: 4px 10px;
   }
 
   &__old {
@@ -45,7 +44,7 @@
 
     &__key {
       border-radius: 57px;
-      padding: 16px 32px;
+      padding: 12px 32px;
 
       &__text {
         font-size: 28px;

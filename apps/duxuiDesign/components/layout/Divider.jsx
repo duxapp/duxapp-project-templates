@@ -1,4 +1,4 @@
-import { getStyleForm } from '@/design/Design'
+import { getStyleForm } from '@/duxappDesign/Design'
 
 export const Divider = {
   name: '分割线',

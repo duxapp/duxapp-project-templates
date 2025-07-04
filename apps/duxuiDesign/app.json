@@ -4,6 +4,6 @@
   "version": "1.0.6",
   "dependencies": [
     "duxui",
-    "design"
+    "duxappDesign"
   ]
 }

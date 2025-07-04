@@ -4,8 +4,8 @@
   "version": "1.0.20",
   "dependencies": [
     "duxcms",
-    "wechat",
-    "alipay",
-    "unionpay"
+    "duxappWechatShare",
+    "react-native-alipay@uiw",
+    "react-native-unionpay@shaogong"
   ]
 }

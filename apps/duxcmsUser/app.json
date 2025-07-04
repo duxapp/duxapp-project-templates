@@ -3,8 +3,8 @@
   "description": "CMS用户模块",
   "version": "1.0.30",
   "dependencies": [
-    "user",
+    "duxappUser",
     "duxcms",
-    "wechat"
+    "duxappWechatShare"
   ]
 }

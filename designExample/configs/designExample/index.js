@@ -1,10 +1,4 @@
 const config = {
-  // 覆盖app.config.js 配置
-  appConfig: {
-    components: [
-      'designExample/components/Design/index'
-    ]
-  },
   // 调试配置
   debug: {
     // 在h5端开启vconsole调试功能

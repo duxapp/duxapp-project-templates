@@ -1,5 +1,5 @@
 import { request } from '@/duxcms'
-import { user } from '@/user'
+import { user } from '@/duxappUser'
 import { useEffect } from 'react'
 
 /**

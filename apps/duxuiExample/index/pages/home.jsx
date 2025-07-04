@@ -96,6 +96,11 @@ export const Home = () => {
             <Cell title='confirm 确认弹框' onClick={() => route.nav('duxuiExample/example/confirm')} />
           </CellGroup>
         </GroupList.Item>
+        <GroupList.Item title='画布'>
+          <CellGroup>
+            <Cell title='Canvas 基础' onClick={() => route.nav('duxuiExample/example/Canvas')} />
+          </CellGroup>
+        </GroupList.Item>
         <GroupList.Item title='Svg'>
           <CellGroup>
             <Cell title='组件属性' onClick={() => route.nav('duxuiExample/example/Svg')} />

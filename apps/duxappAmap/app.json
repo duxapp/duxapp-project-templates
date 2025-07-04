@@ -1,0 +1,8 @@
+{
+  "name": "duxappAmap",
+  "description": "高德地图",
+  "version": "1.0.0",
+  "dependencies": [
+    "react-native-amap3d"
+  ]
+}

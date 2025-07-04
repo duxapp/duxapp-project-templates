@@ -1,0 +1,8 @@
+{
+  "name": "react-native-alipay@uiw",
+  "description": "支付宝支付插件集成",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxapp"
+  ]
+}

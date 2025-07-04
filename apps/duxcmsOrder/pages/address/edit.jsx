@@ -2,7 +2,7 @@ import { Button, Card, Column, Divider, Form, Header, Input, Radio, Row, ScrollV
 import { request, useRequest, orderHook } from '@/duxcmsOrder'
 import { showToast } from '@tarojs/taro'
 import { useCallback } from 'react'
-import { chooseLocation } from '@/amap'
+import { chooseLocation } from '@/duxappAmap'
 
 export default function AddressEdit() {
 

@@ -99,13 +99,6 @@
   background-color: $duxappWhiteColor;
   width: 600px;
 
-  &--mask {
-    z-index: 1;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-
   &__head {
     flex-direction: row;
     align-items: center;

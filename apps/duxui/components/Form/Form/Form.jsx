@@ -68,8 +68,12 @@ export const Form = forwardRef(({
     })
   }, [])
 
-  const setValues = useCallback(data => {
-    updateValues(old => ({ ...old, ...data }))
+  const setValues = useCallback((data, merge = true) => {
+    if (merge) {
+      updateValues(old => ({ ...old, ...data }))
+    } else {
+      updateValues(data)
+    }
   }, [])
 
   /**

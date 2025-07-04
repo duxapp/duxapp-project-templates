@@ -1,0 +1,8 @@
+{
+  "name": "duxappUser",
+  "description": "用户信息管理模块",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxapp"
+  ]
+}

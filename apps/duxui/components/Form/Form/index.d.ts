@@ -1,9 +1,9 @@
 import { ComponentType, ReactElement } from 'react'
 import { SchemaRuleType } from 'b-validate'
-import { TextProps } from '../Text'
-import { SpaceProps } from '../Space'
-import { ButtonProps } from '../Button'
-import { ColumnProps } from '../Flex'
+import { TextProps } from '../../Text'
+import { SpaceProps } from '../../Space'
+import { ButtonProps } from '../../Button'
+import { ColumnProps } from '../../Flex'
 
 interface Values {
   [key: string]: any
@@ -23,8 +23,12 @@ interface FormRef {
   defaultValues: Values
   /** 通过字段设置表单值 */
   setValue: (field: string, value: any) => void
-  /** 批量设置表单值 */
-  setValues: (values: Values) => void
+  /**
+   * 批量设置表单值
+   * @values 要设置的值
+   * @param merge 是否合并，默认 true
+   */
+  setValues: (values: Values, merge?: boolean) => void
   /** 提交表单 */
   submit: () => void
   /** 重置表单 */

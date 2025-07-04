@@ -2,7 +2,7 @@ import { Header, TopView, duxappTheme, px, useRoute } from '@/duxapp'
 import { Column, Image, Row, Text, ScrollView, HtmlView, Divider, Video } from '@/duxui'
 import { collect, useLike, useRequest, contentHook, foot } from '@/duxcmsContent'
 import { CmsIcon } from '@/duxcms/components/CmsIcon'
-import { WechatShare } from '@/wechat'
+import { WechatShare } from '@/duxappWechatShare'
 
 export default TopView.page(function ArticleDetail() {
 

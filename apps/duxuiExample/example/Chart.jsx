@@ -1,4 +1,4 @@
-import { Chart } from '@/echarts'
+import { Chart } from '@/duxappEcharts'
 import { Header, ScrollView, TopView, GroupList, px } from '@/duxuiExample'
 
 import {

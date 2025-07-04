@@ -1,19 +1,4 @@
-// import qiniu from './base/components/UploadFileManage/drive/qiniu'
-
 const config = {
-  // 覆盖app.config.js 配置
-  appConfig: {
-    // 使用小程序新的渲染引擎
-    // renderer: 'skyline',
-    // lazyCodeLoading: 'requiredComponents',
-    requiredPrivateInfos: [
-      'chooseLocation',
-      'getLocation',
-      'onLocationChange',
-      'startLocationUpdateBackground',
-      'chooseAddress'
-    ]
-  },
   // 调试配置
   debug: {
     // 在h5端开启vconsole调试功能

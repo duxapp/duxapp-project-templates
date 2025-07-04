@@ -43,6 +43,7 @@ const config = {
         password: {},
         phone: {},
         avatar: {},
+        logoff: {},
         forget: {
           login: false
         }

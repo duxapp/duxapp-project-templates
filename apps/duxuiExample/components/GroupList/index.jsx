@@ -1,4 +1,5 @@
 import { Column, Text } from '@/duxui'
+import classNames from 'classnames'
 import './index.scss'
 
 const GroupListItem = ({
@@ -14,9 +15,11 @@ const GroupListItem = ({
 }
 
 export const GroupList = ({
-  children
+  children,
+  style,
+  className
 }) => {
-  return <Column className='GroupList'>
+  return <Column style={style} className={classNames('GroupList', className)}>
     {children}
   </Column>
 }

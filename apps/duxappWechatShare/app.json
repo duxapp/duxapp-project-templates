@@ -1,0 +1,8 @@
+{
+  "name": "duxappWechatShare",
+  "description": "通用微信分享功能",
+  "version": "1.0.0",
+  "dependencies": [
+    "react-native-wechat-lib"
+  ]
+}

@@ -3,6 +3,7 @@
   "description": "DUXUI库",
   "version": "1.1.17",
   "dependencies": [
-    "duxappStyle"
+    "duxappStyle",
+    "react-native-view-shot"
   ]
 }

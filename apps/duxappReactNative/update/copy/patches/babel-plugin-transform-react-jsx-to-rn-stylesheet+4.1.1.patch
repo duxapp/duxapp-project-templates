@@ -1,5 +1,5 @@
 diff --git a/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js b/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js
-index e1cbd56..d5c8d87 100644
+index e1cbd56..58aa035 100644
 --- a/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js
 +++ b/node_modules/babel-plugin-transform-react-jsx-to-rn-stylesheet/dist/index.js
 @@ -36,7 +36,11 @@ const MERGE_ELE_STYLES_FUNC_NAME = '_mergeEleStyles';
@@ -51,23 +51,30 @@ index e1cbd56..d5c8d87 100644
      function getMap(str) {
          return str.split(/\s+/).map((className) => {
              // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
-@@ -300,6 +321,139 @@ function default_1(babel) {
+@@ -300,6 +321,163 @@ function default_1(babel) {
              }
          }
      }
 +    // 主题函数开始
-+
 +    function getFunctionName(path) {
 +      const { node } = path;
 +
++      // 1. 如果是函数声明（function Foo() {}），直接返回函数名
 +      if (t.isFunctionDeclaration(node) && node.id) {
 +        return node.id.name;
 +      }
 +
++      // 2. 如果是函数表达式，并且有名称（如 `function B() {}`），且名称首字母大写，则返回函数名
++      if (t.isFunctionExpression(node) && node.id && /^[A-Z]/.test(node.id.name)) {
++        return node.id.name;
++      }
++
++      // 3. 如果是变量声明（const a = ...），返回变量名
 +      if (t.isVariableDeclarator(path.parent) && t.isIdentifier(path.parent.id)) {
 +        return path.parent.id.name;
 +      }
 +
++      // 4. 如果是赋值表达式（obj.fn = function() {}），返回左侧属性名（除非是 _ 开头）
 +      if (t.isAssignmentExpression(path.parent) && t.isIdentifier(path.parent.left)) {
 +        const name = path.parent.left.name;
 +        if (name[0] === '_') {
@@ -76,15 +83,15 @@ index e1cbd56..d5c8d87 100644
 +        return name;
 +      }
 +
-+      if (t.isFunctionExpression(node) && node.id) {
-+        return node.id.name;
-+      }
-+
++      // 5. 如果是其他情况（如匿名函数），返回 null
 +      return null;
 +    }
 +
-+    function containsJSXWithClassName(path) {
++    function containsJSXWithClassNameAndNoClass(path) {
 +      let hasClassName = false;
++
++      // 判断是否是经过转义的类构造函数
++      let hasClassCallCheck = false;
 +
 +      path.traverse({
 +        JSXAttribute(attrPath) {
@@ -92,10 +99,21 @@ index e1cbd56..d5c8d87 100644
 +            hasClassName = true;
 +            attrPath.stop();
 +          }
++        },
++        CallExpression(callPath) {
++          const { callee } = callPath.node;
++          if (
++            t.isIdentifier(callee, { name: '_classCallCheck' }) ||
++            (t.isMemberExpression(callee) &&
++            t.isIdentifier(callee.object, { name: '_classCallCheck' }))
++          ) {
++            hasClassCallCheck = true;
++            callPath.stop();
++          }
 +        }
 +      });
 +
-+      return hasClassName;
++      return hasClassName && !hasClassCallCheck;
 +    }
 +
 +    const REACT_HOC_NAMES = new Set([
@@ -160,9 +178,13 @@ index e1cbd56..d5c8d87 100644
 +
 +      if(!name && !isWrappedByReactHOC(path)) return;
 +
-+      if (!containsJSXWithClassName(path)) return;
++      // const code = require('@babel/generator').default(path.node).code
 +
-+      const bodyPath = path.get('body');
++      // if(code.includes('会员提示')) {
++      //   console.log('duxappLog', containsJSXWithClassNameAndNoClass(path), code)
++      // }
++
++      if (!containsJSXWithClassNameAndNoClass(path)) return;
 +
 +      // 获取插入hook函数
 +      const { file } = state;
@@ -182,6 +204,8 @@ index e1cbd56..d5c8d87 100644
 +        ${USE_THEME_FUNC_NAME}(${params});
 +      `);
 +
++      const bodyPath = path.get('body');
++
 +      if (bodyPath && bodyPath.node && Array.isArray(bodyPath.node.body)) {
 +        bodyPath.unshiftContainer('body', hookNode);
 +      }
@@ -191,7 +215,7 @@ index e1cbd56..d5c8d87 100644
      let existStyleImport = false;
      return {
          name: 'transform-react-jsx-to-rn-stylesheet',
-@@ -314,27 +468,46 @@ function default_1(babel) {
+@@ -314,27 +492,46 @@ function default_1(babel) {
                                  // 在 Program 最开始处理 import 样式
                                  // 防止有些插件在入口对 import 进行处理，比如 @babel/plugin-transform-typescript 会进行删除
                                  importDeclaration(stmt, state, t);
@@ -253,7 +277,7 @@ index e1cbd56..d5c8d87 100644
                          }
                          const expressionAst = template.ast(expression);
                          lastImportAstPath.insertAfter(expressionAst);
-@@ -367,6 +540,10 @@ function default_1(babel) {
+@@ -367,6 +564,10 @@ function default_1(babel) {
                              node.body.splice(++lastImportIndex, 0, template(functionTempalte)());
                          });
                      }
@@ -264,7 +288,7 @@ index e1cbd56..d5c8d87 100644
                      existStyleImport = false;
                  }
              },
-@@ -410,6 +587,10 @@ function default_1(babel) {
+@@ -410,6 +611,10 @@ function default_1(babel) {
                      });
                  }
              },

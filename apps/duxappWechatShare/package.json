@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "wechat-jssdk": "^5.1.0"
+  }
+}

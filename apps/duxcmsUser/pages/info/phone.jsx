@@ -60,23 +60,35 @@ export default function Phone() {
   return <TopView>
     <Header title='更换手机号' />
 
-    <Column className='mh-3 mt-3 bg-white r-2 p-3'>
-      <Input value={show ? post.tel : userInfo.tel} disabled={!show} onInput={(e) => onChangePost(show ? 'tel' : '', e.detail.value)} placeholder='请输入新手机号' />
+    <Column className='r-3 bg-white m-3 p-3 gap-4'>
+      <Column className='gap-2'>
+        <Text size={1} color={3}>{show ? '新手机号' : '绑定的手机号'}</Text>
+        {
+          show ?
+            <Column className='p-3 r-2 bg-page'>
+              <Input value={post.tel} onInput={(e) => onChangePost('tel', e.detail.value)} placeholder='请输入新手机号' />
+            </Column> :
+            <Text size={5} bold>{userInfo.tel}</Text>
+        }
+      </Column>
+      <Column className='gap-2'>
+        <Text size={1} color={3}>验证码</Text>
+        <Row className='bg-page r-2 p-3'>
+          <Input value={show ? post.code : post.original_code} onInput={(e) => onChangePost(show ? 'code' : 'original_code', e.detail.value)} className='flex-grow' placeholder='请输入验证码' />
+          {
+            code.status === 2 ?
+              <Loading size={42} /> :
+              <Text size={2} type='primary' onClick={getCode}>{code.text}</Text>
+          }
+        </Row>
+      </Column>
+      <Button
+        size='l'
+        className='mt-3 mh-3'
+        onClick={submit}
+        type='primary'
+      >{show ? '绑定' : '下一步'}</Button>
+      <Column />
     </Column>
-    <Row className='mh-3 mt-3 bg-white r-2 p-3'>
-      <Input value={show ? post.code : post.original_code} onInput={(e) => onChangePost(show ? 'code' : 'original_code', e.detail.value)} className='flex-grow' placeholder='请输入验证码' />
-      {
-        code.status === 2 ?
-          <Loading size={42} /> :
-          <Text size={2} type='primary' onClick={getCode}>{code.text}</Text>
-      }
-    </Row>
-    <Button
-      size='l'
-      className='mt-3 mh-3'
-      onClick={submit}
-      type='primary'
-    >{show ? '完成' : '下一步'}</Button>
-
   </TopView>
 }

@@ -3,7 +3,7 @@ import { Video } from '@tarojs/components'
 import { useState } from 'react'
 import { TopView, Swiper, Header, Column, Row, Text, duxappTheme, nav, Badge, Divider, px, useRoute, Image, HtmlView, Button, Empty, SwiperItem, ImageGroup } from '@/duxui'
 import { CommentDetailList, CmsIcon, collect, contextState, Detail, mallHook, Price, GoodsSpec, cart, foot } from '@/duxcmsMall'
-import { WechatShare } from '@/wechat'
+import { WechatShare } from '@/duxappWechatShare'
 import classNames from 'classnames'
 
 export default function GoodsDetail() {

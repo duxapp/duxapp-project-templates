@@ -1,8 +1,0 @@
-{
-  "name": "alipay",
-  "description": "支付宝支付",
-  "version": "1.0.15",
-  "dependencies": [
-    "duxappReactNative"
-  ]
-}
