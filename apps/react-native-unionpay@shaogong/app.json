@@ -1,7 +1,7 @@
 {
   "name": "react-native-unionpay@shaogong",
   "description": "RN 云闪付支付插件",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": [
     "duxapp"
   ]

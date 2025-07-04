@@ -26,32 +26,28 @@ export const Canvas = forwardRef(({ onLayout, ...props }, ref) => {
               .fields({ node: true, size: true, rect: true })
               .exec((_res) => {
                 const canvas = _res[0].node
-                const getContext = canvas.getContext.bind(canvas)
-
-                canvas.getContext = type => {
-                  if (type !== '2d') {
-                    throw new Error('getContext: 仅支持获取 2d 类型')
+                if (process.env.TARO_ENV === 'h5' && !canvas.createImage) {
+                  canvas.createImage = () => {
+                    return new Image()
                   }
-                  return getContext(type)
                 }
-                const ctx = getContext('2d')
+                const ctx = canvas.getContext('2d')
 
                 const dpr = getWindowInfo().pixelRatio
-                const layout = _res[0]
-                canvas.width = layout.width * dpr
-                canvas.height = layout.height * dpr
+                const size = getSize(_res[0])
+                canvas.width = size.width * dpr
+                canvas.height = size.height * dpr
+
                 ctx.scale(dpr, dpr)
+
+                ctx.fillStyle = 'red'
+                ctx.fillRect(0, 0, 100, 100)
 
                 refs.canvas = canvas
                 refs.ctx = ctx
 
                 resolve({
-                  size: {
-                    width: layout.width,
-                    height: layout.height,
-                    x: layout.left,
-                    y: layout.right
-                  },
+                  size,
                   canvas
                 })
               })
@@ -71,16 +67,11 @@ export const Canvas = forwardRef(({ onLayout, ...props }, ref) => {
         .fields({ size: true, rect: true, node: true })
         .exec((_res) => {
           const dpr = getWindowInfo().pixelRatio
-          const info = _res[0]
-          refs.canvas.width = info.width * dpr
-          refs.canvas.height = info.height * dpr
+          const size = getSize(_res[0])
+          refs.canvas.width = size.width * dpr
+          refs.canvas.height = size.height * dpr
 
-          refs.onLayout?.({
-            width: info.width,
-            height: info.height,
-            x: info.left,
-            y: info.top
-          })
+          refs.onLayout?.(size)
         })
     }, 20, false)
     onWindowResize(callback)
@@ -98,3 +89,22 @@ export const defineCanvasRef = () => null
 
 export const defineCanvas = canvas => canvas
 export const defineCanvasContext = ctx => ctx
+
+const getSize = (info) => {
+  if (process.env.TARO_ENV === 'h5') {
+    const rect = info.node.getBoundingClientRect()
+    return {
+      width: rect.width,
+      height: rect.height,
+      x: rect.left,
+      y: rect.top
+    }
+  } else {
+    return {
+      width: info.width,
+      height: info.height,
+      x: info.left,
+      y: info.top
+    }
+  }
+}
