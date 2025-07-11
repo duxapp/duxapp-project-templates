@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { TopView, Header, loading, Card, ScrollView, Form, Divider, Input, Button, UploadImage, px, Image, confirm, DividerGroup, FormItem, FormSubmit } from '@/duxui'
+import { TopView, Header, loading, Card, ScrollView, Form, Input, Button, UploadImage, Image, confirm, DividerGroup, FormItem, FormSubmit } from '@/duxui'
 import { request, route } from '@/duxcmsAccount'
 import realCard from './images/real-card.jpg'
 
@@ -17,7 +17,7 @@ export default function CardAdd() {
       title: '提交成功',
       cancel: false
     })
-    route.back()
+    route.back({ status: true })
   }, [])
 
   return <TopView isForm>

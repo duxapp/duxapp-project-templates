@@ -1,5 +1,5 @@
 import { Detail } from '@/duxcmsAccount'
-import { TopView, Header, Divider, Card, Empty, Button, nav, Text, Image, Row, px, DividerGroup } from '@/duxui'
+import { TopView, Header, Card, Empty, Button, nav, Text, Image, Row, px, DividerGroup } from '@/duxui'
 
 export default function UserReal() {
   return <TopView>
