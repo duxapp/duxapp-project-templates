@@ -174,7 +174,7 @@ export const cmsUser = {
   }
 }
 
-const requestBefore = async (params) => {
+requestMiddle.before(async params => {
   let { token = '' } = cmsUser.getUserInfo()
   // 开启调试
   config.devOpen && (token = config.devToken)
@@ -184,10 +184,23 @@ const requestBefore = async (params) => {
       : 'Bearer ' + token
   }
   return params
-}
+}, 10)
 
-requestMiddle.before(requestBefore)
-uploadMiddle.before(requestBefore)
+uploadMiddle.before(async params => {
+  let { token = '' } = cmsUser.getUserInfo()
+  // 开启调试
+  config.devOpen && (token = config.devToken)
+  if (!token) {
+    await user.login()
+    token = cmsUser.getUserInfo().token
+  }
+  if (token) {
+    params.header.Authorization = token.startsWith('Bearer ')
+      ? token
+      : 'Bearer ' + token
+  }
+  return params
+}, 10)
 
 requestMiddle.result(async (res, params) => {
   if (res.statusCode === 401) {

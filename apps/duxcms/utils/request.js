@@ -62,6 +62,28 @@ requestMiddle.result(async (res) => {
   }
 }, 10)
 
+// 兼容新系统返回值是对象
+uploadMiddle.result((res => {
+  return res.map(item => {
+    if (item.statusCode !== 200) {
+      throw item.data || item.errMsg
+    }
+    try {
+      const data = typeof item.data === 'string' ? JSON.parse(item.data) : item.data
+      if (data.code !== 200) {
+        throw data.message
+      }
+      if (Array.isArray(data.data)) {
+        return data.data[0].url
+      }
+      return data.data.url
+    } catch (error) {
+      console.log('无效的JSON数据', error)
+      throw error
+    }
+  })
+}), 10)
+
 // ios首次安装无法请求
 requestMiddle.before(networkVerify)
 

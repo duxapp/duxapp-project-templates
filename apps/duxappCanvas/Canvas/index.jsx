@@ -40,9 +40,6 @@ export const Canvas = forwardRef(({ onLayout, ...props }, ref) => {
 
                 ctx.scale(dpr, dpr)
 
-                ctx.fillStyle = 'red'
-                ctx.fillRect(0, 0, 100, 100)
-
                 refs.canvas = canvas
                 refs.ctx = ctx
 
