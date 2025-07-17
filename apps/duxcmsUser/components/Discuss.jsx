@@ -28,7 +28,7 @@ export const DiscussDetailList = ({
 export const DiscussItem = ({ item, index }) => {
 
   return <Space row items='start' className='mt-3'>
-    <Avatar url={item.user_avatar}>{item.user_nickname}</Avatar>
+    <Avatar src={item.user_avatar}>{item.user_nickname}</Avatar>
     <Column grow className='gap-2'>
       <Space row items='center' className='pv-1'>
         <Text color={2} size={2}></Text>

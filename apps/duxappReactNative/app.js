@@ -1,4 +1,5 @@
-import { layoutConformanceStrict } from './utils/rn'
+import { rnContainer } from './utils/rn'
 import './utils/polyfill'
 
-layoutConformanceStrict()
+rnContainer()
+

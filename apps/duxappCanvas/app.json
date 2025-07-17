@@ -1,7 +1,7 @@
 {
   "name": "duxappCanvas",
   "description": "RN端使用skia模拟canvas api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "dependencies": [
     "react-native-skia"
   ]

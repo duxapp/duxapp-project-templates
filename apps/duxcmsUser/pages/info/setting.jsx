@@ -1,5 +1,5 @@
-import { Avatar, Card, Column, Divider, Form, Header, Input, ModalForm, Row, ScrollView, Text, TopView, SelectorPicker, DatePicker, nav, confirm, loading, toast, DividerGroup, FormItem, route } from '@/duxui'
-import { CmsIcon, cmsUser, duxappTheme, request, user, userHook } from '@/duxcmsUser'
+import { Avatar, Card, Column, Form, Header, Input, ModalForm, Row, ScrollView, Text, TopView, SelectorPicker, DatePicker, nav, DividerGroup, FormItem, route } from '@/duxui'
+import { CmsIcon, cmsUser, duxappTheme, userHook } from '@/duxcmsUser'
 import { useMemo, useCallback } from 'react'
 
 export default function UserSetting() {
@@ -62,7 +62,7 @@ export default function UserSetting() {
               >
                 <Row items='center' justify='between' className='pv-3'>
                   <Text bold grow>出生日期</Text>
-                  <Text bold>{!userInfo.birthday ? '2000-01-01' : userInfo.birthday}</Text>
+                  <Text bold>{!userInfo.birthday ? '未设置' : userInfo.birthday}</Text>
                   <CmsIcon name='direction_right' size={32} color={duxappTheme.textColor3} />
                 </Row>
               </ModalForm>

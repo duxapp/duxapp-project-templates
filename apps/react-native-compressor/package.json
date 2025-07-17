@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-native-compressor": "^1.12.0"
+  }
+}

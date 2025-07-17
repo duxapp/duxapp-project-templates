@@ -1,0 +1,8 @@
+{
+  "name": "duxappCompress",
+  "description": "视频压缩模块，集成这个模块可以在RN端获得视频压缩功能",
+  "version": "1.0.0",
+  "dependencies": [
+    "react-native-compressor"
+  ]
+}

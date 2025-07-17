@@ -1,0 +1,8 @@
+{
+  "name": "react-native-compressor",
+  "description": "RN端图片视频压缩工具",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxapp"
+  ]
+}

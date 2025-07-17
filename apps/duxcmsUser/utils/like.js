@@ -30,7 +30,7 @@ export const useLike = (id, type = 'article', defaultValue) => {
       toast: true
     })
     setStatus(old => !old)
-    setCount(old => old + (status ? -1 : 1))
+    setCount(old => +old + (status ? -1 : 1))
   }, [id, status, type])
 
   useEffect(() => {

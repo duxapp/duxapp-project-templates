@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { View, Input } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { CmsIcon } from '@/duxcms/components'
 import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook } from '@/duxcmsUser/utils'
-import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px, PullView } from '@/duxui'
+import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px, PullView, Input } from '@/duxui'
 import { WechatLib } from '@/duxappWechatShare'
 import './login.scss'
 
@@ -20,7 +20,7 @@ export const UserLogin = ({ onLogin }) => {
   return <contextState.Provider defaultValue={{ reg: false }}>
     <View className='flex-grow bg-white'>
       <userHook.Render mark='page'>
-        <Header style={{ backgroundColor: 'transparent' }} />
+        <Header bgColor='transparent' />
         <ScrollView>
           <View className='cms-login'>
 
@@ -86,7 +86,7 @@ const emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
 
 export const Password = ({
   value,
-  onInput,
+  onChange,
   placeholder = '请输入密码'
 }) => {
   return <View className='cms-login__content__phone'>
@@ -94,7 +94,7 @@ export const Password = ({
       className='cms-login__content__phone__input'
       password
       type='password'
-      onInput={onInput}
+      onChange={onChange}
       value={value}
       placeholder={placeholder}
       placeholderTextColor={duxappTheme.textColor3}
@@ -111,7 +111,7 @@ export const Password = ({
 export const Code = ({
   username,
   value,
-  onInput,
+  onChange,
   codeUrl
 }) => {
 
@@ -147,7 +147,7 @@ export const Code = ({
       className='cms-login__content__phone__input'
       type='number'
       maxlength={6}
-      onInput={onInput}
+      onChange={onChange}
       value={value}
       placeholder='输入短信验证码'
       placeholderTextColor={duxappTheme.textColor3}
@@ -290,7 +290,7 @@ export const Account = ({
         <Input
           className='cms-login__content__phone__input'
           onBlur={_checkAccount.current}
-          onInput={e => postAction(old => ({ ...old, 'username': e.detail.value }))}
+          onChange={e => postAction(old => ({ ...old, 'username': e }))}
           value={post.username}
           type={!config.email ? 'number' : 'text'}
           maxLength={!config.email ? 11 : 99}
@@ -313,14 +313,14 @@ export const Account = ({
           {
             reg
               ? <>
-                {config.code && <Code codeUrl={codeUrl} username={post.username} onInput={e => postAction(old => ({ ...old, 'code': e.detail.value }))} value={post.code} />}
-                <Password onInput={e => postAction(old => ({ ...old, 'password': e.detail.value }))} value={post.password} placeholder='请设置密码' />
+                {config.code && <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />}
+                <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder='请设置密码' />
               </>
               : <>
                 {
                   passwordLogin || !config.code
-                    ? <Password onInput={e => postAction(old => ({ ...old, 'password': e.detail.value }))} value={post.password} />
-                    : <Code codeUrl={codeUrl} username={post.username} onInput={e => postAction(old => ({ ...old, 'code': e.detail.value }))} value={post.code} />
+                    ? <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} />
+                    : <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />
                 }
               </>
           }
@@ -335,7 +335,7 @@ export const Account = ({
                 >
                   <Input
                     className='cms-login__content__phone__input'
-                    onInput={e => postAction(old => ({ ...old, [item.field]: e.detail.value }))}
+                    onChange={e => postAction(old => ({ ...old, [item.field]: e }))}
                     value={post[item.field]}
                     placeholder={item.placeholder}
                     disabled={item.disabled}

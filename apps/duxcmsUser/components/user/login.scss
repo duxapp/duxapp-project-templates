@@ -18,7 +18,7 @@
       align-items: center;
       padding: 0 40px;
       height: 96px;
-      background: $duxappPageColor;
+      background-color: $duxappPageColor;
       border-radius: 48px;
 
       &__input {
@@ -49,7 +49,7 @@
       &__line {
         width: 138px;
         height: 1px;
-        background: $duxappLineColor;
+        background-color: $duxappLineColor;
       }
 
       &__text {
@@ -67,7 +67,7 @@
     justify-content: center;
     width: 88px;
     height: 88px;
-    background: #40b233;
+    background-color: #40b233;
     border-radius: 88px;
     text-align: center;
     justify-content: center;

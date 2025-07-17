@@ -14,10 +14,18 @@ export const collect = {
     }
     collect.types.push(type)
   },
-  useCollect: (id, type = 'article') => {
+  useCollect: (id, type = 'article', defaultValue) => {
     const [, loingStatus] = user.useUserInfo()
 
     const [status, setStatus] = useState(false)
+
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+      if (count === 0 && defaultValue) {
+        setCount(defaultValue)
+      }
+    }, [count, defaultValue])
 
     const action = useCallback(async () => {
       if (!id) {
@@ -33,7 +41,8 @@ export const collect = {
         toast: true
       })
       setStatus(old => !old)
-    }, [id, type])
+      setCount(old => +old + (status ? -1 : 1))
+    }, [id, status, type])
 
     useEffect(() => {
       if (loingStatus && id) {
@@ -48,7 +57,7 @@ export const collect = {
     if (!loingStatus) {
       return [false, { action }]
     }
-    return [status, { action }]
+    return [status, { count, action }]
   }
 }
 

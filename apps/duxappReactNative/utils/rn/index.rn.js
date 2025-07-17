@@ -5,6 +5,7 @@ import { Platform, LogBox, Linking, Alert, PermissionsAndroid, experimental_Layo
 import { getVersion } from 'react-native-device-info'
 import { useEffect, useMemo, useState } from 'react'
 import RNFetchBlob from 'react-native-blob-util'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { asyncTimeOut, gcjEncrypt, getLocationBase, ObjectManage, requestPermissionMessage, TopView } from '@/duxapp'
 import Geolocation from '@react-native-community/geolocation'
 import closeIcon from './images/close.png'
@@ -291,10 +292,17 @@ const getLocationBaseRN = enableHighAccuracy => {
 getLocationBase.rn = getLocationBaseRN
 
 /**
+ * GestureHandler 手势系统根组件
+ *
  * 修复RN端 父元素使用padding，导致子元素 absolute 定位不准确的问题
  * https://github.com/facebook/react-native/issues/43206
  */
-const DuxappLayoutConformance = props => <LayoutConformance {...props} />
-export const layoutConformanceStrict = () => {
+// const DuxappLayoutConformance = props => <LayoutConformance {...props} />
+
+const DuxappLayoutConformance = props => <GestureHandlerRootView style={{ flex: 1 }}>
+  <LayoutConformance {...props} />
+</GestureHandlerRootView>
+
+export const rnContainer = () => {
   TopView.addContainer(DuxappLayoutConformance)
 }

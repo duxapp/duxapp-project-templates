@@ -12,11 +12,13 @@ export default {
     'duxuiExample/index': {
       pages: {
         index: {
-          home: true
+          home: true,
+          alias: 'home'
         }
       }
     },
     'duxuiExample/example': {
+      alias: name => name,
       pages: {
         Button: {},
         Cell: {},
@@ -119,7 +121,8 @@ export default {
         ConfirmForm: {},
         Canvas: {
           platform: ['weapp', 'rn', 'h5']
-        }
+        },
+        KeyboardDismiss: {}
       }
     }
   }

@@ -13,7 +13,7 @@ export default function CommentList() {
         url={`member/comment/${params.type}/${params.id}`}
         renderItem={DiscussItem}
         renderLine={<Column style={{ height: pxTransform(24) }} />}
-        renderEmpty={<Empty title='暂无评价' />}
+        renderEmpty={<Empty title='暂无评论' />}
       />
     </Card>
   </TopView>

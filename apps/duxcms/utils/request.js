@@ -3,6 +3,7 @@ import { createRequest, createUpload, createRequestHooks, getPlatform, networkVe
 import hmacSha256 from 'crypto-js/hmac-sha256'
 import encHex from 'crypto-js/enc-hex'
 import qs from 'qs'
+import { uploadMiddleCompressor } from '@/duxappCompress'
 import config, { duxcmsRequestConfig } from '../config/request'
 
 export const requestConfig = duxcmsRequestConfig
@@ -48,6 +49,10 @@ const before = async params => {
   return params
 }
 requestMiddle.before(before, 10)
+// RN端实现压缩功能
+if (process.env.TARO_ENV === 'rn') {
+  uploadMiddle.before(uploadMiddleCompressor, 0)
+}
 uploadMiddle.before(before, 10)
 requestMiddle.result(async (res) => {
   if (res.statusCode === 200) {

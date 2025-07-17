@@ -1,10 +1,11 @@
 {
   "name": "duxcms",
   "description": "DUXCMS模块化框架对接模块",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "dependencies": [
     "duxui",
     "duxappReactNative",
-    "duxappHarmony"
+    "duxappHarmony",
+    "duxappCompress"
   ]
 }

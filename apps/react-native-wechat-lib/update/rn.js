@@ -52,7 +52,7 @@ export default ({ config }) => {
       }
     },
     create: {
-      'android/app/src/main/java/cn/duxapp/wxapi/WXEntryActivity.java': `package ${android.appid}.wxapi;
+      'android/app/src/main/java/com/duxapp/wxapi/WXEntryActivity.java': `package ${android.appid}.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -67,7 +67,7 @@ public class WXEntryActivity extends Activity {
   }
 }
 `,
-      'android/app/src/main/java/cn/duxapp/wxapi/WXPayEntryActivity.java': `package ${android.appid}.wxapi;
+      'android/app/src/main/java/com/duxapp/wxapi/WXPayEntryActivity.java': `package ${android.appid}.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;

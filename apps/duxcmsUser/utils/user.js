@@ -140,7 +140,10 @@ export const cmsUser = {
         url: 'member/setting/data',
         method: 'POST',
         toast: true,
-        data: info,
+        data: {
+          ...user.getUserInfo(),
+          ...info
+        }
       })
       toast('更新成功')
     }
