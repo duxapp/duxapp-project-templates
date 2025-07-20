@@ -80,6 +80,7 @@ export const Home = () => {
             <Cell title='ColorPicker 颜色选择器' onClick={() => route.nav('ColorPicker')} />
             <Cell title='ConfirmForm API弹出表单' onClick={() => route.nav('ConfirmForm')} />
             <Cell title='KeyboardDismiss 键盘自动收起' onClick={() => route.nav('KeyboardDismiss')} />
+            <Cell title='SvgImageCropper 图片裁剪' onClick={() => route.nav('SvgImageCropper')} />
           </CellGroup>
         </GroupList.Item>
         <GroupList.Item title='操作反馈'>
@@ -95,6 +96,7 @@ export const Home = () => {
             <Cell title='loding 显示加载动画' onClick={() => route.nav('loadingUtil')} />
             <Cell title='message 消息通知' onClick={() => route.nav('message')} />
             <Cell title='confirm 确认弹框' onClick={() => route.nav('confirm')} />
+            <Cell title='ContextMenu 模拟右键菜单' onClick={() => route.nav('ContextMenu')} />
           </CellGroup>
         </GroupList.Item>
         <GroupList.Item title='画布'>

@@ -1,1 +1,1 @@
-export const uploadMiddleCompressor = params => params
+export const chooseMediaCompressor = params => params

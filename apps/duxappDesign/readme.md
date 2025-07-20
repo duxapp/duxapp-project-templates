@@ -91,7 +91,7 @@ import Taro from '@tarojs/taro'
 import { Column, Row } from '@/duxui'
 import { Design, ComponentList, Editor, Layer, Attr, defineComponentConfigs } from '@/duxappDesign/Design'
 import { defineComponents } from '@/duxappDesign'
-import { getMedia } from '@/duxapp/utils/net/util'
+import { chooseMedia } from '@/duxapp/utils/net/util'
 import * as form from '@/duxuiDesign/components/form/config'
 import * as layout from '@/duxuiDesign/components/layout/config'
 import * as show from '@/duxuiDesign/components/show/config'
@@ -141,7 +141,7 @@ export default function DuxDesign({ config, ...props }) {
 
 const defaultConfig = {
   upload: async (type, option) => {
-    const res = await getMedia(type, option)
+    const res = await chooseMedia(type, option)
     return res.map(item => item.path)
   },
   theme: {

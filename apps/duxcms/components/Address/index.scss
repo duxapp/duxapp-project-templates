@@ -20,23 +20,6 @@
       width: 100px;
     }
   }
-  &__nav {
-    align-items: center;
-    flex-direction: row;
-    padding: 0 10px;
-    &__child {
-      padding: 20px 25px;
-      border-bottom-width: 1px;
-      /*postcss-pxtransform rn eject enable*/
-      border-bottom-style: solid;
-      /*postcss-pxtransform rn eject disable*/
-      border-bottom-color: $duxappWhiteColor;
-      background-color: $duxappWhiteColor;
-      color: $duxappTextColor1;
-      font-weight: bold;
-      font-size: 30px;
-    }
-  }
   &__item {
     align-items: center;
     flex-direction: row;

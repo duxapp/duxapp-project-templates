@@ -13,6 +13,12 @@ interface SharePageParamsBase {
    */
   path?: string
   /**
+   * 如果不是分享到同一个框架的H5端，可以单独指定分享到H5的url
+   * 如果使用这个参数，params 和 全局分享参数将会失效，请自行指定参数
+   * APP 和 H5端生效
+   */
+  h5Url?: string
+  /**
    * 分享参数
    * 如果你定义了分享参数，那么将会忽略当前路由的参数，但是会加上全局参数
    */

@@ -110,10 +110,9 @@ export const createList = usePageData => {
             nestedScrollEnabled
             numColumns={columns}
             refresh={refresh}
-            {...props}
             onScrollToLower={page && action.next || noop}
             onRefresh={action.reload}
-            keyExtractor={(item, index) => item[keyField] || index}
+            keyExtractor={(item, index) => item[keyField] ?? index}
             data={list}
             renderItem={RenderItem}
             ItemSeparatorComponent={renderLine}
@@ -123,6 +122,11 @@ export const createList = usePageData => {
               {renderFooter}
               {loadMore}
             </>}
+            {...props}
+            maintainVisibleContentPosition={{
+              disabled: true,
+              ...props.maintainVisibleContentPosition
+            }}
           /> : useVirtualList && process.env.TARO_ENV !== 'harmony_cpp' ?
             <WeappList
               list={list}

@@ -41,7 +41,7 @@ export const UploadImages = ({
       if (process.env.TARO_ENV === 'rn') {
         await requestPermissionMessage(requestPermissionMessage.types.image)
       }
-      const urls = await upload(type, { count: max - (value?.length || 0), ...option, sizeType: ['compressed'] })
+      const urls = await upload(type, { count: max - (value?.length || 0), sizeType: ['compressed'], ...option })
         .start(() => {
           setProgress(0)
         })

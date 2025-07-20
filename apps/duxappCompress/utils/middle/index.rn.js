@@ -2,26 +2,33 @@ import { duxappTheme, ObjectManage, TopView } from '@/duxapp'
 import { useEffect, useRef, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { getInfoAsync } from 'expo-file-system'
-import { Video } from 'react-native-compressor'
+import { Video, Image } from 'react-native-compressor'
 
-export const uploadMiddleCompressor = async (params, option) => {
+export const chooseMediaCompressor = async (files, option) => {
 
   const compressed = option.sizeType && option.sizeType.length === 1 && option.sizeType[0] === 'compressed'
 
-  const isVideo = params.file.type === 'video'
-
-  if (!compressed || !isVideo) {
-    return params
+  if (!compressed) {
+    return files
   }
 
-  // 开始压缩视频
-  params.filePath = await Task.getInstance().compressor(params.filePath)
-
-  const info = await getInfoAsync(params.filePath)
-
-  params.file.size = info.size
-
-  return params
+  await Promise.all(files.map(async file => {
+    if (file.type === 'video') {
+      // 开始压缩视频
+      file.path = await Task.getInstance().compressor(file.path)
+      const info = await getInfoAsync(file.path)
+      file.size = info.size
+    } else if (file.type === 'image') {
+      file.path = await Image.compress(file.path, {
+        maxWidth: 1920,
+        maxHeight: 1920,
+        quality: 0.6
+      })
+      const info = await getInfoAsync(file.path)
+      file.size = info.size
+    }
+  }))
+  return files
 }
 
 class Task extends ObjectManage {
@@ -136,7 +143,7 @@ const Progress = ({ onStop, onClose }) => {
       ]}
     >
       <Text style={[styles.progress, { color: duxappTheme.textColor1 }]}>{(progress * 100).toFixed(1)}%</Text>
-      <Text style={[styles.length, { color: duxappTheme.textColor2 }]}>压缩中</Text>
+      <Text style={[styles.length, { color: duxappTheme.textColor2 }]}>压缩中 {tasks.length + 1}</Text>
     </View>
   </>
 }

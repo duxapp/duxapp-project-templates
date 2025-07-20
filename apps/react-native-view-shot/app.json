@@ -1,8 +1,9 @@
 {
   "name": "react-native-view-shot",
   "description": "集成RN端 react-native-view-shot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": [
     "duxapp"
-  ]
+  ],
+  "installRequire": "duxappReactNative"
 }

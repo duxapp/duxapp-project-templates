@@ -122,7 +122,11 @@ export default {
         Canvas: {
           platform: ['weapp', 'rn', 'h5']
         },
-        KeyboardDismiss: {}
+        KeyboardDismiss: {},
+        SvgImageCropper: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        ContextMenu: {}
       }
     }
   }

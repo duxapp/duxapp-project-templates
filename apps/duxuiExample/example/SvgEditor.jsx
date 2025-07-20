@@ -1,4 +1,4 @@
-import { getMedia } from '@/duxapp/utils/net/util'
+import { chooseMedia } from '@/duxapp/utils/net/util'
 import { Header, TopView, Column, SvgEditor, SvgEditorController, px, useSvgEditorController } from '@/duxuiExample'
 
 export default function SvgEditorExample() {
@@ -23,7 +23,7 @@ export default function SvgEditorExample() {
 }
 
 const selectImage = async () => {
-  const res = await getMedia('image', { count: 1 })
+  const res = await chooseMedia('image', { count: 1 })
 
   return res[0].path
 }

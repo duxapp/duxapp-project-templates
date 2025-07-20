@@ -155,7 +155,8 @@ export const createRequestHooks = request => {
           setLoading(false)
           setRefresh(false)
           return _list
-        }).catch(() => {
+        }).catch(error => {
+          console.log('error', error)
           state.loading = false
           setLoading(false)
           setRefresh(false)

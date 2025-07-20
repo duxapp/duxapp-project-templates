@@ -41,7 +41,7 @@ export const setPageShare = async (config, globalParams, Share) => {
       // const link = `${window.location.origin}${window.location.pathname}${window.location.search}#/${_config.path}${query ? (_config.path.includes('?') ? '&' : '?') : ''}${query}`
 
       // 不使用url的参数，参数交给分享处理
-      const link = `${window.location.origin}${window.location.pathname}#/${_config.path}${query ? (_config.path.includes('?') ? '&' : '?') : ''}${query}`
+      const link = _config.h5Url || `${window.location.origin}${window.location.pathname}#/${_config.path}${query ? (_config.path.includes('?') ? '&' : '?') : ''}${query}`
 
       data.wechatObj.callWechatApi('updateAppMessageShareData', {
         title: _config.title, // 分享标题

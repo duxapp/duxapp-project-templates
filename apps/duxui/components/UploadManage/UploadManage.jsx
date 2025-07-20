@@ -2,7 +2,7 @@ import { View, Image, Text } from '@tarojs/components'
 import { useMemo, useRef, useState, forwardRef, useImperativeHandle, useCallback } from 'react'
 import { chooseMessageFile } from '@tarojs/taro'
 import { toast } from '@/duxapp/utils'
-import { getMedia } from '@/duxapp/utils/net/util'
+import { chooseMedia } from '@/duxapp/utils/net/util'
 import { ScrollView, PullView } from '@/duxapp'
 import { uploadManage } from './utils'
 import { DropDown } from '../DropDown'
@@ -103,7 +103,7 @@ export const UploadManage = forwardRef(({ }, ref) => {
       _list.push({
         text: '图片',
         callback: () => {
-          getMedia('image', {
+          chooseMedia('image', {
             count: 9,
             sizeType: ['compressed'],
             sourceType: ['album', 'camera']
@@ -120,7 +120,7 @@ export const UploadManage = forwardRef(({ }, ref) => {
       _list.push({
         text: '视频',
         callback: () => {
-          getMedia('video', {
+          chooseMedia('video', {
             sourceType: ['album', 'camera'],
             maxDuration: 60,
           }).then(res => {

@@ -183,8 +183,21 @@ index 4992721..76ecf23 100644
  });
  //# sourceMappingURL=styles.js.map
 \ No newline at end of file
+diff --git a/node_modules/@tarojs/components-rn/dist/components/Video/index.js b/node_modules/@tarojs/components-rn/dist/components/Video/index.js
+index fe23552..54e0824 100644
+--- a/node_modules/@tarojs/components-rn/dist/components/Video/index.js
++++ b/node_modules/@tarojs/components-rn/dist/components/Video/index.js
+@@ -246,7 +246,7 @@ class _Video extends Component {
+             onPlaybackStatusUpdate: this.onPlaybackStatusUpdate,
+         };
+         // 第一次不显示又无法自动播放
+-        const showPlayBtn = this.state.isFirst ? true : showCenterPlayBtn;
++        const showPlayBtn = showCenterPlayBtn;
+         const videoNode = (React.createElement(View, { style: [
+                 Styles['taro-video-container'],
+                 isFullScreen && Styles['taro-video-type-fullscreen'],
 diff --git a/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js b/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
-index 3a0243a..84c1040 100644
+index 3a0243a..d20a86d 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
 +++ b/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
 @@ -15,11 +15,11 @@ export const clickableHandlers = [
@@ -223,17 +236,25 @@ index 3a0243a..84c1040 100644
              };
          })
      };
-@@ -113,14 +117,18 @@ const useClickable = (props) => {
+@@ -113,14 +117,26 @@ const useClickable = (props) => {
          onShouldBlockNativeResponder: () => false,
          onPanResponderGrant: (evt) => {
              const { onTouchStart } = ref.current.props;
 -            onTouchStart && onTouchStart(getWxAppEvent(evt));
 +            onTouchStart && onTouchStart(getWxAppEvent(evt, 'touchstart'));
              ref.current.startTimestamp = evt.nativeEvent.timestamp;
++            ref.current.touches = 1
              setStartTimer();
          },
 +        onPanResponderMove: (evt) => {
-+            const { onTouchMove } = ref.current.props;
++            const { onTouchMove, onTouchEnd, onTouchStart } = ref.current.props;
++            const currentTouchs = evt.nativeEvent.touches.length
++            if (ref.current.touches !== currentTouchs) {
++              // 模拟web端的行为，触摸数量变化，触发start和end事件
++              onTouchStart && onTouchStart(getWxAppEvent(evt, 'touchstart'))
++              onTouchEnd && onTouchEnd(getWxAppEvent(evt, 'touchend'))
++              ref.current.touches = currentTouchs
++            }
 +            onTouchMove && onTouchMove(getWxAppEvent(evt, 'touchmove'));
 +        },
          onPanResponderTerminationRequest: () => true,
@@ -244,7 +265,7 @@ index 3a0243a..84c1040 100644
              const endTimestamp = evt.nativeEvent.timestamp;
              let gapTime = endTimestamp - ref.current.startTimestamp;
              // 1 =>3, 修复部分android机型(三星折叠屏尤为明显),单击时dx,dy为>1，而被误判为move的情况。
-@@ -137,17 +145,17 @@ const useClickable = (props) => {
+@@ -137,17 +153,17 @@ const useClickable = (props) => {
                      }
                  }
                  if (gapTime <= 350) {
@@ -266,7 +287,7 @@ index 3a0243a..84c1040 100644
              setStayTimer();
          }
      })).current;
-@@ -159,8 +167,8 @@ const useClickable = (props) => {
+@@ -159,8 +175,8 @@ const useClickable = (props) => {
          'onClick',
          'onLongPress',
          'onTouchStart',

@@ -86,12 +86,12 @@ APPShare.show = (config, WechatShare) => {
     })
   }
 
-  if (app?.h5Url) {
+  if (app?.h5Url || config.h5Url) {
     const webpageParams = {
       title: config.title,
       description: config.desc,
       thumbImageUrl: config.image,
-      webpageUrl: `${app.h5Url}/#${path}`
+      webpageUrl: config.h5Url || `${app.h5Url}/#${path}`
     }
     menus.push({
       icon: weixinIcon,
