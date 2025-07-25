@@ -5,6 +5,7 @@ import { Space } from '../Space'
 import { Text } from '../Text'
 import { DuxuiIcon } from '../DuxuiIcon'
 import { useFormItemProxy } from './Form'
+import { Row } from '../Flex'
 
 const context = /*@__PURE__*/ createContext({ check: noop })
 
@@ -37,14 +38,14 @@ export const Checkbox = ({
     />
   }
 
-  return <Space
-    row items='center' size={8}
-    {...disabled ? {
+  return <Row
+    className='gap-1 items-center'
+    {...disabled ? {} : {
       onClick: e => {
         stopPropagation(e)
         check(value)
       }
-    } : {}}
+    }}
     style={style} {...props}
   >
     {/* <Text size={6} type={isCheck || half ? 'primary' : void 0} color={isCheck || half ? void 0 : 3}>
@@ -55,7 +56,7 @@ export const Checkbox = ({
       name={isCheck ? 'xuanzhong' : half ? 'banxuanze' : 'xuanzekuang'}
     />
     {!!label && <Text>{label}</Text>}
-  </Space>
+  </Row>
 }
 
 export const CheckboxGroup = ({

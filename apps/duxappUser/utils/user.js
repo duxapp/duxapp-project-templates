@@ -246,29 +246,34 @@ class UserManage extends ObjectManage {
       if (getPlatform() === 'weapp' && this.startConfig?.weappTelLogin) {
         const WeappTelLogin = this.getCurrentConfig()?.WeappTelLogin
         if (WeappTelLogin) {
-          const res = await new Promise((resolve, reject) => {
-            const action = TopView.add([WeappTelLogin, {
-              onLogin: data => {
-                action.remove()
-                resolve(data)
-              },
-              onCancel: () => {
-                this.config.isLogin = false
-                action.remove()
-                reject('用户取消登录')
-              },
-              onSkip: () => {
-                action.remove()
-                resolve({ skip: true })
-              }
-            }])
-          })
-          if (!res.skip) {
-            this.setInfo(res)
-            this.setLoginStatus(true, 'weapp-tel')
-            this.config.loginEvent.trigger(true)
+          try {
+            const res = await new Promise((resolve, reject) => {
+              const action = TopView.add([WeappTelLogin, {
+                onLogin: data => {
+                  action.remove()
+                  resolve(data)
+                },
+                onCancel: () => {
+                  action.remove()
+                  reject('用户取消登录')
+                },
+                onSkip: () => {
+                  action.remove()
+                  resolve({ skip: true })
+                }
+              }])
+            })
+            if (!res.skip) {
+              this.setInfo(res)
+              this.setLoginStatus(true, 'weapp-tel')
+              this.config.loginEvent.trigger(true)
+              this.config.isLogin = false
+              return
+            }
+          } catch (error) {
             this.config.isLogin = false
-            return
+            this.config.loginEvent.trigger(false)
+            throw error
           }
         }
       }

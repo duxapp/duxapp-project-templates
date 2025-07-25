@@ -13,12 +13,22 @@ export const useVerifyCode = () => {
     }
   }, [])
 
+  const status = load ? 2 : text === '获取验证码' ? 0 : text === '重新获取' ? 1 : 3
+
   const getCode = useCallback(callback => {
+    if (status > 1) {
+      return
+    }
+    if (timer.current) {
+      clearInterval(timer.current)
+    }
     setLoad(true)
     return callback().then(res => {
       let time = 60
       timer.current = setInterval(() => {
         if (time <= 0) {
+          clearInterval(timer.current)
+          timer.current = null
           setText('重新获取')
         } else {
           setText(--time + 's')
@@ -37,6 +47,6 @@ export const useVerifyCode = () => {
     text,
     getCode,
     // 0第一次获取 1重新获取 2获取中 3倒计时
-    status: load ? 2 : text === '获取验证码' ? 0 : text === '重新获取' ? 1 : 3
+    status
   }
 }

@@ -1,6 +1,6 @@
 import { isValidElement, cloneElement, useEffect, useMemo, useCallback, useRef, Children, useState } from 'react'
 import classNames from 'classnames'
-import { nextTick, useDeepObject } from '@/duxapp'
+import { nextTick } from '@/duxapp'
 import { Schema } from 'b-validate'
 import { Text } from '../../Text'
 import { Column } from '../../Flex'
@@ -36,8 +36,6 @@ export const FormItem = ({
 
   const form = useFormContext()
 
-  const currentRules = useDeepObject(rules)
-
   const value = form.values[field]
 
   const [checkError, setError] = useState()
@@ -50,7 +48,7 @@ export const FormItem = ({
 
   const check = useCallback(() => {
     const schema = new Schema({
-      [field]: currentRules
+      [field]: rules
     })
     return new Promise((resolve, reject) => {
       schema.validate({ [field]: fields ? refs.form.values : refs.value }, errors => {
@@ -62,14 +60,16 @@ export const FormItem = ({
         }
       })
     })
-  }, [currentRules, field, fields, refs])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field, fields])
 
   useEffect(() => {
-    if (currentRules?.length) {
+    if (rules?.length) {
       const { remove } = refs.form.addRules(check)
       return () => remove()
     }
-  }, [check, currentRules, refs])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [check])
 
   useMemo(() => {
     refs.form.onGetField?.(field, refs.fieldOld)

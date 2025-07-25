@@ -118,6 +118,9 @@ export const Code = ({
   const code = useVerifyCode()
 
   const getCode = useCallback(() => {
+    if (code.status > 1) {
+      return
+    }
     if (config.phone && config.email) {
       if (!phoneReg.test(username) && !emailReg.test(username)) {
         return toast('请输入正确的手机号或者邮箱')
@@ -501,22 +504,28 @@ export const WeappTelLogin = ({
 
   const [check, setCheck] = useState(false)
 
-  const getPhoneNumber = useCallback(e => {
+  const ref = useRef()
+
+  const getPhoneNumber = useCallback(async e => {
     if (e.detail.errMsg === 'getPhoneNumber:ok') {
-      cmsUser.weappTelLogin(e.detail.code).then(data => {
-        onLogin(data)
-      })
+      const data = await cmsUser.weappTelLogin(e.detail.code)
+      await ref.current.close(false)
+      onLogin(data)
     } else {
       !noSkip && onSkip()
     }
   }, [noSkip, onLogin, onSkip])
 
-  return <PullView side='center' mask>
+  return <PullView ref={ref} side='center' mask onClose={onCancel}>
     <View className='cms-login-weapp'>
       <View className='cms-login-weapp__head'>
         <CmsIcon name='guanbi1' size={36} className='text-white' />
         <Text className='cms-login-weapp__head__name'>登录</Text>
-        <CmsIcon name='guanbi1' size={36} color={duxappTheme.textColor1} onClick={onCancel} />
+        <CmsIcon name='guanbi1' size={36} color={duxappTheme.textColor1}
+          onClick={() => {
+            ref.current.close()
+          }}
+        />
       </View>
       {
         check ?
