@@ -16,3 +16,5 @@ export * from './CmsIcon'
 export * from './Search'
 export * from './Address'
 export * from './list'
+export * from './HeaderSearch'
+

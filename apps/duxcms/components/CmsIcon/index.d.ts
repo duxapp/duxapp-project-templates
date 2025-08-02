@@ -1,6 +1,8 @@
-import { Component, CSSProperties } from 'react'
+import { ComponentType, CSSProperties } from 'react'
 
 interface names {
+  'select_close'
+  'select_check'
   'signboard'
   'add-cart'
   'remind'
@@ -98,6 +100,4 @@ interface CmsIconProps {
 /**
  * CmsIcon 图标库
  */
-export class CmsIcon extends Component<CmsIconProps> {
-
-}
+export const CmsIcon: ComponentType<CmsIconProps>

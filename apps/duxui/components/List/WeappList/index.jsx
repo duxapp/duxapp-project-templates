@@ -73,7 +73,6 @@ export const WeappList = ({
         {renderFooter}
         {loadMore}
       </>}
-
       {...(isWaterfall ? virtualWaterfallProps : virtualListProps)}
     /> :
     <Layout

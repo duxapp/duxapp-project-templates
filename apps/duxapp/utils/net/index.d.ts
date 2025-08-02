@@ -92,6 +92,10 @@ declare namespace Request {
     PUT
     /** DELETE请求 */
     DELETE
+    /** PATCH请求 */
+    PATCH
+    /** HEAD请求 */
+    HEAD
   }
 
   interface RequestOption {

@@ -121,6 +121,7 @@ export const Address = ({
   onChange,
   style,
   leval,
+  level = leval,
   useChild,
   children,
   cancel,
@@ -133,7 +134,7 @@ export const Address = ({
   return <>
     {
       useChild ?
-        cloneElement(children, { onClick: () => !disabled && showAction(!show) }) :
+        cloneElement(children, { value, onClick: () => !disabled && showAction(!show) }) :
         <View onClick={() => !disabled && showAction(!show)} style={style} {...props}>
           {children}
         </View>
@@ -141,7 +142,7 @@ export const Address = ({
     {
       show && <PullView onClose={() => showAction(!show)}>
         <AddressSelect value={value}
-          leval={leval}
+          level={level}
           cancel={cancel}
           onChange={v => {
             showAction(!show)

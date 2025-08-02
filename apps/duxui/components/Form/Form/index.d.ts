@@ -154,6 +154,10 @@ interface FormItemProps extends ColumnProps {
    * https://github.com/PengJiyuan/b-validate?tab=readme-ov-file#schema
    */
   rules?: SchemaRuleType[]
+  /**
+   * 控制表单是否隐藏
+   */
+  hidden?: boolean | ((values: Values) => boolean)
 }
 
 interface FormSubmitProps extends ButtonProps {

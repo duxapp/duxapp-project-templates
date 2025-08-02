@@ -36,7 +36,7 @@ interface RadioProps extends SpaceProps {
   /**
    * 当前选项的标签文字
    */
-  label?: ReactElement
+  label?: string | ReactElement
   /**
    * 如果单独使用 Radio 可以用这个属性控制是否选中
    */

@@ -9,10 +9,14 @@ export const HeaderSearch = ({
   onClick,
   className,
   style,
+  white,
+  grow = true,
   ...props
 }) => {
-  return <Row items='center' grow className={classNames('gap-2 ph-3 r-max', className)} self='stretch'
-    style={{ backgroundColor: duxappTheme.pageColor, ...style }}
+  return <Row items='center' grow={grow}
+    className={classNames('gap-2 ph-3 r-max', white ? 'bg-white' : 'bg-page', className)}
+    style={style}
+    self='stretch'
     onClick={onClick}
     {...props}
   >

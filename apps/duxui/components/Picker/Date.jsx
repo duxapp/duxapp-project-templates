@@ -548,7 +548,7 @@ const parseDateString = (str, fmt) => {
   if (!str) return new Date()
 
   // eslint-disable-next-line no-restricted-globals
-  if (!isNaN(str)) {
+  if (!isNaN(str) && +str > 1000) {
     return new Date(+str)
   }
 

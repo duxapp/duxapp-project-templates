@@ -31,6 +31,7 @@ export const FormItem = ({
   wholeForm,
   fields = wholeForm,
   form: findForm,
+  hidden,
   ...props
 }) => {
 
@@ -45,6 +46,13 @@ export const FormItem = ({
   refs.form = form
   refs.value = value
   refs.checkError = checkError
+
+  let show = !hidden
+  if (hidden) {
+    if (typeof hidden === 'function') {
+      show = !hidden(form.values)
+    }
+  }
 
   const check = useCallback(() => {
     const schema = new Schema({
@@ -64,7 +72,7 @@ export const FormItem = ({
   }, [field, fields])
 
   useEffect(() => {
-    if (rules?.length) {
+    if (rules?.length && show) {
       const { remove } = refs.form.addRules(check)
       return () => remove()
     }
@@ -72,9 +80,12 @@ export const FormItem = ({
   }, [check])
 
   useMemo(() => {
+    if (!show) {
+      return
+    }
     refs.form.onGetField?.(field, refs.fieldOld)
     refs.fieldOld = field
-  }, [field, refs])
+  }, [field, refs, show])
 
   const horizontal = (direction || form.direction) === 'horizontal' && !vertical && (!form.vertical || vertical === false)
 
@@ -114,6 +125,10 @@ export const FormItem = ({
       refs.form.setValue(field, val)
     }
   }, [refs, fields, check, field])
+
+  if (!show) {
+    return
+  }
 
   const cloneForm = item => {
     // 缓存子元素的值更改函数

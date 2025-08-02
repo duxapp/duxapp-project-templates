@@ -1,8 +1,7 @@
 import { Button, Column, Empty, Header, Image, Row, Tab, Text, colorLighten, duxappTheme, nav, px, stopPropagation, useRoute, TabItem } from '@/duxui'
 import { order, orderHook } from '@/duxcmsOrder/utils'
-import { List } from '@/duxcms'
+import { List, HeaderSearch } from '@/duxcms'
 import { useState } from 'react'
-import { HeaderSearch } from './Search'
 
 export const OrderList = () => {
   const { params } = useRoute()
