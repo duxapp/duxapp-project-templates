@@ -5,6 +5,7 @@ import { getContrastYIQ, route, pages as routePages, px, getWindowInfo } from '@
 import theme from '@/duxapp/config/theme'
 import { getPlatform, isPlatformMini, pxNum } from '@/duxapp/utils/util'
 import { TopView } from '../TopView'
+import { Status } from './Status'
 
 import back from './images/back.png'
 import backWhite from './images/back-white.png'
@@ -109,11 +110,13 @@ export const Header = ({
     showHeight
   }
 
+  const YIQColor = getContrastYIQ(color)
+
   useEffect(() => {
     // 设置状态栏颜色
     setTimeout(() => {
       setNavigationBarColor({
-        frontColor: getContrastYIQ(color) === 'white' ? '#000000' : '#ffffff',
+        frontColor: YIQColor === 'white' ? '#000000' : '#ffffff',
         backgroundColor: 'transparent',
         animation: {
           duration: 400,
@@ -121,9 +124,10 @@ export const Header = ({
         }
       })
     }, 100)
-  }, [color])
+  }, [YIQColor])
 
   return <headerContext.Provider value={{ ...option, onBackClick }}>
+    <Status barStyle={YIQColor === 'white' ? 'dark-content' : 'light-content'} />
     {
       option.showHeader ? <>
         {!show && showStatus && <View

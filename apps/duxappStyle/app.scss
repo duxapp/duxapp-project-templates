@@ -632,6 +632,18 @@ taro-input-core {
   background-color: $duxappPageColor;
 }
 
+.bg-mask-1 {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.bg-mask-2 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.bg-mask-3 {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 // 其他
 .square {
   aspect-ratio: 1;

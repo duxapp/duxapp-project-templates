@@ -14,7 +14,7 @@ export default defineConfig({
     },
     styleSheet: {
       getWrapedCSS(css) {
-        const userThemePath = path.resolve(process.cwd(), 'src', 'duxapp', 'userTheme', 'index.rn.js')
+        const userThemePath = path.resolve(process.cwd(), 'src', 'duxapp', 'userTheme', 'index.rn.js').replace(/\\/g, '/')
         return `import { StyleSheet } from 'react-native'
 import { scalePx2dp, scaleVu2dp } from '@tarojs/runtime-rn'
 import themes from '${userThemePath}'

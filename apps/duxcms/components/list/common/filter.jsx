@@ -7,7 +7,7 @@ import './filter.scss'
 export default class PullListFilter extends Component {
   state = {
     accordion: [],
-    inputVal: this.props.data || {},
+    inputVal: this.props.defaultData || {},
   }
 
   componentDidMount() {
@@ -28,12 +28,13 @@ export default class PullListFilter extends Component {
 
   //选择标签
   select(data, item) {
-    var { inputVal } = this.state
+    const { inputVal } = this.state
+    const [min, max] = !item.min && item.value ? item.value.split('-') : [item.min, item.max]
     if (data.maxName) {
-      inputVal[data.minName] = item.min + ''
-      inputVal[data.maxName] = item.max + ''
+      inputVal[data.minName] = min + ''
+      inputVal[data.maxName] = max + ''
     } else {
-      inputVal[data.minName] = item.min + ''
+      inputVal[data.minName] = min + ''
     }
     this.setState({ inputVal })
   }
@@ -91,7 +92,7 @@ export default class PullListFilter extends Component {
                         <Text
                           key={item_.text}
                           numberOfLines={1}
-                          className={['search__container__content__item', inputVal[key] == item_.max && 'search__container__content__item--hover']}
+                          className={['search__container__content__item', item_.max && inputVal[key] == item_.max && 'search__container__content__item--hover']}
                           style={{ width: px(item.tpl === 'interval' ? 260 : 163) }}
                           onClick={this.select.bind(this, item, item_)}
                         >{item_.text}</Text>

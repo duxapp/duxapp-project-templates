@@ -165,6 +165,6 @@ export const ListFilter = ({
         <View onClick={() => setOptionIndex(-1)} style={{ flex: 1 }}></View>
       </View>
     </Absolute>}
-    {more && <FilterMore onClose={() => setMore(false)} data={filter} onSubmit={_data => setPost({ ...post, ..._data })} />}
+    {more && <FilterMore onClose={() => setMore(false)} data={filter} defaultData={post} onSubmit={_data => setPost({ ...post, ..._data })} />}
   </>
 }

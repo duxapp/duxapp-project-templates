@@ -1,11 +1,10 @@
-import React, { Component, cloneElement, memo, useCallback, createContext, useContext, isValidElement, Children } from 'react'
+import React, { Component, cloneElement, memo, useCallback, createContext, useContext, Children } from 'react'
 import { getCurrentInstance } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import classNames from 'classnames'
 import { isIphoneX, route, theme } from '@/duxapp/utils'
 import { QuickEvent } from '@/duxapp/utils/QuickEvent'
 import { KeyboardAvoiding } from '../KeyboardAvoiding'
-import { Status } from './Status'
 import { WeappRem } from './WeappRem'
 import './index.scss'
 import '../../userTheme/index.scss'
@@ -289,7 +288,6 @@ const TopViewFunc = ({ pageKey, children, isSafe, isForm, className, ...props })
       )}
       {...props}
     >
-      <Status barStyle='dark-content' />
       <Container>
         <KeyboardAvoiding enabled={!!isForm}>
           {children}

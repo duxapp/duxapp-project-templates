@@ -10,7 +10,7 @@ export default function ThemeExample() {
     <Header title='Theme' />
     <ScrollView>
       <GroupList>
-        <GroupList.Item title='主题切换功能' desc='主题切换当前仅支持小程序和H5端，其他端还在努力开发中'
+        <GroupList.Item title='主题切换功能' desc='主题切换当前支持小程序 H5 RN端，鸿蒙端还在努力开发中'
           className='gap-3'
         >
           {

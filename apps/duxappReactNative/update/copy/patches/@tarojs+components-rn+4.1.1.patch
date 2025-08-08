@@ -184,7 +184,7 @@ index 4992721..76ecf23 100644
  //# sourceMappingURL=styles.js.map
 \ No newline at end of file
 diff --git a/node_modules/@tarojs/components-rn/dist/components/Video/index.js b/node_modules/@tarojs/components-rn/dist/components/Video/index.js
-index fe23552..54e0824 100644
+index fe23552..cfe02b3 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/Video/index.js
 +++ b/node_modules/@tarojs/components-rn/dist/components/Video/index.js
 @@ -246,7 +246,7 @@ class _Video extends Component {
@@ -197,7 +197,7 @@ index fe23552..54e0824 100644
                  Styles['taro-video-container'],
                  isFullScreen && Styles['taro-video-type-fullscreen'],
 diff --git a/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js b/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
-index 3a0243a..d20a86d 100644
+index 3a0243a..4e276ad 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
 +++ b/node_modules/@tarojs/components-rn/dist/components/hooks/useClickable.js
 @@ -15,11 +15,11 @@ export const clickableHandlers = [
@@ -279,9 +279,10 @@ index 3a0243a..d20a86d 100644
              }
              setStayTimer();
          },
-         onPanResponderTerminate: () => {
+-        onPanResponderTerminate: () => {
 -            // const { onTouchCancel } = this.props
 -            // onTouchCancel && onTouchCancel(this.getWxAppEvent(evt))
++        onPanResponderTerminate: (evt) => {
 +            const { onTouchCancel } = ref.current.props
 +            onTouchCancel && onTouchCancel(getWxAppEvent(evt, 'touchcancel'))
              setStayTimer();
