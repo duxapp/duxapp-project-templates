@@ -22,9 +22,19 @@ const context = /*@__PURE__*/ createContext({ check: noop })
 export const Checkbox = ({
   value, label, checked, half,
   disabled, children: Child,
+  className,
+  onCheck,
   style, ...props
 }) => {
   const { check, currentValue } = useContext(context)
+
+  const click = val => {
+    if (onCheck) {
+      onCheck(!checked)
+    } else {
+      check(val)
+    }
+  }
 
   const isCheck = checked || currentValue?.includes(value)
 
@@ -34,16 +44,16 @@ export const Checkbox = ({
       value={value}
       label={label}
       checked={isCheck}
-      onCheck={() => !disabled && check(value)}
+      onCheck={() => !disabled && click(value)}
     />
   }
 
   return <Row
-    className='gap-1 items-center'
+    className={classNames('gap-1 items-center', className)}
     {...disabled ? {} : {
       onClick: e => {
         stopPropagation(e)
-        check(value)
+        click(value)
       }
     }}
     style={style} {...props}
@@ -70,6 +80,7 @@ export const CheckboxGroup = ({
   style,
   className,
   virtual,
+  max,
   ...props
 }) => {
 
@@ -92,11 +103,14 @@ export const CheckboxGroup = ({
       if (~index) {
         select.splice(index, 1)
       } else {
+        if (max && select.length >= max) {
+          return old
+        }
         select.push(_val)
       }
       return select
     })
-  }, [setVal, disabled])
+  }, [disabled, setVal, max])
 
   return <context.Provider value={{ check, currentValue: val }}>
     {

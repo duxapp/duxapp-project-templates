@@ -1,38 +1,56 @@
 import { Animated, colorDark, colorLighten, duxappTheme, getWindowInfo, nextTick, pxNum, theme, TopView, transformStyle } from '@/duxapp'
 import { View } from '@tarojs/components'
 import { useEffect, useMemo, useState } from 'react'
-import { Column } from '../Flex'
+import { Column, Row } from '../Flex'
 import { Text } from '../Text'
+import { DuxuiIcon } from '../DuxuiIcon'
 
 export const showContextMenu = ({
-  x, y, list
+  x, y, list, animation, oneCallback
 }) => {
   if (!list?.length) {
     return Promise.reject('菜单列表为空')
+  }
+  if (list.length === 1 && oneCallback) {
+    return Promise.resolve({
+      index: 0,
+      item: list[0]
+    })
   }
   if (typeof x !== 'number' || typeof y !== 'number') {
     return Promise.reject('坐标参数错误')
   }
 
-  return new Promise((resolve, reject) => {
-    const { remove } = TopView.add([
-      ContextMenu,
-      {
-        x, y, list,
-        onClose: () => {
-          remove()
-          reject('取消选择')
-        },
-        onSelect: data => {
-          remove()
-          resolve(data)
+  const select = () => {
+    return new Promise((resolve, reject) => {
+      const { remove } = TopView.add([
+        ContextMenu,
+        {
+          x, y, list, animation,
+          onClose: () => {
+            remove()
+            reject('取消选择')
+          },
+          onSelect: data => {
+            remove()
+            if (data.item.children?.length) {
+              animation = false
+              list = data.item.children
+              select().then(resolve).catch(reject)
+            } else {
+              resolve(data)
+            }
+          }
         }
-      }
-    ])
-  })
+      ])
+    })
+  }
+
+  return select()
 }
 
-const ContextMenu = ({ x, y, list, onClose, onSelect }) => {
+const ContextMenu = ({ x, y, list, animation = true, onClose, onSelect }) => {
+
   const itemSize = 48
 
   const [an, setAn] = useState(Animated.defaultState)
@@ -61,6 +79,9 @@ const ContextMenu = ({ x, y, list, onClose, onSelect }) => {
 
   useEffect(() => {
     // 初始化动画
+    if (!animation) {
+      return
+    }
     nextTick(() => {
       setAn(Animated.create({
         duration: 80,
@@ -71,17 +92,19 @@ const ContextMenu = ({ x, y, list, onClose, onSelect }) => {
         .step()
         .export())
     })
-  }, [transform.translateX, transform.translateY, transformOrigin])
+  }, [transform.translateX, transform.translateY, transformOrigin, animation])
 
   return (
     <>
       <View
-        className='absolute inset-0 z-2'
+        className='absolute inset-0'
         onClick={onClose}
+        style={{ zIndex: 10 }}
       />
       <Column
         className='absolute z-2'
         style={{
+          zIndex: 10,
           left: x,
           top: y,
           transform: transformStyle(transform)
@@ -95,18 +118,18 @@ const ContextMenu = ({ x, y, list, onClose, onSelect }) => {
               ? colorLighten(duxappTheme.whiteColor, 0.1)
               : colorDark(duxappTheme.whiteColor, 0.1)
               }`,
-            opacity: 0,
+            opacity: animation ? 0 : 1,
             transform: transformStyle({
-              scaleX: 0,
-              scaleY: 0
+              scaleX: animation ? 0 : 1,
+              scaleY: animation ? 0 : 1
             }),
             transformOrigin
           }}
         >
           {list.map((item, index) => (
-            <Column
+            <Row
               key={index}
-              className='ph-3 z-2 justify-center'
+              className='ph-3 z-2 gap-1 justify-between items-center'
               style={{
                 height: itemSize,
                 borderBottom: index < list.length - 1
@@ -118,8 +141,9 @@ const ContextMenu = ({ x, y, list, onClose, onSelect }) => {
                 onSelect({ item, index })
               }}
             >
-              <Text nowrap>{item}</Text>
-            </Column>
+              <Text nowrap>{item?.name || item}</Text>
+              {!!item.children?.length && <DuxuiIcon name='direction_right' className='text-s3 text-c1' />}
+            </Row>
           ))}
         </Animated.View>
       </Column>

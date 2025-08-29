@@ -1,0 +1,12 @@
+diff --git a/node_modules/@uiw/react-native-alipay/index.js b/node_modules/@uiw/react-native-alipay/index.js
+index 36023d0..21eb09f 100644
+--- a/node_modules/@uiw/react-native-alipay/index.js
++++ b/node_modules/@uiw/react-native-alipay/index.js
+@@ -6,7 +6,6 @@ const LINKING_ERROR =
+   '- You rebuilt the app after installing the package\n' +
+   '- You are not using Expo managed workflow\n';
+ 
+-console.log(':::NativeModules:::', NativeModules.RNAlipay)
+ const RNAlipay = NativeModules.RNAlipay ? NativeModules.RNAlipay  : new Proxy(
+   {},
+   {

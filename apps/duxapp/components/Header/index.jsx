@@ -68,19 +68,21 @@ export const Header = ({
   const h5 = process.env.TARO_ENV === 'h5'
   const harmony = process.env.TARO_ENV === 'harmony_cpp'
 
-  let headerHeight = pxNum(88)
-  // 小程序胶囊按钮宽度
-  let jiaonangWidth = 0
-  // 获取胶囊信息
-  const statusBarHeight = h5 ? 0 : (getWindowInfo().statusBarHeight || 0)
-  if (isPlatformMini) {
-    const { width, height, top } = getMenuButtonBoundingClientRect() || {}
-    if (width && top) {
-      jiaonangWidth = width + 10
-      // 动态计算header高度，让header文本和胶囊完全居中
-      headerHeight = height + (top - statusBarHeight) * 2
-    }
-  }
+  const { headerHeight, statusBarHeight, menuWidth } = getHeaderSize()
+
+  // let headerHeight = pxNum(88)
+  // // 小程序胶囊按钮宽度
+  // let menuWidth = 0
+  // // 获取胶囊信息
+  // const statusBarHeight = h5 ? 0 : (getWindowInfo().statusBarHeight || 0)
+  // if (isPlatformMini) {
+  //   const { width, height, top } = getMenuButtonBoundingClientRect() || {}
+  //   if (width && top) {
+  //     menuWidth = width + 10
+  //     // 动态计算header高度，让header文本和胶囊完全居中
+  //     headerHeight = height + (top - statusBarHeight) * 2
+  //   }
+  // }
 
   const current = routePages[path]
 
@@ -99,7 +101,7 @@ export const Header = ({
     statusBarHeight,
     isBack: pages.length > 1,
     isBackHome: paths[0] === undefined && !current?.home,
-    jiaonangWidth,
+    menuWidth,
     rn,
     harmony,
     h5,
@@ -156,7 +158,7 @@ export const Header = ({
             {
               renderHeader ?
                 <View
-                  style={{ paddingRight: option.jiaonangWidth, height: option.headerHeight }}
+                  style={{ paddingRight: option.menuWidth, height: option.headerHeight }}
                 >
                   {renderHeader}
                 </View>
@@ -182,7 +184,7 @@ export const Header = ({
                   {(option.isBack || option.isBackHome || !!renderRight) && <View className='Header__nav__right'
                     style={option.weapp
                       ? {
-                        marginRight: option.jiaonangWidth
+                        marginRight: option.menuWidth
                       } : {}
                     }
                   >
@@ -196,6 +198,28 @@ export const Header = ({
         : null
     }
   </headerContext.Provider>
+}
+
+export const getHeaderSize = () => {
+  let headerHeight = pxNum(88)
+  // 小程序胶囊按钮宽度
+  let menuWidth = 0
+  // 获取胶囊信息
+  const statusBarHeight = process.env.TARO_ENV === 'h5' ? 0 : (getWindowInfo().statusBarHeight || 0)
+  if (isPlatformMini) {
+    const { width, height, top } = getMenuButtonBoundingClientRect() || {}
+    if (width && top) {
+      menuWidth = width + 10
+      // 动态计算header高度，让header文本和胶囊完全居中
+      headerHeight = height + (top - statusBarHeight) * 2
+    }
+  }
+
+  return {
+    menuWidth,
+    headerHeight,
+    statusBarHeight
+  }
 }
 
 export const HeaderBack = ({

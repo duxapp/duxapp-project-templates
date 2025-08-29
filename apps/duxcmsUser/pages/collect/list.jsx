@@ -5,7 +5,14 @@ import { useCallback } from 'react'
 export default function Collect() {
   return <TopView>
     <Header title='我的收藏' />
-    <Tab buttonRound lazyload justify oneHidden tabStyle={{ backgroundColor: duxappTheme.whiteColor, borderBottomLeftRadius: px(24), borderBottomRightRadius: px(24) }}>
+    <Tab
+      buttonRound lazyload justify oneHidden
+      tabStyle={collect.config.tabBg && {
+        backgroundColor: duxappTheme.whiteColor,
+        borderBottomLeftRadius: px(24),
+        borderBottomRightRadius: px(24)
+      }}
+    >
       {
         collect.types.map(item => <TabItem key={item.type} title={item.name}>
           <contextState.Provider defaultValue={item}>
@@ -40,7 +47,12 @@ const RemoveCard = ({ children, item, action, type }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action.reload, item.id, type])
 
-  return <Card shadow={false} margin className='overflow-hidden' style={{ padding: 0, backgroundColor: colorLighten(duxappTheme.primaryColor, 0.9) }} onClick={detail}>
+  return <Card shadow={false} margin
+    disableMarginBottom
+    className='overflow-hidden'
+    style={{ padding: 0, backgroundColor: colorLighten(duxappTheme.primaryColor, 0.9) }}
+    onClick={detail}
+  >
     {children}
     <Row items='center' justify='between' className='p-2'>
       <Text>收藏时间：{item.created_at.substring(0, 10)}</Text>

@@ -1,5 +1,5 @@
 import { login, getAccountInfoSync } from '@tarojs/taro'
-import { loading } from '@/duxapp'
+import { loading, userConfig } from '@/duxapp'
 import {
   user,
   toast,
@@ -8,6 +8,7 @@ import {
 import config from '@/duxcms/config/request'
 import { WechatLib } from '@/duxappWechatShare'
 import { request, requestMiddle, uploadMiddle } from '@/duxcms'
+import { confirm } from '@/duxui'
 
 export const cmsUser = {
   // 在用户模块注册的名称
@@ -202,11 +203,29 @@ uploadMiddle.before(async params => {
   return params
 }, 10)
 
+let isConfirm
 requestMiddle.result(async (res, params) => {
   if (res.statusCode === 401) {
     if (user.isLogin()) {
-      toast('你已退出登录 请重新登录')
-      user.logout()
+      if (userConfig.option?.duxcmsUser?.singleSign) {
+        if (!isConfirm) {
+          isConfirm = true
+          confirm({
+            title: '警告',
+            content: '你的账号在其他设备已登录，请检查账号密码是否泄露',
+            cancel: false
+          }).then(() => {
+            isConfirm = false
+            user.logout()
+          }).catch(() => {
+            isConfirm = false
+            user.logout()
+          })
+        }
+      } else {
+        toast('你已退出登录 请重新登录')
+        user.logout()
+      }
     } else {
       await user.login()
       const data = await request(params)

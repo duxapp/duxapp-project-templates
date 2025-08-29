@@ -14,7 +14,8 @@ setTimeout(async () => {
   if (process.env.TARO_ENV === 'rn') {
     // eslint-disable-next-line no-undef
     if (__DEV__) {
-      return console.log('调试模式不检查更新')
+      return
+      // return console.log('调试模式不检查更新')
     }
     updateApp(async () => {
       const type = userConfig.option.duxcms?.appUpgrade?.type

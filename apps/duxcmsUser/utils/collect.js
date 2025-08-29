@@ -8,6 +8,9 @@ import { useEffect, useState, useCallback } from 'react'
  */
 export const collect = {
   types: [],
+  config: {
+    tabBg: true
+  },
   addItem: (type, item) => {
     if (typeof type === 'string') {
       type = { ...item, type }

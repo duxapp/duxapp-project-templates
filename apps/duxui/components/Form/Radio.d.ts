@@ -23,6 +23,10 @@ interface RadioGroupProps extends SpaceProps {
    */
   virtual?: boolean
   /**
+   * 允许取消选择
+   */
+  cancel?: boolean
+  /**
    * 禁用选择
    */
   disabled?: boolean

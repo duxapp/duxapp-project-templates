@@ -117,7 +117,7 @@ index bc2ae99..41288c3 100644
              }
          ] }, restImageProps)));
 diff --git a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
-index e5b2464..698b9f0 100644
+index e5b2464..fcee769 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
 +++ b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
 @@ -13,6 +13,9 @@ const styles = StyleSheet.create({
@@ -139,8 +139,8 @@ index e5b2464..698b9f0 100644
                  for (let index = 0; index < INFINITE_BUFFER; index++) {
 -                    childrenArray.push(React.cloneElement(children[index], { ref: null }));
 -                    childrenArray.unshift(React.cloneElement(children[count - index - 1], { ref: null }));
-+                    childrenArray.push(React.cloneElement(childrenArrayData[index], { ref: null }));
-+                    childrenArray.unshift(React.cloneElement(childrenArrayData[count - index - 1], { ref: null }));
++                    childrenArray.push(React.cloneElement(childrenArrayData[index], { ref: null, key: `_next-${index}` }));
++                    childrenArray.unshift(React.cloneElement(childrenArrayData[count - index - 1], { ref: null, key: `_prev-${index}` }));
                  }
              }
 -            pages = childrenArray.map((page, i) => {

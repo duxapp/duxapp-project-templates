@@ -32,6 +32,7 @@ export const FormItem = ({
   fields = wholeForm,
   form: findForm,
   hidden,
+  number,
   ...props
 }) => {
 
@@ -122,9 +123,9 @@ export const FormItem = ({
       if (val && typeof val === 'object' && typeof val.detail?.value !== 'undefined') {
         val = val.detail.value
       }
-      refs.form.setValue(field, val)
+      refs.form.setValue(field, number ? +val : val)
     }
-  }, [refs, fields, check, field])
+  }, [refs, fields, check, field, number])
 
   if (!show) {
     return
@@ -204,7 +205,14 @@ export const FormItem = ({
       {
         renderLabelRight ? <Space row justify='between'>
           {_label}
-          {renderLabelRight}
+          {isValidElement(renderLabelRight) ?
+            cloneElement(renderLabelRight, {
+              value: renderLabelRight.props.value ?? (fields ? form.values : value),
+              onChange: renderLabelRight.props.onChange ?? change,
+              disabled: renderLabelRight.props.disabled ?? disabled ?? form.disabled
+            }) :
+            renderLabelRight
+          }
         </Space>
           : _label
       }
