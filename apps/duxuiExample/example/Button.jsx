@@ -13,6 +13,31 @@ export default function ButtonExample() {
         <GroupList.Item title='镂空按钮'>
           <Button plain type='primary'>按钮</Button>
         </GroupList.Item>
+        <GroupList.Item title='柔和填充（soft）'>
+          <Space row>
+            <Button soft type='primary'>主色 soft</Button>
+            <Button soft type='success'>成功 soft</Button>
+            <Button soft type='warning'>警告 soft</Button>
+          </Space>
+        </GroupList.Item>
+        <GroupList.Item title='柔和填充 + 自定义颜色'>
+          <Space row>
+            <Button soft color='#e91e63'>粉色 soft</Button>
+            <Button soft color='#333'>深灰 soft</Button>
+          </Space>
+        </GroupList.Item>
+        <GroupList.Item title='soft 与 plain 对比'>
+          <Space row>
+            <Button plain type='primary'>plain</Button>
+            <Button soft type='primary'>soft</Button>
+          </Space>
+        </GroupList.Item>
+        <GroupList.Item title='soft + plain 同时生效'>
+          <Space row>
+            <Button soft plain type='primary'>主色 soft+plain</Button>
+            <Button soft plain color='#e91e63'>自定义色 soft+plain</Button>
+          </Space>
+        </GroupList.Item>
         <GroupList.Item title='使用渐变'>
           <Space>
             <Button color={[duxappTheme.primaryColor, duxappTheme.secondaryColor]}>默认从左到右</Button>

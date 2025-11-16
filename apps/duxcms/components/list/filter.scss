@@ -10,7 +10,7 @@
     height: 80px;
     padding: 20px 5px;
     &__text {
-      margin-right: 10px;
+      margin-right: 2px;
       color: $duxappTextColor1;
       font-size: 28px;
     }
@@ -27,6 +27,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     background-color: $duxappWhiteColor;
+    border-radius: 0 0 24px 24px;
   }
   &__item {
     justify-content: space-between;

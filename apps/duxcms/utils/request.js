@@ -52,7 +52,7 @@ requestMiddle.before(before, 10)
 uploadMiddle.before(before, 10)
 requestMiddle.result(async (res) => {
   if (res.statusCode === 200) {
-    const data = res.data.data || {}
+    const data = res.data.data || res.data.result || {}
     data._meta = res.data.meta
     return data
   }

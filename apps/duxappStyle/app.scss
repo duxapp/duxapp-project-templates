@@ -456,6 +456,10 @@ taro-input-core {
   padding: 24px;
 }
 
+.p-4 {
+  padding: 32px;
+}
+
 .pv-1 {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -630,6 +634,18 @@ taro-input-core {
 
 .bg-page {
   background-color: $duxappPageColor;
+}
+
+.bg-custom-1 {
+  background-color: $duxappCustomColor1;
+}
+
+.bg-custom-2 {
+  background-color: $duxappCustomColor2;
+}
+
+.bg-custom-3 {
+  background-color: $duxappCustomColor3;
 }
 
 .bg-mask-1 {

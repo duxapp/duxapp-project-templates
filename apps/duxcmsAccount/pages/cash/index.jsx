@@ -32,7 +32,7 @@ export default function Cash() {
 
   return <TopView isSafe>
     <Header title='提现' />
-    <Card margin className='p-3' shadow>
+    <Card margin className='p-3 gap-3' shadow>
       <Text className='mt-2'>可提现：{info.amount}</Text>
       <Row className='mt-3' justify='start' items='center'>
         <FormItem field='money'>

@@ -68,6 +68,8 @@ export const Canvas = forwardRef(({ onLayout, ...props }, ref) => {
           refs.canvas.width = size.width * dpr
           refs.canvas.height = size.height * dpr
 
+          refs.ctx.scale(dpr, dpr)
+
           refs.onLayout?.(size)
         })
     }, 20, false)

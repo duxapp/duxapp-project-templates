@@ -1,6 +1,6 @@
 import { View, Text } from '@tarojs/components'
 import { usePageData } from '@/duxcms/utils'
-import { PullView, ScrollView, Tab, TabItem } from '@/duxui'
+import { ModalForm, PullView, ScrollView, Tab, TabItem } from '@/duxui'
 import { useCallback, useEffect, useMemo, useRef, useState, cloneElement } from 'react'
 import { CmsIcon } from '../CmsIcon'
 import './index.scss'
@@ -114,6 +114,15 @@ export const AddressSelect = ({
       }
     </ScrollView>
   </View>
+}
+
+export const PullAddress = ({ level, cancel, ...props }) => {
+  return <ModalForm title='地区选择' {...props}
+    autoSubmit
+    renderForm={<AddressSelect
+      level={level}
+    />}
+  />
 }
 
 export const Address = ({

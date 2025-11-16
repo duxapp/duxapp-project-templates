@@ -1,5 +1,5 @@
 import { login, getAccountInfoSync } from '@tarojs/taro'
-import { loading, userConfig } from '@/duxapp'
+import { asyncTimeOut, loading, userConfig } from '@/duxapp'
 import {
   user,
   toast,
@@ -214,9 +214,11 @@ requestMiddle.result(async (res, params) => {
             title: '警告',
             content: '你的账号在其他设备已登录，请检查账号密码是否泄露',
             cancel: false
-          }).then(() => {
+          }).then(async () => {
             isConfirm = false
-            user.logout()
+            await user.logout()
+            await asyncTimeOut(100)
+            user.login() // 打开登录
           }).catch(() => {
             isConfirm = false
             user.logout()

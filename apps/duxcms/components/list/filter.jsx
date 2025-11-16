@@ -74,7 +74,7 @@ export const ListFilter = ({
             {['const', 'sort'].indexOf(item.tpl) == -1 &&
               <View className='list-filter__item' onClick={() => setOptionIndex(optionIndex === index ? -1 : index)}>
                 <Text className='list-filter__item__text' style={hover ? { color: duxappTheme.primaryColor } : {}}>{item.text}</Text>
-                <CmsIcon name={hover ? 'direction_up' : 'direction_down'} size={26} color={hover ? duxappTheme.primaryColor : '#707070'} />
+                <CmsIcon name={hover ? 'direction_up' : 'direction_down'} size={26} color={hover ? duxappTheme.primaryColor : duxappTheme.textColor3} />
               </View>
             }
             {item.tpl == 'const' &&
@@ -119,7 +119,7 @@ export const ListFilter = ({
         }}
       >
         <Text className='list-filter__item__text'>筛选</Text>
-        <CmsIcon name='direction_down' size={32} color='#707070' />
+        <CmsIcon name='filter' className='text-s5 text-c3' />
       </View>}
     </Layout>}
     {optionIndex !== -1 && <Absolute>
@@ -132,7 +132,7 @@ export const ListFilter = ({
                 onClick={() => selectValue(item.value)}
               >
                 <Text className={['list-filter-open__item__text', hoverRadio && 'list-filter-open__item__text--hover'].join(' ')}>{item.text}</Text>
-                {hoverRadio && <CmsIcon name='check' size={32} color='#FF442A' />}
+                {hoverRadio && <CmsIcon name='select_check' className='text-s7 text-primary' />}
               </View>
             })}
           </View>
@@ -165,6 +165,6 @@ export const ListFilter = ({
         <View onClick={() => setOptionIndex(-1)} style={{ flex: 1 }}></View>
       </View>
     </Absolute>}
-    {more && <FilterMore onClose={() => setMore(false)} data={filter} defaultData={post} onSubmit={_data => setPost({ ...post, ..._data })} />}
+    {more && <FilterMore onClose={() => setMore(false)} data={filter} defaultData={post} onSubmit={setPost} />}
   </>
 }

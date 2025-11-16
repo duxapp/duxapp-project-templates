@@ -24,7 +24,7 @@ index dd24946..f7d5add 100644
  //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsSUFBSSxRQUFRLENBQUM7QUFDYixJQUFJLE9BQU8sQ0FBQyxHQUFHLENBQUMsUUFBUSxLQUFLLE9BQU8sRUFBRTtJQUNwQyxRQUFRLEdBQUcsT0FBTyxDQUFDLFVBQVUsQ0FBQyxDQUFDO0NBQ2hDO0tBQU0sSUFBSSxPQUFPLENBQUMsR0FBRyxDQUFDLFFBQVEsS0FBSyxJQUFJLEVBQUU7SUFDeEMsUUFBUSxHQUFHLE9BQU8sQ0FBQyxVQUFVLENBQUMsQ0FBQztDQUNoQztLQUFNLElBQUksT0FBTyxDQUFDLEdBQUcsQ0FBQyxRQUFRLEtBQUssSUFBSSxFQUFFO0lBQ3hDLFFBQVEsR0FBRyxPQUFPLENBQUMsVUFBVSxDQUFDLENBQUM7Q0FDaEM7QUFFWSxRQUFBLE9BQU8sR0FBRyxRQUFRLENBQUMsT0FBTyxDQUFDO0FBQzNCLFFBQUEsZUFBZSxHQUFHLFFBQVEsQ0FBQyxlQUFlLENBQUMifQ==
 \ No newline at end of file
 diff --git a/node_modules/taro-charts/build/main/lib/mp.js b/node_modules/taro-charts/build/main/lib/mp.js
-index 049dda8..411dc83 100644
+index 049dda8..dc4aff0 100644
 --- a/node_modules/taro-charts/build/main/lib/mp.js
 +++ b/node_modules/taro-charts/build/main/lib/mp.js
 @@ -27,7 +27,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
@@ -35,7 +35,47 @@ index 049dda8..411dc83 100644
  const taro_1 = __importDefault(require("@tarojs/taro"));
  const echarts = __importStar(require("echarts/core"));
  const renderers_1 = require("echarts/renderers");
-@@ -104,8 +103,8 @@ function EchartsComponetMP(props, ref) {
+@@ -72,30 +71,33 @@ function EchartsComponetMP(props, ref) {
+             const query = taro_1.default.createSelectorQuery();
+             query
+                 .select(`#${(_a = props.canvasId) !== null && _a !== void 0 ? _a : 'i-echarts'}`)
+-                .node()
++                .fields({ node: true, size: true })
+                 .exec((res) => {
+                 var _a;
+                 const canvas = res[0].node;
++                const ctx = canvas.getContext('2d');
++                const dpr = taro_1.default.getSystemInfoSync().pixelRatio;
++                canvas.width = res[0].width * dpr;
++                canvas.height = res[0].height * dpr;
+                 Object.defineProperty(canvas, 'style', {
+                     get() {
+                         return {
+-                            width: this.width + 'px',
+-                            height: this.height + 'px'
++                            width: this.width / dpr + 'px',
++                            height: this.height / dpr + 'px'
+                         };
+                     }
+                 });
+                 Object.defineProperty(canvas, 'clientHeight', {
+                     get() {
+-                        return this.height;
++                        return this.height / dpr + 'px';
+                     }
+                 });
+                 Object.defineProperty(canvas, 'clientWidth', {
+                     get() {
+-                        return this.width;
++                        return this.width / dpr + 'px';
+                     }
+                 });
+                 (0, copyProperties_1.default)(canvas.constructor.prototype, EventTarget_1.default.prototype);
+-                const ctx = canvas.getContext('2d');
+                 const chartCanvas = new wx_canvas_1.default(ctx, (_a = props.canvasId) !== null && _a !== void 0 ? _a : 'i-echarts', true, canvas, events.current);
+                 // @ts-ignore
+                 echarts.setPlatformAPI({ createCanvas: () => chartCanvas });
+@@ -104,8 +106,8 @@ function EchartsComponetMP(props, ref) {
              });
          }, 0);
      }, []);

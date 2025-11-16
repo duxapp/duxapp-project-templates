@@ -1,114 +1,134 @@
-import { Component } from 'react'
+import { useState, useRef } from 'react'
 import { View, Input } from '@tarojs/components'
-import { ScrollView, PullView, Text, px, Button, Row } from '@/duxui'
-import { CmsIcon } from '../../CmsIcon'
+import { ScrollView, PullView, Text, px, Row, Column } from '@/duxui'
+import classNames from 'classnames'
 import './filter.scss'
 
-export default class PullListFilter extends Component {
-  state = {
-    accordion: [],
-    inputVal: this.props.defaultData || {},
-  }
+const PullListFilter = ({ data = [], defaultData = {}, onSubmit, onClose }) => {
+  const [inputVal, setInputVal] = useState(defaultData)
 
-  componentDidMount() {
-    const { data } = this.props
-    data.map((item) => {
-      item.tpl == 'interval' && (item.accordionOff = true)
-    })
-    this.forceUpdate()
-  }
+  const pull = useRef()
 
-  // 手风琴折叠
-  accordion(index) {
-    const { data } = this.props
-    const { accordion } = this.state
-    if (data[index].accordionOff) return
-    this.setState({ accordion: { ...accordion, [index]: !accordion[index] } })
-  }
-
-  //选择标签
-  select(data, item) {
-    const { inputVal } = this.state
+  const handleSelect = (dataItem, item) => {
     const [min, max] = !item.min && item.value ? item.value.split('-') : [item.min, item.max]
-    if (data.maxName) {
-      inputVal[data.minName] = min + ''
-      inputVal[data.maxName] = max + ''
+    const newInputVal = { ...inputVal }
+
+    if (dataItem.maxName) {
+      newInputVal[dataItem.minName] = min + ''
+      newInputVal[dataItem.maxName] = max + ''
     } else {
-      inputVal[data.minName] = min + ''
+      newInputVal[dataItem.minName] = min + ''
     }
-    this.setState({ inputVal })
+    setInputVal(newInputVal)
   }
 
-  // 输入框
-  input(key, e) {
-    const { inputVal } = this.state
-    this.setState({ inputVal: { ...inputVal, [key]: e.target.value } })
+  const handleInput = (key, e) => {
+    setInputVal(prev => ({ ...prev, [key]: e.target.value }))
   }
 
-  // 重置
-  reset() {
-    this.setState({ inputVal: {} })
+  const handleReset = () => {
+    const vals = { ...defaultData }
+    data.map(item => {
+      delete vals[item.minName]
+      if (item.maxName) {
+        delete vals[item.maxName]
+      }
+    })
+    setInputVal(vals)
   }
 
-  // 确定
-  submit() {
-    this.props.onSubmit(this.state.inputVal)
-    this.close()
+  const handleSubmit = async () => {
+    await pull.current.close(false)
+    onSubmit(inputVal)
+    onClose?.()
   }
 
-  close() {
-    this.props.onClose?.()
+  const handleClose = async () => {
+    await pull.current.close()
+    onClose?.()
   }
 
-  render() {
-    const { accordion, inputVal } = this.state
-    const { data = [] } = this.props
-    return (
-      <PullView side='right' onClose={this.close.bind(this)}>
-        <View className='search__container'>
-          <ScrollView>
-            {data.map((item, index) => {
-              const key = item.maxName ? item.maxName : item.value
-              return <View key={item.name + item.text} className='search__container__box'>
-                <View className='search__container__title' onClick={this.accordion.bind(this, index)}>
-                  <Text className='search__container__title__titleText'>{item.text}</Text>
-                  {!data[index].accordionOff &&
-                    <CmsIcon name={!!accordion[index] ? 'direction_down' : 'direction_up'} className='search__container__title__icon' />
-                  }
+  return (
+    <PullView onClose={onClose} ref={pull}>
+      <View className='list-filter-pop'>
+        <Row className='p-3 items-center'>
+          <Text style={{ color: 'transparent' }}>取消</Text>
+          <Text size={5} grow bold align='center'>筛选</Text>
+          <Text onClick={handleClose}>取消</Text>
+        </Row>
+        <ScrollView>
+          {data.map(item => {
+            // const key = item.maxName ? item.maxName : item.value
+            return (
+              <View key={item.name + item.text} className='list-filter-pop__box'>
+                <View className='list-filter-pop__title'>
+                  <Text className='list-filter-pop__title__titleText'>{item.text}</Text>
                 </View>
-                {(!!accordion[index] || data[index].accordionOff) &&
-                  <View className='search__container__content'>
-                    {item.tpl === 'interval' &&
-                      <View className='search__container__content__enter'>
-                        <View className='search__container__content__enter__inputBox'>
-                          <Input onInput={this.input.bind(this, item.minName)} value={inputVal[item.minName]} className='search__container__content__enter__input' placeholder='最小值'></Input>
-                          <Text> — </Text>
-                          <Input onInput={this.input.bind(this, item.maxName)} value={inputVal[item.maxName]} className='search__container__content__enter__input' placeholder='最大值'></Input>
-                        </View>
+                <View className='list-filter-pop__content'>
+                  {item.tpl === 'interval' && (
+                    <View className='list-filter-pop__content__enter'>
+                      <View className='list-filter-pop__content__enter__inputBox'>
+                        <Input
+                          onInput={(e) => handleInput(item.minName, e)}
+                          value={inputVal[item.minName]}
+                          className='list-filter-pop__content__enter__input'
+                          placeholder='最小值'
+                        />
+                        <Text> — </Text>
+                        <Input
+                          onInput={(e) => handleInput(item.maxName, e)}
+                          value={inputVal[item.maxName]}
+                          className='list-filter-pop__content__enter__input'
+                          placeholder='最大值'
+                        />
                       </View>
-                    }
-                    {item.list.map(item_ => {
-                      return (
-                        <Text
-                          key={item_.text}
-                          numberOfLines={1}
-                          className={['search__container__content__item', item_.max && inputVal[key] == item_.max && 'search__container__content__item--hover']}
-                          style={{ width: px(item.tpl === 'interval' ? 260 : 163) }}
-                          onClick={this.select.bind(this, item, item_)}
-                        >{item_.text}</Text>
-                      )
-                    })}
-                  </View>
-                }
+                    </View>
+                  )}
+                  {item.list.map(item_ => (
+                    <Text
+                      key={item_.text}
+                      numberOfLines={1}
+                      className={classNames(
+                        'list-filter-pop__content__item',
+                        inputVal[item.maxName] == item_.value?.split('-')[1] && 'list-filter-pop__content__item--hover'
+                      )}
+                      style={{ width: px(item.tpl === 'interval' ? 316 : 220) }}
+                      onClick={() => handleSelect(item, item_)}
+                    >
+                      {item_.text}
+                    </Text>
+                  ))}
+                </View>
               </View>
-            })}
-          </ScrollView>
-          <Row className='gap-3 p-3'>
-            <Button type='primary' className='flex-grow' size='l' plain onClick={this.reset.bind(this)}>重置</Button>
-            <Button type='primary' className='flex-grow' size='l' onClick={this.submit.bind(this)}>确定</Button>
-          </Row>
-        </View>
-      </PullView>
-    )
-  }
+            )
+          })}
+        </ScrollView>
+        <Row
+          className='bg-primary r-max m-3'
+          style={{
+            height: px(90),
+            padding: px(1)
+          }}
+        >
+          <Column
+            className='bg-white flex-grow items-center justify-center r-max'
+            onClick={handleReset}
+            style={{
+              borderTopRightRadius: 0
+            }}
+          >
+            <Text size={4} bold>重置</Text>
+          </Column>
+          <Column
+            className='flex-grow items-center justify-center'
+            onClick={handleSubmit}
+          >
+            <Text size={4} bold>确定</Text>
+          </Column>
+        </Row>
+      </View>
+    </PullView>
+  )
 }
+
+export default PullListFilter

@@ -1,4 +1,4 @@
-import { Header, ScrollView, TopView, Form, Card, Divider, Input, toast, DividerGroup, FormItem, InputSearch } from '@/duxuiExample'
+import { Header, ScrollView, TopView, Form, Card, Input, toast, DividerGroup, FormItem, InputSearch } from '@/duxuiExample'
 
 export default function InputExample() {
   return <TopView>
@@ -7,13 +7,13 @@ export default function InputExample() {
       <ScrollView>
         <Card margin verticalPadding={false}>
           <DividerGroup>
-            <FormItem label='输入框' field='input1'>
+            <FormItem label='输入框' name='input1'>
               <Input placeholder='请输入' grow />
             </FormItem>
-            <FormItem label='文本在右' field='input2'>
+            <FormItem label='文本在右' name='input2'>
               <Input placeholder='请输入' align='right' grow />
             </FormItem>
-            <FormItem label='搜索输入' field='input3'
+            <FormItem label='搜索输入' name='input3'
               desc='使用防抖处理的输入框'
             >
               <InputSearch placeholder='请输入关键词' align='right' grow

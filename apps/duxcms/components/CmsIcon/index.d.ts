@@ -1,6 +1,8 @@
 import { ComponentType, CSSProperties } from 'react'
 
 interface names {
+  'filter'
+  'filter-fill'
   'select_close'
   'select_check'
   'signboard'

@@ -6,6 +6,7 @@ import { isIphoneX, route, theme } from '@/duxapp/utils'
 import { QuickEvent } from '@/duxapp/utils/QuickEvent'
 import { KeyboardAvoiding } from '../KeyboardAvoiding'
 import { WeappRem } from './WeappRem'
+import { Block } from './Block'
 import './index.scss'
 import '../../userTheme/index.scss'
 
@@ -228,8 +229,13 @@ class CreateEle extends Component {
     const { elements } = this.state
     const index = elements.findIndex(v => v.key === e.key)
     if (~index) {
-      elements.splice(index, 1)
-      this.setState({ elements })
+      // 修复ScrollView滚动到顶部的问题，先标记为删除，等待所有的都移除后再删除
+      elements[index] = { key: elements[index].key, remove: true }
+      if (elements.every(v => v.remove)) {
+        this.setState({ elements: [] })
+      } else {
+        this.setState({ elements })
+      }
     }
     if (add) {
       this.add(add)
@@ -244,7 +250,9 @@ class CreateEle extends Component {
     const { elements } = this.state
     return <Position>
       {
-        elements.map(item => <EleItem key={item.key} item={item} onRemove={this.remove} />)
+        elements.map(item => <Block key={item.key}>
+          <EleItem key={item.key} item={item} onRemove={this.remove} />
+        </Block>)
       }
     </Position>
   }
@@ -292,7 +300,9 @@ const TopViewFunc = ({ pageKey, children, isSafe, isForm, className, ...props })
         <KeyboardAvoiding enabled={!!isForm}>
           {children}
         </KeyboardAvoiding>
-        <CreateEle page={pageKey} />
+        <Block>
+          <CreateEle page={pageKey} />
+        </Block>
       </Container>
     </View>
   </>

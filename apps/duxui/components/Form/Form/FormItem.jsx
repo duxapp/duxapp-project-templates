@@ -138,7 +138,7 @@ export const FormItem = ({
       [trigger]: change,
       field: item.props.field || field,
       [triggerPropName]: item[triggerPropName] ?? (fields ? form.values : value),
-      disabled: disabled ?? form.disabled
+      disabled: item.props.disabled ?? disabled ?? form.disabled
     })
   }
 

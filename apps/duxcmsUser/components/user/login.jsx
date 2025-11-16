@@ -64,6 +64,8 @@ export const config = {
   weappForceWatch: false,
   // 开启验证码功能
   code: true,
+  // 开启密码功能
+  password: true,
   // 名称
   appName: 'DuxCms',
   // 扩展表单
@@ -186,7 +188,8 @@ export const Account = ({
     ...extPost
   })
 
-  const [passwordLogin, passwordLoginAction] = useState(true)
+  // 登录方式：优先密码；当关闭密码功能时，强制为验证码登录
+  const [passwordLogin, passwordLoginAction] = useState(() => !!config.password)
 
   // 是否输入了完整的用户名
   const [isUserName, setIsUserName] = useState(false)
@@ -239,20 +242,26 @@ export const Account = ({
     let promise
     loadingAction(old => !old)
     if (reg) {
+      // 注册：当关闭密码功能时，不传 password 字段，仅支持验证码/扩展表单
+      const payload = { ...post }
+      if (!config.password) delete payload.password
+      if (!config.code) delete payload.code
       promise = request({
         url: regUrl,
         method: 'POST',
-        data: post,
+        data: payload,
         toast: true
       })
     } else {
+      // 登录：当关闭密码功能时，强制验证码登录
+      const loginType = config.password ? (passwordLogin ? 'password' : 'code') : 'code'
+      const payload = { ...post, type: loginType }
+      if (loginType === 'code') delete payload.password
+      if (loginType === 'password') delete payload.code
       promise = request({
         url: loginUrl,
         method: 'POST',
-        data: {
-          ...post,
-          type: passwordLogin ? 'password' : 'code'
-        },
+        data: payload,
         toast: true
       })
     }
@@ -317,13 +326,16 @@ export const Account = ({
             reg
               ? <>
                 {config.code && <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />}
-                <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder='请设置密码' />
+                {config.password && <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder='请设置密码' />}
               </>
               : <>
                 {
-                  passwordLogin || !config.code
+                  (config.password && (passwordLogin || !config.code))
                     ? <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} />
-                    : <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />
+                    : (config.code
+                        ? <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />
+                        : <Text align='center' size={2} color={3}>未开启任何登录方式</Text>
+                      )
                 }
               </>
           }
@@ -359,6 +371,7 @@ export const Account = ({
               return null
             })
           }
+          <userHook.Render mark='reg.extForm' option={{ reg, post, postAction }} />
         </>
       }
     </View>
@@ -372,11 +385,11 @@ export const Account = ({
       >
         {bind ? (reg ? '注册并绑定' : '绑定') : (reg ? '注册并登录' : '登录')}
       </Button>
-      {!reg && <Row justify='between' className='mt-3 pv-2'>
+      {!reg && (config.password && config.code) && <Row justify='between' className='mt-3 pv-2'>
         <Text onClick={() => passwordLoginAction(old => !old)}>
-          {!config.code ? '' : passwordLogin ? '验证码登录' : '密码登录'}
+          {passwordLogin ? '验证码登录' : '密码登录'}
         </Text>
-        {passwordLogin && <Text onClick={() => nav('duxcmsUser/info/forget')}>忘记密码?</Text>}
+        {config.password && passwordLogin && <Text onClick={() => nav('duxcmsUser/info/forget')}>忘记密码?</Text>}
       </Row>}
     </>}
   </>
@@ -516,6 +529,11 @@ export const WeappTelLogin = ({
     }
   }, [noSkip, onLogin, onSkip])
 
+  useEffect(() => {
+    return () => onCancel()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return <PullView ref={ref} side='center' mask onClose={onCancel}>
     <View className='cms-login-weapp'>
       <View className='cms-login-weapp__head'>
@@ -539,9 +557,8 @@ export const WeappTelLogin = ({
           >手机号快捷登录</Button>
       }
       {
-        !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>手机号登录</Text>
+        !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>使用其他手机号</Text>
       }
-
       <Row items='center' className='gap-2 mt-3' justify='center'>
         <Radio checked={check} onClick={() => setCheck(!check)} />
         <Row>

@@ -31,13 +31,13 @@ export const registerH5ConfigPromise = promise => {
 
 export const setPageShare = async (config, globalParams, Share) => {
   if (data.wechatObj) {
-    let _config = getPageConfig({ ...config, globalParams })
+    let _config = getPageConfig(config)
     if (_config) {
       if (_config.async) {
         _config = { ..._config, ...await _config.async() }
       }
       data.wechatObj.callWechatApi('showAllNonBaseMenuItem')
-      const query = qs.stringify(_config.params)
+      const query = qs.stringify({ ...globalParams, ..._config.params })
       // const link = `${window.location.origin}${window.location.pathname}${window.location.search}#/${_config.path}${query ? (_config.path.includes('?') ? '&' : '?') : ''}${query}`
 
       // 不使用url的参数，参数交给分享处理

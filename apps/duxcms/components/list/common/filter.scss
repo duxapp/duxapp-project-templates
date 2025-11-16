@@ -1,9 +1,7 @@
-.search__container {
-  width: 610px;
-  padding-top: 120px;
-  flex: 1;
-  // height: 100%;
+.list-filter-pop {
+  height: 1000px;
   background-color: $duxappWhiteColor;
+  border-radius: 24px 24px 0 0;
   &__box {
     // border: 0 solid #b3b3b3;
     // border-top-width: 1px;
@@ -11,18 +9,12 @@
     padding-right: 30px;
   }
   &__title {
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
+    justify-content: center;
     height: 95px;
     &__titleText {
       color: $duxappTextColor1;
       font-size: 28px;
       font-weight: bold;
-    }
-    &__icon {
-      color: $duxappTextColor2;
-      font-size: 26px;
     }
   }
   &__content {
@@ -43,7 +35,7 @@
         flex-direction: row;
       }
       &__input {
-        width: 250px;
+        width: 316px;
         height: 57px;
         text-align: center;
         background-color: $duxappPageColor;

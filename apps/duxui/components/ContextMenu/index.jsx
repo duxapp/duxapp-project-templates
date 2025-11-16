@@ -55,7 +55,7 @@ const ContextMenu = ({ x, y, list, animation = true, onClose, onSelect }) => {
 
   const [an, setAn] = useState(Animated.defaultState)
 
-  const { transformOrigin, transform } = useMemo(() => {
+  const { transformOrigin, transform, top } = useMemo(() => {
     const info = getWindowInfo()
     const menuHeight = list.length * itemSize
 
@@ -65,15 +65,33 @@ const ContextMenu = ({ x, y, list, animation = true, onClose, onSelect }) => {
       translateX = '-100%'
     }
 
-    // 计算垂直位置和变换
-    let translateY = '0%'
-    if (y + menuHeight > info.windowHeight) {
-      translateY = '-100%'
+    // 计算垂直位置，尽量保证菜单完全出现在屏幕内
+    let _top = y
+    let originY = '0%' // 默认从上方向下展开
+
+    if (y + menuHeight <= info.windowHeight) {
+      // 下侧空间足够，正常放在下侧，但如果高度过大仍然可能超出底部，做一次兜底修正
+      const bottom = y + menuHeight
+      if (bottom > info.windowHeight) {
+        _top = Math.max(0, info.windowHeight - menuHeight)
+      }
+    } else {
+      // 下侧不够，尝试放到上侧
+      const aboveTop = y - menuHeight
+      if (aboveTop >= 0) {
+        // 上侧空间足够，直接贴在上侧
+        _top = aboveTop
+        originY = '100%' // 从下方向上展开
+      } else {
+        // 上下都放不下完整菜单：顶端对齐屏幕顶部
+        _top = 0
+      }
     }
 
     return {
-      transformOrigin: `${translateX === '0%' ? '0%' : '100%'} ${translateY === '0%' ? '0%' : '100%'}`,
-      transform: { translateX, translateY }
+      transformOrigin: `${translateX === '0%' ? '0%' : '100%'} ${originY}`,
+      transform: { translateX },
+      top: _top
     }
   }, [x, y, list.length, itemSize])
 
@@ -92,7 +110,7 @@ const ContextMenu = ({ x, y, list, animation = true, onClose, onSelect }) => {
         .step()
         .export())
     })
-  }, [transform.translateX, transform.translateY, transformOrigin, animation])
+  }, [transform.translateX, transformOrigin, animation])
 
   return (
     <>
@@ -106,7 +124,7 @@ const ContextMenu = ({ x, y, list, animation = true, onClose, onSelect }) => {
         style={{
           zIndex: 10,
           left: x,
-          top: y,
+          top,
           transform: transformStyle(transform)
         }}
       >

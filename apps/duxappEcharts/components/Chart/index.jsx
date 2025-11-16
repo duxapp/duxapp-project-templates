@@ -1,7 +1,8 @@
 import { use, init } from 'echarts/core'
 import { Echarts, EchartsRenderer } from 'taro-charts'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Layout } from '@/duxapp'
+import { getWindowInfo, Layout } from '@/duxapp'
+import { Canvas } from '@tarojs/components'
 import './index.scss'
 
 const defaultOption = {}
@@ -51,6 +52,7 @@ export const Chart = ({ option = defaultOption, components, onInit, className, s
           renderer: 'svg',
           width: size.width,
           height: size.height,
+          devicePixelRatio: getWindowInfo().pixelRatio
         })
         canvas.setChart?.(charts)
         charts.setOption(option)
@@ -58,5 +60,7 @@ export const Chart = ({ option = defaultOption, components, onInit, className, s
         onInit?.(charts)
       }}
     />}
+
+    {process.env.TARO_PLATFORM === 'mini' && <Canvas style={{ display: 'none' }} />}
   </Layout>
 }

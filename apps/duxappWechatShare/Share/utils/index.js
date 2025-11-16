@@ -37,12 +37,14 @@ export const useWeappShare = (key, Share) => {
     return () => remove()
   }, [remove])
 
+  const globalParams = Share.useGlobalParams()
+
   const getResult = useCallback((data = {}) => {
     const { params, path, title, weappImage } = data
 
     const [_path, pathQuery] = path.split('?')
 
-    const query = qs.stringify({ ...params, ...qs.parse(pathQuery || '') })
+    const query = qs.stringify({ ...globalParams, ...params, ...qs.parse(pathQuery || '') })
 
     return {
       path: `${path.startsWith('/') ? '' : '/'}${_path}${query ? '?' : ''}${query}`,
@@ -51,12 +53,10 @@ export const useWeappShare = (key, Share) => {
       // 分享到朋友圈参数 分享朋友圈不支持 path 但支持query
       query
     }
-  }, [])
-
-  const globalParams = Share.useGlobalParams()
+  }, [globalParams])
 
   const shareData = useMemo(() => {
-    const _shareData = getPageConfig({ ...config, globalParams })
+    const _shareData = getPageConfig(config)
     if (!_shareData) {
       return null
     }
@@ -64,7 +64,8 @@ export const useWeappShare = (key, Share) => {
       ...getResult(_shareData),
       async: _shareData.async
     }
-  }, [globalParams, config, getResult])
+  }, [config, getResult])
+
 
   useShareAppMessage(() => {
     Share.shareEvent.trigger({

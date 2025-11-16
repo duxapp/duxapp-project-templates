@@ -116,6 +116,69 @@ index bc2ae99..41288c3 100644
                  height: imageHeight
              }
          ] }, restImageProps)));
+diff --git a/node_modules/@tarojs/components-rn/dist/components/Input/index.js b/node_modules/@tarojs/components-rn/dist/components/Input/index.js
+index b422ad6..523233e 100644
+--- a/node_modules/@tarojs/components-rn/dist/components/Input/index.js
++++ b/node_modules/@tarojs/components-rn/dist/components/Input/index.js
+@@ -52,14 +52,16 @@ const _Input = (props) => {
+     const lineCount = React.useRef(0);
+     const inputRef = React.useRef();
+     React.useEffect(() => {
+-        tmpValue.current = value;
+-        setReturnValue(val => {
+-            if (val !== value) {
+-                return value;
+-            }
+-            return val;
+-        });
+-    }, [returnValue, value]);
++        if (tmpValue.current !== value) {
++          tmpValue.current = value;
++          setReturnValue(val => {
++              if (val !== value) {
++                  return value;
++              }
++              return val;
++          });
++        }
++    }, [value]);
+     // fix: https://github.com/NervJS/taro/issues/11350
+     useUpdateEffect(() => {
+         if (!inputRef.current) {
+@@ -76,6 +78,7 @@ const _Input = (props) => {
+         const { onInput, onChange } = props;
+         const onEvent = onInput || onChange;
+         tmpValue.current = text || '';
++        setReturnValue(text || '')
+         if (onEvent) {
+             const result = onEvent({
+                 target: { value: text },
+@@ -83,16 +86,16 @@ const _Input = (props) => {
+             });
+             // Be care of flickering
+             // @see https://facebook.github.io/react-native/docs/textinput.html#value
+-            if (typeof result === 'string') {
+-                tmpValue.current = result;
+-                setReturnValue(result);
+-            }
+-            else if (returnValue !== undefined) {
+-                // 为了处理输入不合法，setState 相同值时，状态不更新，UI 也得不到更新，重置状态进而更新
+-                setReturnValue(undefined);
+-            }
++            // if (typeof result === 'string') {
++            //     tmpValue.current = result;
++            //     setReturnValue(result);
++            // }
++            // else if (returnValue !== undefined) {
++            //     // 为了处理输入不合法，setState 相同值时，状态不更新，UI 也得不到更新，重置状态进而更新
++            //     setReturnValue(undefined);
++            // }
+         }
+-    }, [returnValue, props.onInput, props.onChange]);
++    }, [props.onInput, props.onChange]);
+     const onFocus = React.useCallback(() => {
+         const { onFocus = noop } = props;
+         onFocus({
 diff --git a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js b/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
 index e5b2464..fcee769 100644
 --- a/node_modules/@tarojs/components-rn/dist/components/Swiper/carousel.js
