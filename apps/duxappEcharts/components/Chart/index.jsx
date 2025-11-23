@@ -2,7 +2,7 @@ import { use, init } from 'echarts/core'
 import { Echarts, EchartsRenderer } from 'taro-charts'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getWindowInfo, Layout } from '@/duxapp'
-import { Canvas } from '@tarojs/components'
+import { Canvas } from './canvas'
 import './index.scss'
 
 const defaultOption = {}
