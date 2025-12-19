@@ -162,15 +162,19 @@ export const startPay = async ({
   passwordUrl,
   token,
   onType,
-  fields
+  fields,
+  amountFilter
 } = {}) => {
   const stop = loading()
   try {
     const _payList = await payList()
-    if (_payList.some(v => v.name === 'balance')) {
+    const balance = _payList.find(v => v.name === 'balance' || v.name === 'amount')
+    if (balance) {
       const account = await request('member/account')
-      const balance = _payList.find(v => v.name === 'balance')
-      balance.balance = account.balance
+      balance.balance = account.balance || account.amount
+      if (amountFilter && _payList.length === 2 && price && +balance.balance < +price) {
+        _payList.splice(_payList.indexOf(balance), 1)
+      }
     }
     stop()
     if (!_payList.length) {

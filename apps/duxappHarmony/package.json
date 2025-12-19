@@ -4,12 +4,11 @@
     "dev:harmony": "duxapp build harmony dev"
   },
   "dependencies": {
-    "@tarojs/plugin-platform-harmony-cpp": "4.1.1",
-    "@tarojs/plugin-platform-harmony-ets": "4.1.1",
-    "vite": "^6.3.5",
-    "terser": "^5.39.2",
-    "@tarojs/vite-runner": "4.1.1",
-    "@vitejs/plugin-react": "^4.3.3",
+    "@tarojs/plugin-platform-harmony-cpp": "4.1.9",
+    "@tarojs/plugin-platform-harmony-ets": "4.1.9",
+    "vite": "^6.4.1",
+    "@tarojs/vite-runner": "^4.1.9",
+    "@vitejs/plugin-react": "^4.7.0",
     "vite-plugin-commonjs": "^0.10.4"
   }
 }

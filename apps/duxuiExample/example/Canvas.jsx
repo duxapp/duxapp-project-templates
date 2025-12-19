@@ -88,7 +88,7 @@ export default function CanvasExample() {
   return <TopView>
     <Header title='Canvas' />
     <GroupList className='flex-grow'>
-      <GroupList.Item title='画布' desc='RN端使用skia模拟部分canvas的功能（实验性的）'>
+      <GroupList.Item title='画布' desc='RN端使用skia模拟大部分部分canvas的功能'>
         <Canvas
           ref={ref}
           className='flex-grow w-full'

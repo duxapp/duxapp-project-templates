@@ -25,7 +25,8 @@ class MainActivity : ReactActivity() {
 
   class MainActivityDelegate(private var activity: ReactActivity, mainComponentName: String, fabricEnabled: Boolean) : DefaultReactActivityDelegate(activity, mainComponentName, fabricEnabled)
   {
-    override fun loadApp(appKey: String) {
+    // RN 0.82 将 loadApp 的参数标记为可空，这里同步保持签名一致，避免编译报 “overrides nothing”
+    override fun loadApp(appKey: String?) {
       // {#duxapp-insert mainActivityDelegate.loadApp}
 
       super.loadApp(appKey)

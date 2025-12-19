@@ -4,13 +4,14 @@ import { CmsIcon } from '@/duxcms/components'
 import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook } from '@/duxcmsUser/utils'
 import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px, PullView, Input } from '@/duxui'
 import { WechatLib } from '@/duxappWechatShare'
+import classNames from 'classnames'
 import './login.scss'
 
 export const UserLogin = ({ onLogin }) => {
 
   const { params } = useRoute()
 
-  const [check, checkAction] = useState(false)
+  const [check, setCheck] = useState(false)
 
   // 是否是第三方账号登录的绑定模式
   const [bind, setBind] = useState(params.token || '')
@@ -25,11 +26,11 @@ export const UserLogin = ({ onLogin }) => {
           <View className='cms-login'>
 
             <Head bind={bind} />
-            {(config.phone || config.email) && <Account check={check} onLogin={onLogin} bind={bind} />}
+            {(config.phone || config.email) && <Account check={check} setCheck={setCheck} onLogin={onLogin} bind={bind} />}
 
-            <Agreement ref={agreement} checkAction={checkAction} check={check} />
+            <Agreement ref={agreement} setCheck={setCheck} check={check} />
 
-            {process.env.TARO_ENV === 'rn' && config.appWatch && <AppWechat check={check} onLogin={onLogin} bind={bind} onBind={setBind} />}
+            {process.env.TARO_ENV === 'rn' && config.appWatch && <AppWechat check={check} setCheck={setCheck} onLogin={onLogin} bind={bind} onBind={setBind} />}
 
             {process.env.TARO_ENV === 'weapp' && config.weappWatch && <WeappWatch check={check} auto={config.weappForceWatch} onLogin={onLogin} bind={bind} onBind={setBind} />}
           </View>
@@ -172,6 +173,7 @@ export const Code = ({
  */
 export const Account = ({
   check,
+  setCheck,
   onLogin,
   bind,
   checkUrl = 'member/check',
@@ -235,18 +237,22 @@ export const Account = ({
   const _checkAccount = useRef(checkAccount)
   _checkAccount.current = checkAccount
 
-  const submit = useCallback(() => {
-    if (!check) {
-      return toast('请同意用户协议和隐私政策')
-    }
+  const submit = useCallback(async () => {
     let promise
-    loadingAction(old => !old)
     if (reg) {
       // 注册：当关闭密码功能时，不传 password 字段，仅支持验证码/扩展表单
       const payload = { ...post }
-      if (!config.password) delete payload.password
-      if (!config.code) delete payload.code
-      promise = request({
+      if (!config.code) {
+        delete payload.code
+      } else if (!payload.code) {
+        return toast('请输入验证码')
+      }
+      if (!config.password) {
+        delete payload.password
+      } else if (!payload.password) {
+        return toast('请输入密码')
+      }
+      promise = () => request({
         url: regUrl,
         method: 'POST',
         data: payload,
@@ -256,16 +262,36 @@ export const Account = ({
       // 登录：当关闭密码功能时，强制验证码登录
       const loginType = config.password ? (passwordLogin ? 'password' : 'code') : 'code'
       const payload = { ...post, type: loginType }
-      if (loginType === 'code') delete payload.password
-      if (loginType === 'password') delete payload.code
-      promise = request({
+      if (loginType === 'code') {
+        delete payload.password
+      } else if (!payload.code) {
+        return toast('请输入验证码')
+      }
+      if (loginType === 'password') {
+        delete payload.code
+      } else if (!payload.password) {
+        return toast('请输入密码')
+      }
+      promise = () => request({
         url: loginUrl,
         method: 'POST',
         data: payload,
         toast: true
       })
     }
-    promise
+    if (!check) {
+      if (!await confirm({
+        title: '系统提示',
+        content: '为了更好地保障您的合法权益，请您阅读并同意以下协议《服务协议》和《隐私政策》',
+        confirmText: '已阅读并同意',
+        cancelText: '不同意'
+      })) {
+        return
+      }
+      setCheck(true)
+    }
+    loadingAction(true)
+    promise()
       .then(async res => {
         if (bind) {
           cmsUser.setInfo({ token: res.token })
@@ -286,15 +312,15 @@ export const Account = ({
           type: 'account',
           data: { token: res.token, ...res.userInfo }
         })
-        loadingAction(old => !old)
+        loadingAction(false)
       })
       .catch(() => {
-        loadingAction(old => !old)
+        loadingAction(false)
       })
     // .finally(() => {
     //   loadingAction(old => !old)
     // })
-  }, [bind, check, loginUrl, onLogin, passwordLogin, post, reg, regUrl])
+  }, [bind, check, loginUrl, onLogin, passwordLogin, post, reg, regUrl, setCheck])
 
   return <>
     <View className='cms-login__content'>
@@ -326,16 +352,16 @@ export const Account = ({
             reg
               ? <>
                 {config.code && <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />}
-                {config.password && <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder='请设置密码' />}
+                {config.password && <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder='请设置登录密码' />}
               </>
               : <>
                 {
                   (config.password && (passwordLogin || !config.code))
                     ? <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} />
                     : (config.code
-                        ? <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />
-                        : <Text align='center' size={2} color={3}>未开启任何登录方式</Text>
-                      )
+                      ? <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />
+                      : <Text align='center' size={2} color={3}>未开启任何登录方式</Text>
+                    )
                 }
               </>
           }
@@ -395,22 +421,22 @@ export const Account = ({
   </>
 }
 
-export const Agreement = ({ check, checkAction }) => {
+export const Agreement = ({ check, setCheck }) => {
 
-  // 统一用户协议和隐私政策
+  // 统一服务协议和隐私政策
   return <View className='cms-login__deal'>
-    <View className='cms-login__deal__check' onClick={() => checkAction(old => !old)}>
+    <View className='cms-login__deal__check' onClick={() => setCheck(old => !old)}>
       {!check && <CmsIcon name='danxuan-weixuan' size={35} />}
       {check && <CmsIcon name='fuhao-zhuangtai-chenggong' color={duxappTheme.primaryColor} size={35} />}
     </View>
     <Text className='cms-login__deal__text'>已阅读并同意</Text>
-    <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav('duxcms/common/richtext?url=member/agreement&title=用户协议')}>《用户协议》</Text>
+    <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav('duxcms/common/richtext?url=member/agreement&title=服务协议')}>《服务协议》</Text>
     <Text className='cms-login__deal__text'>和</Text>
     <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav('duxcms/common/richtext?url=member/privacy&title=隐私政策')}>《隐私政策》</Text>
   </View>
 }
 
-export const AppWechat = ({ check, onLogin, bind, onBind }) => {
+export const AppWechat = ({ check, setCheck, onLogin, bind, onBind }) => {
 
   const [wxInstall, setWxInstall] = useState()
 
@@ -422,7 +448,15 @@ export const AppWechat = ({ check, onLogin, bind, onBind }) => {
 
   const wxLogin = useCallback(async () => {
     if (!check) {
-      return toast('请先勾选同意《用户协议》《隐私政策》')
+      if (!await confirm({
+        title: '系统提示',
+        content: '为了更好地保障您的合法权益，请您阅读并同意以下协议《服务协议》和《隐私政策》',
+        confirmText: '已阅读并同意',
+        cancelText: '不同意'
+      })) {
+        return
+      }
+      setCheck(true)
     }
     cmsUser.appWXLogin().then(data => {
       onLogin({ type: 'appwechat', data })
@@ -437,7 +471,7 @@ export const AppWechat = ({ check, onLogin, bind, onBind }) => {
         }
       }
     })
-  }, [check, onBind, onLogin])
+  }, [check, onBind, onLogin, setCheck])
 
   if (bind) {
     return null
@@ -465,7 +499,7 @@ export const WeappWatch = ({ check, auto, onLogin, bind, onBind }) => {
 
   const weappLogin = useCallback(() => {
     if (!check && !auto) {
-      return toast('请同意用户协议')
+      return toast('请同意服务协议')
     }
     cmsUser.weappLogin().then(data => {
       // 登陆回调
@@ -559,11 +593,11 @@ export const WeappTelLogin = ({
       {
         !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>使用其他手机号</Text>
       }
-      <Row items='center' className='gap-2 mt-3' justify='center'>
+      <Row items='center' className={classNames('gap-2', noSkip ? 'cms-login-weapp__tel' : 'mt-3')} justify='center'>
         <Radio checked={check} onClick={() => setCheck(!check)} />
         <Row>
           <Text>阅读并同意</Text>
-          <Text type='danger' onClick={() => nav('duxcms/common/richtext?url=member/agreement&title=用户协议')}>《隐私政策》</Text>
+          <Text type='danger' onClick={() => nav('duxcms/common/richtext?url=member/agreement&title=服务协议')}>《隐私政策》</Text>
         </Row>
       </Row>
     </View>

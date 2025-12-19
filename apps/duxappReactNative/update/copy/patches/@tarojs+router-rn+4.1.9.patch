@@ -1,0 +1,54 @@
+diff --git a/node_modules/@tarojs/router-rn/dist/router.js b/node_modules/@tarojs/router-rn/dist/router.js
+index cd31d1e..daf9979 100644
+--- a/node_modules/@tarojs/router-rn/dist/router.js
++++ b/node_modules/@tarojs/router-rn/dist/router.js
+@@ -54,7 +54,7 @@ function getTabItemOptions(item, index) {
+         tabBarLabel: getTabItemConfig(index, 'tabBarLabel') || item.text,
+         tabBarBadge: getTabItemConfig(index, 'tabBarBadge'),
+         tabBarVisible: getTabVisible(),
+-        tabBarTestID: `tabbar-${index}`
++        tabBarButtonTestID: `tabbar-${index}`
+     };
+ }
+ function getHeaderView(title, color, props) {
+@@ -82,7 +82,7 @@ function getStackOptions(config) {
+         headerTintColor: headColor,
+         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+         cardStyle: { elevation: 1 },
+-        headerBackTitleVisible: false,
++        headerBackButtonDisplayMode: 'minimal',
+         headerTitleAlign,
+         // eslint-disable-next-line react/display-name
+         headerBackImage: ({ tintColor }) => {
+@@ -300,7 +300,7 @@ function createTabNavigate(config, options) {
+     const screenOptions = getStackOptions(config);
+     return React.createElement(NavigationContainer
+     // @ts-expect-error navigationRef is not parametrized correctly
+-    , {
++    , { navigationInChildEnabled: true,
+         // @ts-expect-error navigationRef is not parametrized correctly
+         ref: navigationRef, linking: linking, onUnhandledAction: (action) => handlePageNotFound(action, options) },
+         React.createElement(Stack.Navigator, Object.assign({ detachInactiveScreens: false }, stackProps, {
+@@ -325,7 +325,7 @@ function createStackNavigate(config, options) {
+     const screenOptions = getStackOptions(config);
+     return React.createElement(NavigationContainer
+     // @ts-expect-error navigationRef is not parametrized correctly
+-    , {
++    , { navigationInChildEnabled: true,
+         // @ts-expect-error navigationRef is not parametrized correctly
+         ref: navigationRef, linking: linking, onUnhandledAction: (action) => handlePageNotFound(action, options) },
+         React.createElement(Stack.Navigator, Object.assign({ detachInactiveScreens: false }, stackProps, {
+diff --git a/node_modules/@tarojs/router-rn/dist/view/TabBar.js b/node_modules/@tarojs/router-rn/dist/view/TabBar.js
+index afe5aa3..a02b24e 100644
+--- a/node_modules/@tarojs/router-rn/dist/view/TabBar.js
++++ b/node_modules/@tarojs/router-rn/dist/view/TabBar.js
+@@ -229,7 +229,8 @@ export class TabBar extends React.PureComponent {
+                     React.createElement(TabBarItem, Object.assign({ showRedDot: showRedDot, badge: badge, label: label, horizontal: horizontal, labelColor: labelColor, iconSource: source, size: 25 }, this.props))));
+             }
+             else {
+-                return (React.createElement(TouchableWithoutFeedback, { key: options.tabBarTestID, accessibilityRole: "button", accessibilityState: focused ? { selected: true } : {}, accessibilityLabel: accessibilityLabel, testID: options.tabBarTestID, onPress: onPress, onLongPress: onLongPress },
++                const buttonTestID = options.tabBarButtonTestID || options.tabBarTestID;
++                return (React.createElement(TouchableWithoutFeedback, { key: buttonTestID, accessibilityRole: "button", accessibilityState: focused ? { selected: true } : {}, accessibilityLabel: accessibilityLabel, testID: buttonTestID, onPress: onPress, onLongPress: onLongPress },
+                     React.createElement(View, { style: [styles.tab, horizontal ? styles.tabLandscape : styles.tabPortrait] },
+                         React.createElement(TabBarItem, Object.assign({ label: label, badge: badge, showRedDot: showRedDot, horizontal: true, labelColor: labelColor, iconSource: source, size: 25 }, this.props)))));
+             }

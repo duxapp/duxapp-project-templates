@@ -11,6 +11,7 @@ export const HeaderSearch = ({
   style,
   white,
   grow = true,
+  focus,
   ...props
 }) => {
   return <Row items='center' grow={grow}
@@ -21,6 +22,6 @@ export const HeaderSearch = ({
     {...props}
   >
     <CmsIcon name='search' size={36} color={duxappTheme.textColor3} />
-    <InputSearch disabled={disabled} onChange={onChange} className='flex-grow' placeholder={placeholder || '请输入关键词'} />
+    <InputSearch disabled={disabled} onChange={onChange} focus={focus} className='flex-grow' placeholder={placeholder || '请输入关键词'} />
   </Row>
 }

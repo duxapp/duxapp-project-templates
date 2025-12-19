@@ -1,14 +1,14 @@
 {
   "name": "duxuiExample",
   "description": "ui库示例",
-  "version": "1.0.65",
+  "version": "1.0.66",
   "dependencies": [
     "duxui",
     "duxcms",
     "duxappHarmony",
-    "duxappAmap",
     "duxappEcharts",
     "duxappWechatShare",
-    "duxappCanvas"
+    "duxappCanvas",
+    "duxappAmap"
   ]
 }

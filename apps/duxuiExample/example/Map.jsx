@@ -1,11 +1,11 @@
 import { Header, ScrollView, TopView, GroupList } from '@/duxuiExample'
 import { View } from '@tarojs/components'
-import { Map } from '@/duxappAmap/components/Map'
+import { Map } from '@/duxappAmap'
 import { useState } from 'react'
 
 export default function LoadingExample() {
 
-  const [center, setCenter] = useState(void 0)
+  const [center, setCenter] = useState()
 
   return <TopView>
     <Header title='Map' />

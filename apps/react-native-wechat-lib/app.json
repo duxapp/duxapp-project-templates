@@ -1,8 +1,0 @@
-{
-  "name": "react-native-wechat-lib",
-  "description": "RN端微信插件集成",
-  "version": "1.0.1",
-  "dependencies": [
-    "duxappReactNative"
-  ]
-}

@@ -1,5 +1,5 @@
 import { PullView, TopView, duxappTheme, px, userConfig } from '@/duxapp'
-import { shareWebpage, shareMiniProgram } from 'react-native-wechat-lib'
+import ExpoWeChat from 'expo-wechat'
 import { Image, View, Text } from '@tarojs/components'
 import qs from 'qs'
 import weixinIcon from '../images/weixin.png'
@@ -64,19 +64,19 @@ APPShare.show = (config, WechatShare) => {
   if (app?.weappUserName) {
     const miniParams = {
       path,
-      userName: app.weappUserName,
+      id: app.weappUserName,
       title: config.title,
       description: config.desc,
-      thumbImageUrl: config.image,
+      thumbBase64OrImageUri: config.image,
       webpageUrl: `${app?.h5Url || 'http://duxapp.com'}/#${path}`
     }
     menus.push({
       icon: xiaochengxuIcon,
       name: '小程序',
       callback: async () => {
-        const result = await shareMiniProgram({
+        const result = await ExpoWeChat.shareMiniProgram({
           ...miniParams,
-          scene: 0
+          scene: 'session'
         })
         WechatShare.shareEvent.trigger({
           type: 'weapp-0',
@@ -97,9 +97,9 @@ APPShare.show = (config, WechatShare) => {
       icon: weixinIcon,
       name: '微信好友',
       callback: async () => {
-        const result = await shareWebpage({
+        const result = await ExpoWeChat.shareWebpage({
           ...webpageParams,
-          scene: 0
+          scene: 'session'
         })
         WechatShare.shareEvent.trigger({
           type: 'h5-0',
@@ -110,9 +110,9 @@ APPShare.show = (config, WechatShare) => {
       icon: pengyouquanIcon,
       name: '朋友圈',
       callback: async () => {
-        const result = await shareWebpage({
+        const result = await ExpoWeChat.shareWebpage({
           ...webpageParams,
-          scene: 1
+          scene: 'timeline'
         })
         WechatShare.shareEvent.trigger({
           type: 'h5-1',
@@ -123,9 +123,9 @@ APPShare.show = (config, WechatShare) => {
       icon: shoucangIcon,
       name: '微信收藏',
       callback: async () => {
-        const result = await shareWebpage({
+        const result = await ExpoWeChat.shareWebpage({
           ...webpageParams,
-          scene: 2
+          scene: 'favorite'
         })
         WechatShare.shareEvent.trigger({
           type: 'h5-2',

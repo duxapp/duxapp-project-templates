@@ -1,0 +1,8 @@
+{
+  "name": "expo-wechat",
+  "description": "RN端微信插件集成",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxappReactNative"
+  ]
+}

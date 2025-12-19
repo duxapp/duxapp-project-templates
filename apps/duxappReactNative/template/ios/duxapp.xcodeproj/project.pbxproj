@@ -20,7 +20,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = duxapp/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = duxapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		330AF4F62DF28DDA00AEBC2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = duxapp/AppDelegate.swift; sourceTree = "<group>"; };
-		334B89952DF6DE7E002EEE06 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BridgingHeader.h; path = duxapp/BridgingHeader.h; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-duxapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-duxapp.debug.xcconfig"; path = "Target Support Files/Pods-duxapp/Pods-duxapp.debug.xcconfig"; sourceTree = "<group>"; };
 		3D557312E54422CBEEF05144 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-duxapp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-duxapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-duxapp.release.xcconfig"; path = "Target Support Files/Pods-duxapp/Pods-duxapp.release.xcconfig"; sourceTree = "<group>"; };
@@ -52,7 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				330AF4F62DF28DDA00AEBC2F /* AppDelegate.swift */,
-				334B89952DF6DE7E002EEE06 /* BridgingHeader.h */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
@@ -323,7 +321,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = {#duxapp BundleId cn.duxapp};
 				PRODUCT_NAME = duxapp;
-				SWIFT_OBJC_BRIDGING_HEADER = duxapp/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -353,7 +350,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = {#duxapp BundleId cn.duxapp};
 				PRODUCT_NAME = duxapp;
-				SWIFT_OBJC_BRIDGING_HEADER = duxapp/BridgingHeader.h;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

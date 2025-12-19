@@ -87,16 +87,31 @@ export const cmsUser = {
    * app端微信登录
    */
   appWXLogin: async () => {
-    // react-native-wechat-lib start
     if (process.env.TARO_ENV === 'rn') {
       try {
         if (!(await WechatLib.isWXAppInstalled())) {
           throw { message: '未安装微信客户端', code: 500 }
         }
-        const res = await WechatLib.sendAuthRequest('snsapi_userinfo')
-        if (+res.errCode !== 0) {
-          throw { code: +res.errCode, message: res.errMsg }
+        await WechatLib.sendAuthRequest('snsapi_userinfo', 'wechat_snsapi_userinfo')
+
+        const res = await new Promise(resolve => {
+          const callback = e => {
+            WechatLib.removeListener('onAuthResult', callback)
+            resolve(e)
+          }
+          WechatLib.addListener(
+            'onAuthResult',
+            callback
+          )
+        })
+
+        if (+res.errorCode !== 0) {
+          throw { code: +res.errorCode, message: res.errorMessage }
         }
+        // const res = await WechatLib.sendAuthRequest('snsapi_userinfo')
+        // if (+res.errCode !== 0) {
+        //   throw { code: +res.errCode, message: res.errMsg }
+        // }
         return await cmsUser.oauth({
           code: res.code,
           type: 'wechat-app',
@@ -107,7 +122,6 @@ export const cmsUser = {
     } else {
       return { message: '平台错误 不支持微信APP登陆', code: 500 }
     }
-    // react-native-wechat-lib end
   },
 
   wechatLogin: async (code) => {

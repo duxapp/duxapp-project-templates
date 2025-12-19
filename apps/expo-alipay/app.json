@@ -1,0 +1,8 @@
+{
+  "name": "expo-alipay",
+  "description": "RN端支付宝插件",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxappReactNative"
+  ]
+}

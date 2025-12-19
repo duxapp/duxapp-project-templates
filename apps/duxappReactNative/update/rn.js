@@ -1,16 +1,6 @@
 // eslint-disable-next-line import/no-commonjs
 export default {
   insert: {
-    // 'android/build.gradle': {
-    //   'allprojects.repositories': `        maven {
-    //         // expo-camera bundles a custom com.google.android:cameraview
-    //         url "$rootDir/../node_modules/expo-camera/android/maven"
-    //     }`
-    // },
-    // 'android/gradle.properties': {
-    //   // Duplicate class android.support.v4.app.INotificationSideChannel
-    //   content: 'android.enableJetifier=true'
-    // },
     'android/app/proguard-rules.pro': {
       'content': `
 ##### @react-native-community/geolocation #####
@@ -81,11 +71,11 @@ export default {
   end`
     }
   },
-  // replace: {
-  //   'android/gradle/wrapper/gradle-wrapper.properties': {
-  //     distributionUrl: 'https://mirrors.cloud.tencent.com/gradle/gradle-8.8-all.zip'
-  //   }
-  // },
+  replace: {
+    'android/gradle/wrapper/gradle-wrapper.properties': {
+      distributionUrl: 'https://mirrors.cloud.tencent.com/gradle/gradle-9.0.0-bin.zip'
+    }
+  },
   android: {
     xml: {
       'app/src/main/AndroidManifest.xml': {
@@ -98,6 +88,10 @@ export default {
             child: '<action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>'
           },
           manifest: {
+            attr: {
+              // 临时解决安卓 16 上面返回键会导致直接返回桌面的问题
+              'xmlns:tools': 'http://schemas.android.com/tools'
+            },
             child: `  <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -129,7 +123,10 @@ export default {
         attr: {
           'android:name=".MainApplication"': {
             attr: {
-              'android:largeHeap': 'true'
+              'android:largeHeap': 'true',
+              // 临时解决安卓 16 上面返回键会导致直接返回桌面的问题
+              'tools:replace': 'android:enableOnBackInvokedCallback',
+              'android:enableOnBackInvokedCallback': 'false'
             }
           },
           'android:name=".MainActivity"': {

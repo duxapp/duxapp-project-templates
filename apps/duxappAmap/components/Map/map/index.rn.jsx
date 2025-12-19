@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { AMapSdk, MapView, Circle, Polyline, Marker } from 'react-native-amap3d'
+import { AMapSdk, MapView, Circle, Polyline, Marker } from 'expo-gaode-map'
 import { Platform, View, Text, Image, StyleSheet } from 'react-native'
 import { mapConfig } from '@/duxappAmap/utils'
 import { getMarkers } from './util'

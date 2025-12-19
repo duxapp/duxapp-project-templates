@@ -1,2 +1,2 @@
-export * from '@/react-native-wechat-lib'
+export * from '@/expo-wechat'
 export * from './Share'

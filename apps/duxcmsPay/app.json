@@ -1,11 +1,10 @@
 {
   "name": "duxcmsPay",
   "description": "CMS支付",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "dependencies": [
     "duxcms",
     "duxappWechatShare",
-    "react-native-alipay@uiw",
-    "react-native-unionpay@shaogong"
+    "expo-alipay"
   ]
 }

@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@shopify/react-native-skia": "~2.2.3"
+    "@shopify/react-native-skia": "~2.4.7"
   }
 }

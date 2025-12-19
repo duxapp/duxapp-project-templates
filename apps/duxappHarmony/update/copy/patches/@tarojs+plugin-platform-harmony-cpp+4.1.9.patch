@@ -1,0 +1,31 @@
+diff --git a/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js b/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js
+index 4c51034..e9cb828 100644
+--- a/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js
++++ b/node_modules/@tarojs/plugin-platform-harmony-cpp/dist/index.js
+@@ -668,7 +668,7 @@ function pagePlugin () {
+                         });
+                         if (!isPure) {
+                             const index = methods.findIndex((e) => e.name === 'renderTitle');
+-                            methods.splice(index, 1, {
++                            methods.splice(index, 0, {
+                                 name: 'renderTitle',
+                                 decorators: ['Builder'],
+                                 body: this.transArr2Str([
+@@ -1056,7 +1056,16 @@ function stylePlugin () {
+                     cssModuleId.add(moduleInfo.id);
+                 }
+                 const styleMap = compiler.loaderMeta.parseJSXStyleMapCache?.get(viteConfigResolved);
+-                for (const oid of moduleInfo.importedIds) {
++                // fix 加入全局样式
++                const importedIds = [
++                  ...moduleInfo.importedIds
++                ]
++                const srcPath = path.join(__dirname, '..', '..', '..', '..', 'src')
++                const scss = path.join(srcPath, 'app.scss')
++                if (helper.fs.existsSync(scss)) {
++                  importedIds.unshift(scss)
++                }
++                for (const oid of importedIds) {
+                     const id = utils.stripVirtualModulePrefix(oid).replace(STYLE_SUFFIX_RE, '').replace(constants.usedRE, '');
+                     if (helper.REG_STYLE.test(id) && styleMap) {
+                         if (styleMap.has(id)) {

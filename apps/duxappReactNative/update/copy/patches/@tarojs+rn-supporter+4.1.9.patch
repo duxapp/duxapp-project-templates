@@ -1,0 +1,14 @@
+diff --git a/node_modules/@tarojs/rn-supporter/dist/TerminalReporter.js b/node_modules/@tarojs/rn-supporter/dist/TerminalReporter.js
+index 1842050..1b86b69 100644
+--- a/node_modules/@tarojs/rn-supporter/dist/TerminalReporter.js
++++ b/node_modules/@tarojs/rn-supporter/dist/TerminalReporter.js
+@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
+     });
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+-const TerminalReporter = require("metro/src/lib/TerminalReporter");
++// metro 0.83+ exports internal files via `metro/private/*`
++const TerminalReporter = require("metro/private/lib/TerminalReporter").default;
+ const readline = require("readline");
+ const defaults_1 = require("./defaults");
+ const preview_1 = require("./preview");

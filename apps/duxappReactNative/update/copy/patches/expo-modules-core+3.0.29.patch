@@ -1,0 +1,24 @@
+diff --git a/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.h b/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.h
+index 407f57f..2e3839c 100644
+--- a/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.h
++++ b/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.h
+@@ -6,6 +6,7 @@
+
+ #import <jsi/jsi.h>
+ #import <React/RCTBridgeModule.h>
++#import <ReactCommon/CallInvoker.h>
+ #import <ReactCommon/TurboModuleUtils.h>
+ #import <ExpoModulesCore/ObjectDeallocator.h>
+
+diff --git a/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.mm b/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.mm
+index a566e53..29bc1e0 100644
+--- a/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.mm
++++ b/node_modules/expo-modules-core/ios/JSI/EXJSIUtils.mm
+@@ -4,6 +4,7 @@
+
+ #import <ExpoModulesCore/EXJSIConversions.h>
+ #import <ExpoModulesCore/EXJSIUtils.h>
++#import <react/bridging/CallbackWrapper.h>
+ #import <ExpoModulesCore/JSIUtils.h>
+ #import <ExpoModulesCore/NativeModule.h>
+ #import <ExpoModulesCore/EventEmitter.h>

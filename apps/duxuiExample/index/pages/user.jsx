@@ -1,4 +1,4 @@
-import { Header, ScrollView, Cell, GroupList, updateApp, confirm, CellGroup } from '@/duxuiExample'
+import { Header, ScrollView, Cell, GroupList, confirm, CellGroup } from '@/duxuiExample'
 import { setClipboardData } from '@tarojs/taro'
 
 

@@ -1,0 +1,8 @@
+{
+  "name": "expo-gaode-map",
+  "description": "RN端 高德地图",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxappReactNative"
+  ]
+}
