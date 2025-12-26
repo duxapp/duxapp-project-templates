@@ -7,6 +7,7 @@ import { useEffect, useMemo } from 'react'
 let _id = 0
 
 export const BaseScrollView = ({
+  url,
   list,
   renderHeader,
   renderFooter,
@@ -51,7 +52,7 @@ export const BaseScrollView = ({
           size: true
         }, content => {
           if (content.height - 10 < scroll.height) {
-            refs.action.next()
+            refs.action.next().catch(noop)
           } else {
             refs.autoEnd = true
           }
@@ -66,7 +67,11 @@ export const BaseScrollView = ({
     lowerThreshold={200}
     id={refs.id}
     {...props}
-    onScrollToLower={page && action.next || noop}
+    refresherEnabled={!!url}
+    onScrollToLower={() => {
+      if (!page || !url) return
+      action.next().catch(noop)
+    }}
     onRefresh={() => {
       onRefresh?.()
       refs.autoEnd = false

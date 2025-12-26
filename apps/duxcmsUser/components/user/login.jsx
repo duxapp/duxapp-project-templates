@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { View } from '@tarojs/components'
 import { CmsIcon } from '@/duxcms/components'
-import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook } from '@/duxcmsUser/utils'
+import { nav, request, toast, cmsUser, duxappTheme, useRoute, userConfig, useVerifyCode, contextState, userHook, duxcmsUserLang } from '@/duxcmsUser/utils'
 import { Header, ScrollView, Loading, Button, Row, Text, Radio, confirm, px, PullView, Input } from '@/duxui'
 import { WechatLib } from '@/duxappWechatShare'
 import classNames from 'classnames'
@@ -42,11 +42,13 @@ export const UserLogin = ({ onLogin }) => {
 
 const Head = ({ bind }) => {
 
+  const t = duxcmsUserLang.useT()
   const [{ reg }] = contextState.useState()
+  const actionText = reg ? t('login.register') : t('login.login')
 
   return <View className='cms-login__title gap-2'>
-    <Text bold size={48}>您好，</Text>
-    <Text bold size={48}>{bind ? '请绑定账户' : `欢迎${reg ? '注册' : '登录'}${config.appName}`}</Text>
+    <Text bold size={48}>{t('login.greeting')}</Text>
+    <Text bold size={48}>{bind ? t('login.bindAccount') : t('login.welcome', { params: { action: actionText, appName: config.appName } })}</Text>
   </View>
 }
 
@@ -90,8 +92,10 @@ const emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
 export const Password = ({
   value,
   onChange,
-  placeholder = '请输入密码'
+  placeholder
 }) => {
+  const t = duxcmsUserLang.useT()
+  const placeholderText = placeholder ?? t('login.passwordPlaceholder')
   return <View className='cms-login__content__phone'>
     <Input
       className='cms-login__content__phone__input'
@@ -99,7 +103,7 @@ export const Password = ({
       type='password'
       onChange={onChange}
       value={value}
-      placeholder={placeholder}
+      placeholder={placeholderText}
       placeholderTextColor={duxappTheme.textColor3}
       placeholderStyle={`color: ${duxappTheme.textColor3}`}
     />
@@ -118,6 +122,7 @@ export const Code = ({
   codeUrl
 }) => {
 
+  const t = duxcmsUserLang.useT()
   const code = useVerifyCode()
 
   const getCode = useCallback(() => {
@@ -126,15 +131,15 @@ export const Code = ({
     }
     if (config.phone && config.email) {
       if (!phoneReg.test(username) && !emailReg.test(username)) {
-        return toast('请输入正确的手机号或者邮箱')
+        return toast(t('login.needPhoneOrEmail'))
       }
     } else if (config.phone) {
       if (!phoneReg.test(username)) {
-        return toast('请输入正确的手机')
+        return toast(t('login.needPhone'))
       }
     } else if (config.email) {
       if (!emailReg.test(username)) {
-        return toast('请输入正确的邮箱')
+        return toast(t('login.needEmail'))
       }
     }
     code.getCode(async () => {
@@ -146,7 +151,7 @@ export const Code = ({
         toast: true
       })
     })
-  }, [code, codeUrl, username])
+  }, [code, codeUrl, t, username])
 
   return <View className='cms-login__content__phone'>
     <Input
@@ -155,7 +160,7 @@ export const Code = ({
       maxlength={6}
       onChange={onChange}
       value={value}
-      placeholder='输入短信验证码'
+      placeholder={t('login.codePlaceholder')}
       placeholderTextColor={duxappTheme.textColor3}
       placeholderStyle={`color: ${duxappTheme.textColor3}`}
     />
@@ -165,6 +170,31 @@ export const Code = ({
         : <View className='cms-login__content__phone__code' onClick={getCode} style={{ color: duxappTheme.primaryColor }}>{code.text}</View>
     }
   </View>
+}
+
+const checkConfirm = async (check, setCheck) => {
+  if (!check) {
+    const t = (key, paramsOrOptions) => duxcmsUserLang.t(key, paramsOrOptions)
+    if (!await confirm({
+      title: t('login.agreementModal.title'),
+      content: <Text className='mh-3 mt-3'>{t('login.agreementModal.prefix')}<Text
+        type='primary'
+        onClick={() => {
+          nav(`duxcms/common/richtext?url=member/agreement&title=${encodeURIComponent(t('login.serviceAgreementTitle'))}`)
+        }}
+      >{t('login.serviceAgreementText')}</Text>{t('login.agreementModal.and')}<Text
+        type='primary'
+        onClick={() => {
+          nav(`duxcms/common/richtext?url=member/privacy&title=${encodeURIComponent(t('login.privacyPolicyTitle'))}`)
+        }}
+      >{t('login.privacyPolicyText')}</Text></Text>,
+      confirmText: t('login.agreementModal.confirmText'),
+      cancelText: t('login.agreementModal.cancelText')
+    })) {
+      throw t('login.agreementModal.disagreeThrow')
+    }
+    setCheck(true)
+  }
 }
 
 /**
@@ -181,6 +211,7 @@ export const Account = ({
   regUrl = 'member/register',
   codeUrl = 'member/code'
 }) => {
+  const t = duxcmsUserLang.useT()
   const extPost = useMemo(() => Object.fromEntries(config.extForm?.map(item => [item.field, item.value || '']) || []), [])
 
   const [post, postAction] = useState({
@@ -218,7 +249,7 @@ export const Account = ({
         setData(old => ({ ...old, reg: false }))
         if (!res.check) {
           setIsUserName(false)
-          toast('您输入了一个无效账号，将无法登录')
+          toast(t('login.invalidAccount'))
         } else {
           setIsUserName(true)
         }
@@ -231,7 +262,7 @@ export const Account = ({
       setIsUserName(false)
       setData(old => ({ ...old, reg: false }))
     }
-  }, [checkUrl, isAccount, post.username, setData])
+  }, [checkUrl, isAccount, post.username, setData, t])
 
   // RN端onBlur封装有bug，函数更新之后不会使用最新的函数
   const _checkAccount = useRef(checkAccount)
@@ -244,13 +275,17 @@ export const Account = ({
       const payload = { ...post }
       if (!config.code) {
         delete payload.code
-      } else if (!payload.code) {
-        return toast('请输入验证码')
+      } else {
+        if (!payload.code) {
+          return toast(t('login.needCode'))
+        }
       }
       if (!config.password) {
         delete payload.password
-      } else if (!payload.password) {
-        return toast('请输入密码')
+      } else {
+        if (!payload.password) {
+          return toast(t('login.needPassword'))
+        }
       }
       promise = () => request({
         url: regUrl,
@@ -264,13 +299,15 @@ export const Account = ({
       const payload = { ...post, type: loginType }
       if (loginType === 'code') {
         delete payload.password
-      } else if (!payload.code) {
-        return toast('请输入验证码')
+        if (!payload.code) {
+          return toast(t('login.needCode'))
+        }
       }
       if (loginType === 'password') {
         delete payload.code
-      } else if (!payload.password) {
-        return toast('请输入密码')
+        if (!payload.password) {
+          return toast(t('login.needPassword'))
+        }
       }
       promise = () => request({
         url: loginUrl,
@@ -279,17 +316,7 @@ export const Account = ({
         toast: true
       })
     }
-    if (!check) {
-      if (!await confirm({
-        title: '系统提示',
-        content: '为了更好地保障您的合法权益，请您阅读并同意以下协议《服务协议》和《隐私政策》',
-        confirmText: '已阅读并同意',
-        cancelText: '不同意'
-      })) {
-        return
-      }
-      setCheck(true)
-    }
+    await checkConfirm(check, setCheck)
     loadingAction(true)
     promise()
       .then(async res => {
@@ -320,7 +347,7 @@ export const Account = ({
     // .finally(() => {
     //   loadingAction(old => !old)
     // })
-  }, [bind, check, loginUrl, onLogin, passwordLogin, post, reg, regUrl, setCheck])
+  }, [bind, check, loginUrl, onLogin, passwordLogin, post, reg, regUrl, setCheck, t])
 
   return <>
     <View className='cms-login__content'>
@@ -332,18 +359,18 @@ export const Account = ({
           value={post.username}
           type={!config.email ? 'number' : 'text'}
           maxLength={!config.email ? 11 : 99}
-          placeholder={!config.email ? '输入您的手机号码' : !config.phone ? '请输入您的邮箱' : '请输入手机号或邮箱'}
+          placeholder={!config.email ? t('login.usernamePlaceholder.phone') : !config.phone ? t('login.usernamePlaceholder.email') : t('login.usernamePlaceholder.phoneOrEmail')}
           placeholderTextColor={duxappTheme.textColor3}
           placeholderStyle={`color: ${duxappTheme.textColor3}`}
         />
       </View>
       {
         !isUserName && <>
-          {config.register !== false && <Text align='center' className='mt-2' size={1} color={3}>请输入手机号后，将自动识别您的账号是否需要注册</Text>}
+          {config.register !== false && <Text align='center' className='mt-2' size={1} color={3}>{t('login.needPhoneHint')}</Text>}
           <Button className='mt-3 self-center' size='l' type='primary'
             disabled={!isAccount}
             style={{ width: px(240) }}
-          >下一步</Button>
+          >{t('login.next')}</Button>
         </>
       }
       {
@@ -352,7 +379,7 @@ export const Account = ({
             reg
               ? <>
                 {config.code && <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />}
-                {config.password && <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder='请设置登录密码' />}
+                {config.password && <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} placeholder={t('login.setLoginPassword')} />}
               </>
               : <>
                 {
@@ -360,7 +387,7 @@ export const Account = ({
                     ? <Password onChange={e => postAction(old => ({ ...old, 'password': e }))} value={post.password} />
                     : (config.code
                       ? <Code codeUrl={codeUrl} username={post.username} onChange={e => postAction(old => ({ ...old, 'code': e }))} value={post.code} />
-                      : <Text align='center' size={2} color={3}>未开启任何登录方式</Text>
+                      : <Text align='center' size={2} color={3}>{t('login.noLoginMethod')}</Text>
                     )
                 }
               </>
@@ -409,13 +436,13 @@ export const Account = ({
         loading={loading}
         type='primary'
       >
-        {bind ? (reg ? '注册并绑定' : '绑定') : (reg ? '注册并登录' : '登录')}
+        {bind ? (reg ? t('login.submit.registerAndBind') : t('login.submit.bind')) : (reg ? t('login.submit.registerAndLogin') : t('login.submit.login'))}
       </Button>
       {!reg && (config.password && config.code) && <Row justify='between' className='mt-3 pv-2'>
         <Text onClick={() => passwordLoginAction(old => !old)}>
-          {passwordLogin ? '验证码登录' : '密码登录'}
+          {passwordLogin ? t('login.switchToCode') : t('login.switchToPassword')}
         </Text>
-        {config.password && passwordLogin && <Text onClick={() => nav('duxcmsUser/info/forget')}>忘记密码?</Text>}
+        {config.password && passwordLogin && <Text onClick={() => nav('duxcmsUser/info/forget')}>{t('login.forget')}</Text>}
       </Row>}
     </>}
   </>
@@ -423,21 +450,23 @@ export const Account = ({
 
 export const Agreement = ({ check, setCheck }) => {
 
+  const t = duxcmsUserLang.useT()
   // 统一服务协议和隐私政策
   return <View className='cms-login__deal'>
     <View className='cms-login__deal__check' onClick={() => setCheck(old => !old)}>
       {!check && <CmsIcon name='danxuan-weixuan' size={35} />}
       {check && <CmsIcon name='fuhao-zhuangtai-chenggong' color={duxappTheme.primaryColor} size={35} />}
     </View>
-    <Text className='cms-login__deal__text'>已阅读并同意</Text>
-    <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav('duxcms/common/richtext?url=member/agreement&title=服务协议')}>《服务协议》</Text>
-    <Text className='cms-login__deal__text'>和</Text>
-    <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav('duxcms/common/richtext?url=member/privacy&title=隐私政策')}>《隐私政策》</Text>
+    <Text className='cms-login__deal__text'>{t('login.agreed')}</Text>
+    <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav(`duxcms/common/richtext?url=member/agreement&title=${encodeURIComponent(t('login.serviceAgreementTitle'))}`)}>{t('login.serviceAgreementText')}</Text>
+    <Text className='cms-login__deal__text'>{t('login.agreementModal.and')}</Text>
+    <Text className='cms-login__deal__text' style={{ color: duxappTheme.primaryColor }} onClick={() => nav(`duxcms/common/richtext?url=member/privacy&title=${encodeURIComponent(t('login.privacyPolicyTitle'))}`)}>{t('login.privacyPolicyText')}</Text>
   </View>
 }
 
 export const AppWechat = ({ check, setCheck, onLogin, bind, onBind }) => {
 
+  const t = duxcmsUserLang.useT()
   const [wxInstall, setWxInstall] = useState()
 
   useEffect(() => {
@@ -447,17 +476,7 @@ export const AppWechat = ({ check, setCheck, onLogin, bind, onBind }) => {
   }, [])
 
   const wxLogin = useCallback(async () => {
-    if (!check) {
-      if (!await confirm({
-        title: '系统提示',
-        content: '为了更好地保障您的合法权益，请您阅读并同意以下协议《服务协议》和《隐私政策》',
-        confirmText: '已阅读并同意',
-        cancelText: '不同意'
-      })) {
-        return
-      }
-      setCheck(true)
-    }
+    await checkConfirm(check, setCheck)
     cmsUser.appWXLogin().then(data => {
       onLogin({ type: 'appwechat', data })
     }).catch(err => {
@@ -465,13 +484,13 @@ export const AppWechat = ({ check, setCheck, onLogin, bind, onBind }) => {
         onBind(err.token)
       } else {
         if (err.message == -2) {
-          toast('微信登录失败')
+          toast(t('login.wxLoginFail'))
         } else {
           toast(err.message)
         }
       }
     })
-  }, [check, onBind, onLogin, setCheck])
+  }, [check, onBind, onLogin, setCheck, t])
 
   if (bind) {
     return null
@@ -483,7 +502,7 @@ export const AppWechat = ({ check, setCheck, onLogin, bind, onBind }) => {
         <View className='cms-login__flexBox__flex'>
           <View className='cms-login__flexBox__flex__line' />
           <View className='cms-login__flexBox__flex__text'>
-            更多登录方式
+            {t('login.moreLogin')}
           </View>
           <View className='cms-login__flexBox__flex__line' />
         </View>
@@ -497,9 +516,10 @@ export const AppWechat = ({ check, setCheck, onLogin, bind, onBind }) => {
 
 export const WeappWatch = ({ check, auto, onLogin, bind, onBind }) => {
 
+  const t = duxcmsUserLang.useT()
   const weappLogin = useCallback(() => {
     if (!check && !auto) {
-      return toast('请同意服务协议')
+      return toast(t('login.needAgreeService'))
     }
     cmsUser.weappLogin().then(data => {
       // 登陆回调
@@ -511,7 +531,7 @@ export const WeappWatch = ({ check, auto, onLogin, bind, onBind }) => {
         toast(err.message)
       }
     })
-  }, [auto, check, onBind, onLogin])
+  }, [auto, check, onBind, onLogin, t])
 
   useEffect(() => {
     if (auto) {
@@ -528,7 +548,7 @@ export const WeappWatch = ({ check, auto, onLogin, bind, onBind }) => {
     <View className='cms-login__flexBox__flex'>
       <View className='cms-login__flexBox__flex__line' />
       <View className='cms-login__flexBox__flex__text'>
-        更多登录方式
+        {t('login.moreLogin')}
       </View>
       <View className='cms-login__flexBox__flex__line' />
     </View>
@@ -547,6 +567,7 @@ export const WeappTelLogin = ({
   onSkip
 }) => {
 
+  const t = duxcmsUserLang.useT()
   const [noSkip] = userHook.useMark('WeappTelLogin.noSkip')
 
   const [check, setCheck] = useState(false)
@@ -572,7 +593,7 @@ export const WeappTelLogin = ({
     <View className='cms-login-weapp'>
       <View className='cms-login-weapp__head'>
         <CmsIcon name='guanbi1' size={36} className='text-white' />
-        <Text className='cms-login-weapp__head__name'>登录</Text>
+        <Text className='cms-login-weapp__head__name'>{t('login.weappTel.title')}</Text>
         <CmsIcon name='guanbi1' size={36} color={duxappTheme.textColor1}
           onClick={() => {
             ref.current.close()
@@ -581,23 +602,23 @@ export const WeappTelLogin = ({
       </View>
       {
         check ?
-          <Button size='l' type='primary' openType='getPhoneNumber' className='button-clean' onGetPhoneNumber={getPhoneNumber}>手机号快捷登录</Button> :
+          <Button size='l' type='primary' openType='getPhoneNumber' className='button-clean' onGetPhoneNumber={getPhoneNumber}>{t('login.weappTel.quickLogin')}</Button> :
           <Button size='l' type='primary'
             onClick={() => confirm({
-              content: '请阅读并勾选同意隐私政策',
+              content: t('login.weappTel.needReadPrivacy'),
               cancel: false,
-              confirmText: '知道了'
+              confirmText: t('login.weappTel.gotIt')
             })}
-          >手机号快捷登录</Button>
+          >{t('login.weappTel.quickLogin')}</Button>
       }
       {
-        !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>使用其他手机号</Text>
+        !noSkip && <Text className='cms-login-weapp__tel' align='center' size={2} onClick={onSkip}>{t('login.weappTel.useOtherPhone')}</Text>
       }
       <Row items='center' className={classNames('gap-2', noSkip ? 'cms-login-weapp__tel' : 'mt-3')} justify='center'>
         <Radio checked={check} onClick={() => setCheck(!check)} />
         <Row>
-          <Text>阅读并同意</Text>
-          <Text type='danger' onClick={() => nav('duxcms/common/richtext?url=member/agreement&title=服务协议')}>《隐私政策》</Text>
+          <Text>{t('login.weappTel.readAndAgree')}</Text>
+          <Text type='danger' onClick={() => nav(`duxcms/common/richtext?url=member/privacy&title=${encodeURIComponent(t('login.privacyPolicyTitle'))}`)}>{t('login.privacyPolicyText')}</Text>
         </Row>
       </Row>
     </View>

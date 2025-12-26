@@ -1,7 +1,7 @@
 {
   "name": "duxappHarmony",
   "description": "鸿蒙基础系统",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "dependencies": [
     "duxappStyle"
   ]

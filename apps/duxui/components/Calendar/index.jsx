@@ -1,10 +1,21 @@
 import { useCallback, useMemo, useState, useEffect, isValidElement, useRef } from 'react'
 import { View, Text } from '@tarojs/components'
 import { dayjs, deepEqua, toast, useDeepObject } from '@/duxapp'
+import { duxuiLang } from '@/duxui/utils'
 import classNames from 'classnames'
 import { dateAdd, dateToStr, getMaxDay, strFormatToDate } from './date'
 import { DuxuiIcon } from '../DuxuiIcon'
 import './index.scss'
+
+const getWeeks = t => ([
+  t('calendar.weekShort.mon'),
+  t('calendar.weekShort.tue'),
+  t('calendar.weekShort.wed'),
+  t('calendar.weekShort.thu'),
+  t('calendar.weekShort.fri'),
+  t('calendar.weekShort.sat'),
+  t('calendar.weekShort.sun'),
+])
 
 export const Calendar = ({
   mode, // day日期选择 week周选择 scope范围选择
@@ -26,6 +37,8 @@ export const Calendar = ({
   onlyCurrentWeek, // 仅显示当前这周的数据
   ...props
 }) => {
+
+  const t = duxuiLang.useT()
 
   const [value, setValue] = useState(checkbox && !propsValue ? [] : propsValue)
 
@@ -171,6 +184,7 @@ export const Calendar = ({
   }, [customDateCache, customSelect?.bottom, customSelect?.style, customSelect?.text, customSelect?.textStyle, customSelect?.top, month])
 
   const list = useMemo(() => {
+    const weeks = getWeeks(t)
     const firstDay = `${month}-01`
     const firstWeek = dateToStr('W', strFormatToDate('yyyy-MM-dd', firstDay))
     const maxDay = getMaxDay(...month.split('-').map(v => +v))
@@ -273,7 +287,7 @@ export const Calendar = ({
       return prev
     }, [])
 
-  }, [month, values, scopeStart, max, min, isDisabled, getCustomConfig])
+  }, [month, values, scopeStart, max, min, isDisabled, getCustomConfig, t])
 
   const prev = useCallback(() => {
     setMonth(old => dateToStr('yyyy-MM', getMouth(old, -1)))
@@ -316,7 +330,7 @@ export const Calendar = ({
       const dates = val.map(v => strFormatToDate('yyyy-MM-dd', v).getTime())
       for (let i = dates[0]; i <= dates[1]; i += 24 * 60 * 60 * 1000) {
         if (isDisabled(i)) {
-          return toast('范围不可选')
+          return toast(t('calendar.rangeNotSelectable'))
         }
       }
       if (checkbox) {
@@ -357,13 +371,13 @@ export const Calendar = ({
         const dates = val.map(v => strFormatToDate('yyyy-MM-dd', v).getTime())
         for (let i = dates[0]; i <= dates[1]; i += 24 * 60 * 60 * 1000) {
           if (isDisabled(i)) {
-            return toast('范围不可选')
+            return toast(t('calendar.rangeNotSelectable'))
           }
         }
         if (checkbox) {
           // 检查是否和当前选中的日期有重叠
           if (value.some(v => Calendar.checkDatesOverlap(val, v))) {
-            return toast('范围有重叠')
+            return toast(t('calendar.rangeOverlap'))
           }
           const _value = [...value]
           _value.push(val)
@@ -376,7 +390,7 @@ export const Calendar = ({
         setScopeStart('')
       }
     }
-  }, [month, mode, checkbox, value, isDisabled, scopeStart])
+  }, [month, mode, checkbox, value, isDisabled, scopeStart, t])
 
   const [selectDay, selelctOfWeekIndex] = useMemo(() => {
     let val
@@ -456,8 +470,6 @@ const getMouth = (current, num) => {
   return strFormatToDate('yyyy-MM-dd', day.join('-'))
 }
 
-const weeks = ['一', '二', '三', '四', '五', '六', '日']
-
 const Day = ({
   text,
   header,
@@ -507,6 +519,7 @@ const Day = ({
  * @param {*} day
  */
 Calendar.getMonthWeekForDay = day => {
+  const weeks = getWeeks(duxuiLang.t)
   const dayNum = +day.split('-')[2]
   const month = day.split('-').filter((v, i) => i < 2).join('-')
   const firstDay = month + '-01'
@@ -533,6 +546,7 @@ Calendar.getMonthWeekForDay = day => {
  * @param {*} day
  */
 Calendar.getWeekScopeForDay = day => {
+  const weeks = getWeeks(duxuiLang.t)
   const date = strFormatToDate('yyyy-MM-dd', day)
   const before = weeks.indexOf(dateToStr('W', strFormatToDate('yyyy-MM-dd', day)))
   const after = 7 - before - 1

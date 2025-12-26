@@ -1,7 +1,6 @@
 import {
   Skia,
   FillType,
-  BlendMode,
   TextAlign,
   ColorType,
   AlphaType,
@@ -151,12 +150,9 @@ export class Context extends ContextTransform {
   }
 
   clearRect(x, y, width, height) {
-    const clearPaint = Skia.Paint()
-    clearPaint.setBlendMode(BlendMode.Clear)
     const rect = Skia.XYWHRect(x, y, width, height)
-    this.canvas.drawRect(rect, clearPaint)
+    this.canvas.drawRect(rect, this.paintClear)
     rect.dispose()
-    clearPaint.dispose()
     this.draw()
   }
 

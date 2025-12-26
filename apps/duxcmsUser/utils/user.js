@@ -9,6 +9,7 @@ import config from '@/duxcms/config/request'
 import { WechatLib } from '@/duxappWechatShare'
 import { request, requestMiddle, uploadMiddle } from '@/duxcms'
 import { confirm } from '@/duxui'
+import { duxcmsUserLang } from './lang'
 
 export const cmsUser = {
   // 在用户模块注册的名称
@@ -30,7 +31,7 @@ export const cmsUser = {
         },
       }).catch((err) => {
         if (err.code === 511) {
-          toast('未绑定账户 请绑定账户')
+          toast(duxcmsUserLang.t('user.notBoundAccount'))
           throw {
             bind: true,
             token,
@@ -49,7 +50,7 @@ export const cmsUser = {
    * 小程序端微信登录
    */
   weappLogin: async () => {
-    const stop = loading('正在登录')
+    const stop = loading(duxcmsUserLang.t('user.loggingIn'))
     try {
       const info = await cmsUser.oauth({
         code: (await login()).code,
@@ -68,7 +69,7 @@ export const cmsUser = {
    * 小程序端微信获取手机号登录
    */
   weappTelLogin: async (code) => {
-    const stop = loading('正在登录')
+    const stop = loading(duxcmsUserLang.t('user.loggingIn'))
     try {
       const info = await cmsUser.oauth({
         code,
@@ -90,7 +91,7 @@ export const cmsUser = {
     if (process.env.TARO_ENV === 'rn') {
       try {
         if (!(await WechatLib.isWXAppInstalled())) {
-          throw { message: '未安装微信客户端', code: 500 }
+          throw { message: duxcmsUserLang.t('user.wechatNotInstalled'), code: 500 }
         }
         await WechatLib.sendAuthRequest('snsapi_userinfo', 'wechat_snsapi_userinfo')
 
@@ -120,7 +121,7 @@ export const cmsUser = {
         throw error
       }
     } else {
-      return { message: '平台错误 不支持微信APP登陆', code: 500 }
+      return { message: duxcmsUserLang.t('user.platformNotSupportAppWechat'), code: 500 }
     }
   },
 
@@ -130,13 +131,13 @@ export const cmsUser = {
     } catch (err) {
       if (err.bind) {
         // 绑定账户
-        toast('请绑定账户')
+        toast(duxcmsUserLang.t('user.pleaseBind'))
         const { backData } = await nav('user/auth/login', { token: err.token })
         const data1 = await backData()
         if (data1.type) {
           return data1.data
         } else {
-          throw '用户取消登录'
+          throw duxcmsUserLang.t('user.cancelLogin')
         }
       } else {
         throw err
@@ -154,10 +155,10 @@ export const cmsUser = {
       await request({
         url: 'member/setting/data',
         method: 'POST',
-        toast: true,
-        data: info
-      })
-      toast('更新成功')
+      toast: true,
+      data: info
+    })
+      toast(duxcmsUserLang.t('user.updateSuccess'))
     }
     return user.setInfo(info, cmsUser.appName)
   },
@@ -225,8 +226,8 @@ requestMiddle.result(async (res, params) => {
         if (!isConfirm) {
           isConfirm = true
           confirm({
-            title: '警告',
-            content: '你的账号在其他设备已登录，请检查账号密码是否泄露',
+            title: duxcmsUserLang.t('user.singleSignTitle'),
+            content: duxcmsUserLang.t('user.singleSignContent'),
             cancel: false
           }).then(async () => {
             isConfirm = false
@@ -239,7 +240,7 @@ requestMiddle.result(async (res, params) => {
           })
         }
       } else {
-        toast('你已退出登录 请重新登录')
+        toast(duxcmsUserLang.t('user.loggedOutNeedRelogin'))
         user.logout()
       }
     } else {
@@ -256,7 +257,7 @@ requestMiddle.result(async (res, params) => {
   } else if (res.header?.authorization) {
     if (config.devOpen) {
       console.log(
-        'Token即将过期 请使用新的token覆盖devToken: ' + res.header.authorization
+        duxcmsUserLang.t('user.devTokenExpiring', { params: { token: res.header.authorization } })
       )
     } else {
       cmsUser.setInfo({ token: res.header.authorization })

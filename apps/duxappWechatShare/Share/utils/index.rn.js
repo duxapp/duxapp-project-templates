@@ -1,7 +1,8 @@
-import { PullView, TopView, duxappTheme, px, userConfig } from '@/duxapp'
+import { PullView, TopView, duxappTheme, px } from '@/duxapp'
 import ExpoWeChat from 'expo-wechat'
 import { Image, View, Text } from '@tarojs/components'
 import qs from 'qs'
+import { getUserConfig } from './util'
 import weixinIcon from '../images/weixin.png'
 import pengyouquanIcon from '../images/pengyouquan.png'
 import shoucangIcon from '../images/shoucang.png'
@@ -53,7 +54,7 @@ export const APPShare = ({
 }
 
 APPShare.show = (config, WechatShare) => {
-  const app = userConfig.option.wechat?.share?.platform?.app
+  const app = getUserConfig().platform?.app || {}
   if (!app?.weappUserName && !app.h5Url) {
     return console.log('openShare: 未启用app端分享，请配置option.wechat.share.platform.app')
   }

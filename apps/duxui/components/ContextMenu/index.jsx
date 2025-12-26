@@ -1,6 +1,7 @@
 import { Animated, colorDark, colorLighten, duxappTheme, getWindowInfo, nextTick, pxNum, theme, TopView, transformStyle } from '@/duxapp'
 import { View } from '@tarojs/components'
 import { useEffect, useMemo, useState } from 'react'
+import { duxuiLang } from '@/duxui/utils'
 import { Column, Row } from '../Flex'
 import { Text } from '../Text'
 import { DuxuiIcon } from '../DuxuiIcon'
@@ -9,7 +10,7 @@ export const showContextMenu = ({
   x, y, list, animation, oneCallback
 }) => {
   if (!list?.length) {
-    return Promise.reject('菜单列表为空')
+    return Promise.reject(duxuiLang.t('contextMenu.emptyList'))
   }
   if (list.length === 1 && oneCallback) {
     return Promise.resolve({
@@ -18,7 +19,7 @@ export const showContextMenu = ({
     })
   }
   if (typeof x !== 'number' || typeof y !== 'number') {
-    return Promise.reject('坐标参数错误')
+    return Promise.reject(duxuiLang.t('contextMenu.invalidCoord'))
   }
 
   const select = () => {
@@ -29,7 +30,7 @@ export const showContextMenu = ({
           x, y, list, animation,
           onClose: () => {
             remove()
-            reject('取消选择')
+            reject(duxuiLang.t('contextMenu.cancelSelect'))
           },
           onSelect: data => {
             remove()

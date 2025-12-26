@@ -1,6 +1,7 @@
 import { View } from '@tarojs/components'
 import { createContext, useCallback, useContext as useReactContext, useState } from 'react'
 import { toast, route, stopPropagation, noop } from '@/duxapp/utils'
+import { duxuiLang } from '@/duxui/utils'
 import './Select.scss'
 
 const useCheck = (max = 99) => {
@@ -20,7 +21,7 @@ const useCheck = (max = 99) => {
           if (max == 1) {
             return [value]
           } else {
-            toast('最多选择' + max + '项')
+            toast(duxuiLang.t('listSelect.maxSelect', { params: { max } }))
             return old
           }
         }
@@ -46,6 +47,7 @@ const useContext = () => useReactContext(context)
 export const ListSelect = ({
   children
 }) => {
+  const t = duxuiLang.useT()
   const { params } = route.useRoute()
   const type = params.listSelectMax > 1 ? 'checkbox' : params.listSelectMax === 1 ? 'radio' : ''
 
@@ -54,10 +56,10 @@ export const ListSelect = ({
   const submit = useCallback(e => {
     stopPropagation(e)
     if (selects.length === 0) {
-      return toast('请选择项目')
+      return toast(t('listSelect.pleaseSelectItem'))
     }
     route.back(1, type === 'radio' ? selects[0] : selects)
-  }, [selects, type])
+  }, [selects, type, t])
 
   if (!type) {
     return children
@@ -91,11 +93,12 @@ const ListSelectSubmit = ({
   children
 }) => {
   const { type, submit } = useContext()
+  const t = duxuiLang.useT()
   if (!type) {
     return null
   }
   return <View onClick={submit} className='ListSelectSubmit'>
-    {children || <View className='ListSelectSubmit__btn'>确定</View>}
+    {children || <View className='ListSelectSubmit__btn'>{t('common.ok')}</View>}
   </View>
 }
 

@@ -1,6 +1,7 @@
 import { deepCopy, noop, PullView } from '@/duxapp'
 import { cloneElement, useMemo, isValidElement, useCallback, createContext, useContext, useState, useRef, useEffect } from 'react'
 import classNames from 'classnames'
+import { duxuiLang } from '@/duxui/utils'
 import { Button } from '../Button'
 import { Row, Column } from '../Flex'
 import { DuxuiIcon } from '../DuxuiIcon'
@@ -27,7 +28,7 @@ export const ModalForm = ({
   renderHeader,
   renderFooter,
   title,
-  placeholder = '请选择',
+  placeholder,
   showButton = true,
   onSubmitBefore,
   autoSubmit,
@@ -36,6 +37,9 @@ export const ModalForm = ({
   field,
   ...props
 }) => {
+
+  const t = duxuiLang.useT()
+  const placeholderText = placeholder ?? t('common.pleaseSelect')
 
   const [val, setVal] = useFormItemProxy({ value, onChange, defaultValue })
 
@@ -117,7 +121,7 @@ export const ModalForm = ({
       {
         typeof val !== 'undefined' ?
           <Text>{renderText}</Text> :
-          <Text color={3}>{placeholder}</Text>
+          <Text color={3}>{placeholderText}</Text>
       }
       <Text color={3} size={5}><DuxuiIcon name='direction_right' /></Text>
     </Row>
@@ -158,8 +162,8 @@ export const ModalForm = ({
             showButton && !autoSubmit && <>
               <Divider padding={0} />
               <Space row className='ModalForm__btns'>
-                <Reset type='primary' size='l' plain className='flex-grow' mode={resetMode}>重置</Reset>
-                <Submit type='primary' size='l' className='flex-grow'>提交</Submit>
+                <Reset type='primary' size='l' plain className='flex-grow' mode={resetMode}>{t('common.reset')}</Reset>
+                <Submit type='primary' size='l' className='flex-grow'>{t('common.submit')}</Submit>
               </Space>
             </>
           }

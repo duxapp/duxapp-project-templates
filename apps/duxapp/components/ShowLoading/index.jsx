@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components'
-import { px, currentPage, getWindowInfo } from '@/duxapp/utils'
+import { px, currentPage, getWindowInfo, duxappLang } from '@/duxapp/utils'
 import { TopView } from '../TopView'
 import { Loading } from '../Loading'
 
@@ -11,7 +11,7 @@ const getSize = size => {
 }
 
 const ShowLoading = ({
-  text = '请稍后',
+  text = duxappLang.t('common.loading'),
   mask
 }) => {
   const { windowWidth, windowHeight } = getWindowInfo()

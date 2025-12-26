@@ -1,0 +1,14 @@
+diff --git a/node_modules/@shopify/react-native-skia/src/external/reanimated/renderHelpers.ts b/node_modules/@shopify/react-native-skia/src/external/reanimated/renderHelpers.ts
+index d46856a..0834367 100644
+--- a/node_modules/@shopify/react-native-skia/src/external/reanimated/renderHelpers.ts
++++ b/node_modules/@shopify/react-native-skia/src/external/reanimated/renderHelpers.ts
+@@ -10,7 +10,8 @@ try {
+   require("react-native-reanimated");
+   if (
+     reanimatedVersion &&
+-    (reanimatedVersion >= "3.0.0" || reanimatedVersion.includes("3.0.0-"))
++    (reanimatedVersion >= "3.0.0" || reanimatedVersion.includes("3.0.0-")) &&
++    (global as any)._skiaUseReanimated !== false
+   ) {
+     HAS_REANIMATED_3 = true;
+   }

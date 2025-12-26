@@ -1,10 +1,12 @@
-import { TopView, Header, Row, Text, Card, Tab, nav, Empty, loading, stopPropagation, Button, px, colorLighten, duxappTheme, TabItem } from '@/duxui'
+import { TopView, Header, Row, Text, Card, Tab, nav, Empty, loading, stopPropagation, Button, px, colorLighten, duxappTheme, TabItem, theme, colorDark } from '@/duxui'
 import { List, request, contextState, collect } from '@/duxcmsUser'
+import { duxcmsUserLang } from '@/duxcmsUser/utils'
 import { useCallback } from 'react'
 
 export default function Collect() {
+  const t = duxcmsUserLang.useT()
   return <TopView>
-    <Header title='我的收藏' />
+    <Header title={t('collect.title')} />
     <Tab
       buttonRound lazyload justify oneHidden
       tabStyle={collect.config.tabBg && {
@@ -19,7 +21,7 @@ export default function Collect() {
             <List
               url={`member/collect/${item.type}`}
               renderItem={Item}
-              renderEmpty={<Empty title='没有相关收藏' />}
+              renderEmpty={<Empty title={t('collect.empty')} />}
             />
           </contextState.Provider>
         </TabItem>)
@@ -29,6 +31,9 @@ export default function Collect() {
 }
 
 const RemoveCard = ({ children, item, action, type }) => {
+
+  const dark = theme.useIsDark()
+  const t = duxcmsUserLang.useT()
 
   const detail = useCallback(() => {
     const _item = collect.types.find(v => v.type === type)
@@ -50,13 +55,13 @@ const RemoveCard = ({ children, item, action, type }) => {
   return <Card shadow={false} margin
     disableMarginBottom
     className='overflow-hidden'
-    style={{ padding: 0, backgroundColor: colorLighten(duxappTheme.primaryColor, 0.9) }}
+    style={{ padding: 0, backgroundColor: dark ? colorLighten(duxappTheme.whiteColor, 0.3) : colorLighten(duxappTheme.primaryColor, 0.9) }}
     onClick={detail}
   >
     {children}
     <Row items='center' justify='between' className='p-2'>
-      <Text>收藏时间：{item.created_at.substring(0, 10)}</Text>
-      <Button style={{ width: px(132), height: px(40), }} onClick={remove}>移除</Button>
+      <Text>{t('collect.time', { params: { date: item.created_at.substring(0, 10) } })}</Text>
+      <Button style={{ width: px(132), height: px(40), }} onClick={remove}>{t('collect.remove')}</Button>
     </Row>
   </Card>
 }

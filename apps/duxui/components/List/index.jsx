@@ -1,6 +1,7 @@
 import { useEffect, useMemo, memo, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react'
 import { useDidShow } from '@tarojs/taro'
 import { getWindowInfo, noop } from '@/duxapp'
+import { duxuiLang } from '@/duxui/utils'
 import { ListLoading } from './Loading'
 import { ListSelect } from './Select'
 import { FlatList } from './FlatList'
@@ -17,6 +18,7 @@ export const createList = usePageData => {
     listField = 'list',
     keyField = 'id',
     reloadForShow,
+    listData,
     url,
     data,
     requestOption,
@@ -27,7 +29,7 @@ export const createList = usePageData => {
     // 是否分页 默认是有分页的 某些数据后台是一次性返回的，没有分页
     page = true,
     // 为空提示文字
-    emptyTitle = '暂无数据',
+    emptyTitle,
     // 自定义为空时候的提示渲染
     renderEmpty,
     // 数据操作的回调
@@ -43,8 +45,20 @@ export const createList = usePageData => {
     itemProps,
     ...props
   }, ref) {
+    const t = duxuiLang.useT()
+    const emptyTitleText = emptyTitle ?? t('empty.noData')
 
-    const [list, action] = usePageData({ url, data, ...requestOption }, { field: listField, listCallback, cache, ...option })
+    const [_list, action] = usePageData({
+      url, data, ...requestOption
+    }, {
+      field: listField,
+      listCallback,
+      cache,
+      ...option,
+      ready: (option?.ready ?? true) && !!url,
+    })
+
+    const list = listData || _list
 
     const refs = useRef({})
     refs.current = { ...itemProps, list, action }
@@ -108,18 +122,21 @@ export const createList = usePageData => {
     }, [actionLoading, pullRefreshing])
 
     const handleUserRefresh = useCallback((...args) => {
+      if (!url) {
+        return
+      }
       setPullRefreshing(true)
       if (!actionLoading) {
         actionReload()
       }
       propsOnRefresh?.(...args)
-    }, [actionLoading, actionReload, propsOnRefresh])
+    }, [actionLoading, actionReload, propsOnRefresh, url])
 
     const refresh = pullRefreshing
 
-    const loadMore = (page && !action.refresh && list.length > 5 || (action.loadEnd && !emptyStatus)) && <ListLoading
+    const loadMore = (page && !!url && !action.refresh && list.length > 5 || (action.loadEnd && !emptyStatus)) && <ListLoading
       loading={action.loading}
-      text={action.loading ? '加载中' : action.loadEnd ? '没有更多了' : '上拉加载'}
+      text={action.loading ? t('common.loading') : action.loadEnd ? t('common.noMore') : t('common.pullToLoad')}
     />
 
     return <ListSelect>
@@ -129,14 +146,14 @@ export const createList = usePageData => {
             nestedScrollEnabled
             numColumns={columns}
             refresh={refresh}
-            onScrollToLower={page && action.next || noop}
-            onRefresh={handleUserRefresh}
+            onScrollToLower={() => page && url && action.next().catch(noop)}
+            onRefresh={!!url && handleUserRefresh}
             keyExtractor={(item, index) => item[keyField] ?? index}
             data={list}
             renderItem={RenderItem}
             ItemSeparatorComponent={renderLine}
             ListHeaderComponent={renderHeader}
-            ListEmptyComponent={!action.loading && (renderEmpty || <Empty title={emptyTitle} />)}
+            ListEmptyComponent={!action.loading && (renderEmpty || <Empty title={emptyTitleText} />)}
             ListFooterComponent={<>
               {renderFooter}
               {loadMore}
@@ -148,6 +165,7 @@ export const createList = usePageData => {
             }}
           /> : useVirtualList && process.env.TARO_ENV !== 'harmony_cpp' ?
             <WeappList
+              url={url}
               list={list}
               RenderItem={RenderItem}
               columns={columns}
@@ -158,7 +176,7 @@ export const createList = usePageData => {
               renderEmpty={renderEmpty}
               loadMore={loadMore}
               Empty={Empty}
-              emptyTitle={emptyTitle}
+              emptyTitle={emptyTitleText}
               action={action}
               refresh={refresh}
               onRefresh={handleUserRefresh}
@@ -167,6 +185,7 @@ export const createList = usePageData => {
               props={restProps}
             /> :
             <BaseScrollView
+              url={url}
               list={list}
               RenderItem={RenderItem}
               page={page}
@@ -176,7 +195,7 @@ export const createList = usePageData => {
               renderEmpty={renderEmpty}
               loadMore={loadMore}
               Empty={Empty}
-              emptyTitle={emptyTitle}
+              emptyTitle={emptyTitleText}
               action={action}
               refresh={refresh}
               onRefresh={handleUserRefresh}

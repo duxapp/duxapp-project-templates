@@ -20,6 +20,8 @@ export class ContextAttr {
     this.paintStroke = Skia.Paint()
     this.paintStroke.setStyle(PaintStyle.Stroke)
     this.paintImage = Skia.Paint()
+    this.paintClear = Skia.Paint()
+    this.paintClear.setBlendMode(BlendMode.Clear)
     // 临时缓存，需要清理的东西
     this.cache = {
       font: {},
@@ -64,24 +66,34 @@ export class ContextAttr {
 
   setAttrs(attr) {
     for (const key in attr) {
-      this.setAttr(key, attr[key])
+      const next = attr[key]
+      if (this.attr[key] === next) {
+        continue
+      }
+      this.setAttr(key, next)
     }
   }
 
   setAttr(name, value) {
-    const isStyle = name === 'fillStyle' || name === 'strokeStyle'
-    if (!isStyle && this.attr[name] === value) {
+    if (this.attr[name] === value) {
       return
     }
+    const prevValue = this.attr[name]
     switch (name) {
       case 'fillStyle': {
         if (value instanceof CanvasGradient) {
+          if (prevValue === value) {
+            return
+          }
           // 渐变填充
           value.applyToPaint(this.paintFill)
         } else if (value instanceof CanvasPattern) {
+          if (prevValue === value) {
+            return
+          }
           // 图案填充
           value.applyToPaint(this.paintFill)
-        } else if (value) {
+        } else if (value !== undefined && value !== null) {
           // 纯色填充，清除之前的 shader
           this.paintFill.setShader(null)
           this.paintFill.setColor(value)
@@ -90,9 +102,15 @@ export class ContextAttr {
       }
       case 'strokeStyle': {
         if (value instanceof CanvasGradient) {
+          if (prevValue === value) {
+            return
+          }
           // 渐变描边
           value.applyToPaint(this.paintStroke)
         } else if (value instanceof CanvasPattern) {
+          if (prevValue === value) {
+            return
+          }
           // 图案描边
           value.applyToPaint(this.paintStroke)
         } else {

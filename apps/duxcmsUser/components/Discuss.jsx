@@ -1,12 +1,14 @@
 import { useCallback } from 'react'
 import { Text, Image, Button, Empty, Space, Avatar, Column, Grade, Grid, Divider, ImageGroup } from '@/duxui'
 import { nav, usePageData } from '@/duxcms'
+import { duxcmsUserLang } from '@/duxcmsUser/utils'
 
 export const DiscussDetailList = ({
   type,
   id
 }) => {
 
+  const t = duxcmsUserLang.useT()
   const [list] = usePageData(`member/comment/${type}/${id}`)
 
   const toDetail = useCallback(() => {
@@ -19,8 +21,8 @@ export const DiscussDetailList = ({
     }
     {
       !list.length
-        ? <Empty title='暂无评论' />
-        : <Button onClick={toDetail} type='secondary' plain className='self-center mt-3'>查看全部</Button>
+        ? <Empty title={t('discuss.empty')} />
+        : <Button onClick={toDetail} type='secondary' plain className='self-center mt-3'>{t('discuss.viewAll')}</Button>
     }
   </>
 }

@@ -1,7 +1,7 @@
 import { duxappTheme, ObjectManage, TopView } from '@/duxapp'
 import { useEffect, useRef, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { getInfoAsync } from 'expo-file-system'
+import { File } from 'expo-file-system'
 import { Video, Image } from 'react-native-compressor'
 
 export const chooseMediaCompressor = async (files, option) => {
@@ -16,7 +16,7 @@ export const chooseMediaCompressor = async (files, option) => {
     if (file.type === 'video') {
       // 开始压缩视频
       file.path = await Task.getInstance().compressor(file.path)
-      const info = await getInfoAsync(file.path)
+      const info = new File(file.path).info()
       file.size = info.size
     } else if (file.type === 'image') {
       file.path = await Image.compress(file.path, {
@@ -24,7 +24,7 @@ export const chooseMediaCompressor = async (files, option) => {
         maxHeight: 1920,
         quality: 0.6
       })
-      const info = await getInfoAsync(file.path)
+      const info = new File(file.path).info()
       file.size = info.size
     }
   }))

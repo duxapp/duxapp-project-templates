@@ -1,7 +1,7 @@
 {
   "name": "react-native-skia",
   "description": "集成RN端 react-native-skia",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "dependencies": [
     "duxapp"
   ]

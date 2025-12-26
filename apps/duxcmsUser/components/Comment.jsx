@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { Row, Text, Image, Button, Empty, Space, Avatar, Column, Grade, Grid, Divider, duxappTheme, ImageGroup } from '@/duxui'
 import { nav, usePageData, useRequest, CmsIcon } from '@/duxcms'
+import { duxcmsUserLang } from '@/duxcmsUser/utils'
 
 export const CommentDetailList = ({
   type,
@@ -8,11 +9,13 @@ export const CommentDetailList = ({
   emptyShow
 }) => {
 
+  const t = duxcmsUserLang.useT()
   const [list] = usePageData(`member/assess/has?type=${type}&id=${id}`)
 
   const [total] = useRequest(`member/assess/total?type=${type}&id=${id}`)
 
   const count = (total.good + total.medium + total.negative) || 0
+  const rate = ((total.avg || 5) * 20) | 0
 
   const toDetail = useCallback(() => {
     return nav('duxcmsUser/comment/list', { type, id })
@@ -24,8 +27,8 @@ export const CommentDetailList = ({
 
   return <Column className='mh-3 mt-3 bg-white r-2 p-3 gap-3'>
     <Row items='center' onClick={toDetail}>
-      <Text size={4} bold grow>评论({count})</Text>
-      <Text color={3}>好评度 {(total.avg || 5) * 20 | 0}% </Text>
+      <Text size={4} bold grow>{t('comment.sectionTitle', { params: { count } })}</Text>
+      <Text color={3}>{t('comment.positiveRate', { params: { rate } })} </Text>
       <CmsIcon color={duxappTheme.textColor3} name='direction_right' />
     </Row>
     {
@@ -34,15 +37,16 @@ export const CommentDetailList = ({
     {!!list.length && <Divider padding={0} />}
     {
       !list.length
-        ? <Empty title='暂无评价' />
-        : <Button onClick={toDetail} type='secondary' plain className='self-center'>查看全部评价</Button>
+        ? <Empty title={t('comment.empty')} />
+        : <Button onClick={toDetail} type='secondary' plain className='self-center'>{t('comment.viewAll')}</Button>
     }
   </Column>
 }
 
 export const CommentItem = ({ item }) => {
   // 给名字加*
-  let username = item.user_nickname || item.user_tel || '匿名'
+  const t = duxcmsUserLang.useT()
+  let username = item.user_nickname || item.user_tel || t('comment.anonymous')
   if (username.length < 2) {
     username += '  '
   }

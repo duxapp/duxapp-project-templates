@@ -1,9 +1,7 @@
-import { userConfig } from '@/duxapp'
 import { WechatShare } from './Share'
+import { getUserConfig } from './Share/utils/util'
 
-const share = userConfig.option?.duxappWechatShare || userConfig.option?.wechat?.share || {}
-
-if (share.open) {
+if (getUserConfig().open) {
   // 开启了分享
   WechatShare.init()
 }

@@ -1,7 +1,7 @@
 {
   "name": "duxappWechatShare",
   "description": "通用微信分享功能",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "dependencies": [
     "expo-wechat"
   ]

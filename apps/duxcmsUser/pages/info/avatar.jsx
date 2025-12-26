@@ -1,13 +1,15 @@
 import { Avatar, Card, Header, Row, ScrollView, TopView, Button } from '@/duxui'
 import { cmsUser, requestPermissionMessage, upload, uploadTempFile } from '@/duxcmsUser'
+import { duxcmsUserLang } from '@/duxcmsUser/utils'
 import { useCallback } from 'react'
 
 export default function UserAvatar() {
 
   const [userInfo] = cmsUser.useUserInfo()
+  const t = duxcmsUserLang.useT()
 
   const updateAvatar = useCallback(async () => {
-    await requestPermissionMessage(requestPermissionMessage.types.image, '用于修改用户头像')
+    await requestPermissionMessage(requestPermissionMessage.types.image, t('info.avatar.permission'))
     const [avatar] = await upload('image', {
       count: 1,
       sizeType: ['compressed'],
@@ -15,7 +17,7 @@ export default function UserAvatar() {
       resultField: ['data', 'data', 'url']
     })
     await cmsUser.setInfo({ avatar })
-  }, [])
+  }, [t])
 
   const wxAvatar = useCallback(async data => {
     const [avatar] = await uploadTempFile([{ path: data.detail.avatarUrl }], {
@@ -26,13 +28,13 @@ export default function UserAvatar() {
   }, [])
 
   return <TopView>
-    <Header title='设置头像' />
+    <Header title={t('info.avatar.title')} />
     <ScrollView>
       <Card margin className='items-center gap-4'>
-        <Avatar size='l' url={userInfo.avatar}>空</Avatar>
+        <Avatar size='l' url={userInfo.avatar}>{t('info.avatar.empty')}</Avatar>
         <Row className='gap-3 mt-3'>
-          <Button type='primary' onClick={updateAvatar}>上传头像</Button>
-          {process.env.TARO_ENV === 'weapp' && <Button type='secondary' openType='chooseAvatar' onChooseAvatar={wxAvatar}>使用微信头像</Button>}
+          <Button type='primary' onClick={updateAvatar}>{t('info.avatar.upload')}</Button>
+          {process.env.TARO_ENV === 'weapp' && <Button type='secondary' openType='chooseAvatar' onChooseAvatar={wxAvatar}>{t('info.avatar.useWechat')}</Button>}
         </Row>
       </Card>
     </ScrollView>

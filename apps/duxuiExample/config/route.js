@@ -126,7 +126,8 @@ export default {
         SvgImageCropper: {
           platform: ['weapp', 'rn', 'h5']
         },
-        ContextMenu: {}
+        ContextMenu: {},
+        Lang: {}
       }
     }
   }

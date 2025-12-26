@@ -1,21 +1,23 @@
 import { Text, Column, TopView, Header, Empty, Divider, Image, nav, dayjs, Row, Badge, confirm, loading, } from '@/duxui'
 import { List, request } from '@/duxcmsUser'
+import { duxcmsUserLang } from '@/duxcmsUser/utils'
 import { pxTransform } from '@tarojs/taro'
 import { useRef, useState } from 'react'
 
 export default function Notice() {
 
   const action = useRef()
+  const t = duxcmsUserLang.useT()
 
   return <TopView>
-    <Header title='通知'
+    <Header title={t('notice.title')}
       renderRight={<Text
         size={1}
         className='mh-2'
         align='center'
         onClick={async () => {
           if (await confirm({
-            title: '是否标记为已读？'
+            title: t('notice.markReadConfirm')
           })) {
             await request({
               url: 'member/notice/read',
@@ -27,11 +29,11 @@ export default function Notice() {
             action.current.reload()
           }
         }}
-      >一键已读</Text>}
+      >{t('notice.markAll')}</Text>}
     />
     <List
       url='member/notice'
-      renderEmpty={<Empty title='暂无记录' />}
+      renderEmpty={<Empty title={t('notice.empty')} />}
       renderItem={Item}
       onAction={action}
     />

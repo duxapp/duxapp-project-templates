@@ -26,6 +26,18 @@ export class OffscreenCanvas {
     this._resize(w, h)
   }
 
+  dispose() {
+    this._surface?.dispose?.()
+    this._rect?.dispose?.()
+    this._surface = null
+    this._canvas = null
+    this._rect = null
+    if (this._context) {
+      this._context.updateCanvas(null, null)
+      this._context = null
+    }
+  }
+
   get width() {
     return this._width
   }

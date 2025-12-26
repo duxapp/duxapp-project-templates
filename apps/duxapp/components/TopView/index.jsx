@@ -138,6 +138,7 @@ export class TopView extends Component {
     setConfig: () => { }
   })
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   static useContext = () => useContext(this.context)
 
   constructor(props) {

@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { noop, Layout } from '@/duxapp'
 
 export const WeappList = ({
+  url,
   list,
   columns,
   renderHeader,
@@ -55,8 +56,8 @@ export const WeappList = ({
       item={RenderItem}
       // 下拉刷新了上拉加载
       lowerThreshold={200}
-      onScrollToLower={page && action.next || noop}
-      refresherEnabled={!!onRefresh}
+      onScrollToLower={() => page && url && action.next().catch(noop)}
+      refresherEnabled={!!onRefresh && !!url}
       refresherThreshold={50}
       onRefresherrefresh={() => {
         if (!refresh) {

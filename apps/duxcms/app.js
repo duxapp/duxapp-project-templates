@@ -5,6 +5,8 @@ import {
   userConfig
 } from './utils'
 
+import './components/CmsIcon'
+
 formConfig.setConfig({
   request
 })

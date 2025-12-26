@@ -82,12 +82,7 @@ const TabbarButton = ({
   </View>
 }
 
-const Item = ({
-  name,
-  component,
-  icon,
-  itemKey
-}) => {
+const Item = () => {
   return null
 }
 

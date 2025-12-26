@@ -1,5 +1,9 @@
 import { userConfig } from '@/duxapp'
 
+export const getUserConfig = () => {
+  return userConfig.option?.duxappWechatShare || userConfig.option?.wechat?.share || {}
+}
+
 export const isShare = (config, path = '') => {
   if (config === true) {
     return true
@@ -18,7 +22,7 @@ export const isShare = (config, path = '') => {
 }
 
 export const getPageConfig = (config = {}) => {
-  const share = userConfig.option.wechat?.share
+  const share = getUserConfig()
   const title = config.title || config.headerTitle || share?.common.title
   let option = null
   if (config.pageRegister) {
