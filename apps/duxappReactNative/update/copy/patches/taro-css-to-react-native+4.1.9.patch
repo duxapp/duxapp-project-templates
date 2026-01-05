@@ -1,12 +1,18 @@
 diff --git a/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js b/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js
-index 73bc622..8e3fc4d 100644
+index 73bc622..562e07c 100644
 --- a/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js
 +++ b/node_modules/taro-css-to-react-native/dist/css-to-react-native/transforms/boxShadow.js
-@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
+@@ -6,6 +6,13 @@ Object.defineProperty(exports, "__esModule", {
  exports["default"] = void 0;
  var _util = require("./util");
  var _default = exports["default"] = function _default(tokenStream) {
-+  return tokenStream.nodes.map(node => node.value).join('')
++  const stringifyNodes = nodes => nodes.map(node => {
++    if (node.type === 'function') {
++      return `${node.value}(${stringifyNodes(node.nodes)})`;
++    }
++    return node.value;
++  }).join('');
++  return stringifyNodes(tokenStream.nodes);
    var _parseShadow = (0, _util.parseShadow)(tokenStream),
      offset = _parseShadow.offset,
      radius = _parseShadow.radius,
@@ -51,7 +57,7 @@ index 1ef8f3d..b9dc726 100644
 
      // borderWidth doesn't currently allow a percent value, but may do in the future
 diff --git a/node_modules/taro-css-to-react-native/dist/index.js b/node_modules/taro-css-to-react-native/dist/index.js
-index 56a63b4..9d9fc91 100644
+index 56a63b4..f647dd5 100644
 --- a/node_modules/taro-css-to-react-native/dist/index.js
 +++ b/node_modules/taro-css-to-react-native/dist/index.js
 @@ -26,6 +26,9 @@ var viewportUnitRe = /^([+-]?[0-9.]+)(vh|vw|vmin|vmax)$/;

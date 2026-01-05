@@ -6,9 +6,9 @@ import { ListLoading } from './Loading'
 import { ListSelect } from './Select'
 import { FlatList } from './FlatList'
 import { WeappList } from './WeappList'
-import './index.scss'
 import { Empty } from '../Empty'
 import { BaseScrollView } from './ScrollView'
+import './index.scss'
 
 export const createList = usePageData => {
   const List = forwardRef(function List_({
@@ -18,6 +18,7 @@ export const createList = usePageData => {
     listField = 'list',
     keyField = 'id',
     reloadForShow,
+    reloadType = 'first',
     listData,
     url,
     data,
@@ -60,25 +61,55 @@ export const createList = usePageData => {
 
     const list = listData || _list
 
+    const scrollTopRef = useRef(0)
+    const oldRefreshing = useRef(false)
+
+    const { onRefresh: propsOnRefresh, onScroll: propsOnScroll, ...restProps } = props
+
     const refs = useRef({})
-    refs.current = { ...itemProps, list, action }
+    refs.current = {
+      ...itemProps,
+      list,
+      action,
+      reloadType,
+      ready: option?.ready,
+      onScroll: propsOnScroll
+    }
 
-    const { onRefresh: propsOnRefresh, ...restProps } = props
+    const handleScroll = useCallback((e) => {
+      const nextScrollTop = e?.detail?.scrollTop ?? e?.nativeEvent?.contentOffset?.y
+      if (typeof nextScrollTop === 'number' && !Number.isNaN(nextScrollTop)) {
+        scrollTopRef.current = nextScrollTop
+      }
+      refs.current.onScroll?.(e)
+    }, [])
 
-    useDidShow(() => {
-      if (option?.ready === false) {
+    useEffect(() => {
+      if (action.refresh && !oldRefreshing.current) {
+        scrollTopRef.current = 0
+      }
+      oldRefreshing.current = action.refresh
+    }, [action.refresh])
+
+    const runReload = useCallback(() => {
+      const { action: currentAction, reloadType: currentReloadType, ready } = refs.current
+      if (ready === false) {
         return
       }
+      if (currentReloadType === 'top' && scrollTopRef.current >= 100 && refs.current.list?.length) {
+        return
+      }
+      return currentAction.reload()
+    }, [])
+
+    useDidShow(() => {
       // 在上面页面关掉的时候刷新数据
-      reloadForShow === true && action.reload()
+      reloadForShow === true && runReload()
     })
 
     // 如果传入TabBar组件，则使用TabBar组件的显示hook加载数据
     reloadForShow?.useShow?.(() => {
-      if (option?.ready === false) {
-        return
-      }
-      action.reload()
+      runReload()
     })
 
     useEffect(() => {
@@ -125,12 +156,18 @@ export const createList = usePageData => {
       if (!url) {
         return
       }
-      setPullRefreshing(true)
-      if (!actionLoading) {
-        actionReload()
+      if (actionLoading) {
+        propsOnRefresh?.(...args)
+        return
       }
+      if (reloadType === 'top' && scrollTopRef.current >= 100 && list.length) {
+        propsOnRefresh?.(...args)
+        return
+      }
+      setPullRefreshing(true)
+      actionReload()
       propsOnRefresh?.(...args)
-    }, [actionLoading, actionReload, propsOnRefresh, url])
+    }, [actionLoading, actionReload, list.length, propsOnRefresh, reloadType, url])
 
     const refresh = pullRefreshing
 
@@ -148,6 +185,7 @@ export const createList = usePageData => {
             refresh={refresh}
             onScrollToLower={() => page && url && action.next().catch(noop)}
             onRefresh={!!url && handleUserRefresh}
+            onScroll={handleScroll}
             keyExtractor={(item, index) => item[keyField] ?? index}
             data={list}
             renderItem={RenderItem}
@@ -180,9 +218,9 @@ export const createList = usePageData => {
               action={action}
               refresh={refresh}
               onRefresh={handleUserRefresh}
+              props={{ ...restProps, onScroll: handleScroll }}
               virtualListProps={virtualListProps}
               virtualWaterfallProps={virtualWaterfallProps}
-              props={restProps}
             /> :
             <BaseScrollView
               url={url}
@@ -199,7 +237,7 @@ export const createList = usePageData => {
               action={action}
               refresh={refresh}
               onRefresh={handleUserRefresh}
-              props={restProps}
+              props={{ ...restProps, onScroll: handleScroll }}
               listStyle={listStyle}
               listClassName={listClassName}
               renderLine={renderLine}
@@ -219,4 +257,4 @@ export {
   ListLoading
 }
 
-const itemSize = px => px * getWindowInfo().screenWidth / 750
+const itemSize = px => px * Math.min(520, getWindowInfo().screenWidth) / 750

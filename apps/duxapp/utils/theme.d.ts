@@ -1,3 +1,5 @@
+import { ObjectManage } from './data'
+
 interface AppThemes {
   [app: string]: Record<string, any>
 }
@@ -79,7 +81,7 @@ declare class Theme extends ObjectManage {
    * 监听真实生效主题变化（非保存的 mode）
    * @param callback 主题变化回调
    */
-  onChange(callback: (mode: string) => void, options?: { onLast?: boolean }): { remove: () => void }
+  onChange(callback: (mode: string | null) => void, onLast?: boolean): { remove: () => void }
 }
 
 export const theme: Theme

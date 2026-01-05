@@ -19,13 +19,17 @@ export const Canvas = forwardRef(({ onLayout, ...props }, ref) => {
   useImperativeHandle(ref, () => {
     return {
       getCanvas: () => {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
           nextTick(() => {
             const query = createSelectorQuery()
             query.select(`#${refs.id}`)
               .fields({ node: true, size: true, rect: true })
               .exec((_res) => {
-                const canvas = _res[0].node
+                const canvas = _res[0]?.node
+                if (!canvas) {
+                  reject(new Error('无法获取canvas节点'))
+                  return
+                }
                 if (process.env.TARO_ENV === 'h5' && !canvas.createImage) {
                   canvas.createImage = () => {
                     return new Image()

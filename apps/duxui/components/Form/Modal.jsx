@@ -27,7 +27,7 @@ export const ModalForm = ({
   renderForm: RenderForm,
   renderHeader,
   renderFooter,
-  title,
+  title = duxuiLang.t('common.pleaseSelect'),
   placeholder,
   showButton = true,
   onSubmitBefore,

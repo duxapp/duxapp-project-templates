@@ -75,7 +75,7 @@ export const AvatarGroup = ({
               {...maxProps}
               className='AvatarGroup__avatar'
               style={{
-                left: px(index * (itemSize + span))
+                marginLeft: px(span)
               }}
             >{maxProps?.children || '+N'}</Avatar>
           }
@@ -84,7 +84,7 @@ export const AvatarGroup = ({
           size, radiusType, color, bgColor, iconSize,
           className: classNames(child.props.className, 'AvatarGroup__avatar'),
           style: {
-            left: px(index * (itemSize + span))
+            marginLeft: px(span)
           }
         })
       })
