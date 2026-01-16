@@ -12,7 +12,7 @@ export default function CanvasExample() {
     let rafId = null
     let canvasInst = null
 
-    pictureRef.current.getCanvas().then(({ canvas }) => {
+    pictureRef.current.getCanvas().then(({ canvas, size }) => {
       if (cancelled) {
         return
       }
@@ -32,7 +32,7 @@ export default function CanvasExample() {
           return
         }
 
-        const { width = 0, height = 0 } = canvas.layout || {}
+        const { width = 0, height = 0 } = size
         if (!width || !height) {
           rafId = canvas.requestAnimationFrame(render)
           return

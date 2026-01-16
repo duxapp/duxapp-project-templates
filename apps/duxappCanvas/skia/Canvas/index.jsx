@@ -70,10 +70,10 @@ export const Canvas = forwardRef(({ onLayout, ...props }, ref) => {
                 canvas.createImage = () => new Image()
               }
               if (!canvas.requestAnimationFrame) {
-                canvas.requestAnimationFrame = requestAnimationFrame
+                canvas.requestAnimationFrame = window.requestAnimationFrame.bind(window)
               }
               if (!canvas.cancelAnimationFrame) {
-                canvas.cancelAnimationFrame = cancelAnimationFrame
+                canvas.cancelAnimationFrame = window.cancelAnimationFrame.bind(window)
               }
             }
             const ctx = canvas.getContext('2d')
