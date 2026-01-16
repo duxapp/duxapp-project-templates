@@ -35,7 +35,7 @@ export const PickerSelect = ({
   >{children}</ModalForm>
 }
 
-const SelectRenderForm = props => {
+const SelectRenderForm = /*@__PURE__*/ Object.assign(props => {
 
   const [keyword, setKeyword] = useState('')
   const t = duxuiLang.useT()
@@ -58,9 +58,7 @@ const SelectRenderForm = props => {
         <SelectorPicker {...props} range={rangeList} />
     }
   </Column>
-}
-
-SelectRenderForm.getShowText = SelectorPicker.getShowText
+}, { getShowText: SelectorPicker.getShowText })
 
 export const PickerMultiSelect = ({
   placeholder, grow, value = [], onChange, defaultValue,

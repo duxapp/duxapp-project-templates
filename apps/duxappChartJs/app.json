@@ -1,0 +1,8 @@
+{
+  "name": "duxappChartJs",
+  "description": "chart.js 封装",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxappCanvas"
+  ]
+}

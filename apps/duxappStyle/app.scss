@@ -693,11 +693,11 @@ taro-input-core {
 }
 
 .shadow {
-  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 $duxappShadowWidth 0 $duxappShadowColor;
 }
 
 .shadow-white {
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 $duxappShadowWidth 0 rgba(255, 255, 255, 0.1);
 }
 
 // 其他

@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components'
 import { createContext, useCallback, useContext as useReactContext, useState } from 'react'
 import { toast, route, stopPropagation, noop } from '@/duxapp/utils'
-import { duxuiLang } from '@/duxui/utils'
+import { duxuiLang, pure } from '@/duxui/utils'
 import './Select.scss'
 
 const useCheck = (max = 99) => {
@@ -44,7 +44,7 @@ export const context = /*@__PURE__*/ createContext({ type: '', isCheck: noop, ch
 
 const useContext = () => useReactContext(context)
 
-export const ListSelect = ({
+const ListSelectComponent = ({
   children
 }) => {
   const t = duxuiLang.useT()
@@ -102,6 +102,9 @@ const ListSelectSubmit = ({
   </View>
 }
 
-ListSelect.Item = ListSelectItem
-ListSelect.Submit = ListSelectSubmit
-ListSelect.useContext = useContext
+export const ListSelect = /*@__PURE__*/ pure(() => {
+  ListSelectComponent.Item = ListSelectItem
+  ListSelectComponent.Submit = ListSelectSubmit
+  ListSelectComponent.useContext = useContext
+  return ListSelectComponent
+})

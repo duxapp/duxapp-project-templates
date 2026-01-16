@@ -2,6 +2,24 @@
 
 为了实现兼容多端的canvas，开发了这个组件，在RN端将用 `react-native-skia` 模拟canvas的api，实现跨端绘图功能
 
+## 支持的功能
+
+- 基本绘制：`fillRect`/`strokeRect`/`clearRect`，路径绘制与描边/填充
+- 路径能力：`Path2D`、`arc`/`arcTo`、`bezierCurveTo`/`quadraticCurveTo`、`roundRect`/`ellipse`
+- 变换与状态：`save`/`restore`，`translate`/`scale`/`rotate`/`transform`/`setTransform`/`resetTransform`
+- 线条与样式：`lineWidth`/`lineCap`/`lineJoin`/`miterLimit`、`setLineDash`、`strokeStyle`/`fillStyle`
+- 文本：`font`/`textAlign`/`textBaseline`、`fillText`/`strokeText`/`measureText`
+- 图像：`drawImage`、`createImage`、`createImageData`、`getImageData`/`putImageData`
+- 其他：`globalAlpha`、`globalCompositeOperation`、阴影属性、渐变、`OffscreenCanvas`、`canvasToTempFilePath`
+
+## RN 端 picture 模式
+
+RN 端建议尽量使用 `picture` 模式（`Canvas` 组件传 `picture` 属性）以获得更好的性能。该模式每次绘制都会使用新的画布，需要注意：
+
+- 不支持局部增量更新，应当每次完整重绘
+- 每次绘制时需要重新设置变换与样式
+- `clearRect` 在该模式下不会生效，每次同步绘制之前都是新画布，不会留下上次绘制的任何内容
+
 ## 安装
 ```
 yarn duxapp app add duxappCanvas

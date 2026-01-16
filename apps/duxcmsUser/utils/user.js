@@ -225,6 +225,7 @@ requestMiddle.result(async (res, params) => {
       if (userConfig.option?.duxcmsUser?.singleSign) {
         if (!isConfirm) {
           isConfirm = true
+          await asyncTimeOut(50) // 防止请求过快，无法弹出 confirm
           confirm({
             title: duxcmsUserLang.t('user.singleSignTitle'),
             content: duxcmsUserLang.t('user.singleSignContent'),

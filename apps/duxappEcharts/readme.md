@@ -1,5 +1,5 @@
 # echarts
-集成百度图表插件，兼容多个端，RN端组件基本支持
+集成百度图表插件，基于 `duxappCanvas` 兼容多端渲染，RN 端使用 Skia Canvas
 ## 安装
 
 ```bash

@@ -61,8 +61,6 @@ export const AvatarGroup = ({
   ...props
 }) => {
 
-  const itemSize = duxuiTheme.avatar.sizes[size]
-
   return <View className={classNames('AvatarGroup', 'AvatarGroup--' + size, className)} style={style} {...props}>
     {
       Children.map(children, (child, index) => {

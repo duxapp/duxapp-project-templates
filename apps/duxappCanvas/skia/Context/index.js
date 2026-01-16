@@ -9,151 +9,135 @@ import {
 import { ContextTransform } from './Transform'
 import { CanvasGradient } from './Gradient'
 import { CanvasPattern } from './Pattern'
+import { Path2D } from '../Path2D'
 
 export class Context extends ContextTransform {
-  constructor(canvas, surface) {
-    super(canvas)
+  constructor(skiaCanvas, surface) {
+    super(skiaCanvas)
     this.surface = surface
-    this.path = Skia.Path.Make()
-    // 渲染状态 默认需要渲染
+    this.path = new Path2D()
     this.drawStatus = false
   }
 
   // --- Path ---
   beginPath() {
     this.path.reset()
-    this.moveToStatus = false
   }
 
   closePath() {
-    this.path.close()
+    this.path.closePath()
   }
 
   moveTo(x, y) {
     this.path.moveTo(x, y)
-    this.moveToStatus = true
   }
 
   lineTo(x, y) {
-    if (!this.moveToStatus) {
-      this.moveTo(x, y)
-    } else {
-      this.path.lineTo(x, y)
-    }
+    this.path.lineTo(x, y)
   }
 
   arc(x, y, radius, startAngle, endAngle, anticlockwise = false) {
-    const sweepAngle = (endAngle - startAngle) * (180 / Math.PI)
-    const startDeg = startAngle * (180 / Math.PI)
-    const rect = Skia.XYWHRect(x - radius, y - radius, radius * 2, radius * 2)
-    this.path.addArc(
-      rect,
-      startDeg,
-      anticlockwise ? -sweepAngle : sweepAngle
-    )
-    rect.dispose()
+    this.path.arc(x, y, radius, startAngle, endAngle, anticlockwise)
   }
 
   arcTo(x1, y1, x2, y2, radius) {
-    this.path.arcToTangent(x1, y1, x2, y2, radius)
+    this.path.arcTo(x1, y1, x2, y2, radius)
   }
 
   bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) {
-    this.path.cubicTo(cp1x, cp1y, cp2x, cp2y, x, y)
+    this.path.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
   }
 
   quadraticCurveTo(cpx, cpy, x, y) {
-    this.path.quadTo(cpx, cpy, x, y)
+    this.path.quadraticCurveTo(cpx, cpy, x, y)
   }
 
   rect(x, y, width, height) {
-    const rect = Skia.XYWHRect(x, y, width, height)
-    this.path.addRect(rect)
-    rect.dispose()
+    this.path.rect(x, y, width, height)
   }
 
   roundRect(x, y, width, height, radii) {
-    const rect = Skia.XYWHRect(x, y, width, height)
-    this.path.addRRect(Skia.RRectXY(rect, radii, radii))
-    rect.dispose()
+    this.path.roundRect(x, y, width, height, radii)
   }
 
   ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise) {
-    const unitPath = Skia.Path.Make()
-    const rect = Skia.XYWHRect(-1, -1, 2, 2) // 单位圆
-    const sweepDeg = (endAngle - startAngle) * (180 / Math.PI)
-    const startDeg = startAngle * (180 / Math.PI)
-
-    unitPath.addArc(
-      rect,
-      startDeg,
-      anticlockwise ? -sweepDeg : sweepDeg
-    )
-
-    rect.dispose()
-
-    const cos = Math.cos(rotation)
-    const sin = Math.sin(rotation)
-    // T(x,y) * R(rotation) * S(rx, ry)
-    const matrix = Skia.Matrix([
-      cos * radiusX, -sin * radiusY, x,
-      sin * radiusX, cos * radiusY, y,
-      0, 0, 1
-    ])
-
-    this.path.addPath(unitPath, matrix)
-    unitPath.dispose()
+    this.path.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
   }
 
   // --- 绘制方法 ---
-  stroke() {
-    this.canvas.drawPath(this.path, this.paintStroke)
+  stroke(path) {
+    const skPath = this._resolveSkiaPath(path)
+    if (!skPath) {
+      return
+    }
+    this.skiaCanvas.drawPath(skPath, this.paintStroke)
     this.draw()
   }
 
-  fill(fillRule = 'nonzero') {
-    this.path.setFillType(
-      fillRule === 'evenodd'
-        ? FillType.EvenOdd
-        : FillType.Winding
-    )
-    this.canvas.drawPath(this.path, this.paintFill)
+  fill(pathOrRule = 'nonzero', fillRule) {
+    const { skPath, rule } = this._resolvePathAndRule(pathOrRule, fillRule)
+    if (!skPath) {
+      return
+    }
+    this._applyFillRule(skPath, rule)
+    this.skiaCanvas.drawPath(skPath, this.paintFill)
     this.draw()
   }
 
-  clip(fillRule = 'nonzero') {
-    this.path.setFillType(
-      fillRule === 'evenodd'
-        ? FillType.EvenOdd
-        : FillType.Winding
-    )
-    this.canvas.clipPath(this.path, ClipOp.Intersect, true)
+  clip(pathOrRule = 'nonzero', fillRule) {
+    const { skPath, rule } = this._resolvePathAndRule(pathOrRule, fillRule)
+    if (!skPath) {
+      return
+    }
+    this._applyFillRule(skPath, rule)
+    this.skiaCanvas.clipPath(skPath, ClipOp.Intersect, true)
   }
 
-  isPointInPath(x, y, fillRule = 'nonzero') {
-    return this.path.contains(x, y)
+  isPointInPath(pathOrX, yOrRule, fillRule) {
+    let targetPath = this.path
+    let x = pathOrX
+    let y = yOrRule
+    let rule = fillRule
+
+    if (pathOrX instanceof Path2D || typeof pathOrX?.getPath === 'function') {
+      targetPath = pathOrX
+      x = yOrRule
+      y = fillRule
+      rule = arguments.length > 3 ? arguments[3] : 'nonzero'
+    }
+
+    const skPath = this._getSkiaPath(targetPath)
+    if (!skPath) {
+      return false
+    }
+    this._applyFillRule(skPath, rule)
+    return skPath.contains(x, y)
   }
 
   // --- Rect ---
   fillRect(x, y, width, height) {
     const rect = Skia.XYWHRect(x, y, width, height)
-    this.canvas.drawRect(rect, this.paintFill)
+    this.skiaCanvas.drawRect(rect, this.paintFill)
     rect.dispose()
     this.draw()
   }
 
   strokeRect(x, y, width, height) {
     const rect = Skia.XYWHRect(x, y, width, height)
-    this.canvas.drawRect(rect, this.paintStroke)
+    this.skiaCanvas.drawRect(rect, this.paintStroke)
     rect.dispose()
     this.draw()
   }
 
   clearRect(x, y, width, height) {
-    const rect = Skia.XYWHRect(x, y, width, height)
-    this.canvas.drawRect(rect, this.paintClear)
-    rect.dispose()
-    this.draw()
+    // 读取录制器，不要删除
+    this.skiaCanvas
+    if (!this._recorder) {
+      const rect = Skia.XYWHRect(x, y, width, height)
+      this.skiaCanvas.drawRect(rect, this.paintClear)
+      rect.dispose()
+      this.draw()
+    }
   }
 
   // --- Text ---
@@ -185,7 +169,8 @@ export class Context extends ContextTransform {
     }
 
     // 6. 绘制文本
-    this.canvas.drawText(text, adjustedX, adjustedY, isStroke ? this.paintStroke : this.paintFill, this.attr.font)
+    const paint = isStroke ? this.paintStroke : this.paintFill
+    this.skiaCanvas.drawText(text, adjustedX, adjustedY, paint, this.attr.font)
     this.draw()
   }
 
@@ -221,7 +206,7 @@ export class Context extends ContextTransform {
       ? Skia.XYWHRect(dx, dy, dWidth, dHeight)
       : Skia.XYWHRect(sx, sy, sWidth ?? image.width(), sHeight ?? image.height())
 
-    this.canvas.drawImageRect(image, srcRect, dstRect, this.paintImage)
+    this.skiaCanvas.drawImageRect(image, srcRect, dstRect, this.paintImage)
 
     srcRect.dispose()
     dstRect.dispose()
@@ -264,7 +249,7 @@ export class Context extends ContextTransform {
       alphaType: AlphaType.Premul
     }
 
-    let pixels = this.canvas.readPixels(sx, sy, imageInfo)
+    let pixels = this.skiaCanvas.readPixels(sx, sy, imageInfo)
 
     if (!pixels) {
       return {
@@ -324,9 +309,11 @@ export class Context extends ContextTransform {
     }
 
     // putImageData should work in pixel space and ignore current transform
-    const { a, b, c, d, e, f } = this.getTransform()
+    const { a, b, c, d, e, f } = typeof this._getInternalTransform === 'function'
+      ? this._getInternalTransform()
+      : this.getTransform()
     const det = a * d - b * c
-    this.canvas.save()
+    this.skiaCanvas.save()
     if (det) {
       // Apply inverse transform so pixels are not re-scaled/re-positioned
       const inv = Skia.Matrix([
@@ -334,15 +321,15 @@ export class Context extends ContextTransform {
         -b / det, a / det, (b * e - a * f) / det,
         0, 0, 1
       ])
-      this.canvas.concat(inv)
+      this.skiaCanvas.concat(inv)
       inv.dispose?.()
     }
     const srcRect = Skia.XYWHRect(0, 0, w, h)
     const dstRect = Skia.XYWHRect(dx, dy, w, h)
-    this.canvas.drawImageRect(image, srcRect, dstRect, this.paintImage)
+    this.skiaCanvas.drawImageRect(image, srcRect, dstRect, this.paintImage)
     srcRect.dispose()
     dstRect.dispose()
-    this.canvas.restore()
+    this.skiaCanvas.restore()
 
     image.dispose()
     data.dispose?.()
@@ -352,7 +339,7 @@ export class Context extends ContextTransform {
 
   /**
    * RN-Skia 专用：直接在 GPU 侧复制一块区域到目标位置，避免 get/putImageData 的 JS 往返
-   * 坐标使用像素空间，需要传入经过 currentTransform 转换后的值
+   * 坐标使用逻辑空间（不包含 DPR），内部会自动乘以 DPR 并忽略当前 transform，保证像素级复制
    * @returns {boolean} 是否复制成功
    */
   nativeBlitRegion(sx, sy, sw, sh, dx, dy, dw = sw, dh = sh) {
@@ -360,7 +347,18 @@ export class Context extends ContextTransform {
       return false
     }
 
-    const srcRect = Skia.XYWHRect(sx, sy, sw, sh)
+    const r = this._baseDpr || 1
+    const px = (v) => Math.round(v * r)
+    const psx = px(sx)
+    const psy = px(sy)
+    const psw = px(sw)
+    const psh = px(sh)
+    const pdx = px(dx)
+    const pdy = px(dy)
+    const pdw = px(dw)
+    const pdh = px(dh)
+
+    const srcRect = Skia.XYWHRect(psx, psy, psw, psh)
     const image = this.surface.makeImageSnapshot(srcRect)
     srcRect.dispose()
 
@@ -368,27 +366,29 @@ export class Context extends ContextTransform {
       return false
     }
 
-    const dstRect = Skia.XYWHRect(dx, dy, dw, dh)
+    const dstRect = Skia.XYWHRect(pdx, pdy, pdw, pdh)
 
     // 忽略当前 transform，保证像素级复制
-    const { a, b, c, d, e, f } = this.getTransform()
+    const { a, b, c, d, e, f } = typeof this._getInternalTransform === 'function'
+      ? this._getInternalTransform()
+      : this.getTransform()
     const det = a * d - b * c
-    this.canvas.save()
+    this.skiaCanvas.save()
     if (det) {
       const inv = Skia.Matrix([
         d / det, -c / det, (c * f - d * e) / det,
         -b / det, a / det, (b * e - a * f) / det,
         0, 0, 1
       ])
-      this.canvas.concat(inv)
+      this.skiaCanvas.concat(inv)
       inv.dispose?.()
     }
 
     const imageRect = Skia.XYWHRect(0, 0, image.width(), image.height())
-    this.canvas.drawImageRect(image, imageRect, dstRect, this.paintImage)
+    this.skiaCanvas.drawImageRect(image, imageRect, dstRect, this.paintImage)
     imageRect.dispose()
     dstRect.dispose()
-    this.canvas.restore()
+    this.skiaCanvas.restore()
 
     image.dispose()
     this.draw()
@@ -405,6 +405,8 @@ export class Context extends ContextTransform {
       if (this._drawCallback) {
         requestAnimationFrame(() => {
           this.drawStatus = false
+          // createPicture 会结束录制，canvas 不能跨回调复用；在每帧回调前提交 picture
+          this._commitRecordingToPicture?.()
           this._drawCallback()
         })
       }
@@ -418,7 +420,7 @@ export class Context extends ContextTransform {
 
   // 重新创建canvas实例之后更新
   updateCanvas(canvas, surface) {
-    this.canvas = canvas
+    this.skiaCanvas = canvas
     this.surface = surface ?? this.surface
   }
 
@@ -428,12 +430,52 @@ export class Context extends ContextTransform {
     this.paintStroke.dispose()
     this.paintFill.dispose()
     this.paintImage.dispose()
-    this.path.dispose()
+    this.path.dispose?.()
     // 清除字体
     for (const key in this.cache.font) {
       this.cache.font[key].dispose()
     }
     // 清理lineDash
     this.cache.lineDash?.dispose()
+    this.cache.shadowFilter?.dispose?.()
+
+    if (this.picture) {
+      this.picture.dispose()
+    }
+  }
+
+  _getSkiaPath(path) {
+    if (!path) {
+      return null
+    }
+    if (path instanceof Path2D || typeof path.getPath === 'function') {
+      return path.getPath()
+    }
+    return path
+  }
+
+  _resolveSkiaPath(path) {
+    return this._getSkiaPath(path || this.path)
+  }
+
+  _resolvePathAndRule(pathOrRule, fillRule) {
+    if (pathOrRule instanceof Path2D || typeof pathOrRule?.getPath === 'function') {
+      return {
+        skPath: this._getSkiaPath(pathOrRule),
+        rule: fillRule ?? 'nonzero'
+      }
+    }
+    return {
+      skPath: this._getSkiaPath(this.path),
+      rule: pathOrRule ?? 'nonzero'
+    }
+  }
+
+  _applyFillRule(path, fillRule) {
+    path.setFillType(
+      fillRule === 'evenodd'
+        ? FillType.EvenOdd
+        : FillType.Winding
+    )
   }
 }

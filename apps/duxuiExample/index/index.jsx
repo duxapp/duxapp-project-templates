@@ -35,7 +35,7 @@ export default function Index() {
   }, [tabbarList])
 
   return (
-    <TopView isSafe>
+    <TopView>
       <TabBar>
         {
           tabbarList.map(item => <TabBar.Item key={item.text} component={item.comp} icon={TabBarIcon} />)

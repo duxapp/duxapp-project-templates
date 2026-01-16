@@ -1,7 +1,7 @@
 import { View, Text, Image } from '@tarojs/components'
 import { getCurrentPages } from '@tarojs/taro'
 import React, { useState, useCallback, createContext, useContext, useEffect, useMemo, useRef } from 'react'
-import { Animated, QuickEvent, currentPage, route, theme, transformStyle, useDeepObject, usePageShow } from '@/duxapp'
+import { Animated, QuickEvent, currentPage, getBottomSafeAreaHeight, pxNum, route, transformStyle, useDeepObject, usePageShow } from '@/duxapp'
 import classNames from 'classnames'
 import { Badge } from '../Badge'
 import './index.scss'
@@ -92,7 +92,7 @@ const TabBarMenus = ({
   actionEvent
 }) => {
 
-  const isDark = theme.useIsDark()
+  const bottomSafeAreaHeight = position === 'left' ? 0 : getBottomSafeAreaHeight()
 
   // 红点数量
   const [numbers, setNumbers] = useState({})
@@ -120,7 +120,7 @@ const TabBarMenus = ({
   const [menuAn, setMenuAn] = useState(Animated.defaultState)
 
   useEffect(() => {
-    const duration = firstRenderRef.current ? 0 : 200
+    const duration = firstRenderRef.current ? 0 : 300
     firstRenderRef.current = false
 
     const an = Animated.create({
@@ -137,17 +137,20 @@ const TabBarMenus = ({
     setMenuAn(an.opacity(visible ? 1 : 0).step().export())
   }, [position, visible])
 
+  const safeAreaPaddingBottom = !floating && position !== 'left' ? bottomSafeAreaHeight : 0
+
+  const baseStyle = (style && typeof style === 'object' && !Array.isArray(style)) ? style : {}
   const menuStyle = !visible
-    ? (process.env.TARO_ENV === 'rn'
-      ? [style, { opacity: 0, transform: hiddenTransform }]
-      : {
-        ...(style || {}),
-        opacity: 0,
-        transform: style?.transform
-          ? `${style.transform} ${hiddenTransform}`
-          : hiddenTransform
-      })
-    : style
+    ? {
+      ...baseStyle,
+      ...(safeAreaPaddingBottom > 0 ? { paddingBottom: safeAreaPaddingBottom } : {}),
+      opacity: 0,
+      transform: hiddenTransform
+    }
+    : {
+      ...baseStyle,
+      ...(safeAreaPaddingBottom > 0 ? { paddingBottom: safeAreaPaddingBottom } : {}),
+    }
 
   const menus = (
     <Animated.View
@@ -157,9 +160,8 @@ const TabBarMenus = ({
       className={classNames(
         'TabBar-menu',
         position === 'left' && 'TabBar-menu--left',
-        floating && 'TabBar-menu--floating',
+        floating && 'TabBar-menu--floating shadow',
         floating && position === 'left' && 'TabBar-menu--floating-left',
-        isDark && floating && 'TabBar-menu--floating-dark',
         className
       )}
     >
@@ -189,7 +191,8 @@ const TabBarMenus = ({
       style={{
         transform: transformStyle(position === 'left'
           ? { translateY: '-50%' }
-          : { translateX: '-50%' })
+          : { translateX: '-50%' }),
+        ...(position === 'left' ? {} : { bottom: pxNum(16) + bottomSafeAreaHeight })
       }}
     >
       {menus}

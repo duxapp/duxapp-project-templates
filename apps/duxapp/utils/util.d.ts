@@ -15,6 +15,11 @@ export function toast(title: any): void
 export function isIphoneX(): boolean
 
 /**
+ * 获取底部安全区域高度（屏幕底部不可用的那部分）
+ */
+export function getBottomSafeAreaHeight(): number
+
+/**
  * 定时器的Promise用法
  * @param timeout 定时时间
  */
@@ -41,6 +46,11 @@ export function px(val: number, pxUnit?: boolean): string | number
  */
 export function pxNum(val: number): number
 
+/**
+ * 判断是否为桌面端（可选将 iPad 视为桌面端）
+ * @param options.includeIPad 传 true 时 iPad 也返回 true
+ */
+export function isDesktop(options?: { includeIPad?: boolean }): boolean
 /**
  * 在 style 里面编写transform样式的时候使用这个函数进行包装，才能兼容多个端
  */

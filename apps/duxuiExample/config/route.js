@@ -18,6 +18,7 @@ export default {
       }
     },
     'duxuiExample/example': {
+      subPackage: true,
       alias: name => name,
       pages: {
         Button: {},
@@ -41,6 +42,9 @@ export default {
         Form: {},
         Menu: {},
         Chart: {
+          platform: ['weapp', 'rn', 'h5']
+        },
+        ChartJs: {
           platform: ['weapp', 'rn', 'h5']
         },
         Map: {

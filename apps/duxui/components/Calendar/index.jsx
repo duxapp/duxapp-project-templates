@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState, useEffect, isValidElement, useRef } from 'react'
 import { View, Text } from '@tarojs/components'
 import { dayjs, deepEqua, toast, useDeepObject } from '@/duxapp'
-import { duxuiLang } from '@/duxui/utils'
+import { duxuiLang, pure } from '@/duxui/utils'
 import classNames from 'classnames'
 import { dateAdd, dateToStr, getMaxDay, strFormatToDate } from './date'
 import { DuxuiIcon } from '../DuxuiIcon'
@@ -17,117 +17,118 @@ const getWeeks = t => ([
   t('calendar.weekShort.sun'),
 ])
 
-export const Calendar = ({
-  mode, // day日期选择 week周选择 scope范围选择
-  value: propsValue = '',// 周或者范围选择传入数组，第一项开始时间，第二项结束时间
-  checkbox,
-  navStyle,
-  headStyle,
-  style,
-  className,
-  onChange,
-  onDayClick,
-  onMonthChange,
-  disabledDate,
-  enabledDate,
-  customDate,
-  customSelect,
-  max,
-  min,
-  onlyCurrentWeek, // 仅显示当前这周的数据
-  ...props
-}) => {
-
-  const t = duxuiLang.useT()
-
-  const [value, setValue] = useState(checkbox && !propsValue ? [] : propsValue)
-
-  const valueRef = useRef(value)
-  valueRef.current = value
-
-  const refs = useRef({})
-  refs.current.onChange = onChange
-  refs.current.onDayClick = onDayClick
-
-  // 将单选和多选统一按照多选处理 单日选择处理为范围 当天到当天的范围
-  const values = useMemo(() => (checkbox ? value : value ? [value] : []).map(item => typeof item === 'string' ? [item, item] : item), [checkbox, value])
-
-  const [month, setMonth] = useState(() => {
-    const _value = checkbox ? value[0] : value
-    return _value && _value[0] ? (typeof _value === 'object' ? _value[0] : _value).split('-').filter((v, i) => i < 2).join('-') : dateToStr('yyyy-MM')
-  })
-
-  const [scopeStart, setScopeStart] = useState('')
-
-  const onMonthChangeRef = useRef(onMonthChange)
-  onMonthChangeRef.current = onMonthChange
-
-  useEffect(() => {
-    onMonthChangeRef.current?.(month)
-  }, [month])
-
-  useMemo(() => {
-    if (deepEqua(valueRef.current, propsValue) || !propsValue) {
-      return
-    }
-    setValue(checkbox && !propsValue ? [] : propsValue)
-  }, [checkbox, propsValue])
-
-  const deepData = useDeepObject({
+export const Calendar = /*@__PURE__*/ pure(() => {
+  const Calendar_ = ({
+    mode, // day日期选择 week周选择 scope范围选择
+    value: propsValue = '',// 周或者范围选择传入数组，第一项开始时间，第二项结束时间
+    checkbox,
+    navStyle,
+    headStyle,
+    style,
+    className,
+    onChange,
+    onDayClick,
+    onMonthChange,
     disabledDate,
-    enabledDate
-  })
+    enabledDate,
+    customDate,
+    customSelect,
+    max,
+    min,
+    onlyCurrentWeek, // 仅显示当前这周的数据
+    ...props
+  }) => {
 
-  /**
-   * 序列化禁用日期数据
-   */
-  const [disabledDateCache, enanledDateCache] = useMemo(() => {
-    return [deepData.disabledDate || [], deepData.enabledDate || []].map(item => {
-      return item.reduce((prev, current) => {
-        if (Array.isArray(current) && current.length === 2) {
-          prev.push(current.map(v => strFormatToDate('yyyy-MM-dd', v).getTime()).sort((a, b) => a - b))
-        } else if (typeof current === 'string') {
-          const time = strFormatToDate('yyyy-MM-dd', current).getTime()
-          prev.push([time, time])
-        }
-        return prev
-      }, [])
+    const t = duxuiLang.useT()
+
+    const [value, setValue] = useState(checkbox && !propsValue ? [] : propsValue)
+
+    const valueRef = useRef(value)
+    valueRef.current = value
+
+    const refs = useRef({})
+    refs.current.onChange = onChange
+    refs.current.onDayClick = onDayClick
+
+    // 将单选和多选统一按照多选处理 单日选择处理为范围 当天到当天的范围
+    const values = useMemo(() => (checkbox ? value : value ? [value] : []).map(item => typeof item === 'string' ? [item, item] : item), [checkbox, value])
+
+    const [month, setMonth] = useState(() => {
+      const _value = checkbox ? value[0] : value
+      return _value && _value[0] ? (typeof _value === 'object' ? _value[0] : _value).split('-').filter((v, i) => i < 2).join('-') : dateToStr('yyyy-MM')
     })
-  }, [deepData.disabledDate, deepData.enabledDate])
 
-  const isDisabled = useCallback(dayTime => {
-    return disabledDateCache.some(([start, end]) => dayTime >= start && dayTime <= end)
-      || (enabledDate && !enanledDateCache.some(([start, end]) => dayTime >= start && dayTime <= end))
-  }, [disabledDateCache, enabledDate, enanledDateCache])
+    const [scopeStart, setScopeStart] = useState('')
 
-  /**
-   * 序列化自定义数据
-   */
-  const customDateCache = useMemo(() => {
-    return customDate?.reduce((prev, { date, ...config }) => {
-      date.forEach(item => {
-        if (Array.isArray(item) && item.length === 2) {
-          const dates = item.map(v => strFormatToDate('yyyy-MM-dd', v).getTime()).sort((a, b) => a - b)
-          for (let i = dates[0]; i <= dates[1]; i += 24 * 60 * 60 * 1000) {
-            const day = dateToStr('yyyy-MM-dd', i)
-            prev[day] = {
-              config: prev[day]?.config ? { ...prev[day]?.config, ...config } : config,
-              customType: dates[0] === dates[1]
-                ? 'select' : i === dates[0] ?
-                  'start' : i === dates[1] ?
-                    'end' : 'center'
+    const onMonthChangeRef = useRef(onMonthChange)
+    onMonthChangeRef.current = onMonthChange
+
+    useEffect(() => {
+      onMonthChangeRef.current?.(month)
+    }, [month])
+
+    useMemo(() => {
+      if (deepEqua(valueRef.current, propsValue) || !propsValue) {
+        return
+      }
+      setValue(checkbox && !propsValue ? [] : propsValue)
+    }, [checkbox, propsValue])
+
+    const deepData = useDeepObject({
+      disabledDate,
+      enabledDate
+    })
+
+    /**
+     * 序列化禁用日期数据
+     */
+    const [disabledDateCache, enanledDateCache] = useMemo(() => {
+      return [deepData.disabledDate || [], deepData.enabledDate || []].map(item => {
+        return item.reduce((prev, current) => {
+          if (Array.isArray(current) && current.length === 2) {
+            prev.push(current.map(v => strFormatToDate('yyyy-MM-dd', v).getTime()).sort((a, b) => a - b))
+          } else if (typeof current === 'string') {
+            const time = strFormatToDate('yyyy-MM-dd', current).getTime()
+            prev.push([time, time])
+          }
+          return prev
+        }, [])
+      })
+    }, [deepData.disabledDate, deepData.enabledDate])
+
+    const isDisabled = useCallback(dayTime => {
+      return disabledDateCache.some(([start, end]) => dayTime >= start && dayTime <= end)
+        || (enabledDate && !enanledDateCache.some(([start, end]) => dayTime >= start && dayTime <= end))
+    }, [disabledDateCache, enabledDate, enanledDateCache])
+
+    /**
+     * 序列化自定义数据
+     */
+    const customDateCache = useMemo(() => {
+      return customDate?.reduce((prev, { date, ...config }) => {
+        date.forEach(item => {
+          if (Array.isArray(item) && item.length === 2) {
+            const dates = item.map(v => strFormatToDate('yyyy-MM-dd', v).getTime()).sort((a, b) => a - b)
+            for (let i = dates[0]; i <= dates[1]; i += 24 * 60 * 60 * 1000) {
+              const day = dateToStr('yyyy-MM-dd', i)
+              prev[day] = {
+                config: prev[day]?.config ? { ...prev[day]?.config, ...config } : config,
+                customType: dates[0] === dates[1]
+                  ? 'select' : i === dates[0] ?
+                    'start' : i === dates[1] ?
+                      'end' : 'center'
+              }
+            }
+          } else {
+            prev[item] = {
+              config: prev[item]?.config ? { ...prev[item]?.config, ...config } : config,
+              customType: prev[item]?.customType || 'select'
             }
           }
-        } else {
-          prev[item] = {
-            config: prev[item]?.config ? { ...prev[item]?.config, ...config } : config,
-            customType: prev[item]?.customType || 'select'
-          }
-        }
-      })
-      return prev
-    }, {})
-  }, [customDate])
+        })
+        return prev
+      }, {})
+    }, [customDate])
 
   const getCustomConfig = useCallback(config => {
     if (!customDateCache) {
@@ -289,13 +290,13 @@ export const Calendar = ({
 
   }, [month, values, scopeStart, max, min, isDisabled, getCustomConfig, t])
 
-  const prev = useCallback(() => {
-    setMonth(old => dateToStr('yyyy-MM', getMouth(old, -1)))
-  }, [])
+    const prev = useCallback(() => {
+      setMonth(old => dateToStr('yyyy-MM', getMouth(old, -1)))
+    }, [])
 
-  const next = useCallback(() => {
-    setMonth(old => dateToStr('yyyy-MM', getMouth(old, 1)))
-  }, [])
+    const next = useCallback(() => {
+      setMonth(old => dateToStr('yyyy-MM', getMouth(old, 1)))
+    }, [])
 
   const click = useCallback(({
     text,
@@ -326,7 +327,7 @@ export const Calendar = ({
       }
     } else if (mode === 'week') {
       // 判断当前周所有日期是否被禁用
-      const val = Calendar.getWeekScopeForDay(day)
+      const val = Calendar_.getWeekScopeForDay(day)
       const dates = val.map(v => strFormatToDate('yyyy-MM-dd', v).getTime())
       for (let i = dates[0]; i <= dates[1]; i += 24 * 60 * 60 * 1000) {
         if (isDisabled(i)) {
@@ -351,7 +352,7 @@ export const Calendar = ({
       if (!scopeStart) {
         if (checkbox) {
           // 检查点击的是不是已经被选中的范围，是的话取消此选中
-          const i = value.findIndex(v => Calendar.checkDatesOverlap([day, day], v))
+          const i = value.findIndex(v => Calendar_.checkDatesOverlap([day, day], v))
           if (~i) {
             const _value = [...value]
             _value.splice(i, 1)
@@ -376,7 +377,7 @@ export const Calendar = ({
         }
         if (checkbox) {
           // 检查是否和当前选中的日期有重叠
-          if (value.some(v => Calendar.checkDatesOverlap(val, v))) {
+          if (value.some(v => Calendar_.checkDatesOverlap(val, v))) {
             return toast(t('calendar.rangeOverlap'))
           }
           const _value = [...value]
@@ -402,7 +403,7 @@ export const Calendar = ({
     if (!onlyCurrentWeek) {
       return [val, 0]
     }
-    const [y, m, w] = Calendar.getMonthWeekForDay(val)
+    const [y, m, w] = Calendar_.getMonthWeekForDay(val)
     return [`${y}-${(m > 9 ? 0 : '0') + m}`, w]
   }, [values, onlyCurrentWeek])
 
@@ -443,7 +444,74 @@ export const Calendar = ({
       })
     }
   </View>
-}
+  }
+
+  /**
+   * 计算这个日期是第几月的第几周
+   * @param {*} day
+   */
+  Calendar_.getMonthWeekForDay = day => {
+    const weeks = getWeeks(duxuiLang.t)
+    const dayNum = +day.split('-')[2]
+    const month = day.split('-').filter((v, i) => i < 2).join('-')
+    const firstDay = month + '-01'
+    const firstWeek = dateToStr('W', strFormatToDate('yyyy-MM-dd', firstDay))
+    const maxDay = getMaxDay(...month.split('-').map(v => +v))
+
+    // 上个月需要补齐的天数
+    const lastMonthDys = weeks.indexOf(firstWeek)
+
+    // 下个月需要补齐的天数
+    const nextMonthDys = 7 - (lastMonthDys + maxDay) % 7
+    const week = Math.ceil((lastMonthDys + dayNum) / 7)
+    const maxWeek = Math.ceil((lastMonthDys + maxDay) / 7)
+    if (week === maxWeek && nextMonthDys > 0) {
+      // 下个月第一周
+      const next = getMouth(month, 1)
+      return [next.getFullYear(), next.getMonth() + 1, 1]
+    }
+    return [...month.split('-').map(v => +v), week]
+  }
+
+  /**
+   * 计算指定日期所在的周的第一天和最后一天
+   * @param {*} day
+   */
+  Calendar_.getWeekScopeForDay = day => {
+    const weeks = getWeeks(duxuiLang.t)
+    const date = strFormatToDate('yyyy-MM-dd', day)
+    const before = weeks.indexOf(dateToStr('W', strFormatToDate('yyyy-MM-dd', day)))
+    const after = 7 - before - 1
+    return [dateToStr('yyyy-MM-dd', dateAdd('d', -before, date)), dateToStr('yyyy-MM-dd', dateAdd('d', after, date))]
+  }
+
+  /**
+   * 计算指定日期所在的月的第一天和最后一天
+   * @param {*} day
+   */
+  Calendar_.getMouthScopeForDay = day => {
+    const month = day.split('-').filter((v, i) => i < 2).join('-')
+    const lastMaxDay = getMaxDay(...month.split('-').map(v => +v))
+
+    return [`${month}-01`, `${month}-${lastMaxDay}`]
+  }
+
+  /**
+   * 检查两个日期范围是否有重叠
+   * @param {*} range1
+   * @param {*} range2
+   */
+  Calendar_.checkDatesOverlap = (range1, range2) => {
+    const [
+      a, b,
+      c, d
+    ] = [...range1, ...range2].map(v => dayjs(v).unix())
+
+    return a <= d && b >= c
+  }
+
+  return Calendar_
+})
 
 /**
  * 获取上月或者下月 的日期对象 会返回那个月一号的日期对象
@@ -512,68 +580,4 @@ const Day = ({
       <View className='Calendar__row__item__other__item'>{renderBottom}</View>
     </View>}
   </View>
-}
-
-/**
- * 计算这个日期是第几月的第几周
- * @param {*} day
- */
-Calendar.getMonthWeekForDay = day => {
-  const weeks = getWeeks(duxuiLang.t)
-  const dayNum = +day.split('-')[2]
-  const month = day.split('-').filter((v, i) => i < 2).join('-')
-  const firstDay = month + '-01'
-  const firstWeek = dateToStr('W', strFormatToDate('yyyy-MM-dd', firstDay))
-  const maxDay = getMaxDay(...month.split('-').map(v => +v))
-
-  // 上个月需要补齐的天数
-  const lastMonthDys = weeks.indexOf(firstWeek)
-
-  // 下个月需要补齐的天数
-  const nextMonthDys = 7 - (lastMonthDys + maxDay) % 7
-  const week = Math.ceil((lastMonthDys + dayNum) / 7)
-  const maxWeek = Math.ceil((lastMonthDys + maxDay) / 7)
-  if (week === maxWeek && nextMonthDys > 0) {
-    // 下个月第一周
-    const next = getMouth(month, 1)
-    return [next.getFullYear(), next.getMonth() + 1, 1]
-  }
-  return [...month.split('-').map(v => +v), week]
-}
-
-/**
- * 计算指定日期所在的周的第一天和最后一天
- * @param {*} day
- */
-Calendar.getWeekScopeForDay = day => {
-  const weeks = getWeeks(duxuiLang.t)
-  const date = strFormatToDate('yyyy-MM-dd', day)
-  const before = weeks.indexOf(dateToStr('W', strFormatToDate('yyyy-MM-dd', day)))
-  const after = 7 - before - 1
-  return [dateToStr('yyyy-MM-dd', dateAdd('d', -before, date)), dateToStr('yyyy-MM-dd', dateAdd('d', after, date))]
-}
-
-/**
- * 计算指定日期所在的月的第一天和最后一天
- * @param {*} day
- */
-Calendar.getMouthScopeForDay = day => {
-  const month = day.split('-').filter((v, i) => i < 2).join('-')
-  const lastMaxDay = getMaxDay(...month.split('-').map(v => +v))
-
-  return [`${month}-01`, `${month}-${lastMaxDay}`]
-}
-
-/**
- * 检查两个日期范围是否有重叠
- * @param {*} range1
- * @param {*} range2
- */
-Calendar.checkDatesOverlap = (range1, range2) => {
-  const [
-    a, b,
-    c, d
-  ] = [...range1, ...range2].map(v => dayjs(v).unix())
-
-  return a <= d && b >= c
 }

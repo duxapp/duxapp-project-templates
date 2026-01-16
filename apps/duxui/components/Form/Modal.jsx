@@ -1,7 +1,7 @@
 import { deepCopy, noop, PullView } from '@/duxapp'
 import { cloneElement, useMemo, isValidElement, useCallback, createContext, useContext, useState, useRef, useEffect } from 'react'
 import classNames from 'classnames'
-import { duxuiLang } from '@/duxui/utils'
+import { duxuiLang, pure } from '@/duxui/utils'
 import { Button } from '../Button'
 import { Row, Column } from '../Flex'
 import { DuxuiIcon } from '../DuxuiIcon'
@@ -11,12 +11,12 @@ import { Space } from '../Space'
 import { useFormContext, formContext, useFormItemProxy } from './Form'
 import './Modal.scss'
 
-const context = createContext({
+const context = /*@__PURE__*/ createContext({
   reset: noop,
   submit: noop
 })
 
-export const ModalForm = ({
+const ModalFormComponent = ({
   value,
   onChange,
   defaultValue,
@@ -203,10 +203,7 @@ const Reset = ({ children, mode, ...props }) => {
   </Button>
 }
 
-ModalForm.Reset = Reset
-ModalForm.Submit = Submit
-
-export const ModalForms = ({
+const ModalFormsComponent = ({
   title,
   children,
   renderForm,
@@ -341,5 +338,14 @@ export const ModalForms = ({
   </>
 }
 
-ModalForms.Reset = Reset
-ModalForms.Submit = Submit
+export const ModalForm = /*@__PURE__*/ pure(() => {
+  ModalFormComponent.Reset = Reset
+  ModalFormComponent.Submit = Submit
+  return ModalFormComponent
+})
+
+export const ModalForms = /*@__PURE__*/ pure(() => {
+  ModalFormsComponent.Reset = Reset
+  ModalFormsComponent.Submit = Submit
+  return ModalFormsComponent
+})

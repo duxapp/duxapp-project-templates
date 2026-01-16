@@ -35,6 +35,21 @@ interface CanvasGradient {
 
 interface CanvasPattern {}
 
+export class Path2D {
+  constructor(path?: Path2D | string)
+  addPath(path: Path2D, transform?: { a: number, b: number, c: number, d: number, e: number, f: number } | number[]): void
+  closePath(): void
+  moveTo(x: number, y: number): void
+  lineTo(x: number, y: number): void
+  arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void
+  arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void
+  bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void
+  quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void
+  rect(x: number, y: number, width: number, height: number): void
+  roundRect(x: number, y: number, width: number, height: number, radii: number): void
+  ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void
+}
+
 interface CanvasContext {
   // --- 状态管理 ---
   save(): void
@@ -71,9 +86,13 @@ interface CanvasContext {
 
   // --- 绘制方法 ---
   fill(fillRule?: 'nonzero' | 'evenodd'): void
+  fill(path: Path2D, fillRule?: 'nonzero' | 'evenodd'): void
   stroke(): void
+  stroke(path: Path2D): void
   clip(fillRule?: 'nonzero' | 'evenodd'): void
+  clip(path: Path2D, fillRule?: 'nonzero' | 'evenodd'): void
   isPointInPath(x: number, y: number, fillRule?: 'nonzero' | 'evenodd'): boolean
+  isPointInPath(path: Path2D, x: number, y: number, fillRule?: 'nonzero' | 'evenodd'): boolean
 
   // --- 矩形方法 ---
   fillRect(x: number, y: number, width: number, height: number): void
@@ -122,6 +141,10 @@ interface CanvasContext {
   fillStyle: string | CanvasGradient | CanvasPattern
   strokeStyle: string | CanvasGradient | CanvasPattern
   globalAlpha: number
+  shadowColor: string
+  shadowBlur: number
+  shadowOffsetX: number
+  shadowOffsetY: number
 
   // --- 文本样式 ---
   font: string
@@ -172,12 +195,14 @@ interface CanvasImage {
 }
 
 interface CanvasElement {
-  getContext: (type: '2d') => CanvasContext
-  createImage: () => CanvasImage
-  requestAnimationFrame: (callback: (time: number) => void) => number
-  cancelAnimationFrame: (handle: number) => void
   width: number
   height: number
+  getContext: (type: '2d') => CanvasContext
+  requestAnimationFrame: (callback: (time: number) => void) => number
+  cancelAnimationFrame: (handle: number) => void
+  createImage: () => CanvasImage
+  createImageData: (width: number, height: number) => any
+  toDataURL: (type?: string, encoderOptions?: number) => string
 }
 
 export const defineCanvasRef: () => {
@@ -210,6 +235,16 @@ interface CanvasProps {
     y: number
   }) => void
 
+  /**
+   * RN 端启用 SkiaPictureView 渲染 开启后会有更好的性能
+   * 每次同步渲染之后都会使用一个新的 canvas 因此变换状态和渲染数据会丢失
+   * 满足下面这些条件可以启用
+   * 1、不需要局部更新，每次都是全局更新
+   * 2、每次渲染之后所有的变换都是重新计算的
+   * 3、picture 模式下 clearRect 不会执行任何内容，因为每次都是新的画布
+   */
+  picture?: boolean
+
   className?: string
 
   style?: CSSProperties
@@ -222,4 +257,38 @@ export class OffscreenCanvas {
   width: number
   height: number
   getContext(type: '2d'): any
+  cancelAnimationFrame: typeof cancelAnimationFrame
+  requestAnimationFrame: typeof requestAnimationFrame
+  createImage: () => any
+  createImageData: (width: number, height: number) => any
+  toDataURL: (type?: string, encoderOptions?: number) => string
 }
+
+export const createOffscreenCanvas: (option: {
+  type?: '2d'
+  width: number
+  height: number
+  compInst?: any
+}) => OffscreenCanvas
+
+export const canvasToTempFilePath: (option: {
+  /**
+   * RN 端（Skia）会导出为缓存文件（`file://...`），用于替代 Taro 的 `canvasToTempFilePath`。
+   * 兼容 `Canvas` / `OffscreenCanvas` 等实现。
+   */
+  canvas: CanvasElement | OffscreenCanvas
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+  destWidth?: number
+  destHeight?: number
+  fileType?: 'png' | 'jpg' | 'jpeg' | 'webp'
+  /**
+   * 0~1，仅在 `jpg/jpeg/webp` 下生效
+   */
+  quality?: number
+}) => Promise<{
+  tempFilePath: string
+  mime: string
+}>

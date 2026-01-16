@@ -45,19 +45,19 @@ export const BaseScrollView = ({
       return
     }
     nextTick(() => {
-      createSelectorQuery().select('#' + refs.id).fields({
-        size: true
-      }, scroll => {
-        createSelectorQuery().select('#' + refs.id + ' .list-content-wrapper').fields({
-          size: true
-        }, content => {
-          if (content.height - 10 < scroll.height) {
-            refs.action.next().catch(noop)
-          } else {
-            refs.autoEnd = true
-          }
-        }).exec()
-      }).exec()
+      const query = createSelectorQuery()
+      query.select('#' + refs.id).fields({ size: true })
+      query.select('#' + refs.id + ' .list-content-wrapper').fields({ size: true })
+      query.exec(([scroll, content]) => {
+        if (!scroll?.height || !content?.height) {
+          return
+        }
+        if (content.height - 10 < scroll.height) {
+          refs.action.next().catch(noop)
+        } else {
+          refs.autoEnd = true
+        }
+      })
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list.length])

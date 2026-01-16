@@ -13,22 +13,96 @@ import { CanvasPattern } from './Pattern'
 import { defineCanvas } from './types'
 
 export class ContextAttr {
-  constructor(canvas) {
-    this.canvas = defineCanvas(canvas)
+  constructor(skiaCanvas) {
+    if (skiaCanvas) {
+      this._skiaCanvas = defineCanvas(skiaCanvas)
+    }
+    this._ownerCanvas = null
+    // 图片模式
+    this.picture = null
+    // this._pictureDisposals = new Set()
+    this._recorder = null
     // 填充属性
-    this.paintFill = Skia.Paint()
-    this.paintStroke = Skia.Paint()
-    this.paintStroke.setStyle(PaintStyle.Stroke)
-    this.paintImage = Skia.Paint()
+    this._paintFill = Skia.Paint()
+    this._paintStroke = Skia.Paint()
+    this._paintStroke.setStyle(PaintStyle.Stroke)
+    this._paintImage = Skia.Paint()
     this.paintClear = Skia.Paint()
     this.paintClear.setBlendMode(BlendMode.Clear)
     // 临时缓存，需要清理的东西
     this.cache = {
       font: {},
-      lineDash: null
+      lineDash: null,
+      shadowFilter: null
     }
     // 字体样式
     this.attr.font = createFont(this.attrOrigin.font, this.cache.font)
+    // 变换存储数据
+    this.transformStack = []
+    this._shadowDirty = false
+  }
+
+  get skiaCanvas() {
+    if (!this._skiaCanvas) {
+      if (!this._recorder) {
+        this._recorder = Skia.PictureRecorder()
+      }
+      this._skiaCanvas = this._recorder.beginRecording()
+    }
+    return this._skiaCanvas
+  }
+
+  set skiaCanvas(value) {
+    this._skiaCanvas = value
+  }
+
+  get paintFill() {
+    this._ensureShadowUpdated()
+    return this._paintFill
+  }
+
+  set paintFill(value) {
+    this._paintFill = value
+  }
+
+  get paintStroke() {
+    this._ensureShadowUpdated()
+    return this._paintStroke
+  }
+
+  set paintStroke(value) {
+    this._paintStroke = value
+  }
+
+  get paintImage() {
+    this._ensureShadowUpdated()
+    return this._paintImage
+  }
+
+  set paintImage(value) {
+    this._paintImage = value
+  }
+
+  // CanvasRenderingContext2D.canvas-like: 指向创建该 context 的 canvas 对象
+  get canvas() {
+    return this._ownerCanvas
+  }
+
+  set canvas(value) {
+    this._ownerCanvas = value
+  }
+
+  // 内部使用 将录制提交到图片渲染
+  _commitRecordingToPicture() {
+    if (!this._recorder) {
+      return false
+    }
+    this.picture = this._recorder.finishRecordingAsPicture()
+    // 清空变换数据
+    this.transformStack = []
+    // 下次渲染重新创建新的canvas
+    this._skiaCanvas = null
+    return true
   }
 
   attr = {
@@ -47,6 +121,12 @@ export class ContextAttr {
     // fillOpacity: null,
     globalAlpha: 1,
 
+    // 阴影
+    shadowColor: Skia.Color('rgba(0, 0, 0, 0)'),
+    shadowBlur: 0,
+    shadowOffsetX: 0,
+    shadowOffsetY: 0,
+
     // 文本样式
     font: null,
     textAlign: TextAlign.Start,
@@ -61,7 +141,8 @@ export class ContextAttr {
   attrOrigin = {
     strokeStyle: '#000',
     fillStyle: '#000',
-    font: 'sans-serif 12px'
+    font: 'sans-serif 12px',
+    shadowColor: 'rgba(0, 0, 0, 0)'
   }
 
   setAttrs(attr) {
@@ -120,22 +201,6 @@ export class ContextAttr {
         }
         break
       }
-      // case 'fillOpacity': {
-      //   if (value === null) {
-      //     this.paintFill.setAlphaf(this.attr.globalAlpha)
-      //     break
-      //   }
-      //   this.paintFill.setAlphaf(value * this.attr.globalAlpha)
-      //   break
-      // }
-      // case 'strokeOpacity': {
-      //   if (value === null) {
-      //     this.paintStroke.setAlphaf(this.attr.globalAlpha)
-      //     break
-      //   }
-      //   this.paintStroke.setAlphaf(value * this.attr.globalAlpha)
-      //   break
-      // }
       case 'lineWidth': {
         this.paintStroke.setStrokeWidth(value)
         break
@@ -156,23 +221,18 @@ export class ContextAttr {
         this.paintStroke.setAlphaf(value)
         this.paintFill.setAlphaf(value)
         this.paintImage.setAlphaf(value)
-        // if (this.attr.strokeOpacity === null) {
-        //   this.paintStroke.setAlphaf(value)
-        // } else {
-        //   this.paintStroke.setAlphaf(this.attr.strokeOpacity * value)
-        // }
-        // if (this.attr.fillOpacity === null) {
-        //   this.paintFill.setAlphaf(value)
-        // } else {
-        //   this.paintFill.setAlphaf(this.attr.fillOpacity * value)
-        // }
-        // this.paintImage.setAlphaf(value)
         break
       }
       case 'globalCompositeOperation': {
         this.paintStroke.setBlendMode(value)
         this.paintFill.setBlendMode(value)
         this.paintImage.setBlendMode(value)
+        break
+      }
+      case 'shadowColor':
+      case 'shadowBlur':
+      case 'shadowOffsetX':
+      case 'shadowOffsetY': {
         break
       }
       case 'lineDash': {
@@ -206,6 +266,9 @@ export class ContextAttr {
     }
     // 赋值
     this.attr[name] = value
+    if (name === 'shadowColor' || name === 'shadowBlur' || name === 'shadowOffsetX' || name === 'shadowOffsetY') {
+      this._shadowDirty = true
+    }
   }
 
   // 线条样式
@@ -229,9 +292,7 @@ export class ContextAttr {
   set strokeStyle(value) {
     if (this.attrOrigin.strokeStyle === value) return
     this.attrOrigin.strokeStyle = value
-    // const [color, opacity] = normalizeColor(value)
     this.setAttr('strokeStyle', normalizeColor(value))
-    // this.setAttr('strokeOpacity', opacity)
   }
 
   get fillStyle() { return this.attrOrigin.fillStyle }
@@ -240,14 +301,36 @@ export class ContextAttr {
       return
     }
     this.attrOrigin.fillStyle = value
-    // const [color, opacity] = normalizeColor(value)
     this.setAttr('fillStyle', normalizeColor(value))
-    // this.setAttr('fillOpacity', opacity)
   }
 
   get globalAlpha() { return this.attr.globalAlpha }
   set globalAlpha(value) {
     this.setAttr('globalAlpha', Math.max(0, Math.min(1, value)))
+  }
+
+  get shadowColor() { return this.attrOrigin.shadowColor }
+  set shadowColor(value) {
+    if (this.attrOrigin.shadowColor === value) {
+      return
+    }
+    this.attrOrigin.shadowColor = value
+    this.setAttr('shadowColor', normalizeColor(value))
+  }
+
+  get shadowBlur() { return this.attr.shadowBlur }
+  set shadowBlur(value) {
+    this.setAttr('shadowBlur', Math.max(0, value || 0))
+  }
+
+  get shadowOffsetX() { return this.attr.shadowOffsetX }
+  set shadowOffsetX(value) {
+    this.setAttr('shadowOffsetX', Number(value) || 0)
+  }
+
+  get shadowOffsetY() { return this.attr.shadowOffsetY }
+  set shadowOffsetY(value) {
+    this.setAttr('shadowOffsetY', Number(value) || 0)
   }
 
   // 文本样式
@@ -302,6 +385,41 @@ export class ContextAttr {
     } else {
       throw new Error(`无效的${name}属性：${value}`)
     }
+  }
+
+  _updateShadowFilter() {
+    const { shadowBlur, shadowOffsetX, shadowOffsetY, shadowColor } = this.attr
+    const hasOffset = shadowOffsetX !== 0 || shadowOffsetY !== 0
+    const hasBlur = shadowBlur > 0
+    const hasShadow = (hasOffset || hasBlur) && shadowColor != null && getColorAlpha(shadowColor) > 0
+
+    if (this.cache.shadowFilter) {
+      this.cache.shadowFilter.dispose?.()
+      this.cache.shadowFilter = null
+    }
+    if (hasShadow) {
+      const sigma = shadowBlur > 0 ? shadowBlur : 0.001
+      this.cache.shadowFilter = Skia.ImageFilter.MakeDropShadow(
+        shadowOffsetX,
+        shadowOffsetY,
+        sigma,
+        sigma,
+        shadowColor,
+        null,
+        null
+      )
+    }
+    this._paintStroke.setImageFilter(this.cache.shadowFilter)
+    this._paintFill.setImageFilter(this.cache.shadowFilter)
+    this._paintImage.setImageFilter(this.cache.shadowFilter)
+    this._shadowDirty = false
+  }
+
+  _ensureShadowUpdated() {
+    if (!this._shadowDirty) {
+      return
+    }
+    this._updateShadowFilter()
   }
 }
 
@@ -467,6 +585,13 @@ function normalizeColor(color) {
     return Skia.Color(color)
   }
   return color
+}
+
+function getColorAlpha(color) {
+  if (color && typeof color === 'object' && typeof color[3] === 'number') {
+    return color[3]
+  }
+  return 1
 }
 
 /**

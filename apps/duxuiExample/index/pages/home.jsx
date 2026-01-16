@@ -104,6 +104,8 @@ export const Home = () => {
         <GroupList.Item title={t('home.groups.canvas')}>
           <CellGroup>
             <Cell title='Canvas 基础' onClick={() => route.nav('Canvas')} />
+            <Cell title='ChartJs chart.js图表' onClick={() => route.nav('ChartJs')} />
+            <Cell title='Echarts echarts图表' onClick={() => route.nav('Chart')} />
           </CellGroup>
         </GroupList.Item>
         <GroupList.Item title={t('home.groups.svg')}>
@@ -118,7 +120,6 @@ export const Home = () => {
           <CellGroup>
             <Cell title='List 分页列表' onClick={() => route.nav('List')} />
             <Cell title='Share 分享系统' onClick={() => route.nav('Share')} />
-            <Cell title='Chart echarts图表' onClick={() => route.nav('Chart')} />
             <Cell title='Map 地图' onClick={() => route.nav('Map')} />
             <Cell title='Sign 签名' onClick={() => route.nav('Sign')} />
             <Cell title='HorseLanternLottery 跑马灯抽奖' onClick={() => route.nav('HorseLanternLottery')} />

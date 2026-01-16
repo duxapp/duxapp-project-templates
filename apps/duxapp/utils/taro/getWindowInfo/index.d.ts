@@ -1,1 +1,1 @@
-export const getWindowInfo: () => ReturnType<typeof import('@tarojs/taro').getSystemInfoSync>
+export const getWindowInfo: () => ReturnType<typeof import('@tarojs/taro').getWindowInfo>

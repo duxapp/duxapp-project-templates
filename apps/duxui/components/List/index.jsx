@@ -1,6 +1,6 @@
 import { useEffect, useMemo, memo, useRef, forwardRef, useImperativeHandle, useState, useCallback } from 'react'
 import { useDidShow } from '@tarojs/taro'
-import { getWindowInfo, noop } from '@/duxapp'
+import { noop, pxNum } from '@/duxapp'
 import { duxuiLang } from '@/duxui/utils'
 import { ListLoading } from './Loading'
 import { ListSelect } from './Select'
@@ -248,7 +248,7 @@ export const createList = usePageData => {
     </ListSelect>
   })
 
-  List.itemSize = itemSize
+  List.itemSize = pxNum
 
   return List
 }
@@ -256,5 +256,3 @@ export const createList = usePageData => {
 export {
   ListLoading
 }
-
-const itemSize = px => px * Math.min(520, getWindowInfo().screenWidth) / 750

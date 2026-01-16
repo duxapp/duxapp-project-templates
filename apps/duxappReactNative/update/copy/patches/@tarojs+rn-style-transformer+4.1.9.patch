@@ -18,7 +18,7 @@ index c92982d..df5aa48 100644
  //# sourceMappingURL=ViewStylePropTypes.js.map
 \ No newline at end of file
 diff --git a/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js b/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js
-index b8c02bf..f2f1668 100644
+index b8c02bf..288cdf7 100644
 --- a/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js
 +++ b/node_modules/@tarojs/rn-style-transformer/dist/transforms/index.js
 @@ -58,6 +58,9 @@ function validateStyle({ styleObject, filename }) {
@@ -31,7 +31,7 @@ index b8c02bf..f2f1668 100644
              if (/Invalid prop `.*` of type `string` supplied to `.*`, expected `number`[^]*/g.test(err.message))
                  return;
              (0, helper_1.printLog)("warning" /* processTypeEnum.WARNING */, err.message, `entry file: ${filename}`);
-@@ -190,15 +193,21 @@ class StyleTransform {
+@@ -190,15 +193,23 @@ class StyleTransform {
          // 把 css 转换成对象 rn 的样式，接入 taro 的 css-to-react-native，比如有单位的处理
          const styleObject = (0, taro_css_to_react_native_1.default)(result.css, {
              parseMediaQueries: true,
@@ -46,6 +46,8 @@ index b8c02bf..f2f1668 100644
              .replace(/"(scaleVu2dp\(.*?\))"/g, '$1')
 +            // 主题
 +            .replace(/"(([a-zA-Z_$][\w$]*)\.([\w$]+)|([a-zA-Z_$][\w$]*)\[['"]([^'"]+)['"]\])"/g, '$1')
++            // 模板字符串（用于 boxShadow 等需要拼接 theme 值的场景）
++            .replace(/"(`[^`]*`)"/g, '$1')
              .replace(/\\\\/g, '\\');
          // 注入自适应方法 scalePx2dp
 +        if (this.config.rn?.styleSheet?.getWrapedCSS) {

@@ -1,13 +1,80 @@
-import { forwardRef, useMemo, useState, useImperativeHandle, useRef, useLayoutEffect } from 'react'
-import { Canvas as CanvasSkia, Image, useCanvasRef } from '@shopify/react-native-skia'
+import { forwardRef, useMemo, useImperativeHandle, useRef, memo, useState, useLayoutEffect } from 'react'
+import { SkiaPictureView, Canvas as CanvasSkia, Image, useCanvasRef } from '@shopify/react-native-skia'
 import { View } from 'react-native'
-import { Canvas as DuxCanvas } from './Canvas'
+import useClickable from '@tarojs/components-rn/dist/components/hooks/useClickable'
+import { Canvas as CanvasPicture } from './CanvasPicture'
+import { Canvas as CanvasImage } from './CanvasImage'
 
-export const Canvas = forwardRef(({ style, onLayout, ...props }, ref) => {
+export const Canvas = memo(({ picture, ...props }) => {
+  if (picture) {
+    return <PictureView {...props} />
+  }
+  return <ImageView {...props} />
+})
+
+export const defineCanvasRef = () => null
+
+export const defineCanvas = canvas => canvas
+export const defineCanvasContext = ctx => ctx
+
+const PictureView = forwardRef(({ style, onLayout, ...props }, ref) => {
+
+  const pictureViewRef = useRef(null)
+
+  const canvas = useMemo(() => new CanvasPicture(), [])
+
+  const picture = canvas.usePicture()
+
+  const refs = useRef({}).current
+  refs.onLayout = onLayout
+  const clickable = useClickable({ style, ...props })
+
+  useImperativeHandle(ref, () => {
+    return {
+      getCanvas: async () => {
+        if (!canvas.layout) {
+          return new Promise(resolve => {
+            refs.layoutCallback = () => {
+              refs.layoutCallback = null
+              resolve({
+                canvas,
+                size: canvas.layout
+              })
+            }
+          })
+        }
+        return {
+          canvas,
+          size: canvas.layout
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const layoutChange = e => {
+    const l = e.nativeEvent.layout
+    canvas.setLayout(l)
+    // refs.onLayout?.(l)
+    setTimeout(() => {
+      canvas.context.updateCanvas(null, pictureViewRef.current)
+      refs.layoutCallback?.()
+    }, 0)
+  }
+
+  return <SkiaPictureView
+    {...clickable}
+    onLayout={layoutChange}
+    ref={pictureViewRef}
+    picture={picture}
+  />
+})
+
+export const ImageView = forwardRef(({ style, onLayout, ...props }, ref) => {
 
   const [layout, setLayout] = useState({})
 
-  const canvas = useMemo(() => new DuxCanvas(), [])
+  const canvas = useMemo(() => new CanvasImage(), [])
 
   const image = canvas.useImage()
 
@@ -15,6 +82,7 @@ export const Canvas = forwardRef(({ style, onLayout, ...props }, ref) => {
 
   const refs = useRef({}).current
   refs.onLayout = onLayout
+  const clickable = useClickable({ style, ...props })
 
   useImperativeHandle(ref, () => {
     return {
@@ -71,16 +139,14 @@ export const Canvas = forwardRef(({ style, onLayout, ...props }, ref) => {
     {
       layout.height && image ?
         <CanvasSkia
-          style={style}
+          {...clickable}
           // onLayout={layoutChange}
           ref={canvasRef}
-          {...props}
         >
           <Image image={image} x={0} y={0} width={layout.width} height={layout.height} />
         </CanvasSkia> :
         <View
-          style={style}
-          {...props}
+          {...clickable}
           onLayout={e => {
             const l = e.nativeEvent.layout
             setLayout(l)
@@ -91,8 +157,3 @@ export const Canvas = forwardRef(({ style, onLayout, ...props }, ref) => {
     }
   </>
 })
-
-export const defineCanvasRef = () => null
-
-export const defineCanvas = canvas => canvas
-export const defineCanvasContext = ctx => ctx

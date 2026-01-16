@@ -1,8 +1,9 @@
 {
   "name": "duxappEcharts",
   "description": "echarts百度图表 支持多端",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "dependencies": [
-    "duxapp"
+    "duxapp",
+    "duxappCanvas"
   ]
 }

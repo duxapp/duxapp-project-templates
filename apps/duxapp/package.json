@@ -4,6 +4,12 @@
     "iOS >= 9",
     "not dead"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss",
+    "**/*.js",
+    "**/*.ts"
+  ],
   "scripts": {
     "build:weapp": "duxapp build --type weapp",
     "build:swan": "duxapp build --type swan",

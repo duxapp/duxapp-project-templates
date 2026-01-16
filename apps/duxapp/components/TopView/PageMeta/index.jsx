@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { PageMeta as TaroPageMeta } from '@tarojs/components'
-import { ObjectManage, duxappTheme, getDeviceInfo, useWindowInfo } from '@/duxapp/utils'
+import { ObjectManage, duxappTheme, isDesktop, useWindowInfo } from '@/duxapp/utils'
 
 export const PageMeta = props => {
   const [status, _props] = RemFontSize.getInstance().usePageMetaProps(props)
@@ -28,24 +28,6 @@ class RemFontSize extends ObjectManage {
     minSize: 16
   }
 
-  isPc(ipad) {
-    if (!this.diviceInfo) {
-      this.diviceInfo = getDeviceInfo()
-    }
-    const platform = String(this.diviceInfo.platform || '').toLowerCase()
-
-    if (platform === 'windows' || platform === 'mac' || platform === 'ohos_pc') {
-      return true
-    }
-
-    const model = String(this.diviceInfo.model || '')
-    if (ipad && /ipad/i.test(model)) {
-      return true
-    }
-
-    return false
-  }
-
   usePageMetaProps(props) {
     if (!this.config.open) {
       return [Object.keys(props).length > 0, props]
@@ -57,7 +39,7 @@ class RemFontSize extends ObjectManage {
 
     const fontSize = Math.min(
       Math.max(size, this.config.minSize),
-      this.isPc(true) ? this.config.maxSize : this.config.maxSizePhone
+      isDesktop({ includeIPad: true }) ? this.config.maxSize : this.config.maxSizePhone
     )
 
     return [

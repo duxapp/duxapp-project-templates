@@ -57,20 +57,107 @@ index 1ef8f3d..b9dc726 100644
 
      // borderWidth doesn't currently allow a percent value, but may do in the future
 diff --git a/node_modules/taro-css-to-react-native/dist/index.js b/node_modules/taro-css-to-react-native/dist/index.js
-index 56a63b4..f647dd5 100644
+index 56a63b4..ef74d37 100644
 --- a/node_modules/taro-css-to-react-native/dist/index.js
 +++ b/node_modules/taro-css-to-react-native/dist/index.js
-@@ -26,6 +26,9 @@ var viewportUnitRe = /^([+-]?[0-9.]+)(vh|vw|vmin|vmax)$/;
+@@ -13,6 +13,7 @@ Object.defineProperty(exports, "transformCSS", {
+ var _parse = _interopRequireDefault(require("css/lib/parse"));
+ var _cssMediaquery = _interopRequireDefault(require("css-mediaquery"));
+ var _cssToReactNative = _interopRequireDefault(require("./css-to-react-native"));
++var _postcssValueParser = _interopRequireDefault(require("postcss-value-parser"));
+ var _features = require("./transforms/media-queries/features");
+ var _types = require("./transforms/media-queries/types");
+ var _rem = require("./transforms/rem");
+@@ -26,6 +27,88 @@ var viewportUnitRe = /^([+-]?[0-9.]+)(vh|vw|vmin|vmax)$/;
  var percentRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?%)$/;
  var unsupportedUnitRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?(ch|em|ex|cm|mm|in|pc|pt))$/;
  var shorthandBorderProps = ['border-radius', 'border-width', 'border-color', 'border-style'];
 +function kebabToCamel(str) {
 +  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 +}
++function stringifyValueParserNodes(nodes) {
++  return nodes.map(node => {
++    if (node.type === 'function') {
++      return "".concat(node.value, "(").concat(stringifyValueParserNodes(node.nodes), ")");
++    }
++    return node.value;
++  }).join('');
++}
++
++function isSimpleVarFunction(node) {
++  if (!node || node.type !== 'function' || node.value !== 'var') return false;
++  // Only support: var(--name) (ignore fallback syntax for now)
++  var inner = node.nodes || [];
++  for (var i = 0; i < inner.length; i++) {
++    var n = inner[i];
++    if (n.type === 'word' && /^--[a-zA-Z0-9-]+$/.test(n.value)) return true;
++  }
++  return false;
++}
++
++function replaceVarFunctionsInValue(value, property, variablesFn) {
++  if (typeof variablesFn !== 'function' || value.indexOf('var(--') === -1) return value;
++  var ast = (0, _postcssValueParser["default"])(value);
++  var walk = function walk(nodes) {
++    for (var i = 0; i < nodes.length; i++) {
++      var node = nodes[i];
++      if (isSimpleVarFunction(node)) {
++        var varText = _postcssValueParser["default"].stringify(node);
++        nodes[i] = {
++          type: 'word',
++          value: variablesFn(varText, property)
++        };
++        continue;
++      }
++      if (node && node.type === 'function' && Array.isArray(node.nodes)) {
++        walk(node.nodes);
++      }
++    }
++  };
++  walk(ast.nodes);
++  return _postcssValueParser["default"].stringify(ast.nodes);
++}
++
++function splitSpaceTokens(value) {
++  var ast = (0, _postcssValueParser["default"])(value);
++  var tokens = [];
++  var current = [];
++  for (var i = 0; i < ast.nodes.length; i++) {
++    var node = ast.nodes[i];
++    if (node.type === 'space') {
++      if (current.length) {
++        tokens.push(_postcssValueParser["default"].stringify(current));
++        current = [];
++      }
++      continue;
++    }
++    if (node.type === 'comment') continue;
++    current.push(node);
++  }
++  if (current.length) tokens.push(_postcssValueParser["default"].stringify(current));
++  return tokens.filter(Boolean);
++}
++
++function expandTRBL(values) {
++  var top = values[0];
++  var right = typeof values[1] !== 'undefined' ? values[1] : top;
++  var bottom = typeof values[2] !== 'undefined' ? values[2] : top;
++  var left = typeof values[3] !== 'undefined' ? values[3] : right;
++  return [top, right, bottom, left];
++}
++
++function expandBorderRadius(values) {
++  // CSS border-radius: 1-4 values => TL, TR, BR, BL
++  var tl = values[0];
++  var tr = typeof values[1] !== 'undefined' ? values[1] : tl;
++  var br = typeof values[2] !== 'undefined' ? values[2] : tl;
++  var bl = typeof values[3] !== 'undefined' ? values[3] : tr;
++  return [tl, tr, br, bl];
++}
  var transformDecls = function transformDecls(styles, declarations, result) {
    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
    for (var d in declarations) {
-@@ -49,6 +52,12 @@ var transformDecls = function transformDecls(styles, declarations, result) {
+@@ -49,6 +132,121 @@ var transformDecls = function transformDecls(styles, declarations, result) {
      if (typeof options.scalable === 'boolean' && !options.scalable && /(?<!\d)(\d+)px/.test(value)) {
        value = value.replace(/(?<!\d)(\d+)px/g, '$1PX');
      }
@@ -80,6 +167,115 @@ index 56a63b4..f647dd5 100644
 +      });
 +      continue;
 +    }
++    // 支持 border 简写里出现 var()：border: 1px solid var(--color)
++    if (typeof options.variables === 'function' && /^border(?:-(?:top|right|bottom|left))?$/.test(property) && /var\(--[a-zA-Z0-9-]+\)/.test(value)) {
++      var ast = (0, _postcssValueParser["default"])(value);
++      var tokens = ast.nodes.filter(function (node) {
++        return node.type !== 'space';
++      }).map(function (node) {
++        return stringifyValueParserNodes([node]);
++      });
++      var colorToken = tokens.find(function (t) {
++        return /^var\(--[a-zA-Z0-9-]+\)$/.test(t);
++      });
++      if (colorToken) {
++        var widthToken = tokens.find(function (t) {
++          return /^(?:0|[+-]?(?:\d*\.)?\d+)(?:px)?$/i.test(t);
++        });
++        var styleToken = tokens.find(function (t) {
++          return /^(solid|dashed|dotted)$/i.test(t);
++        });
++        var widthProp = "".concat(property, "-width");
++        var colorProp = "".concat(property, "-color");
++        if (widthToken) {
++          Object.assign(styles, (0, _cssToReactNative["default"])([[widthProp, widthToken]]));
++        }
++        if (styleToken) {
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-style', styleToken]]));
++        }
++        var replacement = {};
++        replacement[kebabToCamel(colorProp)] = options.variables(colorToken, colorProp);
++        Object.assign(styles, replacement);
++        continue;
++      }
++    }
++
++    // 支持 box-shadow 简写里出现 var()：box-shadow: 0 0 var(--x) 0 var(--y)
++    // RN 新版本支持 boxShadow: string，这里直接输出并把 var() 替换成 variables() 结果。
++    if (property === 'box-shadow' && typeof options.variables === 'function' && /var\(--[a-zA-Z0-9-]+\)/.test(value)) {
++      var replacedBoxShadow = replaceVarFunctionsInValue(value, property, options.variables);
++      // 将 theme[...] 片段转成模板字符串表达式：
++      // - 颜色类变量：${theme['...']}
++      // - 长度类变量：${theme['...']}px（theme 中通常是 pxTransform(8) 产出的 number，需要补单位）
++      if (/theme\[['"][^'"]+['"]\]/.test(replacedBoxShadow)) {
++        var parts = splitSpaceTokens(replacedBoxShadow);
++        var templated = parts.map(function (part) {
++          var m = part.match(/^theme\[['"]([^'"]+)['"]\]$/);
++          if (!m) return part;
++          var key = m[1] || '';
++          var isColor = /color/i.test(key);
++          return isColor ? "${".concat(part, "}") : "${".concat(part, "}px");
++        }).join(' ').replace(/`/g, '\\`');
++        styles.boxShadow = "`".concat(templated, "`");
++      } else {
++        styles.boxShadow = replacedBoxShadow;
++      }
++      continue;
++    }
++
++    // 支持 padding/margin 简写里出现 var()：展开成 top/right/bottom/left
++    if (typeof options.variables === 'function' && (property === 'padding' || property === 'margin') && /var\(--[a-zA-Z0-9-]+\)/.test(value)) {
++      var expandedValue = replaceVarFunctionsInValue(value, property, options.variables);
++      var parts = splitSpaceTokens(expandedValue);
++      if (parts.length === 1) {
++        styles[kebabToCamel(property)] = parts[0];
++        continue;
++      }
++      if (parts.length >= 2 && parts.length <= 4) {
++        var trbl = expandTRBL(parts);
++        Object.assign(styles, (0, _cssToReactNative["default"])([["".concat(property, "-top"), trbl[0]]])); // padding-top / margin-top
++        Object.assign(styles, (0, _cssToReactNative["default"])([["".concat(property, "-right"), trbl[1]]])); // padding-right / margin-right
++        Object.assign(styles, (0, _cssToReactNative["default"])([["".concat(property, "-bottom"), trbl[2]]])); // padding-bottom / margin-bottom
++        Object.assign(styles, (0, _cssToReactNative["default"])([["".concat(property, "-left"), trbl[3]]])); // padding-left / margin-left
++        continue;
++      }
++    }
++
++    // 支持 border-width / border-color / border-radius 简写里出现 var()：展开成各方向/各角
++    if (typeof options.variables === 'function' && (property === 'border-width' || property === 'border-color' || property === 'border-radius') && /var\(--[a-zA-Z0-9-]+\)/.test(value)) {
++      var expanded = replaceVarFunctionsInValue(value, property, options.variables);
++      var _parts = splitSpaceTokens(expanded);
++      if (_parts.length >= 1 && _parts.length <= 4) {
++        if (property === 'border-width') {
++          var bw = expandTRBL(_parts);
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-top-width', bw[0]]])); // borderTopWidth
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-right-width', bw[1]]])); // borderRightWidth
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-bottom-width', bw[2]]])); // borderBottomWidth
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-left-width', bw[3]]])); // borderLeftWidth
++          continue;
++        }
++        if (property === 'border-color') {
++          var bc = expandTRBL(_parts);
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-top-color', bc[0]]])); // borderTopColor
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-right-color', bc[1]]])); // borderRightColor
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-bottom-color', bc[2]]])); // borderBottomColor
++          Object.assign(styles, (0, _cssToReactNative["default"])([['border-left-color', bc[3]]])); // borderLeftColor
++          continue;
++        }
++        if (property === 'border-radius') {
++          // ignore slash syntax for now (e.g. 10px / 20px)
++          if (expanded.indexOf('/') === -1) {
++            var br = expandBorderRadius(_parts);
++            Object.assign(styles, (0, _cssToReactNative["default"])([['border-top-left-radius', br[0]]])); // borderTopLeftRadius
++            Object.assign(styles, (0, _cssToReactNative["default"])([['border-top-right-radius', br[1]]])); // borderTopRightRadius
++            Object.assign(styles, (0, _cssToReactNative["default"])([['border-bottom-right-radius', br[2]]])); // borderBottomRightRadius
++            Object.assign(styles, (0, _cssToReactNative["default"])([['border-bottom-left-radius', br[3]]])); // borderBottomLeftRadius
++            continue;
++          }
++        }
++      }
++    }
++
      // expect value is legal so that remove !import
      if (/!import/i.test(value)) {
        value = value.replace(/!import/, '');
