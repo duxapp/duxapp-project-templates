@@ -1,11 +1,11 @@
 buildscript {
     ext {
-        buildToolsVersion = "36.0.0"
-        minSdkVersion = 24
-        compileSdkVersion = 36
-        targetSdkVersion = 36
-        ndkVersion = "27.1.12297006"
-        kotlinVersion = "2.1.20"
+        buildToolsVersion = "{#duxapp buildToolsVersion 36.0.0}"
+        minSdkVersion = {#duxapp minSdkVersion 24}
+        compileSdkVersion = {#duxapp compileSdkVersion 36}
+        targetSdkVersion = {#duxapp targetSdkVersion 36}
+        ndkVersion = "{#duxapp ndkVersion 27.1.12297006}"
+        kotlinVersion = "{#duxapp kotlinVersion 2.1.20}"
         // {#duxapp-insert buildscript.ext}
     }
     repositories {

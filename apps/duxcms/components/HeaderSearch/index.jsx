@@ -1,6 +1,6 @@
 import { InputSearch, Row, duxappTheme } from '@/duxui'
-import { CmsIcon } from '@/duxcms'
 import classNames from 'classnames'
+import { CmsIcon } from '../CmsIcon'
 
 export const HeaderSearch = ({
   placeholder,

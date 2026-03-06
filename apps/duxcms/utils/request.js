@@ -51,7 +51,7 @@ const before = async params => {
 requestMiddle.before(before, 10)
 uploadMiddle.before(before, 10)
 requestMiddle.result(async (res) => {
-  if (res.statusCode === 200) {
+  if (res.statusCode === 200 || res.statusCode === 201) {
     const data = res.data.data || res.data.result || {}
     data._meta = res.data.meta
     return data

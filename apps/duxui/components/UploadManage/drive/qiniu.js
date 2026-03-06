@@ -160,7 +160,9 @@ export default (() => {
         })
 
         // 文件上传进度
-        uploadTask.progress(progress)
+        if (progress) {
+          uploadTask.progress(progress)
+        }
 
         // 中断文件上传
         cancelTask && cancelTask(() => {

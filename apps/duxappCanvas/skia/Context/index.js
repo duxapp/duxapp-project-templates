@@ -132,12 +132,24 @@ export class Context extends ContextTransform {
   clearRect(x, y, width, height) {
     // 读取录制器，不要删除
     this.skiaCanvas
-    if (!this._recorder) {
-      const rect = Skia.XYWHRect(x, y, width, height)
-      this.skiaCanvas.drawRect(rect, this.paintClear)
-      rect.dispose()
-      this.draw()
+    if (this._recorder) {
+      const cw = this.canvas?.width
+      const ch = this.canvas?.height
+      const nx = x
+      const ny = y
+      const nw = width
+      const nh = height
+      const isFullClear = cw > 0 && ch > 0
+        && nx <= 0 && ny <= 0
+        && nx + nw >= cw && ny + nh >= ch
+      if (isFullClear) {
+        return
+      }
     }
+    const rect = Skia.XYWHRect(x, y, width, height)
+    this.skiaCanvas.drawRect(rect, this.paintClear)
+    rect.dispose()
+    this.draw()
   }
 
   // --- Text ---

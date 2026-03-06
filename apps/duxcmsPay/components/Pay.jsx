@@ -2,7 +2,7 @@ import { CmsIcon, duxappTheme, nav, request } from '@/duxcms'
 import { nativePay, payHook } from '@/duxcmsPay/utils'
 import { Button, Column, InputCode, NumberKeyboard, PullView, Row, Text, TopView, confirm, loading, px, useNumberKeyboardController } from '@/duxui'
 import { useCallback, useEffect } from 'react'
-import { login } from '@tarojs/taro'
+import { login, getAccountInfoSync } from '@tarojs/taro'
 
 const Select = ({ list, price, mask, onClose, onSelect }) => {
 
@@ -163,17 +163,31 @@ export const startPay = async ({
   token,
   onType,
   fields,
-  amountFilter
+  amountFilter,
+  balance
 } = {}) => {
   const stop = loading()
   try {
     const _payList = await payList()
-    const balance = _payList.find(v => v.name === 'balance' || v.name === 'amount')
-    if (balance) {
-      const account = await request('member/account')
-      balance.balance = account.balance || account.amount
-      if (amountFilter && _payList.length === 2 && price && +balance.balance < +price) {
-        _payList.splice(_payList.indexOf(balance), 1)
+    const balanceItem = _payList.find(v => v.name === 'balance' || v.name === 'amount')
+    if (balanceItem) {
+      let balanceValue = balance
+      if (typeof balanceValue === 'function') {
+        balanceValue = balanceValue({
+          price,
+          payList: _payList
+        })
+      }
+      if (balanceValue && typeof balanceValue.then === 'function') {
+        balanceValue = await balanceValue
+      }
+      if (balanceValue === undefined) {
+        const account = await request('member/account')
+        balanceValue = account.balance || account.amount
+      }
+      balanceItem.balance = balanceValue
+      if (amountFilter && _payList.length === 2 && price && +balanceItem.balance < +price) {
+        _payList.splice(_payList.indexOf(balanceItem), 1)
       }
     }
     stop()
@@ -203,6 +217,7 @@ export const startPay = async ({
     // 小程序微信支付 获取code给后端获取openid
     if (process.env.TARO_ENV === 'weapp' && type.includes('wechat')) {
       params.code = (await login()).code
+      params.app_id = process.env.TARO_ENV === 'weapp' ? getAccountInfoSync().miniProgram.appId : ''
     }
     // 微信h5端用接口获取openid传给支付接口
     if (process.env.TARO_ENV === 'h5' && type.includes('wechat')) {

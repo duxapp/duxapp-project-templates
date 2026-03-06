@@ -137,6 +137,40 @@ export const createCompatWrappers = ({ rawCanvas, rawCtx, state, getDpr, syncBac
       rawCtx.restore()
       state.ext = state.stack.pop() || { ...IDENTITY }
       applyCompatTransform(rawCtx, getDpr(), state.ext)
+    },
+    getImageData: (x, y, width, height) => {
+      const r = getDpr() || 1
+      if (!rawCtx?.getImageData) {
+        return { width: 0, height: 0, data: new Uint8ClampedArray(0) }
+      }
+      const w = Math.max(0, Math.floor(Number(width) || 0))
+      const h = Math.max(0, Math.floor(Number(height) || 0))
+      if (!w || !h) {
+        return { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) }
+      }
+      if (r === 1) {
+        return rawCtx.getImageData(x, y, w, h)
+      }
+      const sx = Math.floor((Number(x) || 0) * r)
+      const sy = Math.floor((Number(y) || 0) * r)
+      const sw = Math.ceil(w * r)
+      const sh = Math.ceil(h * r)
+      return rawCtx.getImageData(sx, sy, sw, sh)
+    },
+    putImageData: (imageData, x, y) => {
+      if (!rawCtx?.putImageData || !imageData || !imageData.data) {
+        return
+      }
+      const r = getDpr() || 1
+      if (r === 1) {
+        rawCtx.putImageData(imageData, x, y)
+        return
+      }
+      rawCtx.putImageData(
+        imageData,
+        Math.floor((Number(x) || 0) * r),
+        Math.floor((Number(y) || 0) * r)
+      )
     }
   })
 
